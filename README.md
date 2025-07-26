@@ -1,2 +1,12 @@
 # uzflora
 Flora of Uzbekistan
+{
+  "name": "uzflora",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.0"
+  }
+}
