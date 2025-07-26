@@ -1,11 +1,3 @@
-{
-  "name": "uzflora",
-  "version": "1.0.0",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js"
-  },
-  "dependencies": {
-    "express": "^4.18.0"
-  }
+"scripts": {
+  "test": "echo \"Error: no test specified\" && exit 1"
 }
