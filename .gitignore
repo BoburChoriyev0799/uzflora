@@ -37,4 +37,8 @@ config/settings.local.yml
 /public/uploads/*
 /public/images/*
 
+# assets:precompile natijasi — har deploy'da (Render'da ham) qaytadan
+# yaratiladi, hech qachon commit qilinmasligi kerak.
+/public/assets
+
 *.*env

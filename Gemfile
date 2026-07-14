@@ -46,17 +46,17 @@ gem 'omniauth-facebook', '~> 9.0'
 
 gem 'recaptcha', '~> 5.16', require: 'recaptcha/rails'
 
-# sass-rails -> dartsass-rails: eski sassc (libsass) native ext'i endi
-# maintain qilinmaydi va Ruby 3.3'da build muammosi berishi mumkin.
-# Dart Sass'ga o'tish rasmiy Rails tavsiyasi. HOZIRCHA FAOL EMAS — kelajakda
-# application.css.sass'dagi *= require_tree direktivalarini haqiqiy
-# @import'larga o'tkazganimizdan keyin ishga tushiriladi.
-gem 'dartsass-rails'
-
-# Tezkor yechim: eski Sprockets+Sass pipeline (require_tree, .sass/.scss
+# sass-rails o'rniga: eski Sprockets+Sass pipeline (require_tree, .sass/.scss
 # to'g'ridan-to'g'ri kompilyatsiya) ishlashi uchun sassc kerak. sass-rails
 # gemining o'zi endi kerak emas (sprockets-rails buni allaqachon
 # qo'llab-quvvatlaydi), faqat native kompilyator yetishmayapti edi.
+#
+# dartsass-rails ATAYLAB ishlatilmaydi: gemning o'zi mavjud bo'lishining
+# o'zi `assets:precompile`ni so'zsiz `dartsass:build`ga bog'lab qo'yadi
+# (config.dartsass.builds standart qiymati bilan application.scss'ni
+# qidiradi — bizda esa application.css.sass bor). Bu Render'da build'ni
+# buzgan edi. Biz dartsass'dan foydalanmaymiz, shuning uchun gem umuman
+# qo'shilmagan.
 gem 'sassc', '~> 2.4'
 
 # git/mbleigh -> rasmiy reliz: git manba faol emasga o'xshaydi. Rasmiy
