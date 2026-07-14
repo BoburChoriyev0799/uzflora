@@ -1,3 +1,24 @@
+%style
+  :plain
+    a.navbar-brand.uzflora-brand {
+      display: flex;
+      align-items: center;
+      color: #fff !important;
+      font-weight: 700;
+      font-size: 22px;
+      letter-spacing: .3px;
+    }
+    a.navbar-brand.uzflora-brand:hover,
+    a.navbar-brand.uzflora-brand:focus {
+      color: #fff !important;
+      opacity: .9;
+    }
+    .uzflora-brand-icon {
+      font-size: 26px;
+      margin-right: 8px;
+      line-height: 1;
+    }
+
 %nav.navbar.birds-nav.navbar-fixed-top
   .container
     - navbar_scope = 'shared.navbar'
@@ -10,8 +31,9 @@
         %span.icon-bar
         %span.icon-bar
       / Logo
-      =link_to root_path, class: 'navbar-brand', data: { name: 'TEST' } do
-        =image_tag "navbar/logo.png", :alt => 'Uzflora.uz'
+      =link_to root_path, class: 'navbar-brand uzflora-brand', data: { name: 'TEST' } do
+        %span.uzflora-brand-icon 🌿
+        %span.uzflora-brand-text Uzflora.uz
     #navbar.collapse.navbar-collapse
       / Menu Left
       %ul.nav.navbar-nav
