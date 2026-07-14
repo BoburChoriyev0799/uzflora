@@ -7,7 +7,6 @@ en:
         email:
     navbar:
       title: Menu
-      species: List of species
       bg: Big Year
       birders: Birdwatchers
       approve: Approve
@@ -21,5 +20,5 @@ en:
     nav_bar_slogan:
       birth_day: 'Happy Birthday! Your Birds.uz team'
       new_year: 'Happy New Year! Your Birds.uz team'
-      birds_uz_birth_day: '1 April — the birthday of Birds.uz!<br>Thank you for the exciting year and congratulations on the Bird Day!'
+      uzflora_birth_day: '14 July — the birthday of Uzflora.uz!<br>Thank you for the exciting year!'
       slogan: 'Uzflora.uz — let’s explore the flora of Uzbekistan together!'

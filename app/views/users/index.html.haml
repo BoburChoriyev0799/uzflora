@@ -25,6 +25,7 @@
             .col-md-3.user-right-blck
               =link_to user.full_name, profile_path(user.id)
               %p= "#{I18n.t('photo_count', scope: users_scope)} #{user['birds_count'] || 0}"
+              %p= "#{I18n.t('registered_at', scope: users_scope)} #{date_format(user.created_at)}"
             -#.col-md-2.user-right-blck1
               -if user.big_year
                 =image_tag 'user/icon-2016.png'

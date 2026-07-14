@@ -1,9 +1,10 @@
 uz:
   users:
     index:
-      title: Бердвотчерлар
-      text_1: Сайтимизда рўйхатдан ўтган бердвотчерлар сони
-      text_2: улардан Катта йил
-      bg: танлови иштирокчилари  —
-      birders: Бердвотчерлар рўйхати
-      photo_count: Жами суратлар
+      title: Foydalanuvchilar
+      text_1: Saytimizda ro'yxatdan o'tgan foydalanuvchilar soni
+      text_2: ulardan Katta yil
+      bg: tanlovi ishtirokchilari —
+      birders: Foydalanuvchilar ro'yxati
+      photo_count: Jami suratlar
+      registered_at: "Ro'yxatdan o'tgan:"

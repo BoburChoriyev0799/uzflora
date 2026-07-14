@@ -23,7 +23,7 @@ module Statistics
                    WHERE b.published = 'true'
                    GROUP BY b.user_id
                    ) ub on ub.user_id = u.id
-               ORDER BY ub.birds_count DESC NULLS LAST, u.last_name"
+               ORDER BY u.last_name, u.first_name, u.created_at"
 
         User.find_by_sql(sql)
       end

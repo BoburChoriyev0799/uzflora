@@ -2,24 +2,24 @@ uz:
   devise:
     registrations:
       new:
-        title: Рўйхатдан ўтиш
-        name: 'Исм:'
-        surname: 'Фамилия:'
+        title: Ro'yxatdan o'tish
+        name: 'Ism:'
+        surname: 'Familiya:'
         email: 'Email:'
-        password: 'Пароль:'
-        big_year: Катта йилда қатнашмоқчиман
-        have_account: Аккаунтим олдиндан бор
-        sign_up: Рўйхатдан ўтиш
-        sign_in: Аккаунтим олдиндан бор
-        fb_sign_up: Facebook орқали рўйхатдан ўтиш
+        password: 'Parol:'
+        big_year: Katta yilda qatnashmoqchiman
+        have_account: Akkauntim oldindan bor
+        sign_up: Ro'yxatdan o'tish
+        sign_in: Akkauntim oldindan bor
+        fb_sign_up: Facebook orqali ro'yxatdan o'tish
         data_confidentiality: >-
-          Сиз рўйхатдан ўтишда бизга тақдим этган маълумотларнинг
-          конфидециаллигини кафолатлаймиз.
+          Siz ro'yxatdan o'tishda bizga taqdim etgan ma'lumotlarning
+          konfidensialligini kafolatlaymiz.
     sessions:
       new:
-        title: Кириш
+        title: Kirish
         email: 'Email:'
-        password: 'Пароль:'
-        login: Кириш
-        no_account: Аккаунтим йўқ
-        fb_login: Facebook орқали кириш
+        password: 'Parol:'
+        login: Kirish
+        no_account: Akkauntim yo'q
+        fb_login: Facebook orqali kirish

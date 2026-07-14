@@ -1,4 +1,4 @@
-ru:
+en:
   users:
     index:
       title: Birdwatchers
@@ -7,3 +7,4 @@ ru:
       bg: Big Year participants
       birders: List of birdwatchers
       photo_count: Photos total
+      registered_at: 'Registered:'

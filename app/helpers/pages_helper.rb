@@ -70,8 +70,8 @@ module PagesHelper
         controller_name == 'pages' &&
         action_name == 'index'
         I18n.t('shared.nav_bar_slogan.new_year')
-    elsif Time.current.month == 4 && (1..5).include?(Time.current.day)
-      I18n.t('shared.nav_bar_slogan.birds_uz_birth_day')
+    elsif Time.current.month == 7 && (14..18).include?(Time.current.day)
+      I18n.t('shared.nav_bar_slogan.uzflora_birth_day')
     else
       I18n.t('shared.nav_bar_slogan.slogan')
     end
