@@ -17,7 +17,7 @@ Birds::Application.routes.draw do
 
   resources :profiles, only: [:show, :update]
 
-  root to: 'pages#index'
+  root to: 'plants#index'
 
   get 'switch_locale' => 'application#switch_locale'
 
