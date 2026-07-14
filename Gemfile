@@ -66,7 +66,19 @@ gem 'seed-fu', '~> 2.3'
 
 gem 'seedbank', '~> 0.5'
 gem 'turbolinks', '~> 5.2'
-gem 'uglifier', '~> 4.2'
+
+# uglifier -> terser: Uglifier ES5'dan naryi sintaksisni tushunmaydi, Rails
+# 7'ning o'z JS asset'lari (activestorage, actioncable, actiontext) esa
+# const/let/class/arrow function/spread kabi to'liq ES6+ sintaksisda —
+# Render'da assets:precompile shu yerda yiqilgan edi. Terser zamonaviy,
+# faol qo'llab-quvvatlanadi va ES2020+ sintaksisni to'liq tushunadi.
+gem 'terser', '~> 1.2'
+
+# terser (va ExecJS) ishlashi uchun JS runtime kerak. Tizim Node.js'iga
+# tayanish o'rniga (bu muhitda umuman yo'q edi, Render'da ham borligi
+# kafolatlanmagan) — mini_racer orqali V8'ni to'g'ridan-to'g'ri gem
+# ichiga o'rnatamiz. Shunda build har qanday muhitda bir xil ishlaydi.
+gem 'mini_racer', '~> 0.16'
 
 
 group :test, :development do

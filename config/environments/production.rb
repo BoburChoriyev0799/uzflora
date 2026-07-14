@@ -26,7 +26,10 @@ Birds::Application.configure do
   config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
 
   # Compress JavaScripts and CSS.
-  config.assets.js_compressor = :uglifier
+  # uglifier -> terser: Rails'ning o'z JS asset'lari (activestorage,
+  # actioncable, actiontext) ES6+ sintaksisda (const/class/arrow function),
+  # Uglifier esa faqat ES5'ni tushunadi. Terser to'liq ES2020+ ni qo'llaydi.
+  config.assets.js_compressor = :terser
   # config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
