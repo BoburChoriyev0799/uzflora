@@ -19,8 +19,11 @@ Birds::Application.configure do
   # For large-scale production use, consider using a caching reverse proxy like nginx, varnish or squid.
   # config.action_dispatch.rack_cache = true
 
-  # Disable Rails's static asset server (Apache or nginx will already do this).
-  config.serve_static_files = false
+  # config.serve_static_files Rails 7'da olib tashlangan — zamonaviy analogi:
+  # Render'da alohida nginx yo'q, shuning uchun Puma'ning o'zi static
+  # fayllarni (CSS/JS/rasm) berishi kerak. RAILS_SERVE_STATIC_FILES
+  # o'rnatilgan bo'lsa (render.yaml'da shunday), yoqiladi.
+  config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
 
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier
@@ -80,4 +83,19 @@ Birds::Application.configure do
   config.log_formatter = ::Logger::Formatter.new
 
   config.action_mailer.default_url_options = { host: 'birds.uz' }
+
+  # Ruxsat etilgan Host header'lar (Rails 6+ DNS rebinding himoyasi).
+  # Render avtomatik beradigan domen + kelajakdagi uzflora.uz shu yerda.
+  config.hosts << "uzflora.onrender.com"
+  config.hosts << ENV["RENDER_EXTERNAL_HOSTNAME"] if ENV["RENDER_EXTERNAL_HOSTNAME"]
+  config.hosts << "uzflora.uz"
+  config.hosts << "www.uzflora.uz"
+
+  # Render log oynasida ko'rish uchun log'larni faylga emas, stdout'ga
+  # yozish (render.yaml'da RAILS_LOG_TO_STDOUT=true o'rnatilgan).
+  if ENV["RAILS_LOG_TO_STDOUT"].present?
+    logger           = ActiveSupport::Logger.new(STDOUT)
+    logger.formatter = config.log_formatter
+    config.logger    = ActiveSupport::TaggedLogging.new(logger)
+  end
 end

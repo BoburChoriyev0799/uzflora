@@ -1,0 +1,45 @@
+# Render.com Blueprint — web service + PostgreSQL, ikkalasi ham bepul (free) plan.
+# Hujjat: https://render.com/docs/blueprint-spec
+databases:
+  - name: uzflora-db
+    databaseName: uzflora_production
+    user: uzflora
+    plan: free
+
+services:
+  - type: web
+    name: uzflora
+    runtime: ruby
+    plan: free
+    buildCommand: "./bin/render-build.sh"
+    startCommand: "bundle exec puma -C config/puma.rb"
+    envVars:
+      # Baza ulanish satri — yuqoridagi uzflora-db'dan avtomatik olinadi.
+      - key: DATABASE_URL
+        fromDatabase:
+          name: uzflora-db
+          property: connectionString
+
+      # Rails credentials'ni ochish uchun master kalit — qiymati bu yerda
+      # emas, Render paneli orqali qo'lda kiritiladi (sync: false).
+      - key: RAILS_MASTER_KEY
+        sync: false
+
+      - key: RAILS_ENV
+        value: production
+      - key: RACK_ENV
+        value: production
+
+      # 2 ta Puma worker (cluster rejimi) — config/puma.rb shu qiymatni o'qiydi.
+      - key: WEB_CONCURRENCY
+        value: 2
+
+      # Static asset'larni (CSS/JS/rasm) Puma'ning o'zi bersin —
+      # config/environments/production.rb shu bayroqni o'qiydi.
+      - key: RAILS_SERVE_STATIC_FILES
+        value: true
+
+      # Log'larni faylga emas, stdout'ga yozish — Render log oynasida
+      # ko'rinishi uchun.
+      - key: RAILS_LOG_TO_STDOUT
+        value: true

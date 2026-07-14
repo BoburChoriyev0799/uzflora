@@ -1,0 +1,23 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: <%= ENV.fetch("UZFLORA_DATABASE_USERNAME") { "bobur" } %>
+  password: <%= ENV["UZFLORA_DATABASE_PASSWORD"] %>
+
+development:
+  <<: *default
+  database: uzflora_development
+
+test:
+  <<: *default
+  database: uzflora_test
+
+production:
+  <<: *default
+  # Render.com PostgreSQL bazasini shu yagona ENV o'zgaruvchisi orqali
+  # ulaydi (host, foydalanuvchi, parol, baza nomi — hammasi shu satrda).
+  # `url` mavjud bo'lganda ActiveRecord uni `database`/`username`/`password`
+  # dan ustun qo'yadi, `pool` kabi qolgan kalitlar esa &default'dan saqlanib
+  # qoladi.
+  url: <%= ENV["DATABASE_URL"] %>
