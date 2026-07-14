@@ -23,6 +23,27 @@ module Birds
     config.i18n.locale = :ru
     I18n.enforce_available_locales = true
 
-    config.from_file 'settings.yml'
+    # choices gemi o'rniga Rails'ning ichki config_for'i: xavfsiz YAML
+    # alias qo'llab-quvvatlaydi va settings.yml'dagi har bir kalitni
+    # (host, hybrid, recaptcha, ...) config.<kalit> sifatida qo'shadi —
+    # ilova kodidagi Rails.configuration.hybrid... kabi chaqiruvlar
+    # o'zgarmasdan ishlayveradi. config_for faqat eng tashqi darajani
+    # OrderedOptions'ga aylantiradi, shuning uchun ichki Hash'larni ham
+    # (recaptcha.public_key, hybrid.species.id kabi ko'p bosqichli dot
+    # access uchun) rekursiv aylantiramiz.
+    deep_ordered_options = ->(value) do
+      case value
+      when Hash
+        ActiveSupport::OrderedOptions.new.update(value.transform_values(&deep_ordered_options))
+      when Array
+        value.map(&deep_ordered_options)
+      else
+        value
+      end
+    end
+
+    config_for(:settings).each do |key, value|
+      config.send("#{key}=", deep_ordered_options.call(value))
+    end
   end
 end

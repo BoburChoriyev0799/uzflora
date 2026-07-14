@@ -1,63 +1,107 @@
 source 'https://rubygems.org'
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'bundler', '= 1.17.1'
-gem 'rails', '5.1'
+ruby '3.3.9'
 
-gem 'pg', '~> 0.20.0'
+# Rails 5.1 -> 7.1: Ruby 3.3 bilan rasman mos, ekotizim yetarlicha yetilgan.
+gem 'rails', '~> 7.1.0'
 
-gem 'activeadmin', git: 'https://github.com/activeadmin/activeadmin', branch: '1-4-stable'
-gem 'best_in_place'
-gem 'bootstrap3-datetimepicker-rails', '~> 4.17.37'
-gem 'bugsnag'
-gem 'carrierwave'
-gem 'choices'
-gem 'closure_tree'
-gem 'devise', '>= 4.7.1'
-gem 'globalize'
-gem 'globalize-accessors'
-gem 'jquery-rails'
-gem "haml-rails"
-gem 'kaminari'
-gem 'mini_magick'
-gem 'momentjs-rails', '>= 2.9.0'
-gem 'omniauth'
-gem 'omniauth-facebook', '>= 4.0.0'
-gem 'recaptcha', :require => 'recaptcha/rails'
-gem 'sass-rails'
-gem 'seed-fu', git: 'https://github.com/mbleigh/seed-fu'
-gem 'seedbank'
-gem 'turbolinks'
-gem 'uglifier', '>= 1.3.0'
+# 0.20 -> 1.5: eski native extension Ruby 3.3 bilan build bo'lmaydi.
+gem 'pg', '~> 1.5'
+
+# Sprockets orqali asset pipeline'ni saqlab qolamiz (jquery-rails, uglifier
+# shu tizimga bog'liq). Rails 7 buni endi avtomatik qo'shmaydi.
+gem 'sprockets-rails'
+
+# Eski Gemfile'da web-server gemi umuman ko'rsatilmagan edi.
+gem 'puma', '~> 6.4'
+
+# 1-4-stable (git) -> 3.x: ActiveAdmin 1.x Rails 6/7 bilan ishlamaydi.
+# app/admin/*.rb DSL o'zgarishlari va Ransack allowlist talabi tekshiriladi.
+gem 'activeadmin', '~> 3.2'
+
+# Deyarli tashlab qo'yilgan gem (oxirgi relizi 2018), Rails 7/UJS bilan
+# sinovdan o'tkazish kerak (app/views/profiles/_profile.html.haml).
+gem 'best_in_place', '~> 3.1', require: false
+
+gem 'bootstrap3-datetimepicker-rails', '~> 4.17.47'
+gem 'bugsnag', '~> 6.26'
+gem 'carrierwave', '~> 3.0'
+
+gem 'closure_tree', '~> 8.0'
+gem 'devise', '~> 4.9'
+gem 'globalize', '~> 6.3'
+gem 'globalize-accessors', '~> 0.3'
+gem 'jquery-rails', '~> 4.6'
+gem 'haml-rails', '~> 2.1'
+gem 'kaminari', '~> 1.2'
+gem 'mini_magick', '~> 4.13'
+gem 'momentjs-rails', '~> 2.20'
+
+# 1.x -> 2.x: 1.x'da GET so'rov orqali autentifikatsiyani amalga oshirish
+# mumkin bo'lgan CVE bor edi. 2.x bilan login route POST bo'lishi shart —
+# shuning uchun CSRF himoya gem'i ham qo'shildi.
+gem 'omniauth', '~> 2.1'
+gem 'omniauth-rails_csrf_protection', '~> 1.0'
+gem 'omniauth-facebook', '~> 9.0'
+
+gem 'recaptcha', '~> 5.16', require: 'recaptcha/rails'
+
+# sass-rails -> dartsass-rails: eski sassc (libsass) native ext'i endi
+# maintain qilinmaydi va Ruby 3.3'da build muammosi berishi mumkin.
+# Dart Sass'ga o'tish rasmiy Rails tavsiyasi. HOZIRCHA FAOL EMAS — kelajakda
+# application.css.sass'dagi *= require_tree direktivalarini haqiqiy
+# @import'larga o'tkazganimizdan keyin ishga tushiriladi.
+gem 'dartsass-rails'
+
+# Tezkor yechim: eski Sprockets+Sass pipeline (require_tree, .sass/.scss
+# to'g'ridan-to'g'ri kompilyatsiya) ishlashi uchun sassc kerak. sass-rails
+# gemining o'zi endi kerak emas (sprockets-rails buni allaqachon
+# qo'llab-quvvatlaydi), faqat native kompilyator yetishmayapti edi.
+gem 'sassc', '~> 2.4'
+
+# git/mbleigh -> rasmiy reliz: git manba faol emasga o'xshaydi. Rasmiy
+# gem versiyasiga o'tkazildi, lekin Rails 7 bilan ishlashi sinovdan
+# o'tkazilishi kerak (ActiveRecord adapter ichki API'lariga bog'liq).
+gem 'seed-fu', '~> 2.3'
+
+gem 'seedbank', '~> 0.5'
+gem 'turbolinks', '~> 5.2'
+gem 'uglifier', '~> 4.2'
 
 
 group :test, :development do
-  gem 'factory_girl'
-  gem 'factory_girl_rails'
-  gem 'factory_girl_rspec'
+  # factory_girl* -> factory_bot*: eski nom 2016'dan beri yangilanmaydi,
+  # yangi loyihalarda ishlatib bo'lmaydi. factory_girl_rspec shart emas —
+  # factory_bot rspec bilan to'g'ridan-to'g'ri ishlaydi.
+  gem 'factory_bot'
+  gem 'factory_bot_rails'
 
   gem 'pry'
   gem 'pry-doc'
   gem 'pry-rails'
   gem 'pry-byebug'
 
-  gem 'rspec'
-  gem 'rspec-rails'
+  gem 'rspec', '~> 3.13'
+  gem 'rspec-rails', '~> 6.1'
 end
 
 group :test do
-  gem 'shoulda-matchers'
+  gem 'shoulda-matchers', '~> 6.4'
 end
 
 group :development do
-  gem 'capistrano', '3.6.1', require: false
-  gem 'capistrano-bundler', '~> 1.6'
-  gem 'capistrano-rails', '~> 1.2'
+  # Capistrano 3.6.1 -> 3.19: bundler 2.x bilan ishlashi uchun zarur.
+  gem 'capistrano', '~> 3.19', require: false
+  gem 'capistrano-bundler', '~> 2.1'
+  gem 'capistrano-rails', '~> 1.6'
+  # .ruby-gemset fayli RVM ishlatilishini ko'rsatadi — agar deploy muhiti
+  # endi RVM ishlatmasa, bu gem almashtirilishi kerak bo'ladi (keyinroq
+  # aniqlashtiramiz).
   gem 'capistrano-rvm'
 end
 
 group :deploy do
   # remember to update deploy.rb
-  gem 'bcrypt_pbkdf'
-  gem 'ed25519'
+  gem 'bcrypt_pbkdf', '~> 1.1'
+  gem 'ed25519', '~> 1.3'
 end

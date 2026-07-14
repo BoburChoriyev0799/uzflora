@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :category, class: 'Categories::Category ' do
     sequence(:name_ru) {|n| "Category_ru_#{n}" }
     sequence(:name_lat) {|n| "Category_lat_#{n}" }

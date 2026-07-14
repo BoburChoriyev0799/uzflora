@@ -1,8 +1,8 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :role do
 
     factory :expert_role do
-      name 'expert'
+      name { 'expert' }
     end
   end
 end
