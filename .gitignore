@@ -26,6 +26,9 @@ db/structure.sql
 
 config/settings.local.yml
 
+# Rails credentials — master kalit hech qachon commit qilinmasligi kerak.
+/config/master.key
+
 # Ignore logos
 /public/system
 
