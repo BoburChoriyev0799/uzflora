@@ -1,10 +1,7 @@
 class BigYearsController < ApplicationController
 
   def index
-    @years = (2015..Time.zone.now.year).to_a.reverse
-    @current_year = (params[:year] || Time.zone.now.year).to_i
-    @participants = Statistics::BigYear.users_species_count(@current_year)
-    @species = Statistics::BigYear.species(@current_year)
+    @current_year = Time.zone.now.year
   end
 
   def change_subscription
