@@ -23,9 +23,6 @@ class PagesController < ApplicationController
   end
 
   def about
-    @users_count = User.count
-    @species_count = Statistics::Counts.total_users_species_amount
-    @birds_count = Bird.count
   end
 
   def birding_rules

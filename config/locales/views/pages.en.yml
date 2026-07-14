@@ -1,42 +1,46 @@
 en:
   pages:
     about:
-      title: About
-      goal: >-
-        Birds.uz was created by a team of birdwatchers to let the people of
-        Uzbekistan learn more about wildlife and involve them in nature
-        conservation.
-      tasks: 'Goals of the website:'
-      task_1: providing accessible information on the birds of Uzbekistan;
-      task_2: creating birds distribution database through crowdsourcing;
-      task_3: providing a source of information for ornithologists;
-      task_4: >-
-        promoting birdwatching as en environment friendly, safe and useful
-        activity;
-      task_5: creating a platform for holding the Big Year competition in Uzbekistan.
-      partners: 'Our partners:'
-      partner_1: 'Institute of Zoology, Academy of Sciences of Uzbekistan;'
-      partner_2: >-
-        Institute of Wildlife Conservation and Conservation Technologies, State
-        Committee of the Republic of Uzbekistan on Ecology and Environmental
-        Protection.
-      text_1: >-
-        On this website you can share a photo of a bird you happen to observe,
-        ask for help from experts in the identification of its species and learn
-        more about the ornithofauna of Uzbekistan.
-      text_2: >-
-        We are open to cooperation and happy to consider your proposals and
-        comments. As the website is only being developed, we will also be glad
-        if you provide more information on birds in Uzbekistan using and citing
-        credible sources.
-      text_3: >-
-        Please, be respectul to the other users of the website and do not use
-        any offensive or vulgar language.
-      statistics:
-        title: Registered on the website
-        users: 'Users:'
-        species: 'Bird species:'
-        photos: 'Photos:'
+      title: About us
+      name: Bobur Choriyev
+      role: "Botanist — Green Business Innovation LLC, Tashkent"
+      address_label: "Address:"
+      address: "Surkhandarya, Uzbekistan"
+      nationality_label: "Nationality:"
+      nationality: "Uzbekistan"
+      intro_title: About
+      intro: >-
+        Bobur Choriyev is a specialist in botany and the founder of
+        uzflora.uz — a platform dedicated to studying and conserving the
+        flora of Uzbekistan. His goal is to gather scientific data on
+        Uzbekistan's plants in one place and unite nature observers.
+      experience_title: Work experience
+      experience:
+        - period: "2024 — present"
+          text: "Botanist at Green Business Innovation LLC, Tashkent"
+        - period: "April 2023 — 2024"
+          text: "Scientific Secretary of Upper Topalang National Nature Park, Surkhandarya region"
+        - period: "March 2023 — May 2023"
+          text: "Laboratory researcher at the Scientific Research Institute of Environment and Nature Protection Technologies, Tashkent"
+      education_title: Education
+      education:
+        - period: "February 2023 — present"
+          text: "Master's student, Department of Biology, National University of Uzbekistan"
+        - period: "September 2018 — June 2022"
+          text: "Bachelor's degree in Biology, Termez State University"
+        - period: "September 2015 — May 2018"
+          text: "Academic Lyceum No. 2 under Termez State University, Termez, Uzbekistan"
+      projects_title: Projects
+      projects:
+        - Artemisia Hybrid Project
+        - "Bukhara Battery Energy Storage System (BESS) Project — 500 MWh"
+        - "Zarafshan BESS Project — 300 MW"
+        - "Tashkent City–Mirzo Ulugbek BESS Project — 300 MWh"
+        - "Kungrad Wind Farm Project — 1,500 MW"
+        - "Kungrad–Karakul 500 kV OHTL Project — 844 km"
+        - "Kungrad–Karakul OHTL Livelihood Restoration Plan"
+        - "Mirzo Ulugbek BESS Livelihood Restoration Plan"
+      contacts_title: Contact
     approve:
       title: Approve
     rules:

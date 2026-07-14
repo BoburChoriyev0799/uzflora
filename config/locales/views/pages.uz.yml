@@ -1,40 +1,47 @@
 uz:
   pages:
     about:
-      title: Лойиҳа ҳақида
-      goal: >-
-        birds.uz веб-сайти бердвотчерлар жамоаси томонидан мамлакатимиз
-        аҳолисини табиатни муҳофаза қилиш ва ўрганишга жалб этиш учун яратилган.
-      tasks: 'Сайт вазифалари қуйидагилардан иборат:'
-      task_1: Ўзбекистон қушлари ҳақида оммабоп маълумотларни яратиш;
-      task_2: краудсорcинг орқали қушлар тарқалиши маълумотлар базасини яратиш;
-      task_3: орнитологлар учун маълумот манбаи;
-      task_4: >-
-        бердвотчингни экологик тоза, хавфсиз ва соғлом вақт ўтказиш сифатида
-        тарғиб қилиш;
-      task_5: Ўзбекистонда Катта йил танловини ўтказиш учун платформа.
-      partners: 'Бизнинг ҳамкорларимиз:'
-      partner_1: ЎзР ФА Зоология илмий-тадқиқот институти;
-      partner_2: >-
-        Ўзбекистон Республикаси Давлат экология қўмитасининг Атроф-муҳитни
-        муҳофаза қилиш ва экологик технологиялар илмий-тадқиқот институти.
-      text_1: >-
-        Сайтда сиз учратган қушнинг фотосурати билан ўртоқлашишингиз, турни
-        аниқлашда мутахассислардан ёрдам олиш ёки Ўзбекистон қушлари фаунаси
-        ҳақида кўпроқ билишингиз мумкин.
-      text_2: >-
-        Биз ҳамкорликка тайёрмиз ва сизнинг таклиф ва мулоҳазаларингиз учун
-        миннатдормиз. Сайт ишлаб чиқиш жараёнида бўлганлиги сабабли, сизнинг қуш
-        турлари тўғрисида маълумотларни манбаларга ҳаволаларни кўрсатган ҳолда
-        тўлдириш ишларида ёрдамингизга хурсанд бўламиз.
-      text_3: >-
-        Шунингдек, барча фойдаланувчилардан ўзаро ҳурмат билан мулоқот қилишни
-        ва номаъқул сўзларни ишлатмасликни сўраймиз.
-      statistics:
-        title: Сайтда рўйхатдан ўтганлар
-        users: 'Фойдаланувчилар:'
-        species: 'Қуш турлари:'
-        photos: 'Фотосуратлар:'
+      title: Biz haqimizda
+      name: Bobur Choriyev
+      role: "Botanik — Green Business Innovation MChJ, Toshkent"
+      address_label: "Manzil:"
+      address: "Surxondaryo, O'zbekiston"
+      nationality_label: "Millati:"
+      nationality: "O'zbekiston"
+      intro_title: Qisqacha
+      intro: >-
+        Bobur Choriyev — botanika sohasi mutaxassisi. O'zbekiston florasini
+        o'rganish va muhofaza qilishga bag'ishlangan uzflora.uz platformasi
+        asoschisi. Uning maqsadi — O'zbekiston o'simliklari haqidagi ilmiy
+        ma'lumotlarni bir joyga to'plash va tabiat kuzatuvchilarini
+        birlashtirish.
+      experience_title: Ish tajribasi
+      experience:
+        - period: "2024 — hozirgacha"
+          text: "Green Business Innovation MChJ botanigi, Toshkent"
+        - period: "2023-aprel — 2024"
+          text: "Yuqori Tupolang milliy tabiat bog'i ilmiy kotibi, Surxondaryo viloyati"
+        - period: "2023-mart — 2023-may"
+          text: "Atrof-muhit va tabiatni muhofaza qilish texnologiyalari ilmiy-tadqiqot instituti laboratoriya tadqiqotchisi, Toshkent"
+      education_title: Ta'lim
+      education:
+        - period: "2023-fevral — hozirgacha"
+          text: "O'zbekiston Milliy universiteti biologiya yo'nalishi magistranti"
+        - period: "2018-sentabr — 2022-iyun"
+          text: "Termiz davlat universiteti biologiya bakalavri"
+        - period: "2015-sentabr — 2018-may"
+          text: "Termiz davlat universiteti huzuridagi 2-akademik litsey"
+      projects_title: Ishtirok etgan loyihalar
+      projects:
+        - Artemisia Hybrid loyihasi
+        - "Buxoro Batareya Energiya Saqlash Tizimi (BESS) loyihasi — 500 MWh"
+        - "Zarafshon BESS loyihasi — 300 MW"
+        - "Toshkent City–Mirzo Ulug'bek BESS loyihasi — 300 MWh"
+        - "Qo'ng'irot shamol elektr stansiyasi loyihasi — 1 500 MW"
+        - "Qo'ng'irot–Qorako'l 500 kV havo elektr uzatish liniyasi loyihasi — 844 km"
+        - "Qo'ng'irot–Qorako'l HEUL yashash sharoitini tiklash rejasi"
+        - "Mirzo Ulug'bek BESS yashash sharoitini tiklash rejasi"
+      contacts_title: Aloqa
     approve:
       title: Тасдиқлаш
     rules:

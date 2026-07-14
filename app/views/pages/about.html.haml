@@ -1,59 +1,181 @@
+%style
+  :plain
+    .about-wrap {
+      max-width: 780px;
+      margin: 24px auto 0;
+      line-height: 1.75;
+      font-size: 15px;
+      color: #3a3a3a;
+    }
+    .about-hero {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+    .about-photo {
+      width: 220px;
+      height: 220px;
+      border-radius: 14px;
+      object-fit: cover;
+      box-shadow: 0 4px 18px rgba(0,0,0,.15);
+      flex-shrink: 0;
+    }
+    .about-hero-info {
+      min-width: 220px;
+    }
+    .about-name {
+      font-size: 26px;
+      font-weight: 800;
+      color: #2f4a1c;
+      margin-bottom: 4px;
+    }
+    .about-role {
+      color: #4a7c2a;
+      font-weight: 600;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+    .about-meta {
+      font-size: 14px;
+      color: #777;
+    }
+    .about-meta span.lbl {
+      color: #999;
+      margin-right: 4px;
+    }
+    .about-section-title {
+      display: flex;
+      align-items: center;
+      margin: 36px 0 16px;
+      font-size: 18px;
+      font-weight: 700;
+      color: #2f4a1c;
+    }
+    .about-section-title:first-of-type {
+      margin-top: 0;
+    }
+    .about-intro p {
+      margin-bottom: 14px;
+    }
+    .about-timeline {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      border-left: 2px solid #dfe9d0;
+      margin-left: 6px;
+    }
+    .about-timeline li {
+      position: relative;
+      padding: 0 0 20px 24px;
+    }
+    .about-timeline li:last-child {
+      padding-bottom: 0;
+    }
+    .about-timeline li::before {
+      content: "";
+      position: absolute;
+      left: -7px;
+      top: 4px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #7cb342;
+      border: 2px solid #fff;
+      box-shadow: 0 0 0 2px #dfe9d0;
+    }
+    .about-timeline-period {
+      display: block;
+      font-weight: 700;
+      color: #2f4a1c;
+      font-size: 14px;
+      margin-bottom: 2px;
+    }
+    .about-timeline-text {
+      color: #3a3a3a;
+    }
+    .about-projects {
+      margin: 0;
+      padding-left: 22px;
+    }
+    .about-projects li {
+      margin-bottom: 8px;
+    }
+    .about-contacts {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid #e2e0d4;
+    }
+    .about-contacts-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .about-contacts-list a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 20px;
+      background: #7cb342;
+      color: #fff !important;
+      text-decoration: none !important;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .about-contacts-list a:hover {
+      background: #689f38;
+    }
+
 .bg-btm-container
-  / Content
   .container.content
-    / Content BODY
     .row.about-container.mtop20.content-container
       - about_scope = 'pages.about'
-      .col-sm-12.col.col-md-8.pright15.m-no-float
-        .row.about-text
-          %h4
-            = I18n.t('.title', scope: about_scope)
-          %p
-            %i.pre-text
-              = I18n.t('.goal', scope: about_scope)
-          %p
-            = I18n.t('.tasks', scope: about_scope)
-            %ul
-              %li
-                = I18n.t('.task_1', scope: about_scope)
-              %li
-                = I18n.t('.task_2', scope: about_scope)
-              %li
-                = I18n.t('.task_3', scope: about_scope)
-              %li
-                = I18n.t('.task_4', scope: about_scope)
-              %li
-                = I18n.t('.task_5', scope: about_scope)
-          %p
-            = I18n.t('.partners', scope: about_scope)
-            %ul
-              %li
-                = I18n.t('.partner_1', scope: about_scope)
-              %li
-                = I18n.t('.partner_2', scope: about_scope)
-          %p
-            = I18n.t('.text_1', scope: about_scope)
-          %p
-            = I18n.t('.text_2', scope: about_scope)
-          %p
-            = I18n.t('.text_3', scope: about_scope)
-
-      .col-sm-12.m-no-float.col.col-md-4.fright
-        .row.site-stat-info-blck.mtop50
-          .row.info-block-head
-            %p
-              = I18n.t('.statistics.title', scope: about_scope)
-          .row.info-block-body.m-pleft30p
-            %p
-              %span.lbl>
-                = I18n.t('.statistics.users', scope: about_scope)
-              =@users_count
+      .about-wrap
+        .about-hero
+          = image_tag 'about-bobur.jpg', class: 'about-photo', alt: I18n.t('.name', scope: about_scope)
+          .about-hero-info
+            .about-name= I18n.t('.name', scope: about_scope)
+            .about-role= I18n.t('.role', scope: about_scope)
+            .about-meta
+              %span.lbl= I18n.t('.address_label', scope: about_scope)
+              = I18n.t('.address', scope: about_scope)
               %br
-                %span.lbl>
-                  = I18n.t('.statistics.species', scope: about_scope)
-                =@species_count
-                %br
-                  %span.lbl>
-                    = I18n.t('.statistics.photos', scope: about_scope)
-                  =@birds_count
-                  %br
+              %span.lbl= I18n.t('.nationality_label', scope: about_scope)
+              = I18n.t('.nationality', scope: about_scope)
+
+        .about-intro
+          %h3.about-section-title= I18n.t('.intro_title', scope: about_scope)
+          %p= I18n.t('.intro', scope: about_scope)
+
+        %h3.about-section-title= I18n.t('.experience_title', scope: about_scope)
+        %ul.about-timeline
+          - I18n.t('.experience', scope: about_scope).each do |item|
+            %li
+              %span.about-timeline-period= item[:period]
+              %span.about-timeline-text= item[:text]
+
+        %h3.about-section-title= I18n.t('.education_title', scope: about_scope)
+        %ul.about-timeline
+          - I18n.t('.education', scope: about_scope).each do |item|
+            %li
+              %span.about-timeline-period= item[:period]
+              %span.about-timeline-text= item[:text]
+
+        %h3.about-section-title= I18n.t('.projects_title', scope: about_scope)
+        %ul.about-projects
+          - I18n.t('.projects', scope: about_scope).each do |project|
+            %li= project
+
+        .about-contacts
+          %h3.about-section-title= I18n.t('.contacts_title', scope: about_scope)
+          .about-contacts-list
+            = link_to 'Telegram', 'https://t.me/Florist_sistematiklar', target: '_blank', rel: 'noopener'
+            = link_to 'Instagram', 'https://www.instagram.com/flora_of_uzbekistan', target: '_blank', rel: 'noopener'
+            = link_to 'Facebook', 'https://www.facebook.com/groups/1744328139301856/', target: '_blank', rel: 'noopener'
+            = link_to 'LinkedIn', 'https://www.linkedin.com/in/bobur-choriyev-297299260', target: '_blank', rel: 'noopener'
+            = link_to 'Threads', 'https://www.threads.net/@flora_of_uzbekistan', target: '_blank', rel: 'noopener'
+            = link_to 'Email', 'mailto:boburchoriyev465@gmail.com'
+            = link_to 'Admin (Telegram)', 'https://t.me/Biolog_B', target: '_blank', rel: 'noopener'
+            = link_to '+998 91 969 12 99', 'tel:+998919691299'
