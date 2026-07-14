@@ -1,40 +1,5 @@
 en:
   pages:
-    index:
-      tab_new: All new
-      tab_comments: Commented
-      tab_unknown: To be identified
-      show_more: Show more photos
-      promo:
-        birdwatcher_1: Watch birds to discover
-        birdwatcher_2: the avian world!
-        science_1: Contribute to the study and conservation
-        science_2: of birds in Uzbekistan!
-        bg_1: Take pictures and join
-        bg_2: the Big Year competition!
-      menu:
-        birds:
-          title: Birds
-          menu_1: List of species
-          menu_2: Search
-          menu_3: Birdwatching rules
-        action:
-          title: Join in
-          menu_1: Big Year
-          menu_2: To be identified
-          menu_3: Approve
-          menu_4: Events
-        info:
-          title: Info
-          menu_1: About the project
-          menu_2: Our users
-          menu_3: Support
-          menu_4: Contact us
-      contests:
-        title: Join in
-        item_1: Big Year 2020
-        item_2: Instructions on the first aid to wild birds
-        item_3: Where to ask for help?
     about:
       title: About
       goal: >-

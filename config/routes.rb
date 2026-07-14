@@ -37,9 +37,7 @@ Birds::Application.routes.draw do
     post :change_subscription
   end
 
-  resources :species, only: [:index, :show] do
-
-  end
+  resources :species, only: [:show]
 
   resources :plants, only: [:index, :show]
 
@@ -63,23 +61,6 @@ Birds::Application.routes.draw do
     get 'search' => 'search#index'
     post 'search' => 'search#search'
     post 'main_species' => 'search#search_main_species'
-  end
-
-  resource :contest, only: [] do
-    get 'big_day_in_ecocenter'
-    get 'big_day_in_tashkent'
-    get 'big_day_photo'
-    get 'big_day_photo_species'
-    get 'big_day_photo_form'
-    get 'big_day_photo_rules'
-    get 'best_photo'
-    get 'best_photo_file'
-    get 'our_friend'
-    get 'past'
-    get 'winter_bird_watch'
-    get 'big_year_result'
-    get 'big_year_species'
-    get 'shorebird_day'
   end
 
   resource :swift, only: [] do

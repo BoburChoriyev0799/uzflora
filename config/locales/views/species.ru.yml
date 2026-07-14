@@ -1,7 +1,5 @@
 ru:
   species:
-    index:
-      title: Список видов птиц Узбекистана
     show:
       sub_species: В Узбекистане обитает подвид —
       author: 'Автор:'

@@ -14,7 +14,8 @@
       opacity: .9;
     }
     .uzflora-brand-icon {
-      font-size: 26px;
+      display: flex;
+      align-items: center;
       margin-right: 8px;
       line-height: 1;
     }
@@ -32,13 +33,12 @@
         %span.icon-bar
       / Logo
       =link_to root_path, class: 'navbar-brand uzflora-brand', data: { name: 'TEST' } do
-        %span.uzflora-brand-icon 🌿
+        %span.uzflora-brand-icon
+          = render 'shared/logo_icon', size: 26
         %span.uzflora-brand-text Uzflora.uz
     #navbar.collapse.navbar-collapse
       / Menu Left
       %ul.nav.navbar-nav
-        %li
-          =nav_link_to "#{I18n.t('species', scope: navbar_scope)}", species_index_path
         %li
           =nav_link_to "O'simliklar", plants_path
         %li
