@@ -1,0 +1,6 @@
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Uzflora.uz">
+  <path d="M16 29 L16 7" stroke="#4a7c2a" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+  <path d="M16 24 C 10 24, 7 20, 8 15 C 13 15, 16 18, 16 24 Z" fill="#689f38"/>
+  <path d="M16 18 C 22 18, 25 14, 24 9 C 19 9, 16 12, 16 18 Z" fill="#8bc34a"/>
+  <path d="M16 11 C 12 8, 12 4, 16 2 C 20 4, 20 8, 16 11 Z" fill="#7cb342"/>
+</svg>

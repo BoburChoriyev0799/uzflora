@@ -13,6 +13,9 @@
   %meta{content: "#{og_image_url}", property: 'og:image'}
 
   = stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true
+  / Zamonaviy brauzerlar SVG favicon'ni afzal ko'radi; favicon.ico eski
+  / brauzerlar (va bookmark ikonkasi) uchun zaxira sifatida qoladi.
+  = favicon_link_tag "uzflora-logo.svg", type: "image/svg+xml", rel: "icon"
   = favicon_link_tag "favicon.ico"
 
   / HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries
