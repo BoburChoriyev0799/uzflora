@@ -41,6 +41,8 @@ Birds::Application.routes.draw do
 
   end
 
+  resources :plants, only: [:index, :show]
+
   resources :map, only: [:index]
 
   resources :birds, except: [:index] do

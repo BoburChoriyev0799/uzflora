@@ -1,0 +1,93 @@
+%style
+  :plain
+    .plant-placeholder {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      border-radius: 6px 6px 0 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      background: linear-gradient(135deg, #eaf6ec 0%, #d3ecd8 100%);
+    }
+    .plant-card {
+      border: 1px solid #e2e2e2;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      overflow: hidden;
+      background: #fff;
+      transition: box-shadow .15s ease-in-out;
+    }
+    .plant-card:hover {
+      box-shadow: 0 2px 10px rgba(0,0,0,.12);
+    }
+    .plant-card-body {
+      padding: 12px 14px;
+    }
+    .plant-card-name-uz {
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .plant-card-name-sci {
+      font-style: italic;
+      color: #777;
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+    .plant-card-family {
+      font-size: 12px;
+      color: #999;
+    }
+    .plant-red-book-badge {
+      display: inline-block;
+      background: #c0392b;
+      color: #fff;
+      font-size: 11px;
+      padding: 2px 7px;
+      border-radius: 10px;
+      margin-top: 6px;
+    }
+    .plants-filter-form {
+      margin-bottom: 24px;
+    }
+
+.bg-btm-container
+  .container.content
+    .row.mtop20.mbtm20.content-container
+      .col.col-md-12.col-sm-12
+        %h3 O'simliklar
+
+        .row.plants-filter-form
+          = form_tag plants_path, method: :get, class: 'form-inline' do
+            .form-group.mright10
+              = text_field_tag :q, params[:q], class: 'form-control', placeholder: "Nomi bo'yicha qidirish..."
+            .form-group.mright10
+              = select_tag :family, options_for_select(@families, params[:family]), include_blank: 'Barcha oilalar', class: 'form-control'
+            .form-group.mright10
+              %label
+                = check_box_tag :red_book, '1', params[:red_book].present?
+                Faqat Qizil kitobdagilar
+            = submit_tag 'Qidirish', class: 'btn btn-success'
+            - if params[:q].present? || params[:family].present? || params[:red_book].present?
+              = link_to 'Tozalash', plants_path, class: 'btn btn-default'
+
+        %p.mbtm20
+          Jami: #{@plants.total_count} ta o'simlik
+
+        .row
+          - @plants.each do |plant|
+            .col-sm-6.col-md-3
+              .plant-card
+                = link_to plant_path(plant) do
+                  .plant-placeholder 🌿
+                .plant-card-body
+                  = link_to plant_path(plant), class: 'plant-card-link' do
+                    .plant-card-name-uz= plant.display_name
+                    .plant-card-name-sci= plant.species_sci
+                  - if plant.family_apg_sci.present?
+                    .plant-card-family= plant.family_apg_sci
+                  - if plant.red_book?
+                    .plant-red-book-badge Qizil kitob
+
+        .row.acenter
+          = paginate @plants

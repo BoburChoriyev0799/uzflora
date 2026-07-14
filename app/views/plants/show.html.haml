@@ -1,0 +1,163 @@
+%style
+  :plain
+    .plant-show-placeholder {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 96px;
+      background: linear-gradient(135deg, #eaf6ec 0%, #d3ecd8 100%);
+      margin-bottom: 16px;
+    }
+    .plant-info-block {
+      border: 1px solid #e2e2e2;
+      border-radius: 6px;
+      margin-bottom: 16px;
+    }
+    .plant-info-block-head {
+      background: #f5f5f5;
+      padding: 8px 14px;
+      font-weight: 600;
+      border-bottom: 1px solid #e2e2e2;
+    }
+    .plant-info-block-body {
+      padding: 10px 14px;
+    }
+    .plant-info-block-body p {
+      margin-bottom: 6px;
+    }
+    .plant-lbl {
+      color: #888;
+      margin-right: 4px;
+    }
+    .plant-red-book-badge {
+      display: inline-block;
+      background: #c0392b;
+      color: #fff;
+      font-size: 12px;
+      padding: 3px 10px;
+      border-radius: 10px;
+      margin-bottom: 12px;
+    }
+
+.bg-btm-container
+  .container.content
+    .row.mtop20.mbtm20.content-container
+      = link_to '← O\'simliklar ro\'yxatiga qaytish', plants_path, class: 'btn btn-default mbtm20'
+
+      .col.col-md-8.col-sm-12
+        - if @plant.red_book?
+          .plant-red-book-badge Qizil kitobda
+
+        %h3= @plant.display_name
+        - if @plant.species_uz.present? && @plant.species_uz != @plant.species_sci
+          %p
+            %i= @plant.species_sci
+        - if @plant.species_ru.present?
+          %p.plant-lbl Ruscha nomi:
+          = @plant.species_ru
+
+        - if @plant.habitat.present?
+          .plant-info-block
+            .plant-info-block-head Yashash muhiti
+            .plant-info-block-body
+              %p= @plant.habitat
+
+        - if @plant.life_form.present?
+          .plant-info-block
+            .plant-info-block-head Hayot shakli
+            .plant-info-block-body
+              %p= @plant.life_form
+
+        - if @plant.economic.present?
+          .plant-info-block
+            .plant-info-block-head Xo'jalik ahamiyati
+            .plant-info-block-body
+              %p= @plant.economic
+
+        - if @plant.areal.present? || @plant.distr_ca.present? || @plant.distr_uz.present?
+          .plant-info-block
+            .plant-info-block-head Tarqalishi
+            .plant-info-block-body
+              - if @plant.areal.present?
+                %p
+                  %span.plant-lbl Umumiy areal:
+                  = @plant.areal
+              - if @plant.distr_ca.present?
+                %p
+                  %span.plant-lbl O'rta Osiyoda:
+                  = @plant.distr_ca
+              - if @plant.distr_uz.present?
+                %p
+                  %span.plant-lbl O'zbekistonda:
+                  = @plant.distr_uz
+              - if @plant.admin_regions.present?
+                %p
+                  %span.plant-lbl Ma'muriy viloyatlar:
+                  = @plant.admin_regions
+
+        - if @plant.opt.present?
+          .plant-info-block
+            .plant-info-block-head Muhofaza etiladigan hududlarda mavjudligi
+            .plant-info-block-body
+              %p= @plant.opt
+
+        - if @plant.synonyms.present?
+          .plant-info-block
+            .plant-info-block-head Sinonimlar
+            .plant-info-block-body
+              %p= @plant.synonyms
+
+      .col-sm-12.col.col-md-4.fright.m-no-float
+        .plant-show-placeholder 🌿
+
+        .plant-info-block
+          .plant-info-block-head Taksonomiya
+          .plant-info-block-body
+            - if @plant.otdel_sci.present?
+              %p
+                %span.plant-lbl Bo'lim:
+                = @plant.otdel_sci
+            - if @plant.class_sci.present?
+              %p
+                %span.plant-lbl Sinf:
+                = @plant.class_sci
+            - if @plant.order_sci.present?
+              %p
+                %span.plant-lbl Tartib:
+                = @plant.order_sci
+            - if @plant.family_apg_sci.present?
+              %p
+                %span.plant-lbl Oila:
+                = @plant.family_apg_sci
+            - if @plant.genus_sci.present?
+              %p
+                %span.plant-lbl Turkum:
+                = @plant.genus_sci
+            %p
+              %span.plant-lbl Tur:
+              %i= @plant.species_sci
+
+        - if @plant.endemism.present? || @plant.status.present?
+          .plant-info-block
+            .plant-info-block-head Status
+            .plant-info-block-body
+              - if @plant.status.present?
+                %p
+                  %span.plant-lbl Umumiy status:
+                  = @plant.status
+              - if @plant.endemism.present?
+                %p
+                  %span.plant-lbl Endemizm:
+                  = @plant.endemism
+
+        - if @plant.plantlist_url.present? || @plant.plantarium_url.present?
+          .plant-info-block
+            .plant-info-block-head Tashqi manbalar
+            .plant-info-block-body
+              - if @plant.plantlist_url.present?
+                %p= link_to 'The Plant List', @plant.plantlist_url, target: '_blank', rel: 'noopener'
+              - if @plant.plantarium_url.present?
+                %p= link_to 'Plantarium.ru (fotosuratlar)', @plant.plantarium_url, target: '_blank', rel: 'noopener'
