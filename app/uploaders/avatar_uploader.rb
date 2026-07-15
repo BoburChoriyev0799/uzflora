@@ -1,9 +1,11 @@
 # encoding: utf-8
 
 class AvatarUploader < BaseUploader
+  process resize_to_limit: [MAX_SOURCE_DIMENSION, MAX_SOURCE_DIMENSION]
   process :resize_to_fill => [128, 128]
 
   version :thumb do
+    process resize_to_limit: [MAX_SOURCE_DIMENSION, MAX_SOURCE_DIMENSION]
     process :resize_to_fit => [36,36]
   end
 

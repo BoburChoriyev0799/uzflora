@@ -1,14 +1,17 @@
 # encoding: utf-8
 
 class SpeciesUploader < BaseUploader
+  process resize_to_limit: [MAX_SOURCE_DIMENSION, MAX_SOURCE_DIMENSION]
   process :resize_to_fill => [1024, 768]
   process :quality => 80
 
   version :small do
+    process resize_to_limit: [MAX_SOURCE_DIMENSION, MAX_SOURCE_DIMENSION]
     process :resize_to_fill => [700, 524]
   end
 
   version :thumb do
+    process resize_to_limit: [MAX_SOURCE_DIMENSION, MAX_SOURCE_DIMENSION]
     process :resize_to_fill => [154, 116]
   end
 

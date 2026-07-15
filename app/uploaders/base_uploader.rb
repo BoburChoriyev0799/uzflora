@@ -9,6 +9,21 @@ class BaseUploader < CarrierWave::Uploader::Base
   # barcha uploaderlarni (shu jumladan yangi PlantSighting) doim lokal
   # diskka yozishga majburlagan edi.
 
+  # Render'ning 512 MB'lik bepul planida ImageMagick chegarasiz o'lchamdagi
+  # rasmni (masalan telefondan 4000x3000+) xotiraga to'liq yuklab qayta
+  # ishlashi OOM (502)ga olib kelgan edi. Har bir uploader/versiya birinchi
+  # qadam sifatida shu chegaragacha kichraytiradi (resize_to_limit — faqat
+  # kichraytiradi, kichik rasmni kattalashtirmaydi), shundan keyingina
+  # kesish/moslashtirish ishlaydi.
+  MAX_SOURCE_DIMENSION = 1600
+
+  # Fayl hajmi bo'yicha standart chegara — alohida uploader buni
+  # o'zgartirishi mumkin (masalan PlantSightingUploader 10 MB'gacha ruxsat
+  # beradi). Cheksiz fayl hajmi ham xotira xavfini oshiradi.
+  def size_range
+    0..8.megabytes
+  end
+
   def store_dir
     "images/#{model.class.to_s.underscore}/#{mounted_as}/#{salted_reproducible_id}"
   end

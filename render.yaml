@@ -30,9 +30,33 @@ services:
       - key: RACK_ENV
         value: production
 
-      # 2 ta Puma worker (cluster rejimi) — config/puma.rb shu qiymatni o'qiydi.
+      # Bepul plan bor-yo'g'i 512 MB RAM beradi. 2 ta Puma worker (cluster
+      # rejimi) — har biri to'liq alohida Rails processi (ActiveAdmin,
+      # Devise, CarrierWave va h.k. bilan ~150-250 MB'dan boshlab) — rasm
+      # yuklanmasdan turib ham xotiraning katta qismini band qilib,
+      # avatar/rasm yuklashda OOM (502)ga olib kelgan edi. 0 — bitta
+      # process, faqat thread'lar orqali parallellik (config/puma.rb).
       - key: WEB_CONCURRENCY
-        value: 2
+        value: 0
+
+      # Bitta Puma processida bir vaqtda nechta so'rov qayta ishlanishini
+      # cheklaydi. 5 (standart) rasm yuklash kabi xotira talab qiladigan
+      # so'rovlar uchun ko'p — 2 tasi bir vaqtda tushsa ham OOM xavfi bor.
+      - key: RAILS_MAX_THREADS
+        value: 3
+
+      # ImageMagick (mini_magick) katta rasmni qayta ishlashda cheksiz
+      # xotira band qilishi mumkin edi. Bu chegaralar oshib ketsa,
+      # ImageMagick diskka (tmp) o'tadi — sekinroq, lekin process
+      # o'lmaydi. 512 MB umumiy xotiraning yarmidan kamini beramiz.
+      - key: MAGICK_MEMORY_LIMIT
+        value: 128MiB
+      - key: MAGICK_MAP_LIMIT
+        value: 128MiB
+      - key: MAGICK_AREA_LIMIT
+        value: 64MP
+      - key: MAGICK_DISK_LIMIT
+        value: 512MiB
 
       # Static asset'larni (CSS/JS/rasm) Puma'ning o'zi bersin —
       # config/environments/production.rb shu bayroqni o'qiydi.
