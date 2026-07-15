@@ -1,0 +1,24 @@
+.bg-btm-container
+  .container.content
+    - edit_scope = 'plant_sightings.edit'
+    .row.mtop20
+      %h3.acenter= I18n.t('.title', scope: edit_scope)
+      = render 'steps', current_step: :photo
+
+    .row.mtop20.add-photo-container
+      .col-md-9.col-sm-12
+        = form_for @plant_sighting, url: plant_sightings_path do |form|
+          .form-container
+            .action-description
+              = I18n.t('.howto_load_photo', scope: edit_scope)
+            %input.form-control.w65.m-w85{disabled: "", id: "set-plant-photo-path", type: "text"}
+            = form.label :photo, I18n.t('.browse', scope: edit_scope), id: 'set-plant-photo', class: 'mleft20 btn btn-success'
+            .hidden{style: 'display:none'}
+              = form.file_field :photo
+              = form.hidden_field :photo_cache
+            = form.submit I18n.t('.continue', scope: edit_scope), class: 'mtop4 fright btn btn-info sm-display-none'
+            .good-photo-condition
+              = I18n.t('.photo_recommendations', scope: edit_scope)
+          = form.submit I18n.t('.continue', scope: edit_scope), class: 'mtop3 m-h35 mbtm20 sm-width-max btn btn-info display-sm-only w'
+          = image_tag @plant_sighting.photo_url, class: 'img-responsive', id: 'set-plant-photo-preview' if @plant_sighting.photo.present?
+      .col-md-3.sm-display-none

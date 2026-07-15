@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
 
   has_and_belongs_to_many :roles
   has_many :birds
+  has_many :plant_sightings, dependent: :destroy
   has_many :comments, dependent: :destroy
 
   validates_uniqueness_of :email, case_sensitive: false

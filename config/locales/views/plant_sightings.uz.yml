@@ -1,0 +1,36 @@
+uz:
+  plant_sightings:
+    edit:
+      title: "Rasm qo'shish"
+      steps:
+        photo: Rasm
+        date: Sana
+        map: Joylashuv
+        plant: "O'simlik"
+      howto_load_photo: "Kuzatgan o'simligingizning rasmini yuklang"
+      browse: "Rasm tanlash"
+      continue: "Davom etish"
+      photo_recommendations: "Ruxsat etilgan formatlar: JPG, PNG. Hajmi 10 MB dan oshmasin."
+      photo_required: "Iltimos, avval rasm yuklang."
+      set_date: "Rasmga olingan sanani kiriting"
+      set_coordinates: "Xaritada joyni belgilang (bosish orqali)"
+      latitude: "Kenglik:"
+      longitude: "Uzunlik:"
+      place_name: "Joy nomi:"
+      plant_label: "Tur:"
+      unknown_plant: "Aniqlanmagan"
+      plant_name_placeholder: "O'simlik nomi (lotincha, ruscha yoki o'zbekcha)"
+      find: "Qidirish"
+      howto_find_plant: "Ro'yxatdagi kerakli turni tanlash uchun uni bir marta bosing."
+      not_found: "Afsuski, so'rovingiz bo'yicha natija topilmadi."
+      note_label: "Qisqa izoh (ixtiyoriy):"
+      note_hint: "Eng ko'pi bilan 100 belgi."
+      publish: "Nashr qilish"
+    show:
+      unknown_plant: "Turi aniqlanmagan o'simlik"
+      author: "Muallif:"
+      date: "Sana:"
+      place: "Joylashuv:"
+      latin_name: "Lotincha nom:"
+      russian_name: "Ruscha nomi:"
+      uzbek_name: "O'zbekcha nomi:"

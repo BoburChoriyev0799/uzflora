@@ -1,0 +1,34 @@
+.bg-btm-container
+  .container.content
+    - edit_scope = 'plant_sightings.edit'
+    .row.mtop20
+      %h3.acenter= I18n.t('.title', scope: edit_scope)
+      = render 'steps', current_step: :plant
+
+    .row.mtop40.add-photo-container.add-plant-container
+      .col-md-9.col-sm-12
+        .form-container
+          .row.mbtm20
+            .col-md-9.col-sm-12
+              %span= I18n.t('.plant_label', scope: edit_scope)
+              %span.selected-plant= I18n.t('.unknown_plant', scope: edit_scope)
+
+          = form_tag plant_sightings_search_path, method: :post, remote: true do
+            = text_field_tag :text, nil, class: 'form-control w80 sm-width-max', autofocus: true, placeholder: I18n.t('.plant_name_placeholder', scope: edit_scope)
+            = submit_tag I18n.t('.find', scope: edit_scope), class: 'btn btn-success fright sm-center sm-mtop10 w15 m-mtop20'
+            .search-description
+              = I18n.t('.howto_find_plant', scope: edit_scope)
+
+          .row.search-results.mtop20.m-mbtm20.pleft20
+
+          = form_for @plant_sighting, url: publish_plant_sighting_path(@plant_sighting), method: :post do |form|
+            = form.hidden_field :plant_id
+            .row.mtop20
+              %p= I18n.t('.note_label', scope: edit_scope)
+              = form.text_area :note, class: 'form-control', maxlength: 100
+              %p.text-muted= I18n.t('.note_hint', scope: edit_scope)
+            = form.submit I18n.t('.publish', scope: edit_scope), class: 'fright btn btn-info mtop20 sm-display-none'
+            = form.submit I18n.t('.publish', scope: edit_scope), class: 'mtop3 m-h35 mbtm20 sm-width-max btn btn-info display-sm-only w'
+
+      .col-md-3.acenter.sm-display-none
+        = render 'sighting_info', sighting: @plant_sighting

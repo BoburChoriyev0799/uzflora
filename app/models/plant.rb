@@ -5,9 +5,7 @@
 #
 class Plant < ApplicationRecord
   # --- Bog'lanishlar ---
-  # Keyinchalik foydalanuvchi yuklagan rasmlar va izohlar qo'shilganda,
-  # bu yerga has_many :photos, has_many :comments kabi qatorlar qo'shiladi.
-  # Hozircha katalog uchun asosiy model.
+  has_many :plant_sightings, dependent: :nullify
 
   # --- Validatsiyalar (ma'lumot to'g'riligini tekshirish) ---
   validates :species_sci, presence: true

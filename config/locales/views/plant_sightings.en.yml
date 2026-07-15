@@ -1,0 +1,36 @@
+en:
+  plant_sightings:
+    edit:
+      title: "Add a photo"
+      steps:
+        photo: Photo
+        date: Date
+        map: Location
+        plant: Plant
+      howto_load_photo: "Upload a photo of the plant you observed"
+      browse: "Choose photo"
+      continue: "Continue"
+      photo_recommendations: "Allowed formats: JPG, PNG. Size up to 10 MB."
+      photo_required: "Please upload a photo first."
+      set_date: "Enter the date the photo was taken"
+      set_coordinates: "Mark the location on the map (click)"
+      latitude: "Latitude:"
+      longitude: "Longitude:"
+      place_name: "Place name:"
+      plant_label: "Species:"
+      unknown_plant: "Not identified"
+      plant_name_placeholder: "Plant name (Latin, Russian or Uzbek)"
+      find: "Search"
+      howto_find_plant: "Click the desired species in the list to select it."
+      not_found: "Sorry, no results found for your search."
+      note_label: "Short note (optional):"
+      note_hint: "Up to 100 characters."
+      publish: "Publish"
+    show:
+      unknown_plant: "Unidentified plant"
+      author: "Author:"
+      date: "Date:"
+      place: "Location:"
+      latin_name: "Latin name:"
+      russian_name: "Russian name:"
+      uzbek_name: "Uzbek name:"

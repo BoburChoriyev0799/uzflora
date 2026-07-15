@@ -1,0 +1,47 @@
+.bg-btm-container
+  .container.content
+    - show_scope = 'plant_sightings.show'
+    .row.mtop20.mbtm20
+      .col-md-8.col-sm-12
+        = image_tag @plant_sighting.photo.url, class: 'img-responsive' if @plant_sighting.photo.present?
+
+        %h3.mtop20
+          - if @plant_sighting.plant.present?
+            = link_to @plant_sighting.plant.display_name, plant_path(@plant_sighting.plant)
+          - else
+            = I18n.t('.unknown_plant', scope: show_scope)
+
+        - if @plant_sighting.plant.present?
+          - plant = @plant_sighting.plant
+          .plant-full-names.mtop10
+            - if plant.species_sci.present?
+              %p
+                %span.lbl= I18n.t('.latin_name', scope: show_scope)
+                %em= plant.species_sci
+            - if plant.species_ru.present?
+              %p
+                %span.lbl= I18n.t('.russian_name', scope: show_scope)
+                = plant.species_ru
+            - if plant.species_uz.present?
+              %p
+                %span.lbl= I18n.t('.uzbek_name', scope: show_scope)
+                = plant.species_uz
+
+        - if @plant_sighting.note.present?
+          %p.mtop10= @plant_sighting.note
+
+        %p.mtop10
+          %span.lbl= I18n.t('.author', scope: show_scope)
+          = link_to @plant_sighting.user.full_name, profile_path(@plant_sighting.user)
+
+        - if @plant_sighting.timestamp.present?
+          %p
+            %span.lbl= I18n.t('.date', scope: show_scope)
+            = date_format(@plant_sighting.timestamp)
+
+        - if @plant_sighting.address_valid?
+          %p
+            %span.lbl= I18n.t('.place', scope: show_scope)
+            %a.link.sighting-map-toggle{href: '#', data: {lat: @plant_sighting.latitude, lng: @plant_sighting.longitude}}
+              = @plant_sighting.address_string
+          #sighting_map_canvas{style: 'display:none; width:100%; height:300px; margin-top:10px;'}

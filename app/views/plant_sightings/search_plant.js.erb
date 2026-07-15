@@ -1,0 +1,13 @@
+$('.search-results').empty().append("<%= escape_javascript(render partial: 'plant_result') %>");
+
+<% if @plants.present? %>
+  $('.search-description').empty().append("<%= escape_javascript(I18n.t('.howto_find_plant', scope: 'plant_sightings.edit')) %>");
+<% else %>
+  $('.search-description').empty().append("<%= escape_javascript(I18n.t('.not_found', scope: 'plant_sightings.edit')) %>");
+<% end %>
+
+$('.add-plant-container .search-results a').on('click', function(event) {
+  $('.add-plant-container span.selected-plant').text($(this).text());
+  $('#plant_sighting_plant_id').val($(this).data('id'));
+  event.preventDefault();
+});

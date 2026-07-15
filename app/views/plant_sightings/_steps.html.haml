@@ -1,0 +1,57 @@
+%style
+  :plain
+    .sighting-steps {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin: 24px 0 32px;
+      flex-wrap: wrap;
+    }
+    .sighting-step {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 20px;
+      background: #f4f8ee;
+      color: #999;
+      font-size: 14px;
+    }
+    .sighting-step.done {
+      background: #eaffd8;
+      color: #4a7c2a;
+    }
+    .sighting-step.active {
+      background: #7cb342;
+      color: #fff;
+      font-weight: 600;
+    }
+    .sighting-step-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(0,0,0,.08);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .sighting-step.active .sighting-step-num {
+      background: rgba(255,255,255,.35);
+      color: #fff;
+    }
+    .sighting-step.done .sighting-step-num {
+      background: #4a7c2a;
+      color: #fff;
+    }
+
+.sighting-steps
+  - steps_scope = 'plant_sightings.edit.steps'
+  - steps = [[:photo, I18n.t('photo', scope: steps_scope)], [:date, I18n.t('date', scope: steps_scope)], [:map, I18n.t('map', scope: steps_scope)], [:plant, I18n.t('plant', scope: steps_scope)]]
+  - current_index = steps.index { |k, _| k == current_step }
+  - steps.each_with_index do |(key, label), i|
+    .sighting-step{class: (i == current_index ? 'active' : (i < current_index ? 'done' : ''))}
+      .sighting-step-num
+        = i < current_index ? "✓" : (i + 1)
+      = label

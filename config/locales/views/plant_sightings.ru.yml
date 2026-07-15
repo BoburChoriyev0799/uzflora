@@ -1,0 +1,36 @@
+ru:
+  plant_sightings:
+    edit:
+      title: "Добавить фото"
+      steps:
+        photo: Фото
+        date: Дата
+        map: Место
+        plant: Растение
+      howto_load_photo: "Загрузите фото растения, которое вы наблюдали"
+      browse: "Выбрать фото"
+      continue: "Продолжить"
+      photo_recommendations: "Разрешённые форматы: JPG, PNG. Размер не более 10 МБ."
+      photo_required: "Пожалуйста, сначала загрузите фото."
+      set_date: "Укажите дату съёмки"
+      set_coordinates: "Отметьте место на карте (кликом)"
+      latitude: "Широта:"
+      longitude: "Долгота:"
+      place_name: "Название места:"
+      plant_label: "Вид:"
+      unknown_plant: "Не определён"
+      plant_name_placeholder: "Название растения (лат., рус. или узб.)"
+      find: "Найти"
+      howto_find_plant: "Нажмите на нужный вид в списке, чтобы выбрать его."
+      not_found: "К сожалению, по вашему запросу ничего не найдено."
+      note_label: "Краткий комментарий (необязательно):"
+      note_hint: "Не более 100 символов."
+      publish: "Опубликовать"
+    show:
+      unknown_plant: "Вид не определён"
+      author: "Автор:"
+      date: "Дата:"
+      place: "Место:"
+      latin_name: "Латинское название:"
+      russian_name: "Русское название:"
+      uzbek_name: "Узбекское название:"

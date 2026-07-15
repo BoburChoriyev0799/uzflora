@@ -1,0 +1,29 @@
+.bg-btm-container
+  .container.content
+    - edit_scope = 'plant_sightings.edit'
+    .row.mtop20
+      %h3.acenter= I18n.t('.title', scope: edit_scope)
+      = render 'steps', current_step: :map
+
+    .row.mtop40.add-photo-container
+      .col-sm-12.col-md-9
+        = form_for @plant_sighting do |form|
+          .row.form-container.m-acenter
+            %p= I18n.t('.set_coordinates', scope: edit_scope)
+            %span.m-d-block
+              = I18n.t('.latitude', scope: edit_scope)
+              = form.text_field :latitude, class: 'form-control w20 mleft10', readonly: true
+            %span.m-d-block.m-mleft0.m-mtop10.mleft20
+              = I18n.t('.longitude', scope: edit_scope)
+              = form.text_field :longitude, class: 'form-control w20 mleft10', readonly: true
+          .row.map-container
+            #map_canvas{style: "width:100%; height:350px"}
+          .row.form-container.mtop20
+            %span
+              = I18n.t('.place_name', scope: edit_scope)
+              = form.text_field :address, class: 'form-control w50 mleft10 m-w73'
+            = form.submit I18n.t('.continue', scope: edit_scope), class: 'fright btn btn-info sm-display-none'
+          = form.submit I18n.t('.continue', scope: edit_scope), class: 'mtop3 m-h35 mbtm20 sm-width-max btn btn-info display-sm-only w'
+
+      .sm-display-none.col-md-3.acenter
+        = render 'sighting_info', sighting: @plant_sighting

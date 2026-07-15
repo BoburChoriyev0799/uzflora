@@ -53,6 +53,17 @@ Birds::Application.routes.draw do
     end
   end
 
+  resources :plant_sightings, except: [:index] do
+    member do
+      get 'edit_date' => 'plant_sightings#edit_date'
+      get 'edit_map' => 'plant_sightings#edit_map'
+      get 'edit_plant' => 'plant_sightings#edit_plant'
+      post 'publish' => 'plant_sightings#publish'
+    end
+  end
+
+  post 'plant_sightings_search' => 'plant_sightings#search_plant'
+
   resources :categories, only: [:index]
 
   resources :comments, only: [:create, :destroy]
