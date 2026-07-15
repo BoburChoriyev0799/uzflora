@@ -10,13 +10,12 @@ class UsersController < Devise::RegistrationsController
     @big_year_users_count = Statistics::BigYear.users_count
   end
 
+  # reCAPTCHA vaqtincha o'chirilgan — kalit (BIRDS_RECAPTCHA_KEY) hech qachon
+  # sozlanmagan edi, shuning uchun ro'yxatdan o'tish butunlay ishlamas edi.
+  # gem/initializer saqlanib qoldi, kerak bo'lsa qayta yoqish oson bo'lsin.
   def create
-    if verify_recaptcha
-      super do |user|
-        user.subscribe!(Time.zone.now.year) if user.big_year
-      end
-    else
-      render 'new'
+    super do |user|
+      user.subscribe!(Time.zone.now.year) if user.big_year
     end
   end
 

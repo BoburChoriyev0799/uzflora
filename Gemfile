@@ -8,6 +8,11 @@ gem 'rails', '~> 7.1.0'
 # 0.20 -> 1.5: eski native extension Ruby 3.3 bilan build bo'lmaydi.
 gem 'pg', '~> 1.5'
 
+# Standart Rails xabarlari (validatsiya, "N ta xato topildi" va h.k.) uchun
+# o'zbekcha tarjima — bularsiz default_locale :uz bo'lsa ham bu matnlar
+# "Translation missing" bo'lib chiqadi.
+gem 'rails-i18n', '~> 7.0'
+
 # Sprockets orqali asset pipeline'ni saqlab qolamiz (jquery-rails, uglifier
 # shu tizimga bog'liq). Rails 7 buni endi avtomatik qo'shmaydi.
 gem 'sprockets-rails'

@@ -1900,17 +1900,23 @@ a.delete-comment-lnk:hover {
     height:30px !important;
 }
 .reg-form-cntainer {
-    background: asset-data-url('reg_login/reg_bg.jpg') no-repeat #edf2f0 ;
+    background: #fff;
+    border: 1px solid #dfe9d0;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.06);
     width:600px;
 
-    padding:30px 0 10px 0;
+    padding:30px;
 }
 .login-form{
-    background: asset-data-url('reg_login/login_bg.jpg') no-repeat #edf2f0 !important;
+    background: #fff !important;
+    border: 1px solid #dfe9d0;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.06);
     width:454px !important;
     margin:0 auto !important;
     min-height:300px;
-    padding:30px 10px 0;
+    padding:30px;
 }
 .lbl-container {
     text-align:right;
@@ -1948,14 +1954,6 @@ a.delete-comment-lnk:hover {
     margin-top:-3px;
     position:absolute;
 }
-.fb-login {
-    height:34px;
-    line-height:34px;
-    vertical-align:middle;
-    padding-left:40px;
-    background:asset-data-url('reg_login/fb_reg_logo.png') no-repeat;
-    display:block;
-}
 @media (max-width: 767px) {
     .lbl-container {
         text-align:left;
@@ -1972,12 +1970,6 @@ a.delete-comment-lnk:hover {
 }
 .reg-form-cntainer .input-group-addon {
     cursor:pointer;
-}
-.reg-form-cntainer a.fb-login {
-    text-decoration:underline;
-}
-.reg-form-cntainer a.fb-login:hover {
-    text-decoration:none;
 }
 
 

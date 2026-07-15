@@ -6,7 +6,7 @@
         = I18n.t('.title', scope: devise_scope)
 
       .col.col-md-7.col-sm-12.fcenter
-        = form_for :user, url: user_registration_path, html: {id: 'invisible-recaptcha-form'} do |f|
+        = form_for :user, url: user_registration_path do |f|
           .reg-form-cntainer
             .row
               .col-md-3.col-sm-3.lbl-container
@@ -55,15 +55,8 @@
               .col-md-3.col-sm-3.lbl-container
                 \&nbsp;
               .col-md-6.col-sm-6.input-container
-                = invisible_recaptcha_tags callback: 'submitInvisibleRecaptchaForm', class: 'mtop10 w100p btn-lg btn btn-info', text: "#{I18n.t('.sign_up', scope: devise_scope)}", hl: 'ru'
+                = f.submit I18n.t('.sign_up', scope: devise_scope), class: 'mtop10 w100p btn-lg btn btn-info'
                 =link_to "#{I18n.t('.sign_in', scope: devise_scope)}", new_user_session_path
-            .row
-              .col-md-3.col-sm-3.lbl-container
-                \&nbsp;
-              .col-md-6.col-sm-6.input-container
-                =link_to "#{I18n.t('.fb_sign_up', scope: devise_scope)}", user_facebook_omniauth_authorize_path, class: 'fb-login'
-              .col-md-3.col-sm-3.str-container
-                \&nbsp;
 
     / Content FOOT
     .row.top-row.acenter

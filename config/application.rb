@@ -23,6 +23,13 @@ module Birds
     config.i18n.locale = :uz
     I18n.enforce_available_locales = true
 
+    # Ba'zi gem'lar (masalan CarrierWave) faqat en.yml bilan keladi.
+    # Agar :uz'da tarjima topilmasa, "Translation missing" o'rniga
+    # inglizchaga qaytsin — xunuk xatolikdan ko'ra ma'noli matn yaxshiroq.
+    # Bundan tashqari, muhim joylar uchun (masalan CarrierWave xabarlari)
+    # to'g'ridan-to'g'ri config/locales/uz.yml'da o'zbekcha tarjima bor.
+    config.i18n.fallbacks = true
+
     # choices gemi o'rniga Rails'ning ichki config_for'i: xavfsiz YAML
     # alias qo'llab-quvvatlaydi va settings.yml'dagi har bir kalitni
     # (host, hybrid, recaptcha, ...) config.<kalit> sifatida qo'shadi —

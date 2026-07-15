@@ -1,0 +1,57 @@
+uz:
+  site_name: "Uzflora.uz"
+  actions: "Amallar"
+  soon: "tez orada"
+  time:
+    formats:
+      default: "%d.%m.%Y"
+      long: "%d.%m.%Y"
+    periods:
+      immediately: darhol
+      years:
+        one: '%{count} yil'
+        other: '%{count} yil'
+      months:
+        one: '%{count} oy'
+        other: '%{count} oy'
+      days:
+        one: '%{count} kun'
+        other: '%{count} kun'
+      hours:
+        one: '%{count} soat'
+        other: '%{count} soat'
+      minutes:
+        one: '%{count} daqiqa'
+        other: '%{count} daqiqa'
+      seconds:
+        one: '%{count} soniya'
+        other: '%{count} soniya'
+  errors:
+    messages:
+      carrierwave_processing_error: "qayta ishlanmadi"
+      carrierwave_integrity_error: "ruxsat etilmagan fayl turi"
+      carrierwave_download_error: "yuklab olinmadi"
+      extension_allowlist_error: "%{extension} turidagi faylni yuklash mumkin emas, ruxsat etilgan turlar: %{allowed_types}"
+      extension_denylist_error: "%{extension} turidagi faylni yuklash mumkin emas, taqiqlangan turlar: %{prohibited_types}"
+      content_type_allowlist_error: "%{content_type} turidagi faylni yuklash mumkin emas, ruxsat etilgan turlar: %{allowed_types}"
+      content_type_denylist_error: "%{content_type} turidagi faylni yuklash mumkin emas"
+      processing_error: "Faylni qayta ishlab bo'lmadi — bu rasm emasga o'xshaydi"
+      min_size_error: "Fayl hajmi %{min_size} dan katta bo'lishi kerak"
+      max_size_error: "Fayl hajmi %{max_size} dan kichik bo'lishi kerak"
+      min_width_error: "Rasm eni %{min_width}px dan katta bo'lishi kerak"
+      max_width_error: "Rasm eni %{max_width}px dan kichik bo'lishi kerak"
+      min_height_error: "Rasm bo'yi %{min_height}px dan katta bo'lishi kerak"
+      max_height_error: "Rasm bo'yi %{max_height}px dan kichik bo'lishi kerak"
+  activerecord:
+    attributes:
+      plant_sighting:
+        user: "Foydalanuvchi"
+        user_id: "Foydalanuvchi"
+        plant: "O'simlik"
+        plant_id: "O'simlik"
+        photo: "Rasm"
+        timestamp: "Sana"
+        latitude: "Kenglik"
+        longitude: "Uzunlik"
+        address: "Manzil"
+        note: "Izoh"
