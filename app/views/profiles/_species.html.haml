@@ -4,5 +4,3 @@
       %li
         =link_to plant_path(plant) do
           %em= plant.species_sci
-          - if plant.species_uz.present?
-            %span= " (#{plant.species_uz})"

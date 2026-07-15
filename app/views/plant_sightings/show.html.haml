@@ -9,7 +9,7 @@
 
         %h3.mtop20
           - if @plant_sighting.plant.present?
-            = link_to @plant_sighting.plant.display_name, plant_path(@plant_sighting.plant)
+            = link_to @plant_sighting.plant.display_name(I18n.locale), plant_path(@plant_sighting.plant)
           - else
             = I18n.t('.unknown_plant', scope: show_scope)
           - if @plant_sighting.owner?(current_user)
@@ -37,3 +37,44 @@
             %a.link.sighting-map-toggle{href: '#', data: {lat: @plant_sighting.latitude, lng: @plant_sighting.longitude}}
               = @plant_sighting.address_string
           #sighting_map_canvas{style: 'display:none; width:100%; height:300px; margin-top:10px;'}
+
+    .row
+      .col.col-md-8.col-sm-12
+        .row.bird-photo-comments
+          %h4
+            = I18n.t('.comments', scope: show_scope)
+          .row.comments-container
+            - @plant_sighting.plant_sighting_comments.ordered.each do |comment|
+              - next if comment.user.blank?
+              .row.comment-row.mbtm15
+                .col-md-1.image-holder
+                  =image_tag comment.user.avatar.thumb.url, class: 'img-circle'
+                .col-md-10.comment-holder
+                  %p.row-link
+                    .row
+                      .col-md-9
+                        =link_to comment.user.full_name, profile_path(comment.user)
+                      .col-md-3.comment-timestamp
+                        =datetime_format(comment.created_at)
+                  %p.row-comment= comment.text
+                -if current_user && (current_user.id == comment.user.id)
+                  .col-md-1.delete-comment-container
+                    =link_to '', '#', class: 'delete-plant-sighting-comment-lnk', data: { id: comment.id }
+
+          .row.add-comment-form-container
+            .row.add-comment-form
+              -if current_user
+                =form_for :comment, url: plant_sighting_comments_path, html: { id: 'form-add-plant-sighting-comment', data: { plant_sighting_id: @plant_sighting.id,
+                                                                                                user_name: current_user.try(:full_name),
+                                                                                                user_profile: profile_path(current_user),
+                                                                                                user_avatar: current_user.avatar.thumb.url } } do |form|
+                  = form.text_area :text, class: 'form-control w80 sm-width-max comment-text', maxlength: 100, placeholder: I18n.t('.comment_placeholder', scope: show_scope)
+                  = form.submit I18n.t('.add_comment', scope: show_scope), id: 'add-plant-sighting-comment', class: 'btn btn-success fright sm-center sm-mtop10'
+              -else
+                %p
+                  = I18n.t('.only_users', scope: show_scope)
+                  %br
+                    =link_to I18n.t('.sign_up', scope: show_scope), new_user_registration_path
+                    = I18n.t('.or', scope: show_scope)
+                    = succeed '.' do
+                      =link_to I18n.t('.sign_in', scope: show_scope), new_user_session_path, class: 'lnk-success'

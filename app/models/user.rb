@@ -13,6 +13,7 @@ class User < ActiveRecord::Base
   has_many :birds
   has_many :plant_sightings, dependent: :destroy
   has_many :comments, dependent: :destroy
+  has_many :plant_sighting_comments, dependent: :destroy
 
   validates_uniqueness_of :email, case_sensitive: false
   validates_presence_of :email, :first_name, :last_name

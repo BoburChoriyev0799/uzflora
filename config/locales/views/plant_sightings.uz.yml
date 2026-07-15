@@ -36,6 +36,13 @@ uz:
       uzbek_name: "O'zbekcha nomi:"
       note: "Izoh:"
       view_full: "Kattalashtirib ko'rish"
+      comments: "Sharhlar"
+      comment_placeholder: "Sharh yozing (eng ko'pi bilan 100 belgi)"
+      add_comment: "Sharh qoldirish"
+      only_users: "Faqat ro'yxatdan o'tgan foydalanuvchilar sharh qoldirishlari mumkin."
+      sign_up: "Ro'yxatdan o'ting"
+      sign_in: "tizimga kiring"
+      or: "yoki"
     status:
       pending: "Kutilmoqda"
       approved: "Tasdiqlangan"

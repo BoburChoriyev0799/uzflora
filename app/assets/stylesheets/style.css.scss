@@ -2066,3 +2066,16 @@ a.delete-comment-lnk:hover {
     color: #a32626;
   }
 }
+
+.profile-sighting-meta {
+  font-size: 11px;
+  color: #888;
+  margin-top: 4px;
+  line-height: 1.4;
+  p {
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

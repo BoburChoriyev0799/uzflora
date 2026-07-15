@@ -7,6 +7,11 @@
   .body
     =link_to plant_sighting_path(plant_sighting) do
       = image_tag plant_sighting.photo.thumb.url, class: 'img-responsive'
+    .profile-sighting-meta
+      - if plant_sighting.timestamp.present?
+        %p.profile-sighting-date= date_format(plant_sighting.timestamp)
+      - if plant_sighting.address_valid?
+        %p.profile-sighting-place= plant_sighting.address_string
     -if @user.current?(current_user)
       =link_to '', '#', class: 'delete_user_plant_sighting', data: {id: plant_sighting.id}, title: "#{I18n.t('profile.photo.delete')}"
       =link_to '', edit_plant_plant_sighting_path(plant_sighting), class: 'edit_user_bird', data: {id: plant_sighting.id}, title: "#{I18n.t('profile.photo.edit')}"

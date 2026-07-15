@@ -65,6 +65,8 @@ Birds::Application.routes.draw do
 
   resources :comments, only: [:create, :destroy]
 
+  resources :plant_sighting_comments, only: [:create, :destroy]
+
   resource :search, path: '', only: [] do
     get 'search' => 'search#index'
     post 'search' => 'search#search'

@@ -16,7 +16,7 @@ class ProfilesController < ApplicationController
     sightings = sightings.approved unless viewing_own_profile
     @birds = sightings.order(created_at: :desc).page(params[:page_birds]).per(18)
     @drafts = PlantSighting.includes(:plant).unpublished.by_user(@user.id).order(created_at: :desc)
-    @comments = Comment.where(user_id: @user.id).order(created_at: :desc).page(params[:page_comments]).per(15)
+    @comments = PlantSightingComment.where(user_id: @user.id).order(created_at: :desc).page(params[:page_comments]).per(15)
 
     respond_to do |format|
       format.html

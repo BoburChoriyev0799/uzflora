@@ -9,6 +9,8 @@ class PlantSighting < ApplicationRecord
   belongs_to :plant, optional: true
   belongs_to :expert, class_name: 'User', optional: true
 
+  has_many :plant_sighting_comments, dependent: :destroy
+
   mount_uploader :photo, PlantSightingUploader
 
   # Moderatsiya holati. Rails enum'ning o'zi .pending/.approved/.rejected

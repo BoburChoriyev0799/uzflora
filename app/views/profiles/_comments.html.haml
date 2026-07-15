@@ -1,10 +1,10 @@
 -@comments.each do |comment|
   .row.comment-row
     .comment-holder
-      = link_to bird_path(comment.bird_id) do
+      = link_to plant_sighting_path(comment.plant_sighting_id) do
         %p.row-comment= "#{short_comment_text_dots(comment, 90)}"
     .comment-time-container{ :class => ('without-delete' unless @user.current?(current_user)) }
       = date_format(comment.created_at)
     -if @user.id == current_user.id
       .delete-comment-container
-        =link_to '', '#', class: 'delete-comment-lnk', data: {id: comment.id}, title: "#{I18n.t('profile.settings.delete')}"
+        =link_to '', '#', class: 'delete-profile-plant-sighting-comment-lnk', data: {id: comment.id}, title: "#{I18n.t('profile.settings.delete')}"

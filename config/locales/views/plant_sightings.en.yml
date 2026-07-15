@@ -36,6 +36,13 @@ en:
       uzbek_name: "Uzbek name:"
       note: "Note:"
       view_full: "View full size"
+      comments: "Comments"
+      comment_placeholder: "Write a comment (up to 100 characters)"
+      add_comment: "Post comment"
+      only_users: "Only registered users can post comments."
+      sign_up: "Sign up"
+      sign_in: "log in"
+      or: "or"
     status:
       pending: "Pending"
       approved: "Approved"

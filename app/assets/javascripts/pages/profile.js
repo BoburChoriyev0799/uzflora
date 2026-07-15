@@ -79,4 +79,19 @@ $(function() {
         }
     });
 
+    $('.comments-container').on('click', '.delete-profile-plant-sighting-comment-lnk', function(event) {
+        event.preventDefault();
+        var $this = $(event.target);
+        var comment_id = $this.data('id');
+
+        $.ajax({
+            url: '/plant_sighting_comments/' + comment_id,
+            type: 'DELETE',
+            success: function(result) {
+                $this.closest('.row.comment-row').remove();
+                $('.profile-comments-count').html('[' + result['count'] + ']');
+            }
+        });
+    });
+
 });
