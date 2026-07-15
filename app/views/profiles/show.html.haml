@@ -18,8 +18,6 @@
                 = I18n.t('.rating_1', scope: profile_scope)
                 =link_to "#{I18n.t('.rating_2', scope: profile_scope)} - #{@big_year_rating}", big_year_path
         .col-md-3.col-sm-12.profile-user-icons
-          -if @user.subscribed?(Time.zone.now.year)
-            =image_tag 'user/icon-2020.png'
           -if @user.expert?
             =image_tag 'user/icon-expert.png'
 
