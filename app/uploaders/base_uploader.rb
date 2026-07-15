@@ -3,7 +3,11 @@
 class BaseUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
 
-  storage :file
+  # Storage turi bu yerda EMAS, config/initializers/carrierwave.rb'da
+  # global belgilanadi (hozir :fog / Cloudflare R2). Bu yerda qattiq
+  # `storage :file` yozilgan edi — u global sozlamani bekor qilib,
+  # barcha uploaderlarni (shu jumladan yangi PlantSighting) doim lokal
+  # diskka yozishga majburlagan edi.
 
   def store_dir
     "images/#{model.class.to_s.underscore}/#{mounted_as}/#{salted_reproducible_id}"
