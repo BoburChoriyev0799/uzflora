@@ -43,7 +43,7 @@ module Statistics
         list = Plant.joins(:plant_sightings)
             .where(plant_sightings: { published: true, user_id: user_id })
             .distinct
-        list.sort_by { |p| p.display_name }
+        list.sort_by { |p| p.species_sci.to_s }
       end
     end
 

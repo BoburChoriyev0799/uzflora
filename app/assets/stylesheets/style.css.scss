@@ -293,16 +293,16 @@ html {
     box-shadow: 0px 0px 8px -2px rgba(0,0,0,0.75);
 }
 .birds-nav ul.nav > li > a {
-    font-size:16px;
+    font-size:14px;
     color: #fff;
     height: 60px;
-    padding: 18px 20px;
+    padding: 18px 13px;
 }
 .navbar-right ul.nav > li > a {
-    font-size:16px;
+    font-size:14px;
     color: #fff;
     height: 60px;
-    padding: 18px 15px;
+    padding: 18px 12px;
 }
 .birds-nav ul.nav > li > a:hover, .birds-nav ul.nav > li.active > a {
     background-color:#9bc24c;
@@ -314,6 +314,47 @@ html {
 .birds-nav .navbar-toggle .icon-bar {
     background-color: #fff;
 }
+
+// Menyu elementlari ko'payishi (Katta yil, moderatsiya va h.k.) bilan
+// Bootstrap'ning standart 768px chegarasi kam bo'lib qoldi — o'rta o'lchamli
+// noutbuk ekranlarida (masalan 1024-1200px) elementlar sig'may, logotip va
+// foydalanuvchi ismi ustma-ust tushib qolardi. Shu sababli "hamburger"
+// chegarasi 1250px'gacha ko'tarildi (Bootstrap 3'ning o'zi 768px'da
+// qo'llaydigan qoidalarni shu yerda yuqori chegarada qaytaramiz).
+@media (max-width: 1250px) {
+    .birds-nav .navbar-header {
+        float: none;
+    }
+    .birds-nav .navbar-toggle {
+        display: block;
+    }
+    .birds-nav .navbar-collapse.collapse {
+        display: none !important;
+    }
+    .birds-nav .navbar-collapse.in {
+        display: block !important;
+        overflow-y: auto;
+    }
+    .birds-nav .navbar-nav {
+        float: none !important;
+        margin: 0;
+    }
+    .birds-nav .navbar-nav > li {
+        float: none;
+    }
+}
+@media (min-width: 1251px) {
+    .birds-nav .navbar-toggle {
+        display: none;
+    }
+    .birds-nav .navbar-collapse.collapse {
+        display: block !important;
+        height: auto !important;
+        padding-bottom: 0;
+        overflow: visible !important;
+    }
+}
+
 a.navbar-brand {
     margin-right: 35px;
 }
@@ -612,7 +653,8 @@ a.navbar-brand {
 
     /* general */
     .row-sm {
-        width:540px;
+        width:100%;
+        max-width:540px;
         margin:0 auto;
     }
     .m-w73 {
@@ -1904,7 +1946,9 @@ a.delete-comment-lnk:hover {
     border: 1px solid #dfe9d0;
     border-radius: 8px;
     box-shadow: 0 2px 12px rgba(0,0,0,.06);
-    width:600px;
+    width:100%;
+    max-width:600px;
+    box-sizing: border-box;
 
     padding:30px;
 }
@@ -1913,7 +1957,9 @@ a.delete-comment-lnk:hover {
     border: 1px solid #dfe9d0;
     border-radius: 8px;
     box-shadow: 0 2px 12px rgba(0,0,0,.06);
-    width:454px !important;
+    width:100% !important;
+    max-width:454px;
+    box-sizing: border-box;
     margin:0 auto !important;
     min-height:300px;
     padding:30px;

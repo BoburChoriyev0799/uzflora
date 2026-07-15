@@ -1,8 +1,8 @@
 uz:
   map:
     index:
-      title: Турнинг барча кузатувлари
-      species_info: Тур ҳақида умумий маълумот
+      title: Turning barcha kuzatuvlari
+      species_info: Tur haqida umumiy ma'lumot
     bird:
-      delete_photo: Суратни ўчириш
-      edit_photo: Суратни таҳрирлаш
+      delete_photo: Suratni o'chirish
+      edit_photo: Suratni tahrirlash

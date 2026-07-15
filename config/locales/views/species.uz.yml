@@ -1,18 +1,18 @@
 uz:
   species:
     show:
-      sub_species: Ўзбекистонда кичик тури яшайди
-      author: 'Муаллиф:'
-      date: 'Сана:'
-      place: 'Жойлашув:'
-      description: Тафсилот
-      distributation: Тарқалиши
-      biology: Биология
-      sub_species_list: Кичик турлари
-      reference: Маълумот манбаси
-      species_map: Турнинг барча кузатувлари
-      classification: Илмий классификация
-      order: 'Туркум:'
-      family: 'Оила:'
-      species: 'Тур:'
-      status: Хавфсизлик ҳолати
+      sub_species: O'zbekistonda kichik turi yashaydi
+      author: 'Muallif:'
+      date: 'Sana:'
+      place: 'Joylashuv:'
+      description: Tafsilot
+      distributation: Tarqalishi
+      biology: Biologiya
+      sub_species_list: Kichik turlari
+      reference: Ma'lumot manbasi
+      species_map: Turning barcha kuzatuvlari
+      classification: Ilmiy klassifikatsiya
+      order: 'Turkum:'
+      family: 'Oila:'
+      species: 'Tur:'
+      status: Xavfsizlik holati

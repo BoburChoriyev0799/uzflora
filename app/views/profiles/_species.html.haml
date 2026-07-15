@@ -3,4 +3,6 @@
     -@species.each do |plant|
       %li
         =link_to plant_path(plant) do
-          %span= plant.display_name(I18n.locale)
+          %em= plant.species_sci
+          - if plant.species_uz.present?
+            %span= " (#{plant.species_uz})"

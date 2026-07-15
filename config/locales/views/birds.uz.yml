@@ -1,55 +1,55 @@
 uz:
   birds:
     show:
-      unknown: Аниқлаш учун
-      edit: Суратни таҳрирлаш
-      created_at: 'Юкланган:'
-      protected_species: 'Тур ҳимоя остида,'
-      protected_map: картадан фақат мутахассислар фойдаланишлари мумкин
-      author: 'Муаллиф:'
-      date: 'Сана:'
-      place: 'Жой:'
-      species_info: Тур ҳақида умумий маълумот
-      all_birds: Турнинг барча кузатувлари
-      confirm: Тасдиқлаш
-      comments: Шарҳлар
-      add_comment: Қўшиш
-      only_users: Фақат рўйхатдан ўтган фойдаланувчилар шарҳларни қолдиришлари мумкин.
-      sign_up: Рўйхатдан ўтинг
-      sign_in: тизимга киринг
-      or: ёки
+      unknown: Aniqlash uchun
+      edit: Suratni tahrirlash
+      created_at: 'Yuklangan:'
+      protected_species: 'Tur himoya ostida,'
+      protected_map: kartadan faqat mutaxassislar foydalanishlari mumkin
+      author: 'Muallif:'
+      date: 'Sana:'
+      place: 'Joy:'
+      species_info: Tur haqida umumiy ma'lumot
+      all_birds: Turning barcha kuzatuvlari
+      confirm: Tasdiqlash
+      comments: Sharhlar
+      add_comment: Qo'shish
+      only_users: Faqat ro'yxatdan o'tgan foydalanuvchilar sharhlarni qoldirishlari mumkin.
+      sign_up: Ro'yxatdan o'ting
+      sign_in: tizimga kiring
+      or: yoki
     photo:
-      title: Тури аниқланмаган
-      leave_comment: Шарҳ қолдиринг
-      more_comments: Бошқа шарҳлар
-      comments: Шарҳлар
+      title: Turi aniqlanmagan
+      leave_comment: Sharh qoldiring
+      more_comments: Boshqa sharhlar
+      comments: Sharhlar
     edit:
-      title: Фотосурат қўшиш
-      download_photo_1: Фотосуратни
-      download_photo_2: юкланг
-      set_date_1: Учратиш санасини
-      set_date_2: киритинг
-      set_place_1: Учратиш жойини
-      set_place_2: кўрсатинг
-      set_species_1: Қуш турини
-      set_species_2: кўрсатинг
-      set_photo_date: Учратиш санасини киритинг
-      continue: Давом этиш
+      title: Fotosurat qo'shish
+      download_photo_1: Fotosuratni
+      download_photo_2: yuklang
+      set_date_1: Uchratish sanasini
+      set_date_2: kiriting
+      set_place_1: Uchratish joyini
+      set_place_2: ko'rsating
+      set_species_1: Qush turini
+      set_species_2: ko'rsating
+      set_photo_date: Uchratish sanasini kiriting
+      continue: Davom etish
       set_coordinates: >-
-        Координаталарни ўнлик даражалар форматига қўшинг ёки Google Map да
-        кузатиш жойини топиб, шу нуқтада харитани босинг:
-      latitude: 'Кенглик:'
-      longitude: 'Узунлик:'
-      place_name: 'Учратиш жойининг номи:'
-      species: 'Тур:'
-      unknown: аниқланмаган
-      publish: Чоп этиш
-      species_name: Тур номи
+        Koordinatalarni o'nlik darajalar formatiga qo'shing yoki Google Map'da
+        kuzatish joyini topib, shu nuqtada xaritani bosing:
+      latitude: 'Kenglik:'
+      longitude: 'Uzunlik:'
+      place_name: 'Uchratish joyining nomi:'
+      species: 'Tur:'
+      unknown: aniqlanmagan
+      publish: Chop etish
+      species_name: Tur nomi
       howto_find_species: >-
-        * Агар турни билсангиз, унинг номидан калит сўзларни киритинг ва «Топиш»
-        тугмасини босинг
-      howto_load_photo: Фотосуратга йўлни белгилаш учун «Танлаш...» тугмасини босинг
-      browse: Танлаш...
+        * Agar turni bilsangiz, uning nomidan kalit so'zlarni kiriting va "Topish"
+        tugmasini bosing
+      howto_load_photo: Fotosuratga yo'lni belgilash uchun "Tanlash..." tugmasini bosing
+      browse: Tanlash...
       photo_recommendations: >-
-        * Агар юклаган расмингиз сайтда тўғри кўрсатилишини истасангиз, унда уни
-        албомли ориентацияда ва томонлари тахминан 700х524 нисбатда бўлиши керак
+        * Agar yuklagan rasmingiz saytda to'g'ri ko'rsatilishini istasangiz, unda uni
+        albomli orientatsiyada va tomonlari taxminan 700x524 nisbatda bo'lishi kerak
