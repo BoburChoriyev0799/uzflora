@@ -27,6 +27,12 @@ gem 'bootstrap3-datetimepicker-rails', '~> 4.17.47'
 gem 'bugsnag', '~> 6.26'
 gem 'carrierwave', '~> 3.0'
 
+# Render'ning bepul rejasida disk efemer (har deploy'da tozalanadi) —
+# yuklangan rasmlar S3-mos obyekt xotirasida (Cloudflare R2) saqlanadi.
+# fog-aws istalgan S3-mos provayder bilan ishlaydi (R2, Backblaze B2,
+# Supabase ...), shuning uchun kod provayderdan mustaqil.
+gem 'fog-aws', '~> 3.28'
+
 gem 'closure_tree', '~> 8.0'
 gem 'devise', '~> 4.9'
 gem 'globalize', '~> 6.3'
