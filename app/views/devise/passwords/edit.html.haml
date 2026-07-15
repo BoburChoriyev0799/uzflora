@@ -1,0 +1,33 @@
+.bg-btm-container
+  .container.content
+    - devise_scope = 'devise.passwords.edit'
+    .row.login-registration-container.mtop20.content-container
+      %h3.acenter.mbtm20
+        = I18n.t('.title', scope: devise_scope)
+
+      .col.col-md-7.col-sm-12.fcenter
+        = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
+          .reg-form-cntainer.login-form
+            = devise_error_messages!
+            = f.hidden_field :reset_password_token
+            .row
+              .col-md-3.col-sm-3.lbl-container
+                %label{:for => "pwrd"}
+                  = I18n.t('.new_password', scope: devise_scope)
+              .col-md-6.col-sm-6.input-container
+                = f.password_field :password, autofocus: true, autocomplete: "new-password", class: 'form-control'
+              .col-md-3.col-sm-3.str-container
+                %span.req *
+            .row.mbtm20
+              .col-md-3.col-sm-3.lbl-container
+                %label{:for => "pwrd_confirmation"}
+                  = I18n.t('.confirm_password', scope: devise_scope)
+              .col-md-6.col-sm-6.input-container
+                = f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control'
+              .col-md-3.col-sm-3.str-container
+                %span.req *
+            .row
+              .col-md-3.col-sm-3.lbl-container
+                \&nbsp;
+              .col-md-6.col-sm-6.input-container.acenter
+                = f.submit I18n.t('.submit', scope: devise_scope), class: 'mtop10 mm-mtop0 w100p btn-lg btn btn-info'

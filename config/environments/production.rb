@@ -70,7 +70,27 @@ Birds::Application.configure do
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
-  # config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = false
+
+  # SMTP — Gmail orqali (parolni tiklash va h.k. uchun). Kalitlar
+  # credentials.yml.enc'da saqlanadi (render.yaml'da ENV sifatida emas —
+  # loyihaning boshqa maxfiy ma'lumotlari bilan bir xil qoida). Hali
+  # sozlanmagan bo'lsa (smtp bo'limi bo'sh), pochta jo'natilmaydi, lekin
+  # ilova xato bermay ishlashda davom etadi.
+  smtp_credentials = Rails.application.credentials.smtp
+  if smtp_credentials.present?
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.perform_deliveries = true
+    config.action_mailer.smtp_settings = {
+      address: smtp_credentials[:address] || 'smtp.gmail.com',
+      port: smtp_credentials[:port] || 587,
+      domain: smtp_credentials[:domain] || 'uzflora.uz',
+      user_name: smtp_credentials[:user_name],
+      password: smtp_credentials[:password],
+      authentication: 'plain',
+      enable_starttls_auto: true
+    }
+  end
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation can not be found).
@@ -85,7 +105,7 @@ Birds::Application.configure do
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
 
-  config.action_mailer.default_url_options = { host: 'birds.uz' }
+  config.action_mailer.default_url_options = { host: 'uzflora.uz' }
 
   # Ruxsat etilgan Host header'lar (Rails 6+ DNS rebinding himoyasi).
   # Render avtomatik beradigan domen + kelajakdagi uzflora.uz shu yerda.

@@ -7,6 +7,7 @@ uz:
         surname: 'Familiya:'
         email: 'Email:'
         password: 'Parol:'
+        password_reminder: "Parolingizni eslab qoling — saytga qayta kirayotganda sizga kerak bo'ladi."
         big_year: Katta yilda qatnashmoqchiman
         have_account: Akkauntim oldindan bor
         sign_up: Ro'yxatdan o'tish
@@ -20,4 +21,25 @@ uz:
         email: 'Email:'
         password: 'Parol:'
         login: Kirish
+        forgot_password: "Parol esdan chiqdimi?"
         no_account: Akkauntim yo'q
+    passwords:
+      new:
+        title: "Parolni tiklash"
+        subtitle: "Email manzilingizni kiriting — sizga parolni tiklash havolasini yuboramiz."
+        email: 'Email:'
+        submit: "Havola yuborish"
+        back_to_login: "Kirish sahifasiga qaytish"
+      edit:
+        title: "Yangi parol o'rnatish"
+        new_password: "Yangi parol:"
+        confirm_password: "Parolni tasdiqlang:"
+        submit: "Parolni o'zgartirish"
+    mailer:
+      reset_password_instructions:
+        subject: "Parolni tiklash yo'riqnomasi"
+        hello: "Assalomu alaykum, %{email}!"
+        intro: "Kimdir sizning parolingizni o'zgartirish uchun havola so'radi. Buni quyidagi havola orqali amalga oshirishingiz mumkin."
+        link_text: "Parolimni o'zgartirish"
+        ignore: "Agar bu so'rovni siz yubormagan bo'lsangiz, bu xatni e'tiborsiz qoldiring."
+        valid_until: "Yuqoridagi havoladan foydalanib yangi parol o'rnatmaguningizcha, parolingiz o'zgarmaydi. Havola 6 soat davomida amal qiladi."

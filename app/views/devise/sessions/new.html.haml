@@ -32,4 +32,6 @@
                 \&nbsp;
               .col-md-8.col-sm-8.input-container.acenter
                 = f.submit "#{I18n.t('.login', scope: devise_scope)}", class: 'mtop10 mm-mtop0 w100p btn-lg btn btn-info'
+                %p.mtop10
+                  =link_to "#{I18n.t('.forgot_password', scope: devise_scope)}", new_user_password_path, class: 'lnk-success'
                 =link_to "#{I18n.t('.no_account', scope: devise_scope)}", new_user_registration_path

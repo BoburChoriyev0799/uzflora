@@ -10,7 +10,10 @@ Devise.setup do |config|
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
+  # Gmail SMTP autentifikatsiya qilingan akkount bilan mos kelishini talab
+  # qiladi, shuning uchun shu yerda ham credentials'dagi (config/
+  # environments/production.rb'da ishlatiladigan) manzilning o'zi olinadi.
+  config.mailer_sender = Rails.application.credentials.dig(:smtp, :user_name) || 'noreply@uzflora.uz'
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
