@@ -1,6 +1,6 @@
 .row
   %ol
-    -@species.each do |species|
+    -@species.each do |plant|
       %li
-        =link_to map_index_path(species_id: species.id, user_id: user_id) do
-          %span= species.full_name
+        =link_to plant_path(plant) do
+          %span= plant.display_name(I18n.locale)

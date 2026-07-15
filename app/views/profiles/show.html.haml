@@ -76,7 +76,7 @@
           #block3.row.profile-block-container.profile-birds-block.mtop20
             .row
               .row.row-sm.profile-birds-container
-                =render partial: 'bird', collection: @birds, as: :bird
+                =render partial: 'plant_sighting', collection: @birds, as: :plant_sighting
               .birds-pagination.pagination-block
                 =paginate @birds, :remote => true, :param_name => 'page_birds'
 
@@ -90,7 +90,7 @@
             #block4.row.profile-block-container.profile-drafts-block.mtop20
               .row
                 .row.row-sm.profile-birds-container
-                  =render partial: 'bird', collection: @drafts, as: :bird
+                  =render partial: 'plant_sighting', collection: @drafts, as: :plant_sighting
 
         .block-holder
           .mobile-blocks-nav

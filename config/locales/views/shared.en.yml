@@ -16,10 +16,8 @@ en:
       sign-in: Log in
     nav_add_photo:
       button: Add a photo
-    search:
-      title: Find
     nav_bar_slogan:
       birth_day: 'Happy Birthday! Your Birds.uz team'
       new_year: 'Happy New Year! Your Birds.uz team'
-      uzflora_birth_day: '14 July — the birthday of Uzflora.uz!<br>Thank you for the exciting year!'
+      uzflora_birth_day: '14 July — the birthday of Uzflora.uz!'
       slogan: 'Uzflora.uz — let’s explore the flora of Uzbekistan together!'

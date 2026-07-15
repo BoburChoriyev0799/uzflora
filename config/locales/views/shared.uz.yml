@@ -16,10 +16,8 @@ uz:
       sign-in: Kirish
     nav_add_photo:
       button: Rasm qo'shish
-    search:
-      title: Qidiruv
     nav_bar_slogan:
       birth_day: "Tug'ilgan kuning bilan! Uzflora.uz jamoasi :)"
       new_year: "Yangi yil muborak! Hurmat bilan, Uzflora.uz jamoasi"
-      uzflora_birth_day: "14 iyul — Uzflora.uz tug'ilgan kuni!<br>Barchaga bu ajoyib yil bilan minnatdorlik bildiramiz!"
+      uzflora_birth_day: "14 iyul — Uzflora.uz tug'ilgan kuni!"
       slogan: "Uzflora.uz — keling, O'zbekiston o'simliklarini birga o'rganamiz!"

@@ -3,6 +3,7 @@ uz:
     photo:
       delete: Suratni o'chirish
       edit: Suratni tahrirlash
+      unknown_plant: Turi aniqlanmagan
     show:
       bg_amount_1: Katta yildagi
       bg_amount_2: turlar soni

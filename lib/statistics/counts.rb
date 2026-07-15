@@ -37,6 +37,14 @@ module Statistics
             .distinct
         list.sort_by { |s| s.name } #TODO:: user sql order
       end
+
+      # Total amount of distinct plant species met by some user (published sightings only)
+      def user_plants(user_id)
+        list = Plant.joins(:plant_sightings)
+            .where(plant_sightings: { published: true, user_id: user_id })
+            .distinct
+        list.sort_by { |p| p.display_name }
+      end
     end
 
   end

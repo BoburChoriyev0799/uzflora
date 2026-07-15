@@ -58,6 +58,5 @@
             = hidden_field_tag :big_year, 0, id: ''
             = check_box_tag :big_year, 1, current_user.subscribed?(Time.zone.now.year)
             = label_tag :big_year do
-              Да, Я хочу участвовать в
-              =link_to "#{I18n.t('.in_bg', scope: profile_scope)}", big_year_path
+              =link_to I18n.t('.in_bg', scope: profile_scope), big_year_path
         = submit_tag "#{I18n.t('.change', scope: profile_scope)}", class: 'btn btn-info w345 btn-lg-spec sm-width-max'

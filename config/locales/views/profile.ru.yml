@@ -3,6 +3,7 @@ ru:
     photo:
       delete: Удалить фотографию
       edit: Редактировать фотографию
+      unknown_plant: Вид не определен
     show:
       bg_amount_1: Количество видов в
       bg_amount_2: Большом годе

@@ -50,7 +50,7 @@ class BirdsController < ApplicationController
     @bird = Bird.find(params[:id])
 
     respond_to do |format|
-      if @bird.update_attributes(bird_params)
+      if @bird.update(bird_params)
         format.html do
           redirect_to action: next_edit_action(@bird), id: @bird.id
         end
@@ -70,7 +70,7 @@ class BirdsController < ApplicationController
 
     species_id = params['bird-species-id'].to_i
     if species_id > 0
-      @bird.update_attributes(species_id: species_id)
+      @bird.update(species_id: species_id)
       hashtag = 'current'
     else
       hashtag = 'unknown'

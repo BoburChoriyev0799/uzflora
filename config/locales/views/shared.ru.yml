@@ -14,11 +14,9 @@ ru:
       sign-in: Вход
     nav_add_photo:
       button: Добавить фотографию
-    search:
-      title: Поиск
     nav_bar_slogan:
       birth_day: 'С Днем рождения! Команда Birds.uz'
       new_year: 'С Новым годом! С любовью, команда Birds.uz'
-      uzflora_birth_day: '14 июля — День рождения Uzflora.uz!<br>Благодарим всех за этот увлекательный год!'
+      uzflora_birth_day: '14 июля — День рождения Uzflora.uz!'
       slogan: 'Uzflora.uz — давайте вместе изучать флору Узбекистана!'
 

@@ -3,6 +3,7 @@ en:
     photo:
       delete: Delete photo
       edit: Edit photo
+      unknown_plant: Species not identified
     show:
       bg_amount_1: Number of species in
       bg_amount_2: the Big Year

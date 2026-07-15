@@ -69,7 +69,7 @@ class Bird < ActiveRecord::Base
   def set_big_year
     current_year = Time.zone.now.year
     return unless user.subscribed?(current_year)
-    self.update_attributes(big_year: current_year) if timestamp.try(:year) == current_year
+    self.update(big_year: current_year) if timestamp.try(:year) == current_year
   end
 
   # Bird's big_year attribute can be changed only during the year of it's creating

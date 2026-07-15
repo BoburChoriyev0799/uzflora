@@ -21,7 +21,7 @@ class UsersController < Devise::RegistrationsController
 
   def change_password
     @user = User.find(current_user.id)
-    if @user.update_attributes(user_params)
+    if @user.update(user_params)
       # Sign in the user bypassing validation in case his password changed
       sign_in @user, :bypass => true
       redirect_to after_update_path_for(@user)
