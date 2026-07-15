@@ -15,6 +15,11 @@
           - if @plant_sighting.owner?(current_user)
             = plant_sighting_status_badge(@plant_sighting)
 
+        - if @plant_sighting.owner?(current_user) && @plant_sighting.rejected? && @plant_sighting.moderation_note.present?
+          %p.mtop10
+            %span.lbl= I18n.t('.rejection_reason', scope: show_scope)
+            = @plant_sighting.moderation_note
+
         = render 'plant_names', plant: @plant_sighting.plant
 
         - if @plant_sighting.note.present?

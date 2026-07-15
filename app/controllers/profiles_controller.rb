@@ -11,9 +11,15 @@ class ProfilesController < ApplicationController
 
     #TODO: separate pagination of sightings and comments
     sightings = PlantSighting.includes(:plant).published.by_user(@user.id)
-    # Boshqa foydalanuvchilar faqat ekspert tasdiqlagan kuzatuvlarni ko'radi —
-    # egasi esa kutilayotgan/rad etilganlarini ham status belgisi bilan ko'radi.
-    sightings = sightings.approved unless viewing_own_profile
+    # Egasi hammasini (kutilmoqda/tasdiqlangan/rad etilgan) status belgisi
+    # bilan ko'radi. Ekspert boshqa birovning profilida rad etilganlarini
+    # ham ko'radi (u ko'rish huquqiga ega — plant_sighting#show bilan bir
+    # xil qoida), lekin hali ko'rib chiqilmagan (pending)larini ko'rmaydi —
+    # ular uchun alohida moderatsiya navbati bor. Oddiy foydalanuvchilar
+    # faqat tasdiqlanganlarini ko'radi.
+    unless viewing_own_profile
+      sightings = current_user.try(:expert?) ? sightings.where(status: %w[approved rejected]) : sightings.approved
+    end
     @birds = sightings.order(created_at: :desc).page(params[:page_birds]).per(18)
     @drafts = PlantSighting.includes(:plant).unpublished.by_user(@user.id).order(created_at: :desc)
     @comments = PlantSightingComment.where(user_id: @user.id).order(created_at: :desc).page(params[:page_comments]).per(15)

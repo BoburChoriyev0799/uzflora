@@ -35,6 +35,7 @@ en:
       russian_name: "Russian name:"
       uzbek_name: "Uzbek name:"
       note: "Note:"
+      rejection_reason: "Rejection reason:"
       view_full: "View full size"
       comments: "Comments"
       comment_placeholder: "Write a comment (up to 100 characters)"

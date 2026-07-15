@@ -22,6 +22,7 @@ class PlantSighting < ApplicationRecord
 
   validates_presence_of :user_id
   validates :note, length: { maximum: 100 }
+  validates :moderation_note, length: { maximum: 100 }
 
   scope :published, -> { where(published: true) }
   scope :unpublished, -> { where(published: false) }
@@ -49,13 +50,22 @@ class PlantSighting < ApplicationRecord
     user_id == user.try(:id)
   end
 
+  # Rad etilgan kuzatuvni faqat egasi va ekspert ko'ra oladi — boshqalarga
+  # (profilda ham, to'g'ridan-to'g'ri havola orqali ham) ko'rinmaydi.
+  def visible_to?(user)
+    return true unless rejected?
+    owner?(user) || user.try(:expert?)
+  end
+
   # Ekspert turni o'zgartirmaydi (foydalanuvchi tanlagan plant_id qoladi) —
   # faqat tasdiqlaydi yoki rad etadi.
   def approve!(expert)
-    update!(status: :approved, expert: expert, reviewed_at: Time.zone.now)
+    update!(status: :approved, expert: expert, reviewed_at: Time.zone.now, moderation_note: nil)
   end
 
-  def reject!(expert)
-    update!(status: :rejected, expert: expert, reviewed_at: Time.zone.now)
+  # note — ekspert nega rad etganini tushuntiruvchi ixtiyoriy izoh, faqat
+  # kuzatuv egasiga ko'rinadi (plant_sightings/show.html.haml'da tekshiriladi).
+  def reject!(expert, note = nil)
+    update!(status: :rejected, expert: expert, reviewed_at: Time.zone.now, moderation_note: note)
   end
 end

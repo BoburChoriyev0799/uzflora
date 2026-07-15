@@ -21,12 +21,14 @@ class PlantSightingsController < ApplicationController
 
   def reject
     sighting = PlantSighting.find(params[:id])
-    sighting.reject!(current_user)
+    sighting.reject!(current_user, params[:moderation_note])
     render json: { success: true }
   end
 
+  # Rad etilgan kuzatuvni faqat egasi va ekspert ko'ra oladi.
   def show
     @plant_sighting = PlantSighting.find(params[:id])
+    redirect_to plants_path unless @plant_sighting.visible_to?(current_user)
   end
 
   def new

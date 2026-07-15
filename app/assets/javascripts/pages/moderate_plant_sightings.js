@@ -24,10 +24,11 @@ $(function() {
     $list.on('click', '.moderation-reject', function(event) {
         event.preventDefault();
         var id = $(this).data('id');
-        if (!confirm("Rostdan ham bu kuzatuvni rad etmoqchimisiz?")) {
+        var reason = prompt("Nega rad etyapsiz? (ixtiyoriy, foydalanuvchiga ko'rinadi, eng ko'pi bilan 100 belgi)");
+        if (reason === null) {
             return;
         }
-        $.post('/plant_sightings/' + id + '/reject', function() {
+        $.post('/plant_sightings/' + id + '/reject', { moderation_note: reason.slice(0, 100) }, function() {
             removeCard(id);
         });
     });

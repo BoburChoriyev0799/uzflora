@@ -35,6 +35,7 @@ uz:
       russian_name: "Ruscha nomi:"
       uzbek_name: "O'zbekcha nomi:"
       note: "Izoh:"
+      rejection_reason: "Rad etish sababi:"
       view_full: "Kattalashtirib ko'rish"
       comments: "Sharhlar"
       comment_placeholder: "Sharh yozing (eng ko'pi bilan 100 belgi)"
