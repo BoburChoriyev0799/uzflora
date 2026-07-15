@@ -142,6 +142,44 @@
     .big-year-contacts-list a:hover {
       background: #689f38;
     }
+    .big-year-participants {
+      max-width: 780px;
+      margin: 24px auto 0;
+    }
+    .big-year-participants-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .big-year-participants-table th,
+    .big-year-participants-table td {
+      border: 1px solid #dfe9d0;
+      padding: 10px 14px;
+      text-align: left;
+    }
+    .big-year-participants-table th {
+      background: #f4f8ee;
+      color: #2f4a1c;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+    }
+    .big-year-participants-table tr:nth-child(even) td {
+      background: #fafcf6;
+    }
+    .big-year-participants-table .rank-col {
+      width: 70px;
+      text-align: center;
+      font-weight: 700;
+      color: #4a7c2a;
+    }
+    .big-year-participants-table .score-col {
+      width: 90px;
+      text-align: center;
+    }
+    .big-year-participants-empty {
+      color: #777;
+      font-style: italic;
+    }
 
 .bg-btm-container
   .container.content
@@ -152,6 +190,25 @@
           .big-year-text
             = I18n.t('.title', scope: bg_scope)
           %span.big_year_item.active= @current_year
+
+      .row.big-year-participants.mtop20
+        - p = 'big_years.index.participants'
+        %h4.big-year-toc-title= I18n.t('title', scope: p)
+        - if @participants.blank?
+          %p.big-year-participants-empty= I18n.t('empty', scope: p)
+        - else
+          %table.big-year-participants-table
+            %thead
+              %tr
+                %th= I18n.t('rank', scope: p)
+                %th= I18n.t('name', scope: p)
+                %th= I18n.t('score', scope: p)
+            %tbody
+              - @participants.each_with_index do |participant, i|
+                %tr
+                  %td.rank-col= i + 1
+                  %td= link_to participant.full_name, profile_path(participant)
+                  %td.score-col= participant.approved_count
 
       .row.big-year-rules-container.mtop20
         .big-year-rules

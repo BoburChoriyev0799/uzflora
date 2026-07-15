@@ -2,6 +2,12 @@ ru:
   big_years:
     index:
       title: Большой Год
+      participants:
+        title: Участники Большого года
+        rank: Место
+        name: Имя
+        score: Баллы
+        empty: Пока нет участников.
       rules:
         intro: >-
           «uzflora Большой год» — конкурс, направленный на изучение флоры

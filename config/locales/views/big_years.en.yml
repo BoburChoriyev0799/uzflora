@@ -2,6 +2,12 @@ en:
   big_years:
     index:
       title: Big Year
+      participants:
+        title: Big Year participants
+        rank: Rank
+        name: Name
+        score: Score
+        empty: There are no participants yet.
       rules:
         intro: >-
           The "uzflora Big Year" is a competition aimed at studying the

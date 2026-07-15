@@ -2,6 +2,12 @@ uz:
   big_years:
     index:
       title: Katta yil
+      participants:
+        title: Katta yil ishtirokchilari
+        rank: "O'rin"
+        name: "Ism-familiya"
+        score: Ball
+        empty: "Hozircha ishtirokchilar yo'q."
       rules:
         intro: >-
           "uzflora Katta yil" — O'zbekiston florasini o'rganish, o'simlik
