@@ -2,6 +2,8 @@
   .head
     .blck
       = plant_sighting.plant.present? ? plant_sighting.plant.display_name(I18n.locale) : I18n.t('profile.photo.unknown_plant')
+    -if @user.current?(current_user)
+      = plant_sighting_status_badge(plant_sighting)
   .body
     =link_to plant_sighting_path(plant_sighting) do
       = image_tag plant_sighting.photo.thumb.url, class: 'img-responsive'

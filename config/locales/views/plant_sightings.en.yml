@@ -34,6 +34,10 @@ en:
       latin_name: "Latin name:"
       russian_name: "Russian name:"
       uzbek_name: "Uzbek name:"
+    status:
+      pending: "Pending"
+      approved: "Approved"
+      rejected: "Rejected"
     pending:
       title: "Observations awaiting review"
       empty: "There are no observations awaiting review right now."

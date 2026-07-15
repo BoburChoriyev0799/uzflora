@@ -1998,3 +1998,25 @@ a.delete-comment-lnk:hover {
     }
   }
 }
+
+.sighting-status-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+  &.status-pending {
+    background: #fdf3d8;
+    color: #8a6d1a;
+  }
+  &.status-approved {
+    background: #e3f3d8;
+    color: #3f7a1f;
+  }
+  &.status-rejected {
+    background: #fbe0e0;
+    color: #a32626;
+  }
+}

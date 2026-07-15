@@ -34,6 +34,10 @@ uz:
       latin_name: "Lotincha nom:"
       russian_name: "Ruscha nomi:"
       uzbek_name: "O'zbekcha nomi:"
+    status:
+      pending: "Kutilmoqda"
+      approved: "Tasdiqlangan"
+      rejected: "Rad etildi"
     pending:
       title: "Tekshirilishi kerak bo'lgan kuzatuvlar"
       empty: "Hozircha tekshirilishi kerak bo'lgan kuzatuvlar yo'q."
