@@ -35,3 +35,13 @@ uz:
       endemism: "Endemizm:"
       external_sources: Tashqi manbalar
       plantarium_photos: "Plantarium.ru (fotosuratlar)"
+    welcome:
+      title: "uzflora.uz — O'zbekiston florasi platformasi"
+      subtitle: >-
+        Tabiat kuzatuvchilari joylagan o'simlik suratlari va uchrash
+        joylari bilan tanishing. Katalog va boshqa imkoniyatlarga kirish
+        uchun ro'yxatdan o'ting yoki tizimga kiring.
+      cta_text: "Platformaning barcha imkoniyatlaridan foydalanish uchun:"
+      sign_in: Kirish
+      sign_up: Ro'yxatdan o'tish
+      map_title: "So'nggi kuzatuvlar xaritasi"

@@ -1,0 +1,96 @@
+- content_for :head do
+  / OpenStreetMap (Leaflet) — faqat shu (mehmon) sahifada kerak, shuning
+  / uchun umumiy layout'ga emas, shu yerga qo'shildi.
+  %link{rel: "stylesheet", href: "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css", integrity: "sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=", crossorigin: ""}
+  %script{src: "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js", integrity: "sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=", crossorigin: ""}
+
+%style
+  :plain
+    .welcome-intro {
+      max-width: 700px;
+      margin: 0 auto 10px;
+      color: #3a3a3a;
+    }
+    .welcome-carousel .item img {
+      width: 100%;
+      height: 420px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+    .welcome-carousel .carousel-caption {
+      background: rgba(0,0,0,.5);
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 10px;
+      border-radius: 0 0 6px 6px;
+    }
+    .welcome-carousel-empty {
+      height: 420px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #eaf6ec 0%, #d3ecd8 100%);
+      border-radius: 6px;
+      color: #4a7c2a;
+      font-size: 48px;
+    }
+    .welcome-cta-col {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 20px;
+    }
+    .welcome-cta-col p {
+      color: #3a3a3a;
+      margin-bottom: 20px;
+    }
+    .welcome-map-title {
+      margin-top: 40px;
+      margin-bottom: 14px;
+    }
+    #welcome_map_canvas {
+      width: 100%;
+      height: 480px;
+      border-radius: 6px;
+    }
+    @media (max-width: 767px) {
+      .welcome-carousel .item img {
+        height: 260px;
+      }
+      .welcome-carousel-empty {
+        height: 260px;
+      }
+      #welcome_map_canvas {
+        height: 320px;
+      }
+    }
+
+.bg-btm-container
+  .container.content
+    - w = 'plants.welcome'
+    .row.mtop20
+      %h3.acenter= I18n.t('.title', scope: w)
+      %p.welcome-intro.acenter= I18n.t('.subtitle', scope: w)
+
+    .row.mtop30
+      .col-md-9.col-sm-12
+        - if @recent_sightings.present?
+          #welcome-carousel.carousel.slide.welcome-carousel{data: {ride: 'carousel', interval: '5000', wrap: 'true', keyboard: 'false'}}
+            .carousel-inner{role: 'listbox'}
+              - @recent_sightings.each_with_index do |sighting, i|
+                .item{class: ('active' if i.zero?)}
+                  = image_tag sighting.photo.display.url, class: 'img-responsive'
+                  - if sighting.plant.present?
+                    .carousel-caption= sighting.plant.display_name(I18n.locale)
+        - else
+          .welcome-carousel-empty 🌿
+
+      .col-md-3.col-sm-12.welcome-cta-col
+        %p= I18n.t('.cta_text', scope: w)
+        = link_to I18n.t('.sign_in', scope: w), new_user_session_path, class: 'btn btn-info btn-lg btn-block mbtm10'
+        = link_to I18n.t('.sign_up', scope: w), new_user_registration_path, class: 'btn btn-success btn-lg btn-block'
+
+    .row
+      %h4.welcome-map-title.acenter= I18n.t('.map_title', scope: w)
+      #welcome_map_canvas{data: {points: @map_sightings.map { |s| { lat: s.latitude, lng: s.longitude, name: s.plant.present? ? s.plant.display_name(I18n.locale) : nil } }.to_json}}

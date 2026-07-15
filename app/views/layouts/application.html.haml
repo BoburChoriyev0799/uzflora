@@ -23,6 +23,10 @@
     <script src="http://getbootstrap.com/docs-assets/js/html5shiv.js"></script>
     <script src="http://getbootstrap.com/docs-assets/js/respond.min.js"></script>
 
+  / Ayrim sahifalar (masalan mehmon uchun xarita) qo'shimcha head
+  / teglarini (Leaflet CSS/JS) shu yerga qo'shishi mumkin.
+  = yield :head
+
   = csrf_meta_tags
   = render 'shared/ga_code'
 %body

@@ -35,3 +35,13 @@ en:
       endemism: "Endemism:"
       external_sources: External sources
       plantarium_photos: "Plantarium.ru (photos)"
+    welcome:
+      title: "uzflora.uz — the flora of Uzbekistan platform"
+      subtitle: >-
+        Take a look at plant photos and observation sites posted by
+        nature observers. Register or log in to access the full catalog
+        and the platform's other features.
+      cta_text: "To use all of the platform's features:"
+      sign_in: Log in
+      sign_up: Sign up
+      map_title: "Recent observations map"

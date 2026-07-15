@@ -1,7 +1,22 @@
 class PlantsController < ApplicationController
   PLANTS_PER_PAGE = 24
 
+  # Mehmon (ro'yxatdan o'tmagan) foydalanuvchi uchun — o'simliklar ro'yxati
+  # o'rniga faqat ko'rsatuv uchun mo'ljallangan "kirish oynasi" (karusel +
+  # xarita). Ichkariga (kataloг, profil va h.k.) kirish faqat tizimga
+  # kirgandan keyin ochiladi.
   def index
+    if current_user.blank?
+      @recent_sightings = PlantSighting.published.approved
+                                        .includes(:plant, :user)
+                                        .order(created_at: :desc)
+                                        .limit(5)
+      @map_sightings = PlantSighting.published.approved
+                                     .where.not(latitude: nil, longitude: nil)
+      render 'welcome'
+      return
+    end
+
     @plants = Plant.all.order(:species_sci)
     @plants = @plants.search(params[:q]) if params[:q].present?
     @plants = @plants.by_family(params[:family]) if params[:family].present?
