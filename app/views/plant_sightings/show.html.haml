@@ -3,32 +3,24 @@
     - show_scope = 'plant_sightings.show'
     .row.mtop20.mbtm20
       .col-md-8.col-sm-12
-        = image_tag @plant_sighting.photo.url, class: 'img-responsive' if @plant_sighting.photo.present?
+        - if @plant_sighting.photo.present?
+          = link_to @plant_sighting.photo.url, target: '_blank', rel: 'noopener', title: I18n.t('.view_full', scope: show_scope) do
+            = image_tag @plant_sighting.photo.display.url, class: 'img-responsive'
 
         %h3.mtop20
           - if @plant_sighting.plant.present?
             = link_to @plant_sighting.plant.display_name, plant_path(@plant_sighting.plant)
           - else
             = I18n.t('.unknown_plant', scope: show_scope)
+          - if @plant_sighting.owner?(current_user)
+            = plant_sighting_status_badge(@plant_sighting)
 
-        - if @plant_sighting.plant.present?
-          - plant = @plant_sighting.plant
-          .plant-full-names.mtop10
-            - if plant.species_sci.present?
-              %p
-                %span.lbl= I18n.t('.latin_name', scope: show_scope)
-                %em= plant.species_sci
-            - if plant.species_ru.present?
-              %p
-                %span.lbl= I18n.t('.russian_name', scope: show_scope)
-                = plant.species_ru
-            - if plant.species_uz.present?
-              %p
-                %span.lbl= I18n.t('.uzbek_name', scope: show_scope)
-                = plant.species_uz
+        = render 'plant_names', plant: @plant_sighting.plant
 
         - if @plant_sighting.note.present?
-          %p.mtop10= @plant_sighting.note
+          %p.mtop10
+            %span.lbl= I18n.t('.note', scope: show_scope)
+            = @plant_sighting.note
 
         %p.mtop10
           %span.lbl= I18n.t('.author', scope: show_scope)

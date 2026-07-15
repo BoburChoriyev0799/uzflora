@@ -34,6 +34,8 @@ uz:
       latin_name: "Lotincha nom:"
       russian_name: "Ruscha nomi:"
       uzbek_name: "O'zbekcha nomi:"
+      note: "Izoh:"
+      view_full: "Kattalashtirib ko'rish"
     status:
       pending: "Kutilmoqda"
       approved: "Tasdiqlangan"
