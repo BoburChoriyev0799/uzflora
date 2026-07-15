@@ -17,11 +17,11 @@ module Statistics
                FROM users u
                LEFT JOIN (
                    SELECT
-                      b.user_id,
-                      count(b.id) AS birds_count
-                   FROM birds b
-                   WHERE b.published = 'true'
-                   GROUP BY b.user_id
+                      ps.user_id,
+                      count(ps.id) AS birds_count
+                   FROM plant_sightings ps
+                   WHERE ps.published = 'true'
+                   GROUP BY ps.user_id
                    ) ub on ub.user_id = u.id
                ORDER BY u.last_name, u.first_name, u.created_at"
 

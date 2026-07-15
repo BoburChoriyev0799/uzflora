@@ -7,8 +7,9 @@ en:
         email:
     navbar:
       title: Menu
+      plants: Plants
       bg: Big Year
-      birders: Birdwatchers
+      birders: Users
       about: About us
       approve: Approve
       moderate_plants: "Moderate plants"

@@ -2,3 +2,187 @@ uz:
   big_years:
     index:
       title: Katta yil
+      rules:
+        intro: >-
+          "uzflora Katta yil" — O'zbekiston florasini o'rganish, o'simlik
+          turlarining zamonaviy tarqalish ma'lumotlarini to'plash hamda
+          tabiat kuzatuvchilarini yagona ilmiy platforma atrofida
+          birlashtirishga qaratilgan musobaqadir. Musobaqa davomida
+          ishtirokchilar uzflora.uz platformasiga o'zlari kuzatgan yovvoyi
+          o'simliklarning fotosuratlari, kuzatuv joyi va boshqa zarur
+          ma'lumotlarni joylashtiradilar.
+        toc:
+          title: Mundarija
+          items:
+            - Musobaqaning maqsadi
+            - Musobaqa muddati
+            - Musobaqada ishtirok etish
+            - "Kuzatuvlarga qo'yiladigan talablar"
+            - Hisobga olinadigan kuzatuvlar
+            - Baholash mezonlari
+            - Ball berish tizimi
+            - Tabiatga ehtiyotkor munosabat
+            - Taqiqlangan holatlar
+            - Natijalarni tasdiqlash
+            - "G'oliblarni taqdirlash"
+            - Mualliflik huquqi
+            - Yakuniy qoidalar
+        section_1:
+          title: Musobaqaning maqsadi
+          intro: "Musobaqaning asosiy maqsadlari:"
+          items:
+            - "O'zbekiston hududidagi o'simlik turlarining tarqalishi bo'yicha yangi ma'lumotlarni to'plash;"
+            - kam o'rganilgan hududlarda floristik kuzatuvlarni rag'batlantirish;
+            - "noyob, endemik va muhofazaga muhtoj o'simliklar haqidagi bilimlarni oshirish;"
+            - sifatli fotomateriallar bazasini shakllantirish;
+            - "havaskor tabiat kuzatuvchilari, talabalar va mutaxassislar o'rtasidagi hamkorlikni rivojlantirish."
+        section_2:
+          title: Musobaqa muddati
+          text: >-
+            Musobaqa 01.01.2026 dan 31.12.2026 gacha davom etadi. Faqat
+            musobaqa muddati davomida tabiatda kuzatilgan va uzflora.uz
+            platformasiga joylashtirilgan ma'lumotlar hisobga olinadi.
+        section_3:
+          title: Musobaqada ishtirok etish
+          text_1: >-
+            Musobaqada botanika mutaxassislari, ekologlar, o'qituvchilar,
+            talabalar, fotograflar, tabiat ixlosmandlari va boshqa barcha
+            qiziquvchilar qatnashishi mumkin.
+          text_2: "Ishtirok etish uchun:"
+          items:
+            - uzflora.uz platformasida ro'yxatdan o'tish;
+            - musobaqada qatnashish istagini bildirish;
+            - kuzatilgan o'simliklarni belgilangan talablar asosida platformaga joylashtirish lozim.
+          text_3: Har bir ishtirokchi faqat bitta shaxsiy profil orqali qatnashadi.
+        section_4:
+          title: "Kuzatuvlarga qo'yiladigan talablar"
+          text_1: "Har bir kuzatuv quyidagi ma'lumotlarni o'z ichiga olishi kerak:"
+          items:
+            - o'simlikning aniq va sifatli fotosurati;
+            - kuzatuv sanasi;
+            - kuzatuv joyining geografik koordinatalari;
+            - "viloyat, tuman yoki hudud nomi;"
+            - imkon qadar o'simlikning ilmiy nomi;
+            - habitat yoki o'sish muhiti haqida qisqacha ma'lumot.
+          text_2: >-
+            Turni aniqlash uchun o'simlikning umumiy ko'rinishi bilan birga
+            bargi, guli, mevasi yoki boshqa diagnostik belgilarini
+            ko'rsatuvchi bir nechta fotosurat joylashtirish tavsiya etiladi.
+        section_5:
+          title: Hisobga olinadigan kuzatuvlar
+          text_1: "Quyidagi talablarga javob beradigan kuzatuvlar musobaqa natijalariga kiritiladi:"
+          items:
+            - fotosurat ishtirokchining o'zi tomonidan olingan bo'lishi;
+            - o'simlik tabiiy yoki tabiiylashgan muhitda kuzatilgan bo'lishi;
+            - sana va joylashuv ma'lumotlari to'g'ri ko'rsatilgan bo'lishi;
+            - kuzatuvni tekshirish imkonini beradigan sifatli fotosuratlar mavjud bo'lishi;
+            - bir xil tur bir hududdan takroran ko'p marta joylashtirilmagan bo'lishi;
+            - kuzatuv moderator yoki ekspertlar tomonidan tasdiqlangan bo'lishi.
+          text_2: >-
+            Bog'lar, issiqxonalar, gulzorlar va xonadonlarda ekilgan
+            manzarali o'simliklar alohida nominatsiya e'lon qilinmagan
+            taqdirda asosiy natijalarga kiritilmaydi.
+        section_6:
+          title: Baholash mezonlari
+          criteria:
+            - title: "Eng ko'p tur kuzatgan ishtirokchi"
+              text: "— Musobaqa davomida eng ko'p turli o'simlik turini ishonchli qayd etgan ishtirokchi aniqlanadi. Bir turning takroriy kuzatuvlari ushbu nominatsiyada bir marta hisoblanadi."
+            - title: Eng ko'p sifatli kuzatuv
+              text: "— Eng ko'p to'liq, aniq koordinatali, sifatli fotosuratli va ekspertlar tomonidan tasdiqlangan kuzatuv joylashtirgan ishtirokchi taqdirlanadi."
+            - title: Eng muhim floristik topilma
+              text: "— Ilgari kam qayd etilgan hududdan topilgan, tarqalish chegarasini kengaytiruvchi yoki ilmiy jihatdan muhim bo'lgan kuzatuvlar ekspertlar hay'ati tomonidan baholanadi."
+            - title: Eng yaxshi o'simlik fotosurati
+              text: "— Fotosuratning sifati, tabiiyligi, kompozitsiyasi va o'simlikning muhim belgilarini aks ettirish darajasi hisobga olinadi."
+            - title: Eng faol yosh kuzatuvchi
+              text: "— Talabalar, o'quvchilar va yosh tadqiqotchilar orasidan eng faol va sifatli kuzatuvlar muallifi aniqlanadi."
+            - title: Eng ko'p hududni o'rgangan ishtirokchi
+              text: "— Eng ko'p tuman, geografik hudud yoki habitatdan sifatli kuzatuv taqdim etgan ishtirokchi taqdirlanadi."
+        section_7:
+          title: Ball berish tizimi
+          text_1: "Umumiy reytingni shakllantirishda quyidagi namunaviy ball tizimidan foydalanish mumkin:"
+          items:
+            - tasdiqlangan har bir yangi tur — 10 ball;
+            - "noyob, endemik yoki ilmiy ahamiyatga ega tasdiqlangan kuzatuv — ekspertlar qaroriga ko'ra qo'shimcha 5–20 ball;"
+            - "noto'g'ri, takroriy yoki tekshirib bo'lmaydigan kuzatuv — hisobga olinmaydi."
+          text_2: >-
+            Noyob o'simliklarning koordinatalari ularni noqonuniy yig'ish
+            xavfi mavjud bo'lgan hollarda ommaga to'liq ko'rsatilmasligi
+            mumkin.
+        section_8:
+          title: Tabiatga ehtiyotkor munosabat
+          text_1: "Musobaqa ishtirokchilari quyidagi qoidalarga rioya qilishlari shart:"
+          items:
+            - o'simliklarni uzmaslik va ildizi bilan qazib olmaslik;
+            - noyob va muhofaza qilinadigan turlarga zarar yetkazmaslik;
+            - "urug', piyozbosh yoki ildizpoyalarni ruxsatsiz yig'maslik;"
+            - transport vositalari bilan tabiiy o'simlik qoplamasini buzmaslik;
+            - qo'riqlanadigan hududlarning ichki tartib-qoidalariga rioya qilish;
+            - bir dona fotosurat uchun habitatni payhon qilmaslik;
+            - kuzatuv vaqtida chiqindi qoldirmaslik.
+          motto: >-
+            Musobaqaning asosiy tamoyili: "Kuzating, suratga oling, ma'lumot
+            qoldiring, ammo tabiatga zarar yetkazmang."
+        section_9:
+          title: Taqiqlangan holatlar
+          text_1: "Quyidagi holatlar aniqlansa, kuzatuvlar bekor qilinishi yoki ishtirokchi musobaqadan chetlashtirilishi mumkin:"
+          items:
+            - boshqa muallifning fotosuratidan foydalanish;
+            - eski fotosuratni yangi kuzatuv sifatida joylashtirish;
+            - sana yoki koordinatalarni ataylab noto'g'ri ko'rsatish;
+            - bir kuzatuvni bir necha marta takroran joylashtirish;
+            - "sun'iy intellekt yordamida yaratilgan yoki o'simlik belgilarini o'zgartirgan tasvirlarni haqiqiy kuzatuv sifatida taqdim etish;"
+            - o'simliklarga yoki ularning yashash muhitiga ataylab zarar yetkazish;
+            - boshqa ishtirokchilarning ma'lumotlarini o'zlashtirish.
+          text_2: >-
+            Fotosuratga faqat yorug'lik, kontrast, rang balansi va kadrni
+            kesish bo'yicha asosiy tahrirlar kiritilishi mumkin. O'simlikning
+            tabiiy belgilarini o'zgartiruvchi tahrirlar qabul qilinmaydi.
+        section_10:
+          title: Natijalarni tasdiqlash
+          text: >-
+            Barcha kuzatuvlar uzflora.uz moderatorlari va taklif etilgan
+            botanika mutaxassislari tomonidan tekshiriladi. Bahsli holatlarda
+            ekspertlar qo'shimcha fotosuratlarni, fotosuratning asl faylini,
+            kuzatuv joyi haqidagi ma'lumotni yoki o'simlikning muhim
+            diagnostik belgilarini so'rashi mumkin. Ekspertlar hay'atining
+            yakuniy qarori musobaqa natijalarini belgilashda asosiy
+            hisoblanadi.
+        section_11:
+          title: "G'oliblarni taqdirlash"
+          text_1: >-
+            Har bir nominatsiya bo'yicha g'oliblar diplom, esdalik sovg'alari
+            va tashkilotchilar tomonidan belgilangan boshqa mukofotlar bilan
+            taqdirlanadi.
+          text_2: "Asosiy sovrinlar:"
+          prizes:
+            place: O'rin
+            prize: Mukofot
+            rows:
+              - place: 1-o'rin
+                prize: "1 million so'm pul mukofoti va bitta kitob"
+              - place: 2-o'rin
+                prize: "500 ming so'm pul mukofoti va bitta kitob"
+              - place: 3-o'rin
+                prize: "200 ming so'm pul mukofoti va bitta kitob"
+              - place: Maxsus nominatsiyalar
+                prize: Bitta kitob
+          text_3: >-
+            G'oliblar 15.01.2027 kuni uzflora.uz sayti va loyihaning rasmiy
+            ijtimoiy tarmoqlarida e'lon qilinadi.
+        section_12:
+          title: Mualliflik huquqi
+          text: >-
+            Joylashtirilgan fotosuratlarning mualliflik huquqi ularning
+            mualliflarida saqlanadi. Ishtirokchi musobaqaga fotosurat
+            joylashtirish orqali uzflora.uz platformasiga ushbu materiallardan
+            muallif nomini ko'rsatgan holda ilmiy, ma'rifiy va notijorat
+            maqsadlarda foydalanishga ruxsat beradi.
+        section_13:
+          title: Yakuniy qoidalar
+          text: >-
+            Musobaqada qatnashish ushbu shartlarga rozilik bildirilganini
+            anglatadi. Tashkilotchilar zarurat tug'ilganda musobaqa
+            qoidalariga aniqlik kiritish huquqini saqlab qoladi. Barcha
+            o'zgarishlar uzflora.uz sayti va rasmiy axborot kanallari orqali
+            e'lon qilinadi.
+        contacts_title: Aloqa

@@ -2,4 +2,4 @@
   %ol
     - @plants.each do |plant|
       %li
-        = link_to "#{plant.display_name} | #{plant.species_sci}", "#", data: {id: plant.id}
+        = link_to "#{plant.display_name(I18n.locale)} | #{plant.species_sci}", "#", data: {id: plant.id}

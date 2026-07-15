@@ -155,231 +155,83 @@
 
       .row.big-year-rules-container.mtop20
         .big-year-rules
+          - r = 'big_years.index.rules'
           .big-year-intro
-            %p
-              "uzflora Katta yil" — O'zbekiston florasini o'rganish, o'simlik
-              turlarining zamonaviy tarqalish ma'lumotlarini to'plash hamda
-              tabiat kuzatuvchilarini yagona ilmiy platforma atrofida
-              birlashtirishga qaratilgan musobaqadir. Musobaqa davomida
-              ishtirokchilar uzflora.uz platformasiga o'zlari kuzatgan yovvoyi
-              o'simliklarning fotosuratlari, kuzatuv joyi va boshqa zarur
-              ma'lumotlarni joylashtiradilar.
+            %p= I18n.t('intro', scope: r)
 
           .big-year-toc
-            .big-year-toc-title Mundarija
+            .big-year-toc-title= I18n.t('toc.title', scope: r)
             %ol
-              %li= link_to "Musobaqaning maqsadi", '#section-1'
-              %li= link_to "Musobaqa muddati", '#section-2'
-              %li= link_to "Musobaqada ishtirok etish", '#section-3'
-              %li= link_to "Kuzatuvlarga qo'yiladigan talablar", '#section-4'
-              %li= link_to "Hisobga olinadigan kuzatuvlar", '#section-5'
-              %li= link_to "Baholash mezonlari", '#section-6'
-              %li= link_to "Ball berish tizimi", '#section-7'
-              %li= link_to "Tabiatga ehtiyotkor munosabat", '#section-8'
-              %li= link_to "Taqiqlangan holatlar", '#section-9'
-              %li= link_to "Natijalarni tasdiqlash", '#section-10'
-              %li= link_to "G'oliblarni taqdirlash", '#section-11'
-              %li= link_to "Mualliflik huquqi", '#section-12'
-              %li= link_to "Yakuniy qoidalar", '#section-13'
+              - I18n.t('toc.items', scope: r).each_with_index do |item, i|
+                %li= link_to item, "#section-#{i + 1}"
 
-          %h3{id: 'section-1'}
-            %span.rules-section-number 1
-            Musobaqaning maqsadi
-          %p Musobaqaning asosiy maqsadlari:
-          %ul
-            %li O'zbekiston hududidagi o'simlik turlarining tarqalishi bo'yicha yangi ma'lumotlarni to'plash;
-            %li kam o'rganilgan hududlarda floristik kuzatuvlarni rag'batlantirish;
-            %li noyob, endemik va muhofazaga muhtoj o'simliklar haqidagi bilimlarni oshirish;
-            %li sifatli fotomateriallar bazasini shakllantirish;
-            %li havaskor tabiat kuzatuvchilari, talabalar va mutaxassislar o'rtasidagi hamkorlikni rivojlantirish.
-
-          %h3{id: 'section-2'}
-            %span.rules-section-number 2
-            Musobaqa muddati
-          %p
-            Musobaqa 01.01.2026 dan 31.12.2026 gacha davom etadi. Faqat
-            musobaqa muddati davomida tabiatda kuzatilgan va uzflora.uz
-            platformasiga joylashtirilgan ma'lumotlar hisobga olinadi.
-
-          %h3{id: 'section-3'}
-            %span.rules-section-number 3
-            Musobaqada ishtirok etish
-          %p
-            Musobaqada botanika mutaxassislari, ekologlar, o'qituvchilar,
-            talabalar, fotograflar, tabiat ixlosmandlari va boshqa barcha
-            qiziquvchilar qatnashishi mumkin.
-          %p Ishtirok etish uchun:
-          %ul
-            %li uzflora.uz platformasida ro'yxatdan o'tish;
-            %li musobaqada qatnashish istagini bildirish;
-            %li kuzatilgan o'simliklarni belgilangan talablar asosida platformaga joylashtirish lozim.
-          %p Har bir ishtirokchi faqat bitta shaxsiy profil orqali qatnashadi.
-
-          %h3{id: 'section-4'}
-            %span.rules-section-number 4
-            Kuzatuvlarga qo'yiladigan talablar
-          %p Har bir kuzatuv quyidagi ma'lumotlarni o'z ichiga olishi kerak:
-          %ul
-            %li o'simlikning aniq va sifatli fotosurati;
-            %li kuzatuv sanasi;
-            %li kuzatuv joyining geografik koordinatalari;
-            %li viloyat, tuman yoki hudud nomi;
-            %li imkon qadar o'simlikning ilmiy nomi;
-            %li habitat yoki o'sish muhiti haqida qisqacha ma'lumot.
-          %p
-            Turni aniqlash uchun o'simlikning umumiy ko'rinishi bilan birga
-            bargi, guli, mevasi yoki boshqa diagnostik belgilarini
-            ko'rsatuvchi bir nechta fotosurat joylashtirish tavsiya etiladi.
-
-          %h3{id: 'section-5'}
-            %span.rules-section-number 5
-            Hisobga olinadigan kuzatuvlar
-          %p Quyidagi talablarga javob beradigan kuzatuvlar musobaqa natijalariga kiritiladi:
-          %ul
-            %li fotosurat ishtirokchining o'zi tomonidan olingan bo'lishi;
-            %li o'simlik tabiiy yoki tabiiylashgan muhitda kuzatilgan bo'lishi;
-            %li sana va joylashuv ma'lumotlari to'g'ri ko'rsatilgan bo'lishi;
-            %li kuzatuvni tekshirish imkonini beradigan sifatli fotosuratlar mavjud bo'lishi;
-            %li bir xil tur bir hududdan takroran ko'p marta joylashtirilmagan bo'lishi;
-            %li kuzatuv moderator yoki ekspertlar tomonidan tasdiqlangan bo'lishi.
-          %p
-            Bog'lar, issiqxonalar, gulzorlar va xonadonlarda ekilgan
-            manzarali o'simliklar alohida nominatsiya e'lon qilinmagan
-            taqdirda asosiy natijalarga kiritilmaydi.
-
-          %h3{id: 'section-6'}
-            %span.rules-section-number 6
-            Baholash mezonlari
-          %ul
-            %li
-              %b Eng ko'p tur kuzatgan ishtirokchi
-              — Musobaqa davomida eng ko'p turli o'simlik turini ishonchli qayd etgan ishtirokchi aniqlanadi. Bir turning takroriy kuzatuvlari ushbu nominatsiyada bir marta hisoblanadi.
-            %li
-              %b Eng ko'p sifatli kuzatuv
-              — Eng ko'p to'liq, aniq koordinatali, sifatli fotosuratli va ekspertlar tomonidan tasdiqlangan kuzatuv joylashtirgan ishtirokchi taqdirlanadi.
-            %li
-              %b Eng muhim floristik topilma
-              — Ilgari kam qayd etilgan hududdan topilgan, tarqalish chegarasini kengaytiruvchi yoki ilmiy jihatdan muhim bo'lgan kuzatuvlar ekspertlar hay'ati tomonidan baholanadi.
-            %li
-              %b Eng yaxshi o'simlik fotosurati
-              — Fotosuratning sifati, tabiiyligi, kompozitsiyasi va o'simlikning muhim belgilarini aks ettirish darajasi hisobga olinadi.
-            %li
-              %b Eng faol yosh kuzatuvchi
-              — Talabalar, o'quvchilar va yosh tadqiqotchilar orasidan eng faol va sifatli kuzatuvlar muallifi aniqlanadi.
-            %li
-              %b Eng ko'p hududni o'rgangan ishtirokchi
-              — Eng ko'p tuman, geografik hudud yoki habitatdan sifatli kuzatuv taqdim etgan ishtirokchi taqdirlanadi.
-
-          %h3{id: 'section-7'}
-            %span.rules-section-number 7
-            Ball berish tizimi
-          %p Umumiy reytingni shakllantirishda quyidagi namunaviy ball tizimidan foydalanish mumkin:
-          %ul
-            %li tasdiqlangan har bir yangi tur — 10 ball;
-            %li noyob, endemik yoki ilmiy ahamiyatga ega tasdiqlangan kuzatuv — ekspertlar qaroriga ko'ra qo'shimcha 5–20 ball;
-            %li noto'g'ri, takroriy yoki tekshirib bo'lmaydigan kuzatuv — hisobga olinmaydi.
-          %p
-            Noyob o'simliklarning koordinatalari ularni noqonuniy yig'ish
-            xavfi mavjud bo'lgan hollarda ommaga to'liq ko'rsatilmasligi
-            mumkin.
-
-          %h3{id: 'section-8'}
-            %span.rules-section-number 8
-            Tabiatga ehtiyotkor munosabat
-          %p Musobaqa ishtirokchilari quyidagi qoidalarga rioya qilishlari shart:
-          %ul
-            %li o'simliklarni uzmaslik va ildizi bilan qazib olmaslik;
-            %li noyob va muhofaza qilinadigan turlarga zarar yetkazmaslik;
-            %li urug', piyozbosh yoki ildizpoyalarni ruxsatsiz yig'maslik;
-            %li transport vositalari bilan tabiiy o'simlik qoplamasini buzmaslik;
-            %li qo'riqlanadigan hududlarning ichki tartib-qoidalariga rioya qilish;
-            %li bir dona fotosurat uchun habitatni payhon qilmaslik;
-            %li kuzatuv vaqtida chiqindi qoldirmaslik.
-          %p.motto
-            Musobaqaning asosiy tamoyili: "Kuzating, suratga oling, ma'lumot
-            qoldiring, ammo tabiatga zarar yetkazmang."
-
-          %h3{id: 'section-9'}
-            %span.rules-section-number 9
-            Taqiqlangan holatlar
-          %p Quyidagi holatlar aniqlansa, kuzatuvlar bekor qilinishi yoki ishtirokchi musobaqadan chetlashtirilishi mumkin:
-          %ul
-            %li boshqa muallifning fotosuratidan foydalanish;
-            %li eski fotosuratni yangi kuzatuv sifatida joylashtirish;
-            %li sana yoki koordinatalarni ataylab noto'g'ri ko'rsatish;
-            %li bir kuzatuvni bir necha marta takroran joylashtirish;
-            %li sun'iy intellekt yordamida yaratilgan yoki o'simlik belgilarini o'zgartirgan tasvirlarni haqiqiy kuzatuv sifatida taqdim etish;
-            %li o'simliklarga yoki ularning yashash muhitiga ataylab zarar yetkazish;
-            %li boshqa ishtirokchilarning ma'lumotlarini o'zlashtirish.
-          %p
-            Fotosuratga faqat yorug'lik, kontrast, rang balansi va kadrni
-            kesish bo'yicha asosiy tahrirlar kiritilishi mumkin. O'simlikning
-            tabiiy belgilarini o'zgartiruvchi tahrirlar qabul qilinmaydi.
-
-          %h3{id: 'section-10'}
-            %span.rules-section-number 10
-            Natijalarni tasdiqlash
-          %p
-            Barcha kuzatuvlar uzflora.uz moderatorlari va taklif etilgan
-            botanika mutaxassislari tomonidan tekshiriladi. Bahsli holatlarda
-            ekspertlar qo'shimcha fotosuratlarni, fotosuratning asl faylini,
-            kuzatuv joyi haqidagi ma'lumotni yoki o'simlikning muhim
-            diagnostik belgilarini so'rashi mumkin. Ekspertlar hay'atining
-            yakuniy qarori musobaqa natijalarini belgilashda asosiy
-            hisoblanadi.
-
-          %h3{id: 'section-11'}
-            %span.rules-section-number 11
-            G'oliblarni taqdirlash
-          %p
-            Har bir nominatsiya bo'yicha g'oliblar diplom, esdalik sovg'alari
-            va tashkilotchilar tomonidan belgilangan boshqa mukofotlar bilan
-            taqdirlanadi.
-          %p Asosiy sovrinlar:
-          %table.big-year-prizes
-            %thead
-              %tr
-                %th O'rin
-                %th Mukofot
-            %tbody
-              %tr
-                %td 1-o'rin
-                %td 1 million so'm pul mukofoti va bitta kitob
-              %tr
-                %td 2-o'rin
-                %td 500 ming so'm pul mukofoti va bitta kitob
-              %tr
-                %td 3-o'rin
-                %td 200 ming so'm pul mukofoti va bitta kitob
-              %tr
-                %td Maxsus nominatsiyalar
-                %td Bitta kitob
-          %p
-            G'oliblar 15.01.2027 kuni uzflora.uz sayti va loyihaning rasmiy
-            ijtimoiy tarmoqlarida e'lon qilinadi.
-
-          %h3{id: 'section-12'}
-            %span.rules-section-number 12
-            Mualliflik huquqi
-          %p
-            Joylashtirilgan fotosuratlarning mualliflik huquqi ularning
-            mualliflarida saqlanadi. Ishtirokchi musobaqaga fotosurat
-            joylashtirish orqali uzflora.uz platformasiga ushbu materiallardan
-            muallif nomini ko'rsatgan holda ilmiy, ma'rifiy va notijorat
-            maqsadlarda foydalanishga ruxsat beradi.
-
-          %h3{id: 'section-13'}
-            %span.rules-section-number 13
-            Yakuniy qoidalar
-          %p
-            Musobaqada qatnashish ushbu shartlarga rozilik bildirilganini
-            anglatadi. Tashkilotchilar zarurat tug'ilganda musobaqa
-            qoidalariga aniqlik kiritish huquqini saqlab qoladi. Barcha
-            o'zgarishlar uzflora.uz sayti va rasmiy axborot kanallari orqali
-            e'lon qilinadi.
+          - (1..13).each do |n|
+            - s = "#{r}.section_#{n}"
+            %h3{id: "section-#{n}"}
+              %span.rules-section-number= n
+              = I18n.t('title', scope: s)
+            - case n
+            - when 1
+              %p= I18n.t('intro', scope: s)
+              %ul
+                - I18n.t('items', scope: s).each do |item|
+                  %li= item
+            - when 2, 10, 12, 13
+              %p= I18n.t('text', scope: s)
+            - when 3
+              %p= I18n.t('text_1', scope: s)
+              %p= I18n.t('text_2', scope: s)
+              %ul
+                - I18n.t('items', scope: s).each do |item|
+                  %li= item
+              %p= I18n.t('text_3', scope: s)
+            - when 4, 5
+              %p= I18n.t('text_1', scope: s)
+              %ul
+                - I18n.t('items', scope: s).each do |item|
+                  %li= item
+              %p= I18n.t('text_2', scope: s)
+            - when 6
+              %ul
+                - I18n.t('criteria', scope: s).each do |criterion|
+                  %li
+                    %b= criterion[:title]
+                    = criterion[:text]
+            - when 7
+              %p= I18n.t('text_1', scope: s)
+              %ul
+                - I18n.t('items', scope: s).each do |item|
+                  %li= item
+              %p= I18n.t('text_2', scope: s)
+            - when 8
+              %p= I18n.t('text_1', scope: s)
+              %ul
+                - I18n.t('items', scope: s).each do |item|
+                  %li= item
+              %p.motto= I18n.t('motto', scope: s)
+            - when 9
+              %p= I18n.t('text_1', scope: s)
+              %ul
+                - I18n.t('items', scope: s).each do |item|
+                  %li= item
+              %p= I18n.t('text_2', scope: s)
+            - when 11
+              %p= I18n.t('text_1', scope: s)
+              %p= I18n.t('text_2', scope: s)
+              %table.big-year-prizes
+                %thead
+                  %tr
+                    %th= I18n.t('prizes.place', scope: s)
+                    %th= I18n.t('prizes.prize', scope: s)
+                %tbody
+                  - I18n.t('prizes.rows', scope: s).each do |row|
+                    %tr
+                      %td= row[:place]
+                      %td= row[:prize]
+              %p= I18n.t('text_3', scope: s)
 
           .big-year-contacts
-            .big-year-contacts-title Aloqa
+            .big-year-contacts-title= I18n.t('contacts_title', scope: r)
             .big-year-contacts-list
               = link_to 'uzflora.uz', root_path
               = link_to 'Telegram', 'https://t.me/Florist_sistematiklar', target: '_blank', rel: 'noopener'

@@ -5,8 +5,9 @@ ru:
       contacts: 'Обо всех ошибках при работе сайта просьба сообщать на почту:'
     navbar:
       title: Меню
+      plants: Растения
       bg: Большой год
-      birders: Бердвотчеры
+      birders: Пользователи
       about: О нас
       approve: Одобрить
       moderate_plants: "Модерация растений"

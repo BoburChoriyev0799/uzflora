@@ -1,0 +1,37 @@
+ru:
+  plants:
+    index:
+      title: Растения
+      search_placeholder: "Поиск по названию..."
+      all_families: Все семейства
+      red_book_only: Только из Красной книги
+      search: Найти
+      clear: Очистить
+      total: "Всего: %{count} растений"
+      red_book_badge: Красная книга
+    show:
+      back_to_list: "← Вернуться к списку растений"
+      red_book_badge: В Красной книге
+      russian_name: "Русское название:"
+      habitat: Среда обитания
+      life_form: Жизненная форма
+      economic: Хозяйственное значение
+      distribution: Распространение
+      areal: "Общий ареал:"
+      distr_ca: "В Средней Азии:"
+      distr_uz: "В Узбекистане:"
+      admin_regions: "Административные области:"
+      protected_areas: Наличие на охраняемых территориях
+      synonyms: Синонимы
+      taxonomy: Таксономия
+      otdel: "Отдел:"
+      class_name: "Класс:"
+      order: "Порядок:"
+      family: "Семейство:"
+      genus: "Род:"
+      species: "Вид:"
+      status_title: Статус
+      general_status: "Общий статус:"
+      endemism: "Эндемизм:"
+      external_sources: Внешние источники
+      plantarium_photos: "Plantarium.ru (фотографии)"

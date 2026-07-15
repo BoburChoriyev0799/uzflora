@@ -2,3 +2,182 @@ en:
   big_years:
     index:
       title: Big Year
+      rules:
+        intro: >-
+          The "uzflora Big Year" is a competition aimed at studying the
+          flora of Uzbekistan, gathering up-to-date data on the distribution
+          of plant species, and bringing nature observers together around a
+          single scientific platform. During the competition, participants
+          post photos of wild plants they have observed, the observation
+          location, and other necessary data on the uzflora.uz platform.
+        toc:
+          title: Contents
+          items:
+            - Purpose of the competition
+            - Competition period
+            - Participating in the competition
+            - Requirements for observations
+            - Observations counted toward results
+            - Evaluation criteria
+            - Scoring system
+            - Respect for nature
+            - Prohibited actions
+            - Verification of results
+            - Awarding of winners
+            - Copyright
+            - Final provisions
+        section_1:
+          title: Purpose of the competition
+          intro: "The main goals of the competition are:"
+          items:
+            - gathering new data on the distribution of plant species across Uzbekistan;
+            - encouraging floristic observations in under-studied regions;
+            - increasing knowledge about rare, endemic, and vulnerable plants in need of protection;
+            - building a database of quality photographic material;
+            - developing cooperation between amateur naturalists, students, and specialists.
+        section_2:
+          title: Competition period
+          text: >-
+            The competition runs from 01.01.2026 through 31.12.2026. Only
+            data observed in nature and posted on the uzflora.uz platform
+            during the competition period will be counted.
+        section_3:
+          title: Participating in the competition
+          text_1: >-
+            Botany specialists, ecologists, teachers, students, photographers,
+            nature enthusiasts, and anyone else interested may take part in
+            the competition.
+          text_2: "To participate, you need to:"
+          items:
+            - register on the uzflora.uz platform;
+            - indicate your wish to take part in the competition;
+            - post your plant observations on the platform in line with the stated requirements.
+          text_3: Each participant may take part through only one personal profile.
+        section_4:
+          title: Requirements for observations
+          text_1: "Each observation must include the following information:"
+          items:
+            - a clear, quality photograph of the plant;
+            - the date of observation;
+            - the geographic coordinates of the observation site;
+            - the name of the region, district, or locality;
+            - the plant's scientific name, where possible;
+            - a brief description of the habitat or growing environment.
+          text_2: >-
+            To help identify the species, it is recommended to post several
+            photos showing the plant's overall appearance along with its
+            leaf, flower, fruit, or other diagnostic features.
+        section_5:
+          title: Observations counted toward results
+          text_1: "Observations meeting the following requirements are included in the competition results:"
+          items:
+            - the photo was taken by the participant themselves;
+            - the plant was observed in a natural or naturalized environment;
+            - the date and location data are correctly indicated;
+            - quality photos are available that allow the observation to be verified;
+            - the same species from the same area has not been posted repeatedly many times;
+            - the observation has been confirmed by a moderator or expert.
+          text_2: >-
+            Ornamental plants grown in gardens, greenhouses, flower beds, or
+            home yards are not included in the main results unless a
+            separate nomination has been announced for them.
+        section_6:
+          title: Evaluation criteria
+          criteria:
+            - title: Participant with the most species observed
+              text: "— the participant who reliably recorded the greatest number of distinct plant species during the competition is identified. Repeated observations of the same species count only once toward this nomination."
+            - title: Most quality observations
+              text: "— awarded to the participant who posted the greatest number of complete observations with precise coordinates, quality photos, and expert confirmation."
+            - title: Most significant floristic find
+              text: "— the panel of experts evaluates observations from previously under-recorded areas, ones that extend a species' known range, or ones of scientific significance."
+            - title: Best plant photograph
+              text: "— the photo's quality, naturalness, composition, and how well it captures the plant's key features are taken into account."
+            - title: Most active young observer
+              text: "— the author of the most active and high-quality observations among students, pupils, and young researchers is identified."
+            - title: Participant who covered the most areas
+              text: "— awarded to the participant who submitted quality observations from the greatest number of districts, geographic areas, or habitats."
+        section_7:
+          title: Scoring system
+          text_1: "The following sample scoring system may be used to form the overall ranking:"
+          items:
+            - each newly confirmed species — 10 points;
+            - "a rare, endemic, or scientifically significant confirmed observation — an additional 5–20 points at the experts' discretion;"
+            - an incorrect, duplicate, or unverifiable observation — not counted.
+          text_2: >-
+            The coordinates of rare plants may not be fully disclosed
+            publicly in cases where there is a risk of illegal collection.
+        section_8:
+          title: Respect for nature
+          text_1: "Competition participants must observe the following rules:"
+          items:
+            - do not pick plants or dig them up by the root;
+            - do not harm rare and protected species;
+            - do not collect seeds, bulbs, or rhizomes without permission;
+            - do not damage natural plant cover with vehicles;
+            - follow the internal rules of protected areas;
+            - do not trample a habitat for the sake of a single photo;
+            - do not leave litter while observing.
+          motto: >-
+            The competition's core principle is: "Observe, photograph,
+            record the data, but do not harm nature."
+        section_9:
+          title: Prohibited actions
+          text_1: "If any of the following are detected, observations may be cancelled or the participant may be excluded from the competition:"
+          items:
+            - using another author's photograph;
+            - posting an old photo as a new observation;
+            - deliberately providing an incorrect date or coordinates;
+            - posting the same observation multiple times;
+            - "presenting AI-generated images, or images with altered plant features, as a genuine observation;"
+            - deliberately harming plants or their habitat;
+            - appropriating other participants' data.
+          text_2: >-
+            Only basic edits to light, contrast, color balance, and cropping
+            may be applied to a photograph. Edits that alter the plant's
+            natural features are not accepted.
+        section_10:
+          title: Verification of results
+          text: >-
+            All observations are reviewed by uzflora.uz moderators and
+            invited botany specialists. In disputed cases, experts may
+            request additional photographs, the original photo file,
+            information about the observation site, or key diagnostic
+            features of the plant. The expert panel's final decision is the
+            primary basis for determining the competition results.
+        section_11:
+          title: Awarding of winners
+          text_1: >-
+            Winners in each nomination are awarded a certificate, memorable
+            gifts, and other prizes determined by the organizers.
+          text_2: "Main prizes:"
+          prizes:
+            place: Place
+            prize: Prize
+            rows:
+              - place: 1st place
+                prize: "A cash prize of 1,000,000 UZS and one book"
+              - place: 2nd place
+                prize: "A cash prize of 500,000 UZS and one book"
+              - place: 3rd place
+                prize: "A cash prize of 200,000 UZS and one book"
+              - place: Special nominations
+                prize: One book
+          text_3: >-
+            Winners will be announced on 15.01.2027 on the uzflora.uz website
+            and the project's official social media channels.
+        section_12:
+          title: Copyright
+          text: >-
+            Copyright to posted photographs remains with their authors. By
+            posting a photograph for the competition, a participant grants
+            the uzflora.uz platform the right to use these materials for
+            scientific, educational, and non-commercial purposes, crediting
+            the author's name.
+        section_13:
+          title: Final provisions
+          text: >-
+            Taking part in the competition constitutes agreement with these
+            terms. The organizers reserve the right to clarify the
+            competition rules when necessary. All changes will be published
+            on the uzflora.uz website and official information channels.
+        contacts_title: Contact

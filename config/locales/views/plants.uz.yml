@@ -1,0 +1,37 @@
+uz:
+  plants:
+    index:
+      title: O'simliklar
+      search_placeholder: "Nomi bo'yicha qidirish..."
+      all_families: Barcha oilalar
+      red_book_only: Faqat Qizil kitobdagilar
+      search: Qidirish
+      clear: Tozalash
+      total: "Jami: %{count} ta o'simlik"
+      red_book_badge: Qizil kitob
+    show:
+      back_to_list: "← O'simliklar ro'yxatiga qaytish"
+      red_book_badge: Qizil kitobda
+      russian_name: "Ruscha nomi:"
+      habitat: Yashash muhiti
+      life_form: Hayot shakli
+      economic: Xo'jalik ahamiyati
+      distribution: Tarqalishi
+      areal: "Umumiy areal:"
+      distr_ca: "O'rta Osiyoda:"
+      distr_uz: "O'zbekistonda:"
+      admin_regions: "Ma'muriy viloyatlar:"
+      protected_areas: Muhofaza etiladigan hududlarda mavjudligi
+      synonyms: Sinonimlar
+      taxonomy: Taksonomiya
+      otdel: "Bo'lim:"
+      class_name: "Sinf:"
+      order: "Tartib:"
+      family: "Oila:"
+      genus: "Turkum:"
+      species: "Tur:"
+      status_title: Status
+      general_status: "Umumiy status:"
+      endemism: "Endemizm:"
+      external_sources: Tashqi manbalar
+      plantarium_photos: "Plantarium.ru (fotosuratlar)"

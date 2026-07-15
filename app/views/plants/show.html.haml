@@ -44,69 +44,70 @@
 
 .bg-btm-container
   .container.content
+    - plant_scope = 'plants.show'
     .row.mtop20.mbtm20.content-container
-      = link_to '← O\'simliklar ro\'yxatiga qaytish', plants_path, class: 'btn btn-default mbtm20'
+      = link_to I18n.t('.back_to_list', scope: plant_scope), plants_path, class: 'btn btn-default mbtm20'
 
       .col.col-md-8.col-sm-12
         - if @plant.red_book?
-          .plant-red-book-badge Qizil kitobda
+          .plant-red-book-badge= I18n.t('.red_book_badge', scope: plant_scope)
 
-        %h3= @plant.display_name
+        %h3= @plant.display_name(I18n.locale)
         - if @plant.species_uz.present? && @plant.species_uz != @plant.species_sci
           %p
             %i= @plant.species_sci
         - if @plant.species_ru.present?
-          %p.plant-lbl Ruscha nomi:
+          %p.plant-lbl= I18n.t('.russian_name', scope: plant_scope)
           = @plant.species_ru
 
         - if @plant.habitat.present?
           .plant-info-block
-            .plant-info-block-head Yashash muhiti
+            .plant-info-block-head= I18n.t('.habitat', scope: plant_scope)
             .plant-info-block-body
               %p= @plant.habitat
 
         - if @plant.life_form.present?
           .plant-info-block
-            .plant-info-block-head Hayot shakli
+            .plant-info-block-head= I18n.t('.life_form', scope: plant_scope)
             .plant-info-block-body
               %p= @plant.life_form
 
         - if @plant.economic.present?
           .plant-info-block
-            .plant-info-block-head Xo'jalik ahamiyati
+            .plant-info-block-head= I18n.t('.economic', scope: plant_scope)
             .plant-info-block-body
               %p= @plant.economic
 
         - if @plant.areal.present? || @plant.distr_ca.present? || @plant.distr_uz.present?
           .plant-info-block
-            .plant-info-block-head Tarqalishi
+            .plant-info-block-head= I18n.t('.distribution', scope: plant_scope)
             .plant-info-block-body
               - if @plant.areal.present?
                 %p
-                  %span.plant-lbl Umumiy areal:
+                  %span.plant-lbl= I18n.t('.areal', scope: plant_scope)
                   = @plant.areal
               - if @plant.distr_ca.present?
                 %p
-                  %span.plant-lbl O'rta Osiyoda:
+                  %span.plant-lbl= I18n.t('.distr_ca', scope: plant_scope)
                   = @plant.distr_ca
               - if @plant.distr_uz.present?
                 %p
-                  %span.plant-lbl O'zbekistonda:
+                  %span.plant-lbl= I18n.t('.distr_uz', scope: plant_scope)
                   = @plant.distr_uz
               - if @plant.admin_regions.present?
                 %p
-                  %span.plant-lbl Ma'muriy viloyatlar:
+                  %span.plant-lbl= I18n.t('.admin_regions', scope: plant_scope)
                   = @plant.admin_regions
 
         - if @plant.opt.present?
           .plant-info-block
-            .plant-info-block-head Muhofaza etiladigan hududlarda mavjudligi
+            .plant-info-block-head= I18n.t('.protected_areas', scope: plant_scope)
             .plant-info-block-body
               %p= @plant.opt
 
         - if @plant.synonyms.present?
           .plant-info-block
-            .plant-info-block-head Sinonimlar
+            .plant-info-block-head= I18n.t('.synonyms', scope: plant_scope)
             .plant-info-block-body
               %p= @plant.synonyms
 
@@ -114,50 +115,50 @@
         .plant-show-placeholder 🌿
 
         .plant-info-block
-          .plant-info-block-head Taksonomiya
+          .plant-info-block-head= I18n.t('.taxonomy', scope: plant_scope)
           .plant-info-block-body
             - if @plant.otdel_sci.present?
               %p
-                %span.plant-lbl Bo'lim:
+                %span.plant-lbl= I18n.t('.otdel', scope: plant_scope)
                 = @plant.otdel_sci
             - if @plant.class_sci.present?
               %p
-                %span.plant-lbl Sinf:
+                %span.plant-lbl= I18n.t('.class_name', scope: plant_scope)
                 = @plant.class_sci
             - if @plant.order_sci.present?
               %p
-                %span.plant-lbl Tartib:
+                %span.plant-lbl= I18n.t('.order', scope: plant_scope)
                 = @plant.order_sci
             - if @plant.family_apg_sci.present?
               %p
-                %span.plant-lbl Oila:
+                %span.plant-lbl= I18n.t('.family', scope: plant_scope)
                 = @plant.family_apg_sci
             - if @plant.genus_sci.present?
               %p
-                %span.plant-lbl Turkum:
+                %span.plant-lbl= I18n.t('.genus', scope: plant_scope)
                 = @plant.genus_sci
             %p
-              %span.plant-lbl Tur:
+              %span.plant-lbl= I18n.t('.species', scope: plant_scope)
               %i= @plant.species_sci
 
         - if @plant.endemism.present? || @plant.status.present?
           .plant-info-block
-            .plant-info-block-head Status
+            .plant-info-block-head= I18n.t('.status_title', scope: plant_scope)
             .plant-info-block-body
               - if @plant.status.present?
                 %p
-                  %span.plant-lbl Umumiy status:
+                  %span.plant-lbl= I18n.t('.general_status', scope: plant_scope)
                   = @plant.status
               - if @plant.endemism.present?
                 %p
-                  %span.plant-lbl Endemizm:
+                  %span.plant-lbl= I18n.t('.endemism', scope: plant_scope)
                   = @plant.endemism
 
         - if @plant.plantlist_url.present? || @plant.plantarium_url.present?
           .plant-info-block
-            .plant-info-block-head Tashqi manbalar
+            .plant-info-block-head= I18n.t('.external_sources', scope: plant_scope)
             .plant-info-block-body
               - if @plant.plantlist_url.present?
                 %p= link_to 'The Plant List', @plant.plantlist_url, target: '_blank', rel: 'noopener'
               - if @plant.plantarium_url.present?
-                %p= link_to 'Plantarium.ru (fotosuratlar)', @plant.plantarium_url, target: '_blank', rel: 'noopener'
+                %p= link_to I18n.t('.plantarium_photos', scope: plant_scope), @plant.plantarium_url, target: '_blank', rel: 'noopener'

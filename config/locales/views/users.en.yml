@@ -1,10 +1,10 @@
 en:
   users:
     index:
-      title: Birdwatchers
-      text_1: Birdwatchers registered on our website
+      title: Users
+      text_1: Users registered on our website
       text_2: among them
       bg: Big Year participants
-      birders: List of birdwatchers
+      birders: List of users
       photo_count: Photos total
       registered_at: 'Registered:'

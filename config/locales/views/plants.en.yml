@@ -1,0 +1,37 @@
+en:
+  plants:
+    index:
+      title: Plants
+      search_placeholder: "Search by name..."
+      all_families: All families
+      red_book_only: Red Book species only
+      search: Search
+      clear: Clear
+      total: "Total: %{count} plants"
+      red_book_badge: Red Book
+    show:
+      back_to_list: "← Back to plants list"
+      red_book_badge: Red Book species
+      russian_name: "Russian name:"
+      habitat: Habitat
+      life_form: Life form
+      economic: Economic importance
+      distribution: Distribution
+      areal: "General range:"
+      distr_ca: "In Central Asia:"
+      distr_uz: "In Uzbekistan:"
+      admin_regions: "Administrative regions:"
+      protected_areas: Presence in protected areas
+      synonyms: Synonyms
+      taxonomy: Taxonomy
+      otdel: "Division:"
+      class_name: "Class:"
+      order: "Order:"
+      family: "Family:"
+      genus: "Genus:"
+      species: "Species:"
+      status_title: Status
+      general_status: "General status:"
+      endemism: "Endemism:"
+      external_sources: External sources
+      plantarium_photos: "Plantarium.ru (photos)"

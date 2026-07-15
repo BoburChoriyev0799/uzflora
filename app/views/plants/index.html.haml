@@ -53,26 +53,27 @@
 
 .bg-btm-container
   .container.content
+    - plants_scope = 'plants.index'
     .row.mtop20.mbtm20.content-container
       .col.col-md-12.col-sm-12
-        %h3 O'simliklar
+        %h3= I18n.t('.title', scope: plants_scope)
 
         .row.plants-filter-form
           = form_tag plants_path, method: :get, class: 'form-inline' do
             .form-group.mright10
-              = text_field_tag :q, params[:q], class: 'form-control', placeholder: "Nomi bo'yicha qidirish..."
+              = text_field_tag :q, params[:q], class: 'form-control', placeholder: I18n.t('.search_placeholder', scope: plants_scope)
             .form-group.mright10
-              = select_tag :family, options_for_select(@families, params[:family]), include_blank: 'Barcha oilalar', class: 'form-control'
+              = select_tag :family, options_for_select(@families, params[:family]), include_blank: I18n.t('.all_families', scope: plants_scope), class: 'form-control'
             .form-group.mright10
               %label
                 = check_box_tag :red_book, '1', params[:red_book].present?
-                Faqat Qizil kitobdagilar
-            = submit_tag 'Qidirish', class: 'btn btn-success'
+                = I18n.t('.red_book_only', scope: plants_scope)
+            = submit_tag I18n.t('.search', scope: plants_scope), class: 'btn btn-success'
             - if params[:q].present? || params[:family].present? || params[:red_book].present?
-              = link_to 'Tozalash', plants_path, class: 'btn btn-default'
+              = link_to I18n.t('.clear', scope: plants_scope), plants_path, class: 'btn btn-default'
 
         %p.mbtm20
-          Jami: #{@plants.total_count} ta o'simlik
+          = I18n.t('.total', scope: plants_scope, count: @plants.total_count)
 
         .row
           - @plants.each do |plant|
@@ -82,12 +83,12 @@
                   .plant-placeholder 🌿
                 .plant-card-body
                   = link_to plant_path(plant), class: 'plant-card-link' do
-                    .plant-card-name-uz= plant.display_name
+                    .plant-card-name-uz= plant.display_name(I18n.locale)
                     .plant-card-name-sci= plant.species_sci
                   - if plant.family_apg_sci.present?
                     .plant-card-family= plant.family_apg_sci
                   - if plant.red_book?
-                    .plant-red-book-badge Qizil kitob
+                    .plant-red-book-badge= I18n.t('.red_book_badge', scope: plants_scope)
 
         .row.acenter
           = paginate @plants
