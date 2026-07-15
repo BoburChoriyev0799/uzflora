@@ -32,8 +32,12 @@ class User < ActiveRecord::Base
     current_user && (current_user.id == id)
   end
 
+  # Ekspert huquqi shu ustun orqali beriladi (Role/has_role? tizimi emas —
+  # u hech qachon seed qilinmagan va biriktirish uchun UI yo'q edi).
+  # PlantSighting moderatsiyasi va Bird'ning eski "Confirm" tugmasi
+  # (birds_controller#approve) ikkalasi ham shu metoddan foydalanadi.
   def expert?
-    has_role?(:expert)
+    is_expert?
   end
 
   def friend?
