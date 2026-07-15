@@ -23,17 +23,11 @@ Birds::Application.routes.draw do
 
   resource :pages, path: '', only: [] do
     get :about
-    get :birding_rules
     get :approve
-    get :show_new
-    get :show_commentable
-    get :show_unknown
-    get :help
   end
 
   resource :big_year, only: [] do
     get :index
-    get :prises
     post :change_subscription
   end
 
@@ -69,19 +63,12 @@ Birds::Application.routes.draw do
 
   post 'plant_sightings_search' => 'plant_sightings#search_plant'
 
-  resources :categories, only: [:index]
-
   resources :comments, only: [:create, :destroy]
 
   resource :search, path: '', only: [] do
     get 'search' => 'search#index'
     post 'search' => 'search#search'
     post 'main_species' => 'search#search_main_species'
-  end
-
-  resource :swift, only: [] do
-    get 'first_aid'
-    get 'about'
   end
 
   get 'become/:id', to: 'admin#become'

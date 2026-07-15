@@ -9,9 +9,5 @@ class BigYearsController < ApplicationController
     current_user.send(action, Time.zone.now.year)
     render nothing: true
   end
-  
-  def prises
-
-  end
 
 end
