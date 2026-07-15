@@ -1,0 +1,96 @@
+%style
+  :plain
+    .moderation-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .moderation-card {
+      background: #fff;
+      border: 1px solid #dfe9d0;
+      border-radius: 8px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.06);
+      width: 100%;
+      max-width: 320px;
+      overflow: hidden;
+    }
+    .moderation-card-photo img {
+      width: 100%;
+      display: block;
+    }
+    .moderation-card-body {
+      padding: 14px 16px;
+    }
+    .moderation-meta {
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+    .moderation-meta .lbl {
+      font-weight: 600;
+      margin-right: 4px;
+    }
+    .moderation-note {
+      font-style: italic;
+      color: #555;
+      margin-bottom: 10px;
+    }
+    .moderation-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .moderation-actions .btn {
+      flex: 1;
+    }
+    @media (max-width: 480px) {
+      .moderation-card {
+        max-width: 100%;
+      }
+    }
+
+.bg-btm-container
+  .container.content
+    - pending_scope = 'plant_sightings.pending'
+    .row.mtop20
+      %h3.acenter= I18n.t('.title', scope: pending_scope)
+
+    - if @plant_sightings.empty?
+      .row.mtop40.acenter#moderation-empty
+        %p= I18n.t('.empty', scope: pending_scope)
+    - else
+      .row.moderation-list.mtop30
+        - @plant_sightings.each do |sighting|
+          .moderation-card{id: "sighting-#{sighting.id}"}
+            .moderation-card-photo
+              = link_to plant_sighting_path(sighting), target: '_blank' do
+                = image_tag sighting.photo.small.url
+
+            .moderation-card-body
+              = render 'plant_names', plant: sighting.plant
+
+              %p.moderation-meta
+                %span.lbl= I18n.t('.author', scope: pending_scope)
+                = link_to sighting.user.full_name, profile_path(sighting.user), target: '_blank'
+
+              - if sighting.timestamp.present?
+                %p.moderation-meta
+                  %span.lbl= I18n.t('.date', scope: pending_scope)
+                  = date_format(sighting.timestamp)
+
+              - if sighting.address_valid?
+                %p.moderation-meta
+                  %span.lbl= I18n.t('.place', scope: pending_scope)
+                  = sighting.address_string
+                  = link_to I18n.t('.on_map', scope: pending_scope), "https://www.openstreetmap.org/?mlat=#{sighting.latitude}&mlon=#{sighting.longitude}#map=15/#{sighting.latitude}/#{sighting.longitude}", target: '_blank', rel: 'noopener', class: 'link'
+
+              - if sighting.note.present?
+                %p.moderation-note= sighting.note
+
+              .moderation-actions
+                %button.btn.btn-success.moderation-approve{data: {id: sighting.id}, type: 'button'}
+                  = I18n.t('.approve', scope: pending_scope)
+                %button.btn.btn-danger.moderation-reject{data: {id: sighting.id}, type: 'button'}
+                  = I18n.t('.reject', scope: pending_scope)
+
+      .row.mtop40.acenter#moderation-empty{style: 'display:none;'}
+        %p= I18n.t('.empty', scope: pending_scope)

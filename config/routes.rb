@@ -54,11 +54,16 @@ Birds::Application.routes.draw do
   end
 
   resources :plant_sightings, except: [:index] do
+    collection do
+      get 'pending' => 'plant_sightings#pending'
+    end
     member do
       get 'edit_date' => 'plant_sightings#edit_date'
       get 'edit_map' => 'plant_sightings#edit_map'
       get 'edit_plant' => 'plant_sightings#edit_plant'
       post 'publish' => 'plant_sightings#publish'
+      post 'approve' => 'plant_sightings#approve'
+      post 'reject' => 'plant_sightings#reject'
     end
   end
 

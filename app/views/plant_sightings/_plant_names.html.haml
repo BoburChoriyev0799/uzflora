@@ -1,0 +1,14 @@
+- if plant.present?
+  .plant-full-names.mtop10
+    - if plant.species_sci.present?
+      %p
+        %span.lbl= I18n.t('latin_name', scope: 'plant_sightings.show')
+        %em= plant.species_sci
+    - if plant.species_ru.present?
+      %p
+        %span.lbl= I18n.t('russian_name', scope: 'plant_sightings.show')
+        = plant.species_ru
+    - if plant.species_uz.present?
+      %p
+        %span.lbl= I18n.t('uzbek_name', scope: 'plant_sightings.show')
+        = plant.species_uz

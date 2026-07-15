@@ -34,3 +34,12 @@ uz:
       latin_name: "Lotincha nom:"
       russian_name: "Ruscha nomi:"
       uzbek_name: "O'zbekcha nomi:"
+    pending:
+      title: "Tekshirilishi kerak bo'lgan kuzatuvlar"
+      empty: "Hozircha tekshirilishi kerak bo'lgan kuzatuvlar yo'q."
+      author: "Muallif:"
+      date: "Sana:"
+      place: "Joylashuv:"
+      on_map: "(xaritada ko'rish)"
+      approve: "Tasdiqlash"
+      reject: "Rad etish"

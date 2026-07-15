@@ -1,7 +1,29 @@
 class PlantSightingsController < ApplicationController
   before_action :authenticate_user!, except: [:show]
+  before_action :require_expert!, only: [:pending, :approve, :reject]
 
   layout 'plant_map', only: [:edit_map, :show]
+
+  # Moderatsiya navbati — faqat ekspertlarga ko'rinadi. Tur (plant_id) allaqachon
+  # tanlangan (known), lekin hali ko'rib chiqilmagan (pending) kuzatuvlar.
+  def pending
+    @plant_sightings = PlantSighting.published.known.pending
+                                     .includes(:plant, :user)
+                                     .order(created_at: :asc)
+  end
+
+  # Ekspert faqat tasdiqlaydi — foydalanuvchi tanlagan turga (plant_id) tegmaydi.
+  def approve
+    sighting = PlantSighting.find(params[:id])
+    sighting.approve!(current_user)
+    render json: { success: true }
+  end
+
+  def reject
+    sighting = PlantSighting.find(params[:id])
+    sighting.reject!(current_user)
+    render json: { success: true }
+  end
 
   def show
     @plant_sighting = PlantSighting.find(params[:id])
@@ -78,6 +100,10 @@ class PlantSightingsController < ApplicationController
   end
 
   private
+
+  def require_expert!
+    redirect_to root_path unless current_user.try(:expert?)
+  end
 
   def plant_sighting_params
     params.require(:plant_sighting).permit(
