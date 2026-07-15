@@ -3,35 +3,75 @@
   / uchun umumiy layout'ga emas, shu yerga qo'shildi.
   %link{rel: "stylesheet", href: "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css", integrity: "sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=", crossorigin: ""}
   %script{src: "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js", integrity: "sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=", crossorigin: ""}
+  / Sarlavha uchun — faqat shu sahifada, saytning qolgan qismidagi
+  / shriftga tegilmadi.
+  %link{rel: "preconnect", href: "https://fonts.googleapis.com"}
+  %link{rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: ""}
+  %link{rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&display=swap"}
 
 %style
   :plain
+    .welcome-title {
+      font-family: 'Merriweather', Georgia, serif;
+      font-weight: 900;
+      font-size: 36px;
+      color: #2f4a1c;
+      letter-spacing: -.01em;
+      text-wrap: balance;
+      margin-bottom: 12px;
+    }
     .welcome-intro {
-      max-width: 700px;
+      max-width: 640px;
       margin: 0 auto 10px;
-      color: #3a3a3a;
+      color: #55605a;
+      font-size: 17px;
+      line-height: 1.7;
     }
-    .welcome-carousel .item img {
+    .welcome-gallery-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+    .welcome-gallery-cell {
+      flex: 1 1 18%;
+      min-width: 150px;
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #eef4ea;
+      box-shadow: 0 2px 10px rgba(0,0,0,.08);
+    }
+    .welcome-gallery-cell img {
       width: 100%;
-      height: 420px;
+      height: 230px;
       object-fit: cover;
-      border-radius: 6px;
+      display: block;
+      opacity: 0;
+      transition: opacity .5s ease-in-out;
     }
-    .welcome-carousel .carousel-caption {
-      background: rgba(0,0,0,.5);
+    .welcome-gallery-cell img.loaded {
+      opacity: 1;
+    }
+    .welcome-gallery-caption {
+      position: absolute;
       left: 0;
       right: 0;
       bottom: 0;
-      padding: 10px;
-      border-radius: 0 0 6px 6px;
+      background: linear-gradient(to top, rgba(0,0,0,.65), rgba(0,0,0,0));
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 18px 8px 8px;
+      min-height: 14px;
     }
-    .welcome-carousel-empty {
-      height: 420px;
+    .welcome-gallery-empty {
+      flex: 1 1 100%;
+      height: 230px;
       display: flex;
       align-items: center;
       justify-content: center;
       background: linear-gradient(135deg, #eaf6ec 0%, #d3ecd8 100%);
-      border-radius: 6px;
+      border-radius: 8px;
       color: #4a7c2a;
       font-size: 48px;
     }
@@ -41,11 +81,23 @@
       justify-content: center;
       padding: 20px;
     }
-    .welcome-cta-col p {
+    .welcome-cta-eyebrow {
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      font-size: 12px;
+      font-weight: 700;
+      color: #7cb342;
+      margin-bottom: 8px;
+    }
+    .welcome-cta-col p.welcome-cta-text {
       color: #3a3a3a;
+      font-size: 15px;
       margin-bottom: 20px;
     }
     .welcome-map-title {
+      font-family: 'Merriweather', Georgia, serif;
+      font-weight: 700;
+      color: #2f4a1c;
       margin-top: 40px;
       margin-bottom: 14px;
     }
@@ -54,12 +106,20 @@
       height: 480px;
       border-radius: 6px;
     }
-    @media (max-width: 767px) {
-      .welcome-carousel .item img {
-        height: 260px;
+    @media (max-width: 991px) {
+      .welcome-gallery-cell {
+        flex: 1 1 30%;
       }
-      .welcome-carousel-empty {
-        height: 260px;
+    }
+    @media (max-width: 767px) {
+      .welcome-title {
+        font-size: 26px;
+      }
+      .welcome-gallery-cell {
+        flex: 1 1 45%;
+      }
+      .welcome-gallery-cell img {
+        height: 160px;
       }
       #welcome_map_canvas {
         height: 320px;
@@ -70,24 +130,24 @@
   .container.content
     - w = 'plants.welcome'
     .row.mtop20
-      %h3.acenter= I18n.t('.title', scope: w)
+      %h3.acenter.welcome-title= I18n.t('.title', scope: w)
       %p.welcome-intro.acenter= I18n.t('.subtitle', scope: w)
 
     .row.mtop30
       .col-md-9.col-sm-12
         - if @recent_sightings.present?
-          #welcome-carousel.carousel.slide.welcome-carousel{data: {ride: 'carousel', interval: '5000', wrap: 'true', keyboard: 'false'}}
-            .carousel-inner{role: 'listbox'}
-              - @recent_sightings.each_with_index do |sighting, i|
-                .item{class: ('active' if i.zero?)}
-                  = image_tag sighting.photo.display.url, class: 'img-responsive'
-                  - if sighting.plant.present?
-                    .carousel-caption= sighting.plant.display_name(I18n.locale)
+          .welcome-gallery-row{data: {sightings: @recent_sightings.map { |s| { photo: s.photo.display.url, name: (s.plant.present? ? s.plant.display_name(I18n.locale) : nil) } }.to_json}}
+            - 5.times do |i|
+              .welcome-gallery-cell{id: "welcome-cell-#{i}"}
+                %img.welcome-gallery-img
+                .welcome-gallery-caption
         - else
-          .welcome-carousel-empty 🌿
+          .welcome-gallery-row
+            .welcome-gallery-empty 🌿
 
       .col-md-3.col-sm-12.welcome-cta-col
-        %p= I18n.t('.cta_text', scope: w)
+        .welcome-cta-eyebrow= I18n.t('.cta_eyebrow', scope: w)
+        %p.welcome-cta-text= I18n.t('.cta_text', scope: w)
         = link_to I18n.t('.sign_in', scope: w), new_user_session_path, class: 'btn btn-info btn-lg btn-block mbtm10'
         = link_to I18n.t('.sign_up', scope: w), new_user_registration_path, class: 'btn btn-success btn-lg btn-block'
 

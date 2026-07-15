@@ -7,10 +7,13 @@ class PlantsController < ApplicationController
   # kirgandan keyin ochiladi.
   def index
     if current_user.blank?
+      # 5 tadan ko'p olamiz (galereya 5 katakda ko'rsatadi, lekin har 5
+      # soniyada navbatdagi 5 tasiga "varaqlanadi" — shuning uchun aylanish
+      # uchun ko'proq material kerak).
       @recent_sightings = PlantSighting.published.approved
                                         .includes(:plant, :user)
                                         .order(created_at: :desc)
-                                        .limit(5)
+                                        .limit(20)
       @map_sightings = PlantSighting.published.approved
                                      .where.not(latitude: nil, longitude: nil)
       render 'welcome'
