@@ -2074,20 +2074,36 @@ a.delete-comment-lnk:hover {
   }
 }
 
-// Suratlar kartochkasi sarlavhasi: tur nomi va status belgisi bir-birining
-// ustiga chiqmasligi uchun ikkita jadval-hujayra (.blck) yonma-yon.
-.img-container-blck > div.head > div.blck.sighting-name-cell {
-  max-width: 90px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: 12px;
+// Suratlar kartochkasi sarlavhasi: tur nomi va status belgisi ALOHIDA
+// qatorlarda (birining ostida biri) — .blck/table-cell EMAS. Table-cell
+// joylashuvida uzun nom uchun `max-width` kafolatlanmagan (min-content
+// kengligi hurmat qilinmaydi), natijada tor qolgan belgi katakchasi
+// o'zining overflow:hidden'i yo'qligi sababli nom ustiga "toshib" chiqardi.
+// Shu sabab `.head`ning o'zini ham umumiy .img-container-blck > div
+// {display:table} qoidasidan chiqarib, oddiy blokka aylantiramiz — faqat
+// shu kartochka (.profile-bird-container) uchun, boshqa joylarga tegmaydi.
+.img-container-blck.profile-bird-container > div.head {
+  display: block;
+  height: auto;
+  min-height: 50px;
+  max-height: none;
+  padding: 8px 10px;
 }
-.img-container-blck > div.head > div.blck.sighting-badge-cell {
-  width: 1%;
-  white-space: nowrap;
-  text-align: right;
-  padding-left: 4px;
+.plant-sighting-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+.plant-sighting-header .plant-name {
+  font-size: 12px;
+  font-weight: bold;
+  color: #4d4d4d;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+.plant-sighting-header .status-badge {
+  align-self: flex-start;
 }
 
 .profile-sighting-meta {
