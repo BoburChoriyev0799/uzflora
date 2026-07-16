@@ -43,4 +43,29 @@ class Plant < ApplicationRecord
   def red_book?
     red_book
   end
+
+  # --- 3 tilli tavsif maydonlari ---
+  # `display_name`даgi naqsh bilan bir xil: tarjima bo'sh bo'lsa
+  # o'zbekcha (asl) qiymatga qaytadi, umuman yo'qolib qolmaydi.
+  def life_form_localized(locale = :uz)
+    localized_field(life_form, life_form_ru, life_form_en, locale)
+  end
+
+  def usage_localized(locale = :uz)
+    localized_field(usage, usage_ru, usage_en, locale)
+  end
+
+  def habitat_place_localized(locale = :uz)
+    localized_field(habitat_place, habitat_place_ru, habitat_place_en, locale)
+  end
+
+  private
+
+  def localized_field(uz_value, ru_value, en_value, locale)
+    case locale.to_sym
+    when :ru then ru_value.presence || uz_value
+    when :en then en_value.presence || uz_value
+    else uz_value
+    end
+  end
 end

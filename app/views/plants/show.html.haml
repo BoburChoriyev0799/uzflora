@@ -92,11 +92,50 @@
                       - if ru.present?
                         %span.plant-taxon-ru= "(#{ru})"
 
-        - if @plant.life_form.present?
+        - life_form_text = @plant.life_form_localized(I18n.locale)
+        - if life_form_text.present?
           .plant-info-block
             .plant-info-block-head= I18n.t('.life_form', scope: plant_scope)
             .plant-info-block-body
-              %p= @plant.life_form
+              %p= life_form_text
+
+        - habitat_place_text = @plant.habitat_place_localized(I18n.locale)
+        - if @plant.habitat_env.present? || habitat_place_text.present?
+          .plant-info-block
+            .plant-info-block-head= I18n.t('.habitat', scope: plant_scope)
+            .plant-info-block-body
+              - if @plant.habitat_env.present?
+                %p
+                  %span.plant-lbl= I18n.t('.habitat_env', scope: plant_scope)
+                  = @plant.habitat_env
+              - if habitat_place_text.present?
+                %p
+                  %span.plant-lbl= I18n.t('.habitat_place', scope: plant_scope)
+                  = habitat_place_text
+
+        - usage_text = @plant.usage_localized(I18n.locale)
+        - if usage_text.present?
+          .plant-info-block
+            .plant-info-block-head= I18n.t('.usage', scope: plant_scope)
+            .plant-info-block-body
+              %p= usage_text
+
+        - if @plant.range_world.present? || @plant.range_central_asia.present? || @plant.range_uzbekistan.present?
+          .plant-info-block
+            .plant-info-block-head= I18n.t('.range', scope: plant_scope)
+            .plant-info-block-body
+              - if @plant.range_world.present?
+                %p
+                  %span.plant-lbl= I18n.t('.range_world', scope: plant_scope)
+                  = @plant.range_world
+              - if @plant.range_central_asia.present?
+                %p
+                  %span.plant-lbl= I18n.t('.range_central_asia', scope: plant_scope)
+                  = @plant.range_central_asia
+              - if @plant.range_uzbekistan.present?
+                %p
+                  %span.plant-lbl= I18n.t('.range_uzbekistan', scope: plant_scope)
+                  = @plant.range_uzbekistan
 
         - if @plant.protected_areas.present?
           .plant-info-block

@@ -21,6 +21,14 @@ ru:
       taxon_genus: "Род:"
       taxon_species: "Вид:"
       life_form: Жизненная форма
+      habitat: Среда обитания
+      habitat_env: "Среда:"
+      habitat_place: "Расположение:"
+      usage: Использование
+      range: Места обитания
+      range_world: "В мире:"
+      range_central_asia: "В Средней Азии:"
+      range_uzbekistan: "В Узбекистане:"
       protected_areas: Наличие на охраняемых территориях
     welcome:
       title: "uzflora.uz — платформа флоры Узбекистана"

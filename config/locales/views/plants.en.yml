@@ -21,6 +21,14 @@ en:
       taxon_genus: "Genus:"
       taxon_species: "Species:"
       life_form: Life form
+      habitat: Habitat
+      habitat_env: "Environment:"
+      habitat_place: "Location:"
+      usage: Usage
+      range: Distribution
+      range_world: "Worldwide:"
+      range_central_asia: "In Central Asia:"
+      range_uzbekistan: "In Uzbekistan:"
       protected_areas: Presence in protected areas
     welcome:
       title: "uzflora.uz — the flora of Uzbekistan platform"

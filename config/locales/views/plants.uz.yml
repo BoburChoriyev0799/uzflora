@@ -21,6 +21,14 @@ uz:
       taxon_genus: "Turkum:"
       taxon_species: "Tur:"
       life_form: Hayot shakli
+      habitat: Yashash muhiti
+      habitat_env: "Muhit:"
+      habitat_place: "Joylashuv:"
+      usage: Foydalanilishi
+      range: Uchrash joylari
+      range_world: "Butun dunyoda:"
+      range_central_asia: "O'rta Osiyoda:"
+      range_uzbekistan: "O'zbekistonda:"
       protected_areas: Muhofaza etiladigan hududlarda mavjudligi
     welcome:
       title: "uzflora.uz — O'zbekiston florasi platformasi"
