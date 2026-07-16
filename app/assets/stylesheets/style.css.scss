@@ -2053,12 +2053,13 @@ a.delete-comment-lnk:hover {
 
 .sighting-status-badge {
   display: inline-block;
-  padding: 2px 10px;
+  padding: 2px 8px;
   border-radius: 12px;
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: .02em;
+  white-space: nowrap;
   &.status-pending {
     background: #fdf3d8;
     color: #8a6d1a;
@@ -2071,6 +2072,22 @@ a.delete-comment-lnk:hover {
     background: #fbe0e0;
     color: #a32626;
   }
+}
+
+// Suratlar kartochkasi sarlavhasi: tur nomi va status belgisi bir-birining
+// ustiga chiqmasligi uchun ikkita jadval-hujayra (.blck) yonma-yon.
+.img-container-blck > div.head > div.blck.sighting-name-cell {
+  max-width: 90px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+}
+.img-container-blck > div.head > div.blck.sighting-badge-cell {
+  width: 1%;
+  white-space: nowrap;
+  text-align: right;
+  padding-left: 4px;
 }
 
 .profile-sighting-meta {

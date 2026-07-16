@@ -1,9 +1,10 @@
 .col-sm-6.col-md-2.map-img-block.xs-align-center.img-container-blck.profile-bird-container
   .head
-    .blck
+    .blck.sighting-name-cell
       = plant_sighting.plant.present? ? plant_sighting.plant.display_name(I18n.locale) : I18n.t('profile.photo.unknown_plant')
     -if @user.current?(current_user) || current_user.try(:expert?)
-      = plant_sighting_status_badge(plant_sighting)
+      .blck.sighting-badge-cell
+        = plant_sighting_status_badge(plant_sighting)
   .body
     =link_to plant_sighting_path(plant_sighting) do
       = image_tag plant_sighting.photo.thumb.url, class: 'img-responsive'
