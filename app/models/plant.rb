@@ -15,7 +15,7 @@ class Plant < ApplicationRecord
   scope :red_listed, -> { where(red_book: true) }
 
   # Oila bo'yicha filtr:  Plant.by_family("Asteraceae")
-  scope :by_family, ->(fam) { where(family_apg_sci: fam) }
+  scope :by_family, ->(fam) { where(family_lat: fam) }
 
   # Nom bo'yicha qidiruv (ilmiy, ruscha yoki o'zbekcha):
   #   Plant.search("lola")
@@ -23,7 +23,7 @@ class Plant < ApplicationRecord
     term = "%#{q.to_s.strip.downcase}%"
     where(
       'LOWER(species_sci) LIKE :t OR LOWER(species_ru) LIKE :t OR ' \
-      'LOWER(species_uz) LIKE :t OR LOWER(genus_sci) LIKE :t',
+      'LOWER(species_uz) LIKE :t OR LOWER(genus_lat) LIKE :t',
       t: term
     )
   }

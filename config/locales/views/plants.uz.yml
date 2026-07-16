@@ -13,28 +13,11 @@ uz:
       back_to_list: "← O'simliklar ro'yxatiga qaytish"
       red_book_badge: Qizil kitobda
       russian_name: "Ruscha nomi:"
-      habitat: Yashash muhiti
+      family: Oila
+      family_lat: "Lotincha:"
+      family_ru: "Ruscha:"
       life_form: Hayot shakli
-      economic: Xo'jalik ahamiyati
-      distribution: Tarqalishi
-      areal: "Umumiy areal:"
-      distr_ca: "O'rta Osiyoda:"
-      distr_uz: "O'zbekistonda:"
-      admin_regions: "Ma'muriy viloyatlar:"
       protected_areas: Muhofaza etiladigan hududlarda mavjudligi
-      synonyms: Sinonimlar
-      taxonomy: Taksonomiya
-      otdel: "Bo'lim:"
-      class_name: "Sinf:"
-      order: "Tartib:"
-      family: "Oila:"
-      genus: "Turkum:"
-      species: "Tur:"
-      status_title: Status
-      general_status: "Umumiy status:"
-      endemism: "Endemizm:"
-      external_sources: Tashqi manbalar
-      plantarium_photos: "Plantarium.ru (fotosuratlar)"
     welcome:
       title: "uzflora.uz — O'zbekiston florasi platformasi"
       subtitle: >-

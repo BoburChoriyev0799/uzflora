@@ -85,8 +85,8 @@
                   = link_to plant_path(plant), class: 'plant-card-link' do
                     .plant-card-name-uz= plant.display_name(I18n.locale)
                     .plant-card-name-sci= plant.species_sci
-                  - if plant.family_apg_sci.present?
-                    .plant-card-family= plant.family_apg_sci
+                  - if plant.family_lat.present?
+                    .plant-card-family= plant.family_lat
                   - if plant.red_book?
                     .plant-red-book-badge= I18n.t('.red_book_badge', scope: plants_scope)
 

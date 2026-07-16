@@ -13,28 +13,11 @@ en:
       back_to_list: "← Back to plants list"
       red_book_badge: Red Book species
       russian_name: "Russian name:"
-      habitat: Habitat
+      family: Family
+      family_lat: "Latin:"
+      family_ru: "Russian:"
       life_form: Life form
-      economic: Economic importance
-      distribution: Distribution
-      areal: "General range:"
-      distr_ca: "In Central Asia:"
-      distr_uz: "In Uzbekistan:"
-      admin_regions: "Administrative regions:"
       protected_areas: Presence in protected areas
-      synonyms: Synonyms
-      taxonomy: Taxonomy
-      otdel: "Division:"
-      class_name: "Class:"
-      order: "Order:"
-      family: "Family:"
-      genus: "Genus:"
-      species: "Species:"
-      status_title: Status
-      general_status: "General status:"
-      endemism: "Endemism:"
-      external_sources: External sources
-      plantarium_photos: "Plantarium.ru (photos)"
     welcome:
       title: "uzflora.uz — the flora of Uzbekistan platform"
       subtitle: >-

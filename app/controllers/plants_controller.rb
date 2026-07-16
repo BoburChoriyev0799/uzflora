@@ -26,7 +26,7 @@ class PlantsController < ApplicationController
     @plants = @plants.red_listed if params[:red_book].present?
     @plants = @plants.page(params[:page]).per(PLANTS_PER_PAGE)
 
-    @families = Plant.where.not(family_apg_sci: nil).distinct.order(:family_apg_sci).pluck(:family_apg_sci)
+    @families = Plant.where.not(family_lat: nil).distinct.order(:family_lat).pluck(:family_lat)
   end
 
   def show
