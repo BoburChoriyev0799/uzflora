@@ -157,7 +157,7 @@
   }
 
   .profile-birds-block, .profile-drafts-block {
-    a.delete_user_bird {
+    a.delete_user_bird, a.delete_user_plant_sighting {
       position:absolute;
       display: block;
       left:76%;
@@ -168,7 +168,7 @@
       opacity: 0.8;
       cursor:pointer;
     }
-    a.delete_user_bird:hover {
+    a.delete_user_bird:hover, a.delete_user_plant_sighting:hover {
       background:asset-data-url('share/edit/delete_icon_hover.png') no-repeat;
       opacity: 1;
     }
