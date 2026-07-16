@@ -90,12 +90,12 @@ module Statistics
           SELECT u.*, COUNT(DISTINCT ps.plant_id) AS approved_count
           FROM users u
             INNER JOIN subscriptions s ON s.user_id = u.id AND s.year = ?
-            INNER JOIN plant_sightings ps ON ps.user_id = u.id
+            LEFT JOIN plant_sightings ps ON ps.user_id = u.id
               AND ps.status = 'approved'
               AND ps.plant_id IS NOT NULL
               AND EXTRACT(year FROM ps.timestamp) = ?
           GROUP BY u.id
-          ORDER BY COUNT(DISTINCT ps.plant_id) DESC
+          ORDER BY COUNT(DISTINCT ps.plant_id) DESC, u.id ASC
         ", year, year])
         User.find_by_sql(sql)
       end

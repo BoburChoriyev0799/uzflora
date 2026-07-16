@@ -26,5 +26,8 @@ en:
       bg: Big Year
       in_bg: Yes, I want to join the Big Year
       change: Change
+      subscribed_feedback: "✓ Saved — you're a Big Year participant."
+      unsubscribed_feedback: "✓ Saved — subscription cancelled."
+      error_feedback: "Something went wrong, please try again shortly."
     comments:
       delete: Delete comment

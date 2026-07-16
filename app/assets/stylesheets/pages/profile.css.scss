@@ -46,6 +46,14 @@
     #subscribe_data label {
       line-height: 16px;
     }
+    .subscribe-feedback {
+      display: inline-block;
+      margin-left: 15px;
+      color: #3c763d;
+      &.error {
+        color: #a94442;
+      }
+    }
     .change-image {
       font-size:14px;
       margin-top:10px;

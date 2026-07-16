@@ -94,4 +94,12 @@ $(function() {
         });
     });
 
+    $('#subscribe_data').on('ajax:success', function(event, data) {
+        var $feedback = $('#subscribe-feedback');
+        $feedback.removeClass('error').text(data['subscribed'] ? $feedback.data('subscribed') : $feedback.data('unsubscribed'));
+    }).on('ajax:error', function(event, data, status, xhr) {
+        var $feedback = $('#subscribe-feedback');
+        $feedback.addClass('error').text($feedback.data('error'));
+    });
+
 });

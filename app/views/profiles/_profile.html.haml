@@ -60,3 +60,4 @@
             = label_tag :big_year do
               =link_to I18n.t('.in_bg', scope: profile_scope), big_year_path
         = submit_tag "#{I18n.t('.change', scope: profile_scope)}", class: 'btn btn-info w345 btn-lg-spec sm-width-max'
+        %span#subscribe-feedback.subscribe-feedback{ data: { subscribed: I18n.t('.subscribed_feedback', scope: profile_scope), unsubscribed: I18n.t('.unsubscribed_feedback', scope: profile_scope), error: I18n.t('.error_feedback', scope: profile_scope) } }

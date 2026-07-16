@@ -26,5 +26,8 @@ uz:
       bg: Katta yil
       in_bg: "Ha, men Katta yil tanlovida ishtirok etmoqchiman"
       change: O'zgartirish
+      subscribed_feedback: "✓ Saqlandi — siz Katta yil ishtirokchisisiz."
+      unsubscribed_feedback: "✓ Saqlandi — obuna bekor qilindi."
+      error_feedback: "Xatolik yuz berdi, birozdan so'ng qayta urinib ko'ring."
     comments:
       delete: Sharhni o'chirish
