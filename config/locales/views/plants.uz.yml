@@ -13,9 +13,13 @@ uz:
       back_to_list: "← O'simliklar ro'yxatiga qaytish"
       red_book_badge: Qizil kitobda
       russian_name: "Ruscha nomi:"
-      family: Oila
-      family_lat: "Lotincha:"
-      family_ru: "Ruscha:"
+      taxonomy: Taksonomiya
+      taxon_division: "Bo'lim:"
+      taxon_class_name: "Sinf:"
+      taxon_order: "Tartib:"
+      taxon_family: "Oila:"
+      taxon_genus: "Turkum:"
+      taxon_species: "Tur:"
       life_form: Hayot shakli
       protected_areas: Muhofaza etiladigan hududlarda mavjudligi
     welcome:

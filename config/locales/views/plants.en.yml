@@ -13,9 +13,13 @@ en:
       back_to_list: "← Back to plants list"
       red_book_badge: Red Book species
       russian_name: "Russian name:"
-      family: Family
-      family_lat: "Latin:"
-      family_ru: "Russian:"
+      taxonomy: Taxonomy
+      taxon_division: "Division:"
+      taxon_class_name: "Class:"
+      taxon_order: "Order:"
+      taxon_family: "Family:"
+      taxon_genus: "Genus:"
+      taxon_species: "Species:"
       life_form: Life form
       protected_areas: Presence in protected areas
     welcome:

@@ -13,9 +13,13 @@ ru:
       back_to_list: "← Вернуться к списку растений"
       red_book_badge: В Красной книге
       russian_name: "Русское название:"
-      family: Семейство
-      family_lat: "Латинское:"
-      family_ru: "Русское:"
+      taxonomy: Таксономия
+      taxon_division: "Отдел:"
+      taxon_class_name: "Класс:"
+      taxon_order: "Порядок:"
+      taxon_family: "Семейство:"
+      taxon_genus: "Род:"
+      taxon_species: "Вид:"
       life_form: Жизненная форма
       protected_areas: Наличие на охраняемых территориях
     welcome:

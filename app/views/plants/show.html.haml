@@ -41,6 +41,22 @@
       border-radius: 10px;
       margin-bottom: 12px;
     }
+    .plant-taxonomy-table {
+      width: 100%;
+    }
+    .plant-taxonomy-table td {
+      padding: 3px 0;
+      vertical-align: top;
+    }
+    .plant-taxonomy-table td.plant-lbl {
+      width: 90px;
+      white-space: nowrap;
+      padding-right: 8px;
+    }
+    .plant-taxon-ru {
+      color: #888;
+      margin-left: 6px;
+    }
 
 .bg-btm-container
   .container.content
@@ -61,18 +77,20 @@
             %span.plant-lbl= I18n.t('.russian_name', scope: plant_scope)
             = @plant.species_ru
 
-        - if @plant.family_lat.present? || @plant.family_ru.present?
+        - taxonomy_rows = plant_taxonomy_rows(@plant)
+        - if taxonomy_rows.any?
           .plant-info-block
-            .plant-info-block-head= I18n.t('.family', scope: plant_scope)
+            .plant-info-block-head= I18n.t('.taxonomy', scope: plant_scope)
             .plant-info-block-body
-              - if @plant.family_lat.present?
-                %p
-                  %span.plant-lbl= I18n.t('.family_lat', scope: plant_scope)
-                  = @plant.family_lat
-              - if @plant.family_ru.present?
-                %p
-                  %span.plant-lbl= I18n.t('.family_ru', scope: plant_scope)
-                  = @plant.family_ru
+              %table.plant-taxonomy-table
+                - taxonomy_rows.each do |label_key, lat, ru|
+                  %tr
+                    %td.plant-lbl= I18n.t(".taxon_#{label_key}", scope: plant_scope)
+                    %td
+                      - if lat.present?
+                        %i= lat
+                      - if ru.present?
+                        %span.plant-taxon-ru= "(#{ru})"
 
         - if @plant.life_form.present?
           .plant-info-block
