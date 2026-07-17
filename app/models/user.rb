@@ -37,8 +37,16 @@ class User < ActiveRecord::Base
   # u hech qachon seed qilinmagan va biriktirish uchun UI yo'q edi).
   # PlantSighting moderatsiyasi va Bird'ning eski "Confirm" tugmasi
   # (birds_controller#approve) ikkalasi ham shu metoddan foydalanadi.
+  # Admin har doim ekspert huquqiga ham ega — buning uchun is_expert
+  # ustunini alohida yoqish shart emas.
   def expert?
-    is_expert?
+    is_expert? || admin?
+  end
+
+  # Bosh admin — FAQAT admin boshqa foydalanuvchilarni ekspert qilib
+  # tayinlashi/bekor qilishi mumkin (users#toggle_expert).
+  def admin?
+    is_admin?
   end
 
   def friend?
