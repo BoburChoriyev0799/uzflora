@@ -1,0 +1,68 @@
+# Devise'ning o'zi ichki foydalanadigan xabarlar (flash, validatsiya xatolari)
+# uchun o'zbekcha tarjima. Bu fayl config/locales/devise.en.yml va
+# devise.ru.yml bilan bir xil tuzilishда — ILGARI BU FAYL UMUMAN YO'Q EDI,
+# shuning uchun sayt standart tili (uz) bo'lgani sababli Devise xabarlari
+# "Translation missing: uz...." ko'rinishida chiqib, foydalanuvchini
+# chalg'itardi (masalan parol tiklash formasidagi xato ko'rsatilganда).
+#
+# E'tibor: bu app/views/devise'даgi forma matnlari
+# (config/locales/views/devise.uz.yml) bilan ALMASHTIRMAYDI — u fayl
+# saqlanadi, bu fayl Devise'ning O'ZI generatsiya qiladigan (controller
+# ichida) xabarlar uchun.
+uz:
+  devise:
+    confirmations:
+      confirmed: "Akkauntingiz muvaffaqiyatli tasdiqlandi."
+      send_instructions: "Bir necha daqiqada akkauntingizni tasdiqlash bo'yicha yo'riqnoma bilan email keladi."
+      send_paranoid_instructions: "Agar email manzilingiz bazamizda mavjud bo'lsa, bir necha daqiqada akkauntingizni tasdiqlash bo'yicha yo'riqnoma bilan email keladi."
+    failure:
+      already_authenticated: "Siz allaqachon tizimga kirgansiz."
+      inactive: "Akkauntingiz hali faollashtirilmagan."
+      invalid: "Email yoki parol noto'g'ri."
+      locked: "Akkauntingiz bloklangan."
+      last_attempt: "Akkauntingiz bloklanishidan oldin yana bitta urinish qoldi."
+      not_found_in_database: "Email yoki parol noto'g'ri."
+      timeout: "Sessiya muddati tugadi. Davom etish uchun qayta kiring."
+      unauthenticated: "Davom etish uchun tizimga kiring yoki ro'yxatdan o'ting."
+      unconfirmed: "Davom etishdan oldin akkauntingizni tasdiqlashingiz kerak."
+    mailer:
+      confirmation_instructions:
+        subject: "Tasdiqlash yo'riqnomasi"
+      reset_password_instructions:
+        subject: "Parolni tiklash yo'riqnomasi"
+      unlock_instructions:
+        subject: "Blokdan chiqarish yo'riqnomasi"
+    omniauth_callbacks:
+      failure: "%{kind} orqali tizimga kirib bo'lmadi, sabab: \"%{reason}\"."
+      success: "%{kind} orqali muvaffaqiyatli kirdingiz."
+    passwords:
+      no_token: "Bu sahifaga faqat parolni tiklash email'idagi havola orqali kirish mumkin. Agar shu havola orqali kelgan bo'lsangiz, to'liq URL manzilidan foydalanganingizga ishonch hosil qiling."
+      send_instructions: "Bir necha daqiqada parolni tiklash bo'yicha yo'riqnoma bilan email keladi."
+      send_paranoid_instructions: "Agar email manzilingiz bazamizda mavjud bo'lsa, bir necha daqiqada parolni tiklash havolasi bilan email keladi."
+      updated: "Parolingiz muvaffaqiyatli o'zgartirildi. Endi tizimga kirdingiz."
+      updated_not_active: "Parolingiz muvaffaqiyatli o'zgartirildi."
+    registrations:
+      destroyed: "Xayr! Akkauntingiz muvaffaqiyatli o'chirildi. Sizni yana ko'rishni umid qilamiz."
+      signed_up: "Xush kelibsiz! Ro'yxatdan muvaffaqiyatli o'tdingiz."
+      signed_up_but_inactive: "Ro'yxatdan muvaffaqiyatli o'tdingiz. Biroq akkauntingiz hali faollashtirilmagani sabab tizimga kirita olmadik."
+      signed_up_but_locked: "Ro'yxatdan muvaffaqiyatli o'tdingiz. Biroq akkauntingiz bloklangani sabab tizimga kirita olmadik."
+      signed_up_but_unconfirmed: "Email manzilingizga tasdiqlash havolasi yuborildi. Akkauntingizni faollashtirish uchun havolani bosing."
+      update_needs_confirmation: "Akkauntingiz muvaffaqiyatli yangilandi, lekin yangi email manzilingizni tasdiqlashingiz kerak. Emailingizni tekshirib, tasdiqlash havolasini bosing."
+      updated: "Akkauntingiz muvaffaqiyatli yangilandi."
+    sessions:
+      signed_in: "Tizimga muvaffaqiyatli kirdingiz."
+      signed_out: "Tizimdan muvaffaqiyatli chiqdingiz."
+    unlocks:
+      send_instructions: "Bir necha daqiqada akkauntingizni blokdan chiqarish bo'yicha yo'riqnoma bilan email keladi."
+      send_paranoid_instructions: "Agar akkauntingiz mavjud bo'lsa, bir necha daqiqada uni blokdan chiqarish bo'yicha yo'riqnoma bilan email keladi."
+      unlocked: "Akkauntingiz muvaffaqiyatli blokdan chiqarildi. Davom etish uchun tizimga kiring."
+  errors:
+    messages:
+      already_confirmed: "allaqachon tasdiqlangan, tizimga kirib ko'ring"
+      confirmation_period_expired: "%{period} ichida tasdiqlanishi kerak edi, yangisini so'rang"
+      expired: "muddati o'tgan, yangisini so'rang"
+      not_found: "topilmadi"
+      not_locked: "bloklanmagan"
+      not_saved:
+        one: "1 ta xato %{resource}ni saqlashga to'sqinlik qildi:"
+        other: "%{count} ta xato %{resource}ni saqlashga to'sqinlik qildi:"

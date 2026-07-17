@@ -1,0 +1,6 @@
+uz:
+  activerecord:
+    models:
+      user:
+        one: "foydalanuvchi"
+        other: "foydalanuvchi"

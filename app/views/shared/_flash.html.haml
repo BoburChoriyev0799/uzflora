@@ -1,0 +1,16 @@
+- alert_classes = { 'notice' => 'alert-success', 'alert' => 'alert-danger', 'error' => 'alert-danger' }
+- if flash.any? { |_, message| message.present? }
+  %style
+    :plain
+      .flash-messages-container {
+        margin-top: 76px;
+      }
+      .flash-messages-container .alert {
+        margin-bottom: 10px;
+      }
+  .flash-messages-container
+    - flash.each do |type, message|
+      - next if message.blank?
+      .container
+        .alert{class: alert_classes.fetch(type.to_s, 'alert-info'), role: 'alert'}
+          = message
