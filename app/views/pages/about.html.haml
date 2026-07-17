@@ -56,9 +56,6 @@
     .about-section-title:first-of-type {
       margin-top: 0;
     }
-    .about-intro p {
-      margin-bottom: 14px;
-    }
     .about-timeline {
       list-style: none;
       margin: 0;
@@ -144,10 +141,6 @@
               %br
               %span.lbl= I18n.t('.nationality_label', scope: about_scope)
               = I18n.t('.nationality', scope: about_scope)
-
-        .about-intro
-          %h3.about-section-title= I18n.t('.intro_title', scope: about_scope)
-          %p= I18n.t('.intro', scope: about_scope)
 
         %h3.about-section-title= I18n.t('.experience_title', scope: about_scope)
         %ul.about-timeline
