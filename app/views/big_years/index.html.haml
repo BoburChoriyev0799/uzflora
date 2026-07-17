@@ -28,11 +28,11 @@
     .big-year-main-title {
       text-align: center;
     }
-    // E'tibor: sayt bo'ylab `* { font-family: ... !important }` va
-    // `h1..h6 { color: ... !important }` global qoidalari bor (asosiy
-    // style.css.scss'да) — shuning uchun bu yerdagi shrift/rang
-    // e'lonlari ham !important bilan yozilgan, aks holda ko'rinmay
-    // qolardi.
+    /* E'tibor: sayt bo'ylab `* { font-family: ... !important }` va
+       `h1..h6 { color: ... !important }` global qoidalari bor (asosiy
+       style.css.scss'да) — shuning uchun bu yerdagi shrift/rang
+       e'lonlari ham !important bilan yozilgan, aks holda ko'rinmay
+       qolardi. */
     .big-year-main-title .big-year-text {
       font-family: 'Times New Roman', Times, serif !important;
       font-weight: 700;
@@ -78,14 +78,44 @@
     .big-year-rules h3 {
       display: flex;
       align-items: center;
-      margin: 36px 0 12px;
+      margin: 0 0 12px;
       font-size: 18px;
       font-weight: 700;
       color: #2f4a1c;
       scroll-margin-top: 90px;
     }
-    .big-year-rules h3:first-of-type {
-      margin-top: 0;
+    /* Har bir band (1-13) — alohida rangli karta, bir-biridan ajralib
+       turishi uchun. 8 ta yumshoq (pastel) rang aylanib keladi. */
+    .rules-section-card {
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.06);
+      scroll-margin-top: 90px;
+    }
+    /* E'tibor: `h1..h6 { color: ... !important }` global qoidasi bor
+       (style.css.scss'да) — shuning uchun bu h3 rang e'lonlari ham
+       !important bilan, aks holda ko'rinmay qolardi. */
+    .rules-color-1 { background: #e8f5e9; }
+    .rules-color-1 h3 { color: #1b5e20 !important; }
+    .rules-color-2 { background: #e3f2fd; }
+    .rules-color-2 h3 { color: #0d47a1 !important; }
+    .rules-color-3 { background: #fff8e1; }
+    .rules-color-3 h3 { color: #8a6d1a !important; }
+    .rules-color-4 { background: #fce4ec; }
+    .rules-color-4 h3 { color: #ad1457 !important; }
+    .rules-color-5 { background: #f3e5f5; }
+    .rules-color-5 h3 { color: #6a1b9a !important; }
+    .rules-color-6 { background: #fff3e0; }
+    .rules-color-6 h3 { color: #e65100 !important; }
+    .rules-color-7 { background: #e0f2f1; }
+    .rules-color-7 h3 { color: #00695c !important; }
+    .rules-color-8 { background: #ffebee; }
+    .rules-color-8 h3 { color: #b71c1c !important; }
+    @media (max-width: 480px) {
+      .rules-section-card {
+        padding: 16px 16px;
+      }
     }
     .big-year-rules .rules-section-number {
       flex-shrink: 0;
@@ -236,68 +266,68 @@
 
           - (1..13).each do |n|
             - s = "#{r}.section_#{n}"
-            %h3{id: "section-#{n}"}
-              %span.rules-section-number= n
-              = I18n.t('title', scope: s)
-            - case n
-            - when 1
-              %p= I18n.t('intro', scope: s)
-              %ul
-                - I18n.t('items', scope: s).each do |item|
-                  %li= item
-            - when 2, 10, 12, 13
-              %p= I18n.t('text', scope: s)
-            - when 3
-              %p= I18n.t('text_1', scope: s)
-              %p= I18n.t('text_2', scope: s)
-              %ul
-                - I18n.t('items', scope: s).each do |item|
-                  %li= item
-              %p= I18n.t('text_3', scope: s)
-            - when 4, 5
-              %p= I18n.t('text_1', scope: s)
-              %ul
-                - I18n.t('items', scope: s).each do |item|
-                  %li= item
-              %p= I18n.t('text_2', scope: s)
-            - when 6
-              %ul
-                - I18n.t('criteria', scope: s).each do |criterion|
-                  %li
-                    %b= criterion[:title]
-                    = criterion[:text]
-            - when 7
-              %p= I18n.t('text_1', scope: s)
-              %ul
-                - I18n.t('items', scope: s).each do |item|
-                  %li= item
-              %p= I18n.t('text_2', scope: s)
-            - when 8
-              %p= I18n.t('text_1', scope: s)
-              %ul
-                - I18n.t('items', scope: s).each do |item|
-                  %li= item
-              %p.motto= I18n.t('motto', scope: s)
-            - when 9
-              %p= I18n.t('text_1', scope: s)
-              %ul
-                - I18n.t('items', scope: s).each do |item|
-                  %li= item
-              %p= I18n.t('text_2', scope: s)
-            - when 11
-              %p= I18n.t('text_1', scope: s)
-              %p= I18n.t('text_2', scope: s)
-              %table.big-year-prizes
-                %thead
-                  %tr
-                    %th= I18n.t('prizes.place', scope: s)
-                    %th= I18n.t('prizes.prize', scope: s)
-                %tbody
-                  - I18n.t('prizes.rows', scope: s).each do |row|
+            .rules-section-card{id: "section-#{n}", class: "rules-color-#{(n - 1) % 8 + 1}"}
+              %h3
+                %span.rules-section-number= n
+                = I18n.t('title', scope: s)
+              - case n
+              - when 1
+                %p= I18n.t('intro', scope: s)
+                %ul
+                  - I18n.t('items', scope: s).each do |item|
+                    %li= item
+              - when 2, 10, 12, 13
+                %p= I18n.t('text', scope: s)
+              - when 3
+                %p= I18n.t('text_1', scope: s)
+                %p= I18n.t('text_2', scope: s)
+                %ul
+                  - I18n.t('items', scope: s).each do |item|
+                    %li= item
+                %p= I18n.t('text_3', scope: s)
+              - when 4, 5
+                %p= I18n.t('text_1', scope: s)
+                %ul
+                  - I18n.t('items', scope: s).each do |item|
+                    %li= item
+                %p= I18n.t('text_2', scope: s)
+              - when 6
+                %ul
+                  - I18n.t('criteria', scope: s).each do |criterion|
+                    %li
+                      %b= criterion[:title]
+                      = criterion[:text]
+              - when 7
+                %p= I18n.t('text_1', scope: s)
+                %ul
+                  - I18n.t('items', scope: s).each do |item|
+                    %li= item
+              - when 8
+                %p= I18n.t('text_1', scope: s)
+                %ul
+                  - I18n.t('items', scope: s).each do |item|
+                    %li= item
+                %p.motto= I18n.t('motto', scope: s)
+              - when 9
+                %p= I18n.t('text_1', scope: s)
+                %ul
+                  - I18n.t('items', scope: s).each do |item|
+                    %li= item
+                %p= I18n.t('text_2', scope: s)
+              - when 11
+                %p= I18n.t('text_1', scope: s)
+                %p= I18n.t('text_2', scope: s)
+                %table.big-year-prizes
+                  %thead
                     %tr
-                      %td= row[:place]
-                      %td= row[:prize]
-              %p= I18n.t('text_3', scope: s)
+                      %th= I18n.t('prizes.place', scope: s)
+                      %th= I18n.t('prizes.prize', scope: s)
+                  %tbody
+                    - I18n.t('prizes.rows', scope: s).each do |row|
+                      %tr
+                        %td= row[:place]
+                        %td= row[:prize]
+                %p= I18n.t('text_3', scope: s)
 
           .big-year-contacts
             .big-year-contacts-title= I18n.t('contacts_title', scope: r)

@@ -106,12 +106,9 @@ en:
           title: Scoring system
           text_1: "The following sample scoring system may be used to form the overall ranking:"
           items:
-            - each newly confirmed species — 10 points;
+            - each newly confirmed species — 1 point;
             - "a rare, endemic, or scientifically significant confirmed observation — an additional 5–20 points at the experts' discretion;"
             - an incorrect, duplicate, or unverifiable observation — not counted.
-          text_2: >-
-            The coordinates of rare plants may not be fully disclosed
-            publicly in cases where there is a risk of illegal collection.
         section_8:
           title: Respect for nature
           text_1: "Competition participants must observe the following rules:"

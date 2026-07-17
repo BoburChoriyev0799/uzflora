@@ -107,13 +107,9 @@ uz:
           title: Ball berish tizimi
           text_1: "Umumiy reytingni shakllantirishda quyidagi namunaviy ball tizimidan foydalanish mumkin:"
           items:
-            - tasdiqlangan har bir yangi tur — 10 ball;
+            - tasdiqlangan har bir yangi tur — 1 ball;
             - "noyob, endemik yoki ilmiy ahamiyatga ega tasdiqlangan kuzatuv — ekspertlar qaroriga ko'ra qo'shimcha 5–20 ball;"
             - "noto'g'ri, takroriy yoki tekshirib bo'lmaydigan kuzatuv — hisobga olinmaydi."
-          text_2: >-
-            Noyob o'simliklarning koordinatalari ularni noqonuniy yig'ish
-            xavfi mavjud bo'lgan hollarda ommaga to'liq ko'rsatilmasligi
-            mumkin.
         section_8:
           title: Tabiatga ehtiyotkor munosabat
           text_1: "Musobaqa ishtirokchilari quyidagi qoidalarga rioya qilishlari shart:"
