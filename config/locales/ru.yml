@@ -38,3 +38,14 @@ ru:
         few: '%{count} секунды'
         many: '%{count} секунд'
         other: '%{count} секунд'
+  activerecord:
+    attributes:
+      user:
+        reset_password_token: "Ссылка"
+    errors:
+      models:
+        user:
+          attributes:
+            reset_password_token:
+              invalid: "устарела или уже была использована. Пожалуйста, запросите восстановление пароля заново."
+              blank: "не найдена. Используйте ссылку из письма для восстановления пароля."

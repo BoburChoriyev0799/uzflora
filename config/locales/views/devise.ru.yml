@@ -33,6 +33,7 @@ ru:
         new_password: "Новый пароль:"
         confirm_password: "Подтвердите пароль:"
         submit: "Изменить пароль"
+        submitting: "Сохранение..."
     mailer:
       reset_password_instructions:
         subject: "Инструкция по восстановлению пароля"

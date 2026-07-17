@@ -55,3 +55,12 @@ uz:
         longitude: "Uzunlik"
         address: "Manzil"
         note: "Izoh"
+      user:
+        reset_password_token: "Havola"
+    errors:
+      models:
+        user:
+          attributes:
+            reset_password_token:
+              invalid: "eskirgan yoki allaqachon ishlatilgan. Iltimos, parolni qayta tiklashni so'rang."
+              blank: "topilmadi. Parolni tiklash email'idagi havoladan foydalaning."

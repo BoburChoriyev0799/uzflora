@@ -30,4 +30,4 @@
               .col-md-3.col-sm-3.lbl-container
                 \&nbsp;
               .col-md-6.col-sm-6.input-container.acenter
-                = f.submit I18n.t('.submit', scope: devise_scope), class: 'mtop10 mm-mtop0 w100p btn-lg btn btn-info'
+                = f.submit I18n.t('.submit', scope: devise_scope), class: 'mtop10 mm-mtop0 w100p btn-lg btn btn-info', data: { disable_with: I18n.t('.submitting', scope: devise_scope) }

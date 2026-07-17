@@ -35,6 +35,7 @@ uz:
         new_password: "Yangi parol:"
         confirm_password: "Parolni tasdiqlang:"
         submit: "Parolni o'zgartirish"
+        submitting: "Saqlanmoqda..."
     mailer:
       reset_password_instructions:
         subject: "Parolni tiklash yo'riqnomasi"

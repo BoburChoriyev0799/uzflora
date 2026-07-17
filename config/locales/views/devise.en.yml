@@ -33,6 +33,7 @@ en:
         new_password: "New password:"
         confirm_password: "Confirm password:"
         submit: "Change password"
+        submitting: "Saving..."
     mailer:
       reset_password_instructions:
         subject: "Reset password instructions"
