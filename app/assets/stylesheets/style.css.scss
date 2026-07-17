@@ -937,8 +937,14 @@ a.navbar-brand {
   .footer-inner {
     background-color: #94846e;
     padding: 20px 0;
-    .fleft {
-      min-width: 420px;
+    // 420px min-width hech qanday @media bilan cheklanmagan edi — footer
+    // HAR BIR sahifada chiqadi, shuning uchun bu butun saytda mobil
+    // (360-414px) ekranlarda gorizontal overflow (o'ng tomonda bo'sh joy)
+    // sabab bo'lib turgan edi. Faqat planshet/desktopда (>=768px) kerak.
+    @media (min-width: 768px) {
+      .fleft {
+        min-width: 420px;
+      }
     }
   }
   .top-row {
