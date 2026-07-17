@@ -59,6 +59,22 @@ class Plant < ApplicationRecord
     localized_field(habitat_place, habitat_place_ru, habitat_place_en, locale)
   end
 
+  def habitat_env_localized(locale = :uz)
+    localized_field(habitat_env, habitat_env_ru, habitat_env_en, locale)
+  end
+
+  def range_world_localized(locale = :uz)
+    localized_field(range_world, range_world_ru, range_world_en, locale)
+  end
+
+  def range_central_asia_localized(locale = :uz)
+    localized_field(range_central_asia, range_central_asia_ru, range_central_asia_en, locale)
+  end
+
+  def range_uzbekistan_localized(locale = :uz)
+    localized_field(range_uzbekistan, range_uzbekistan_ru, range_uzbekistan_en, locale)
+  end
+
   private
 
   def localized_field(uz_value, ru_value, en_value, locale)
