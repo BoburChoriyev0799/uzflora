@@ -5,7 +5,7 @@
 # Ishga tushirish (Claude Code / terminalda, loyiha ildizida):
 #   rails plants:import
 #
-# CSV fayli `db/uzflora_plants_v2.csv` da bo'lishi kerak. CSV
+# CSV fayli `db/uzflora_plants_v3.csv` da bo'lishi kerak. CSV
 # ustunlari `plants` jadvali ustunlari bilan BIR XIL nomlangan (masalan
 # `family_lat`, `habitat_env`) — qo'shimcha moslashtirish shart emas.
 #
@@ -26,9 +26,9 @@ require 'digest'
 namespace :plants do
   desc 'CSV faylidan o\'simliklarni bazaga import qilish (kerak bo\'lgandagina)'
   task import: :environment do
-    path = Rails.root.join('db', 'uzflora_plants_v2.csv')
+    path = Rails.root.join('db', 'uzflora_plants_v3.csv')
     unless File.exist?(path)
-      puts "XATO: #{path} topilmadi. uzflora_plants_v2.csv ni db/ papkasiga joylang."
+      puts "XATO: #{path} topilmadi. uzflora_plants_v3.csv ni db/ papkasiga joylang."
       next
     end
 
