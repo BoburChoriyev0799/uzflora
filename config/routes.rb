@@ -9,6 +9,7 @@ Birds::Application.routes.draw do
 
   devise_scope :user do
     get 'users', to: 'users#index'
+    post 'users/:id/toggle_expert', to: 'users#toggle_expert', as: :toggle_expert_user
     post 'user', to: 'users#create', as: :user_registration
     get 'user/sign_up', to: 'users#new', as: :new_user_registration
     put 'user/change_password', to: 'users#change_password'
