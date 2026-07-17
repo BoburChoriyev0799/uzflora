@@ -8,3 +8,7 @@ ru:
       birders: Список пользователей
       photo_count: Всего фотографий
       registered_at: 'Дата регистрации:'
+      make_expert: Назначить экспертом
+      revoke_expert: Отозвать статус эксперта
+      make_expert_confirm: "Назначить %{name} экспертом?"
+      revoke_expert_confirm: "Отозвать статус эксперта у %{name}?"

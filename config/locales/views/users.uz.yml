@@ -8,3 +8,7 @@ uz:
       birders: Foydalanuvchilar ro'yxati
       photo_count: Jami suratlar
       registered_at: "Ro'yxatdan o'tgan:"
+      make_expert: Ekspert qilib tayinlash
+      revoke_expert: Ekspertlikni bekor qilish
+      make_expert_confirm: "%{name} ni ekspert qilasizmi?"
+      revoke_expert_confirm: "%{name} ni ekspertlikdan bekor qilasizmi?"

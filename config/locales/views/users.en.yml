@@ -8,3 +8,7 @@ en:
       birders: List of users
       photo_count: Photos total
       registered_at: 'Registered:'
+      make_expert: Make expert
+      revoke_expert: Revoke expert status
+      make_expert_confirm: "Make %{name} an expert?"
+      revoke_expert_confirm: "Revoke expert status from %{name}?"
