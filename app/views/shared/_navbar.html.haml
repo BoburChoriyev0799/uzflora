@@ -19,6 +19,21 @@
       margin-right: 8px;
       line-height: 1;
     }
+    .moderate-badge {
+      display: inline-block;
+      min-width: 18px;
+      height: 18px;
+      line-height: 18px;
+      padding: 0 5px;
+      border-radius: 999px;
+      background: #d9363e;
+      color: #fff !important;
+      font-size: 11px;
+      font-weight: 700;
+      text-align: center;
+      margin-left: 5px;
+      vertical-align: middle;
+    }
 
 %nav.navbar.birds-nav.navbar-fixed-top
   .container
@@ -50,7 +65,11 @@
           =nav_link_to "#{I18n.t('about', scope: navbar_scope)}", about_pages_path
         -if current_user.try(:expert?)
           %li
-            =nav_link_to "#{I18n.t('moderate_plants', scope: navbar_scope)}", pending_plant_sightings_path
+            - pending_count = pending_plant_sightings_count
+            - moderate_label = I18n.t('moderate_plants', scope: navbar_scope)
+            - if pending_count.positive?
+              - moderate_label = safe_join([moderate_label, content_tag(:span, pending_count, class: 'moderate-badge')], ' ')
+            =nav_link_to moderate_label, pending_plant_sightings_path
       / Menu Right
       .navbar-right
         %ul.nav.navbar-nav.fright.mleft10
