@@ -255,23 +255,34 @@ ol li:before {
   margin-right: auto;
 }
 
+// Footer avval position:absolute; bottom:0 bilan joylashtirilib,
+// body'ga taxminiy padding-bottom:300px "joy ochib qo'yilardi" — bu
+// footer mazmuni (masalan mobilда bir necha qatorga bo'linadigan "Aloqa"
+// tugmalari, tug'ilgan kun banneri) taxmindan balandroq bo'lsa, footer
+// undan yuqoridagi kontentга ustma-ust tushib qolardi (chegaradan
+// "chiqib ketgandek" ko'rinardi). Endi flexbox orqali footer har doim
+// o'z tabiiy balandligicha pastda turadi — mazmuni qancha bo'lishidan
+// qat'iy nazar hech qachon ustiga chiqmaydi.
 html {
   height: 100%;
   body {
-    min-height: 100%;
-    position: relative;
-    padding-bottom: 300px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
     background-size: 100%;
   }
   body.none-background {
     background: none;
-    padding-bottom: 75px;
     .footer {
       .top-row {
         display: none;
       }
     }
   }
+}
+
+#wrap {
+  flex: 1 0 auto;
 }
 
 
@@ -924,9 +935,7 @@ a.navbar-brand {
 
 /*footer*/
 .footer {
-  position: absolute;
-  left: 0;
-  bottom: 0;
+  flex-shrink: 0;
   width: 100%;
   background: asset-data-url('share/bg_btm.jpg') no-repeat center bottom transparent;
   -webkit-background-size: 100% 100%;
