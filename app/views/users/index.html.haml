@@ -28,7 +28,7 @@
               %p= "#{I18n.t('registered_at', scope: users_scope)} #{date_format(user.created_at)}"
               -if current_user.try(:admin?)
                 - if user.is_expert?
-                  =link_to I18n.t('revoke_expert', scope: users_scope), toggle_expert_user_path(user), method: :post, class: 'btn btn-default btn-xs', data: { confirm: I18n.t('revoke_expert_confirm', scope: users_scope, name: user.full_name) }
+                  =link_to I18n.t('revoke_expert', scope: users_scope), toggle_expert_user_path(user), method: :post, class: 'btn btn-xs revoke-expert-btn', data: { confirm: I18n.t('revoke_expert_confirm', scope: users_scope, name: user.full_name) }
                 - else
                   =link_to I18n.t('make_expert', scope: users_scope), toggle_expert_user_path(user), method: :post, class: 'btn btn-success btn-xs', data: { confirm: I18n.t('make_expert_confirm', scope: users_scope, name: user.full_name) }
             -#.col-md-2.user-right-blck1

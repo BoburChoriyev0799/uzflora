@@ -289,7 +289,7 @@ html {
 
 /* NAVIGATION ADDONS */
 .birds-nav {
-    background-color:#a7d155;
+    background-color:#6a1b9a;
 
 }
 .navbar-right {
@@ -316,10 +316,10 @@ html {
     padding: 18px 12px;
 }
 .birds-nav ul.nav > li > a:hover, .birds-nav ul.nav > li.active > a {
-    background-color:#9bc24c;
+    background-color:#551683;
 }
 .birds-nav .navbar-toggle {
-    border-color: #9bc24c;
+    border-color: #9c5cc2;
 }
 
 .birds-nav .navbar-toggle .icon-bar {
@@ -944,8 +944,17 @@ a.navbar-brand {
   background-size: 100% 100%;
 
   .footer-inner {
-    background-color: #94846e;
+    background-color: #1e5620;
     padding: 20px 0;
+    font-family: 'Times New Roman', Times, serif !important;
+    font-weight: 700;
+    // `* { font-family: ... !important }` global qoidasi bor (faylning
+    // boshida) — u har bir ICHKI elementga ham to'g'ridan-to'g'ri tegadi,
+    // shuning uchun faqat .footer-inner'ning o'zida shrift belgilash
+    // yetarli emas, avlodlarga ham alohida kerak.
+    * {
+      font-family: 'Times New Roman', Times, serif !important;
+    }
     // 420px min-width hech qanday @media bilan cheklanmagan edi — footer
     // HAR BIR sahifada chiqadi, shuning uchun bu butun saytda mobil
     // (360-414px) ekranlarda gorizontal overflow (o'ng tomonda bo'sh joy)
@@ -958,6 +967,10 @@ a.navbar-brand {
   }
   .top-row {
     padding-bottom: 60px;
+    h3 {
+      font-weight: 700;
+      color: #1a237e;
+    }
   }
   p {
     color: white;
@@ -988,6 +1001,12 @@ a {
     font-size: 20px;
     text-decoration: none;
     margin-top: 15px;
+    background-color: #2d6a2d !important;
+    border-color: #235523 !important;
+    &:hover, &:focus {
+      background-color: #235523 !important;
+      border-color: #1a3f1a !important;
+    }
   }
 }
 
@@ -2046,6 +2065,13 @@ a.delete-comment-lnk:hover {
 
 /* People */
 .users-container {
+  font-family: 'Times New Roman', Times, serif !important;
+  // `* { font-family: ... !important }` global qoidasi ichki
+  // elementlarga to'g'ridan-to'g'ri tegadi, shuning uchun bu yerda ham
+  // avlodlarga alohida kerak.
+  * {
+    font-family: 'Times New Roman', Times, serif !important;
+  }
   .users-text {
     i {
       color: #94846e;
@@ -2062,6 +2088,16 @@ a.delete-comment-lnk:hover {
       &:hover {
         text-decoration: none;
       }
+    }
+  }
+  .revoke-expert-btn {
+    background-color: #c62828;
+    border-color: #b71c1c;
+    color: #fff;
+    &:hover, &:focus {
+      background-color: #b71c1c;
+      border-color: #8e0000;
+      color: #fff;
     }
   }
 }

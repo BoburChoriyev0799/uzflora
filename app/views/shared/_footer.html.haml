@@ -10,18 +10,29 @@
           display: inline-block;
           padding: 3px 12px;
           margin-left: 6px;
-          border: 1px solid rgba(255,255,255,.5);
           border-radius: 14px;
           color: #fff !important;
           font-size: 12px;
-          font-weight: 600;
+          font-weight: 700;
           text-decoration: none !important;
+          opacity: .75;
         }
         .footer-locale-switch a.active {
-          background: rgba(255,255,255,.25);
+          opacity: 1;
+          box-shadow: 0 0 0 2px rgba(255,255,255,.6);
         }
         .footer-locale-switch a:hover {
-          background: rgba(255,255,255,.15);
+          opacity: 1;
+        }
+        // Har til uchun alohida rang — O'Z yashil, RU sariq, EN qizil.
+        .footer-locale-switch a.locale-uz {
+          background: #558b2f;
+        }
+        .footer-locale-switch a.locale-ru {
+          background: #f9a825;
+        }
+        .footer-locale-switch a.locale-en {
+          background: #c62828;
         }
     - footer_scope = 'shared.footer'
     .container
@@ -34,9 +45,9 @@
           Developed by Bobur Choriyev
       .fright
         .footer-locale-switch.aright
-          =link_to 'O\'Z', switch_locale_path(locale: :uz), class: ('active' if I18n.locale == :uz)
-          =link_to 'RU', switch_locale_path(locale: :ru), class: ('active' if I18n.locale == :ru)
-          =link_to 'EN', switch_locale_path(locale: :en), class: ('active' if I18n.locale == :en)
+          =link_to 'O\'Z', switch_locale_path(locale: :uz), class: "locale-uz #{'active' if I18n.locale == :uz}"
+          =link_to 'RU', switch_locale_path(locale: :ru), class: "locale-ru #{'active' if I18n.locale == :ru}"
+          =link_to 'EN', switch_locale_path(locale: :en), class: "locale-en #{'active' if I18n.locale == :en}"
         %p.aright
           = I18n.t('rights', scope: footer_scope)
           %br

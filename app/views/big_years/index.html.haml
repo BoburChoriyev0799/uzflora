@@ -25,6 +25,33 @@
       color: #4a7c2a;
       margin-bottom: 10px;
     }
+    .big-year-main-title {
+      text-align: center;
+    }
+    // E'tibor: sayt bo'ylab `* { font-family: ... !important }` va
+    // `h1..h6 { color: ... !important }` global qoidalari bor (asosiy
+    // style.css.scss'да) — shuning uchun bu yerdagi shrift/rang
+    // e'lonlari ham !important bilan yozilgan, aks holda ko'rinmay
+    // qolardi.
+    .big-year-main-title .big-year-text {
+      font-family: 'Times New Roman', Times, serif !important;
+      font-weight: 700;
+      font-size: 30px;
+      color: #6a1b9a !important;
+    }
+    .big-year-main-title .big_year_item {
+      font-family: 'Times New Roman', Times, serif !important;
+    }
+    .big-year-participants-title {
+      text-align: center;
+      font-family: 'Times New Roman', Times, serif !important;
+      font-weight: 700;
+      font-size: 21px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      color: #1a237e !important;
+      margin-bottom: 16px;
+    }
     .big-year-toc ol {
       margin: 0;
       padding-left: 20px;
@@ -171,14 +198,14 @@
     - bg_scope = 'big_years.index'
     .row.big-year-container.mtop20
       .row
-        %h4
+        %h4.big-year-main-title
           .big-year-text
             = I18n.t('.title', scope: bg_scope)
           %span.big_year_item.active= @current_year
 
       .row.big-year-participants.mtop20
         - p = 'big_years.index.participants'
-        %h4.big-year-toc-title= I18n.t('title', scope: p)
+        %h4.big-year-participants-title= I18n.t('title', scope: p)
         - if @participants.blank?
           %p.big-year-participants-empty= I18n.t('empty', scope: p)
         - else

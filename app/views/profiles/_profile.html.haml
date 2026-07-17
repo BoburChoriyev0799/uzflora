@@ -47,7 +47,7 @@
               = I18n.t('.repeat_psw', scope: profile_scope)
             = form.password_field :password_confirmation, class: 'form-control w190 d-inline-block', placeholder: "#{I18n.t('.psw', scope: profile_scope)}"
             %span.req *
-        %input.btn.btn-info.w345.btn-lg-spec.sm-width-max{:type => 'submit', :value => "#{I18n.t('.change_psw', scope: profile_scope)}"}/
+        %input.btn.profile-purple-btn.w345.btn-lg-spec.sm-width-max{:type => 'submit', :value => "#{I18n.t('.change_psw', scope: profile_scope)}"}/
 
     .row.mtop20
       %h4.m-acenter
@@ -59,5 +59,5 @@
             = check_box_tag :big_year, 1, current_user.subscribed?(Time.zone.now.year)
             = label_tag :big_year do
               =link_to I18n.t('.in_bg', scope: profile_scope), big_year_path
-        = submit_tag "#{I18n.t('.change', scope: profile_scope)}", class: 'btn btn-info w345 btn-lg-spec sm-width-max'
+        = submit_tag "#{I18n.t('.change', scope: profile_scope)}", class: 'btn profile-purple-btn w345 btn-lg-spec sm-width-max'
         %span#subscribe-feedback.subscribe-feedback{ data: { subscribed: I18n.t('.subscribed_feedback', scope: profile_scope), unsubscribed: I18n.t('.unsubscribed_feedback', scope: profile_scope), error: I18n.t('.error_feedback', scope: profile_scope) } }
