@@ -109,21 +109,6 @@
       flex-wrap: wrap;
       gap: 10px;
     }
-    .about-contacts-list a {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 16px;
-      border-radius: 20px;
-      background: #7cb342;
-      color: #fff !important;
-      text-decoration: none !important;
-      font-size: 14px;
-      font-weight: 600;
-    }
-    .about-contacts-list a:hover {
-      background: #689f38;
-    }
 
 .bg-btm-container
   .container.content
@@ -164,11 +149,11 @@
         .about-contacts
           %h3.about-section-title= I18n.t('.contacts_title', scope: about_scope)
           .about-contacts-list
-            = link_to 'Telegram', 'https://t.me/Florist_sistematiklar', target: '_blank', rel: 'noopener'
-            = link_to 'Instagram', 'https://www.instagram.com/flora_of_uzbekistan', target: '_blank', rel: 'noopener'
-            = link_to 'Facebook', 'https://www.facebook.com/groups/1744328139301856/', target: '_blank', rel: 'noopener'
-            = link_to 'LinkedIn', 'https://www.linkedin.com/in/bobur-choriyev-297299260', target: '_blank', rel: 'noopener'
-            = link_to 'Threads', 'https://www.threads.net/@flora_of_uzbekistan', target: '_blank', rel: 'noopener'
-            = link_to 'Email', 'mailto:boburchoriyev465@gmail.com'
-            = link_to 'Admin (Telegram)', 'https://t.me/Biolog_B', target: '_blank', rel: 'noopener'
-            = link_to '+998 91 969 12 99', 'tel:+998919691299'
+            = social_link 'Telegram', 'https://t.me/Florist_sistematiklar', glyph: 'send', color: '#229ED9', target: '_blank', rel: 'noopener'
+            = social_link 'Instagram', 'https://www.instagram.com/flora_of_uzbekistan', glyph: 'camera', color: '#C13584', target: '_blank', rel: 'noopener'
+            = social_link 'Facebook', 'https://www.facebook.com/groups/1744328139301856/', text_icon: 'f', color: '#1877F2', target: '_blank', rel: 'noopener'
+            = social_link 'LinkedIn', 'https://www.linkedin.com/in/bobur-choriyev-297299260', text_icon: 'in', color: '#0A66C2', target: '_blank', rel: 'noopener'
+            = social_link 'Threads', 'https://www.threads.net/@flora_of_uzbekistan', text_icon: '@', color: '#000000', target: '_blank', rel: 'noopener'
+            = social_link 'Email', 'mailto:boburchoriyev465@gmail.com', glyph: 'envelope', color: '#7cb342'
+            = social_link 'Admin (Telegram)', 'https://t.me/Biolog_B', glyph: 'send', color: '#229ED9', target: '_blank', rel: 'noopener'
+            = social_link '+998 91 969 12 99', 'tel:+998919691299', glyph: 'earphone', color: '#7cb342'

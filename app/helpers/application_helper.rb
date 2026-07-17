@@ -39,4 +39,17 @@ module ApplicationHelper
     text = short_comment_text(comment, max_size)
     comment.text.size > text.length ? text + '...' : text
   end
+
+  # Ijtimoiy tarmoq/aloqa tugmasi — brend rangida doira ichida belgi
+  # (Bootstrap glyphicon yoki qisqa matn, masalan "f"/"in"/"@") + nom.
+  # about.html.haml va big_years/index.html.haml'да ishlatiladi.
+  def social_link(label, url, glyph: nil, text_icon: nil, color: '#7cb342', **html_options)
+    icon = if text_icon.present?
+             content_tag(:span, text_icon, class: 'contact-icon-text')
+           else
+             content_tag(:span, '', class: "glyphicon glyphicon-#{glyph}")
+           end
+    badge = content_tag(:span, icon, class: 'contact-icon', style: "background-color:#{color}")
+    link_to safe_join([badge, label]), url, { class: 'contact-link' }.merge(html_options)
+  end
 end

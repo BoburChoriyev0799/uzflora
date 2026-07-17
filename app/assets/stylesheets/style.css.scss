@@ -2133,3 +2133,54 @@ a.delete-comment-lnk:hover {
     white-space: nowrap;
   }
 }
+
+// Aloqa/ijtimoiy tarmoq tugmalari — ApplicationHelper#social_link orqali
+// (about.html.haml, big_years/index.html.haml). Umumiy joyда, chunki
+// ikkala sahifada bir xil ishlatiladi.
+.contact-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px 6px 6px;
+  border-radius: 20px;
+  background: #f2f6ec;
+  color: #2f4a1c !important;
+  text-decoration: none !important;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background .15s ease-in-out;
+}
+.contact-link:hover {
+  background: #e2ecd9;
+  text-decoration: none !important;
+}
+.contact-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  color: #fff !important;
+  flex-shrink: 0;
+}
+.contact-icon .glyphicon {
+  font-size: 13px;
+  top: 0;
+}
+.contact-icon-text {
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -.02em;
+}
+@media (max-width: 480px) {
+  .contact-link {
+    font-size: 13px;
+    padding: 5px 14px 5px 5px;
+  }
+  .contact-icon {
+    width: 26px;
+    height: 26px;
+  }
+}
