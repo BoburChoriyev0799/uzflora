@@ -6,11 +6,18 @@
   %meta{ 'http-equiv' => 'Content-Type', content: 'text/html; charset=utf-8' }
   %meta{ 'http-equiv' => 'X-UA-Compatible', content: 'IE=edge' }
   %meta{ name: 'viewport', content: 'width=device-width, initial-scale=1' }
+  %meta{ name: 'description', content: "#{og_description}" }
 
   %meta{content: "#{I18n.t('.layouts.og_site')}", property: 'og:site_name'}
   %meta{content: "#{og_title}", property: 'og:title'}
   %meta{content: "#{og_description}", property: 'og:description'}
   %meta{content: "#{og_image_url}", property: 'og:image'}
+  %meta{content: 'website', property: 'og:type'}
+
+  %meta{ name: 'twitter:card', content: 'summary_large_image' }
+  %meta{ name: 'twitter:title', content: "#{og_title}" }
+  %meta{ name: 'twitter:description', content: "#{og_description}" }
+  %meta{ name: 'twitter:image', content: "#{og_image_url}" }
 
   = stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true
   / Zamonaviy brauzerlar SVG favicon'ni afzal ko'radi; favicon.ico eski
