@@ -79,20 +79,25 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 20px;
+      padding: 28px 26px;
+      background: #f7fbf1;
+      border: 1px solid #e2ecd9;
+      border-radius: 14px;
+      box-shadow: 0 4px 20px rgba(47,74,28,.09);
     }
     .welcome-cta-eyebrow {
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      font-size: 12px;
-      font-weight: 700;
-      color: #7cb342;
-      margin-bottom: 8px;
+      font-family: 'Merriweather', Georgia, serif;
+      font-weight: 800;
+      font-size: 21px;
+      color: #2f4a1c;
+      margin-bottom: 10px;
+      text-wrap: balance;
     }
     .welcome-cta-col p.welcome-cta-text {
-      color: #3a3a3a;
+      color: #55605a;
       font-size: 15px;
-      margin-bottom: 20px;
+      line-height: 1.6;
+      margin-bottom: 22px;
     }
     .welcome-map-title {
       font-family: 'Merriweather', Georgia, serif;
@@ -110,6 +115,9 @@
       .welcome-gallery-cell {
         flex: 1 1 30%;
       }
+      .welcome-cta-col {
+        margin-top: 22px;
+      }
     }
     @media (max-width: 767px) {
       .welcome-title {
@@ -123,6 +131,9 @@
       }
       #welcome_map_canvas {
         height: 320px;
+      }
+      .welcome-cta-col {
+        padding: 22px 20px;
       }
     }
 
