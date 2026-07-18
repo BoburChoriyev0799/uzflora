@@ -550,9 +550,17 @@ a.navbar-brand {
     .navbar-fixed-top {
         position: relative !important;
     }
+    /* Avval width:104% + margin-left:-15px bor edi — ota-blok .navbar-right
+       ul'da HAM margin-left:-15px bor (pastda), shuning uchun ikkalasi
+       QO'SHILIB (-15px + -15px = -30px) matnni ekran chetidan tashqariga
+       chiqarib yuborardi ("Ro'yxatdan o'tish" so'zining "R" harfi
+       kesilib ko'rinardi). Ota-blokning o'zi allaqachon chetgacha
+       (edge-to-edge) surilgan, shuning uchun bu yerda qo'shimcha
+       manfiy margin shart emas edi.
+    */
     .navbar-right a.btn, .navbar-right a.profile-lnk{
         display: block;
-        width: 104%;
+        width: 100%;
         text-align: left;
         padding: 0;
         background: transparent;
@@ -561,7 +569,6 @@ a.navbar-brand {
         line-height: 60px;
         margin-top:0 !important;
         border-radius: 0;
-        margin-left: -15px;
         padding-left: 20px;
     }
     .navbar-right ul.nav > li > a {

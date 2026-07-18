@@ -1,3 +1,28 @@
+%style
+  :plain
+    /* Kirish sahifasi — yangi dizaynga mos (navbar/footer bilan uyg'un). */
+    .login-form,
+    .login-form * {
+      font-family: 'Times New Roman', Times, serif !important;
+      font-weight: 700 !important;
+    }
+    .login-submit-btn {
+      background-color: #1e5620 !important;
+      border-color: #163f18 !important;
+      color: #fff !important;
+    }
+    .login-submit-btn:hover,
+    .login-submit-btn:focus {
+      background-color: #163f18 !important;
+      border-color: #0e2a0f !important;
+    }
+    .login-link-accent {
+      color: #6a1b9a !important;
+    }
+    .login-link-accent:hover {
+      color: #4a1370 !important;
+    }
+
 .bg-btm-container
   / Content
   .container.content
@@ -31,7 +56,7 @@
               .col-md-2.col-sm-2.lbl-container
                 \&nbsp;
               .col-md-8.col-sm-8.input-container.acenter
-                = f.submit "#{I18n.t('.login', scope: devise_scope)}", class: 'mtop10 mm-mtop0 w100p btn-lg btn btn-info'
+                = f.submit "#{I18n.t('.login', scope: devise_scope)}", class: 'mtop10 mm-mtop0 w100p btn-lg btn login-submit-btn'
                 %p.mtop10
-                  =link_to "#{I18n.t('.forgot_password', scope: devise_scope)}", new_user_password_path, class: 'lnk-success'
-                =link_to "#{I18n.t('.no_account', scope: devise_scope)}", new_user_registration_path
+                  =link_to "#{I18n.t('.forgot_password', scope: devise_scope)}", new_user_password_path, class: 'login-link-accent'
+                =link_to "#{I18n.t('.no_account', scope: devise_scope)}", new_user_registration_path, class: 'login-link-accent'
