@@ -3,15 +3,19 @@
   // yangi purple aksentga mos yumshoq lavanda fon. Butun sahifa matni
   // Times New Roman (`* { font-family ... !important }` global qoidasini
   // yengish uchun !important shart, style.css.scss'даgi izohga qarang).
+  // margin-top — navbar'ga yopishib ko'rinmasligi uchun qo'shimcha bo'sh joy.
   background-color: #f6f2fa;
   border-radius: 8px;
   padding: 20px;
+  margin-top: 30px !important;
   font-family: 'Times New Roman', Times, serif !important;
+  font-size: 15px;
   // :not(.glyphicon) — tahrirlash qalam belgilari (input-group-addon
   // ichida) Glyphicons ikon shriftini ishlatadi, ularга Times New
   // Roman tegib qolsa belgilar noto'g'ri ko'rinib qoladi.
   *:not(.glyphicon) {
     font-family: 'Times New Roman', Times, serif !important;
+    font-weight: 700;
   }
   .profile-purple-btn {
     background-color: #6a1b9a !important;

@@ -931,11 +931,19 @@ a.navbar-brand {
 
 @media (min-width: 1080px) {
     /*navigation */
+    /* Avval margin-top: 10px bilan "taxminan" tekislangan edi — bu
+       foydalanuvchi ismi/"Chiqish" chap menyu elementlaridan pastroqда
+       ko'rinishiga sabab bo'lardi. Endi flexbox bilan ikkalasi ham
+       AYNI bir balandlikda vertikal markazlashtiriladi — piksel
+       taxmin qilish shart emas. */
+    .birds-nav .navbar-nav,
+    .navbar-right .navbar-nav {
+        display: flex;
+        align-items: center;
+    }
     .navbar .nav-profile-lnk{
-        margin-top: 10px;
         display: inline-block;
         margin-right: 10px;
-        float:left;
     }
 }
 
