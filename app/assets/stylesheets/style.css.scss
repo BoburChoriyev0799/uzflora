@@ -401,6 +401,31 @@ html {
     }
 }
 
+// ASL SABAB (playwright bilan haqiqiy brauzerda o'lchab tasdiqlandi):
+// bu yerdagi .container umumiy Bootstrap qoidasidan (min-width:1080px
+// {width:1080px}) HAR QANDAY ekran kengligida QATTIQ 1080px bilan
+// cheklanadi. Ekspert/admin akkauntlarida chap menyuda 5ta band bo'ladi
+// (+ "Tasdiqlash uchun"), o'ng tomonda esa avatar+ism+"Chiqish" — bularning
+// umumiy eni 1080px'ga SIG'MAYDI, shuning uchun .navbar-right (Bootstrap'da
+// float:right !important) keyingi qatorga tushib ketadi (navbar balandligi
+// 60px'dan 120px'ga oshadi, ostidagi sahifa sarlavhasi esa .content'ning
+// bitta qatorga mo'ljallangan padding-top:60px orqasida yashirinib qoladi).
+// MUHIM: bu shrift (Manrope) muammosi EMAS — sinovda bir xil matn Ubuntu/
+// Arial bilan ham AYNI shu tarzda ikki qatorga bo'linishi isbotlandi;
+// oddiy (ekspert bo'lmagan) foydalanuvchilarda 4ta band bilan sig'ib
+// ketgani uchun bu muammo shu paytgacha ko'zga tashlanmagan, xolos.
+// Tuzatish: navbar uchun .container'ni umumiy sayt konteyneridan alohida,
+// kengroq (deyarli butun ekran, 1600px'gacha) qilamiz — bu shrift qanday
+// bo'lishidan qat'iy nazar bir qatorga sig'ishni kafolatlaydi.
+@media (min-width: 1251px) {
+    .birds-nav .container {
+        width: 100%;
+        max-width: 1600px;
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+}
+
 a.navbar-brand {
     margin-right: 35px;
 }
