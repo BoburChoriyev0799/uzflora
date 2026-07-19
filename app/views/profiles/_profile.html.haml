@@ -49,6 +49,13 @@
             %span.req *
         %input.btn.profile-purple-btn.w345.btn-lg-spec.sm-width-max{:type => 'submit', :value => "#{I18n.t('.change_psw', scope: profile_scope)}"}/
 
+    - if current_user.admin?
+      .row.mtop20
+        %h4.m-acenter
+          = I18n.t('.title', scope: 'two_factor.setup')
+        .m-acenter
+          = link_to I18n.t('.profile_link', scope: 'two_factor.setup'), two_factor_auth_path, class: 'btn profile-purple-btn w345 btn-lg-spec sm-width-max'
+
     .row.mtop20
       %h4.m-acenter
         = I18n.t('.bg', scope: profile_scope)

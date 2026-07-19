@@ -17,6 +17,13 @@ class Rack::Attack
     req.ip if req.path == '/user/password' && req.post?
   end
 
+  # 2FA kod kiritish (TOTP 6 xonali kod — 1 000 000 variant): parol allaqachon
+  # to'g'ri tekshirilgan bo'lsa ham, kodni cheksiz taxmin qilishning oldini
+  # olish uchun bu qadam ham cheklanadi.
+  throttle('otp_attempts/ip', limit: 10, period: 60) do |req|
+    req.ip if req.path == '/user/otp' && req.post?
+  end
+
   # /admin ostidagi barcha yo'llarga umumiy himoya — avtomatlashtirilgan
   # skanerlash/urinishlarni sekinlashtiradi (oddiy foydalanish uchun
   # yetarlicha keng limit).

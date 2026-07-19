@@ -1,0 +1,94 @@
+%style
+  :plain
+    /* 2FA sozlamalari sahifasi — sayt ranglariga mos. */
+    .two-factor-container h3,
+    .two-factor-container h4 {
+      color: #6a1b9a !important;
+    }
+    .two-factor-status.enabled {
+      color: #1e5620 !important;
+      font-weight: bold;
+    }
+    .two-factor-status.disabled {
+      color: #c62828 !important;
+      font-weight: bold;
+    }
+    .two-factor-qr {
+      text-align: center;
+      margin: 20px 0;
+    }
+    .two-factor-qr svg {
+      max-width: 220px;
+      width: 100%;
+      height: auto;
+    }
+    .two-factor-manual-key {
+      font-family: monospace;
+      background: #f6f2fa;
+      padding: 6px 10px;
+      border-radius: 4px;
+      display: inline-block;
+      word-break: break-all;
+    }
+    .two-factor-enable-btn,
+    .two-factor-confirm-btn {
+      background-color: #1e5620 !important;
+      border-color: #163f18 !important;
+      color: #fff !important;
+    }
+    .two-factor-disable-btn {
+      background-color: #c62828 !important;
+      border-color: #8e1c1c !important;
+      color: #fff !important;
+    }
+
+.bg-btm-container
+  .container.content.two-factor-container
+    - scope = 'two_factor.setup'
+    .row.mtop20.content-container
+      %h3.acenter.mbtm20
+        = I18n.t('.title', scope: scope)
+      .col-md-8.col-md-offset-2.col-sm-12
+        %p.acenter
+          = I18n.t('.intro', scope: scope)
+
+        - if current_user.otp_required_for_login?
+          %p.acenter.two-factor-status.enabled
+            = I18n.t('.status_enabled', scope: scope)
+
+          %h4.mtop20= I18n.t('.disable_title', scope: scope)
+          %p= I18n.t('.disable_warning', scope: scope)
+          = form_tag disable_two_factor_auth_path, method: :delete do
+            .row.mbtm15
+              .col-md-4.col-sm-4.lbl-container
+                %label= I18n.t('.current_password', scope: scope)
+              .col-md-8.col-sm-8
+                = password_field_tag :current_password, nil, class: 'form-control', autocomplete: 'off'
+            .row.acenter
+              = submit_tag I18n.t('.disable_button', scope: scope), class: 'btn btn-lg two-factor-disable-btn'
+
+        - elsif current_user.otp_secret.present?
+          %p.acenter.two-factor-status.disabled
+            = I18n.t('.status_disabled', scope: scope)
+
+          %h4.mtop20.acenter= I18n.t('.scan_qr', scope: scope)
+          .two-factor-qr
+            = raw RQRCode::QRCode.new(current_user.otp_provisioning_uri(current_user.email, issuer: 'Uzflora Admin')).as_svg(offset: 0, module_size: 5, standalone: true)
+          %p.acenter
+            = I18n.t('.manual_key', scope: scope)
+            %br/
+            %span.two-factor-manual-key= current_user.otp_secret
+
+          %h4.mtop20.acenter= I18n.t('.enter_code', scope: scope)
+          = form_tag confirm_two_factor_auth_path, method: :post do
+            .row.acenter
+              = text_field_tag :code, nil, autofocus: true, autocomplete: 'off', class: 'form-control w220 d-inline-block acenter', placeholder: I18n.t('.code_placeholder', scope: scope)
+            .row.mtop20.acenter
+              = submit_tag I18n.t('.confirm_button', scope: scope), class: 'btn btn-lg two-factor-confirm-btn'
+
+        - else
+          %p.acenter.two-factor-status.disabled
+            = I18n.t('.status_disabled', scope: scope)
+          .row.acenter.mtop20
+            = form_tag enable_two_factor_auth_path, method: :post do
+              = submit_tag I18n.t('.enable_button', scope: scope), class: 'btn btn-lg two-factor-enable-btn'

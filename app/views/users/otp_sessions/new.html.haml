@@ -1,0 +1,50 @@
+%style
+  :plain
+    /* OTP kod kiritish sahifasi — login sahifasi bilan bir xil uslub. */
+    .login-form,
+    .login-form * {
+      font-family: 'Times New Roman', Times, serif !important;
+      font-weight: 700 !important;
+    }
+    .login-submit-btn {
+      background-color: #1e5620 !important;
+      border-color: #163f18 !important;
+      color: #fff !important;
+    }
+    .login-submit-btn:hover,
+    .login-submit-btn:focus {
+      background-color: #163f18 !important;
+      border-color: #0e2a0f !important;
+    }
+    .login-link-accent {
+      color: #6a1b9a !important;
+    }
+    .login-link-accent:hover {
+      color: #4a1370 !important;
+    }
+
+.bg-btm-container
+  .container.content
+    - scope = 'two_factor.otp_session'
+    .row.login-registration-container.mtop20.content-container
+      %h3.acenter.mbtm20
+        = I18n.t('.title', scope: scope)
+      .col.col-md-7.col-sm-12.fcenter
+        %p.acenter.mbtm20
+          = I18n.t('.intro', scope: scope)
+        = form_tag user_otp_path, method: :post do
+          .reg-form-cntainer.login-form
+            .row
+              .col-md-4.col-sm-4.lbl-container
+                &nbsp;
+              .col-md-4.col-sm-4.input-container
+                = text_field_tag :code, nil, autofocus: true, autocomplete: 'off', class: 'form-control acenter', placeholder: I18n.t('.code_placeholder', scope: scope)
+              .col-md-4.col-sm-4
+                &nbsp;
+            .row.mtop20
+              .col-md-2.col-sm-2.lbl-container
+                &nbsp;
+              .col-md-8.col-sm-8.input-container.acenter
+                = submit_tag I18n.t('.submit', scope: scope), class: 'mtop10 mm-mtop0 w100p btn-lg btn login-submit-btn'
+                %p.mtop10
+                  = link_to I18n.t('.back_to_login', scope: scope), new_user_session_path, class: 'login-link-accent'

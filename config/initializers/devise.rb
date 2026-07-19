@@ -147,6 +147,12 @@ Devise.setup do |config|
   # qilmaydi (login — solishtirish, validatsiya emas).
   config.password_length = 8..128
 
+  # ==> Configuration for :two_factor_authenticatable / :two_factor_backupable
+  # (devise-two-factor gemi, 3-bosqich: admin uchun ixtiyoriy 2FA)
+  # Zaxira kodlar soni — telefon yo'qolganda kirish uchun. Gem standarti
+  # 5 ta, bu yerda 10 taga oshirilgan (ko'proq zaxira imkoniyati uchun).
+  config.otp_number_of_backup_codes = 10
+
   # Email regex used to validate email formats. It simply asserts that
   # one (and only one) @ exists in the given string. This is mainly
   # to give user feedback and not to assert the e-mail validity.

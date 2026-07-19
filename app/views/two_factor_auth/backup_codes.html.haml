@@ -1,0 +1,39 @@
+%style
+  :plain
+    /* Zaxira kodlar sahifasi — bir martalik ko'rsatiladi. */
+    .two-factor-container h3 {
+      color: #6a1b9a !important;
+    }
+    .backup-codes-warning {
+      color: #c62828 !important;
+      font-weight: bold;
+    }
+    .backup-codes-list {
+      font-family: monospace;
+      background: #f6f2fa;
+      border-radius: 6px;
+      padding: 20px;
+      font-size: 18px;
+      line-height: 2;
+      text-align: center;
+    }
+    .backup-codes-done-btn {
+      background-color: #1e5620 !important;
+      border-color: #163f18 !important;
+      color: #fff !important;
+    }
+
+.bg-btm-container
+  .container.content.two-factor-container
+    - scope = 'two_factor.setup'
+    .row.mtop20.content-container
+      %h3.acenter.mbtm20
+        = I18n.t('.backup_codes_title', scope: scope)
+      .col-md-8.col-md-offset-2.col-sm-12
+        %p.acenter.backup-codes-warning
+          = I18n.t('.backup_codes_warning', scope: scope)
+        .backup-codes-list
+          - @backup_codes.each do |code|
+            %div= code
+        .row.acenter.mtop20
+          = link_to I18n.t('.backup_codes_done', scope: scope), two_factor_auth_path, class: 'btn btn-lg backup-codes-done-btn'

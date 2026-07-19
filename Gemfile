@@ -44,6 +44,8 @@ gem 'fog-aws', '~> 3.28'
 
 gem 'closure_tree', '~> 8.0'
 gem 'devise', '~> 4.9'
+gem 'devise-two-factor', '~> 5.1'
+gem 'rqrcode', '~> 3.0'
 gem 'globalize', '~> 6.3'
 gem 'globalize-accessors', '~> 0.3'
 gem 'jquery-rails', '~> 4.6'

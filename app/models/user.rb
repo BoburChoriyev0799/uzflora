@@ -3,9 +3,16 @@ class User < ActiveRecord::Base
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable,
-         :omniauthable
+  #
+  # :two_factor_authenticatable :database_authenticatable'ni o'z ichiga
+  # oladi (parol tekshiruvi saqlanib qoladi), shuning uchun uni alohida
+  # qo'shish shart emas. 2FA FAQAT otp_required_for_login=true bo'lgan
+  # userlar uchun amalda ishlaydi (SessionsController#create'da tekshiriladi)
+  # — bu maydon hozircha faqat admin o'zi yoqqanda true bo'ladi, shuning
+  # uchun oddiy foydalanuvchilar/ekspertlarning kirish oqimi o'zgarmaydi.
+  devise :two_factor_authenticatable, :two_factor_backupable,
+         :registerable, :recoverable, :rememberable, :trackable,
+         :validatable, :omniauthable
 
   mount_uploader :avatar, AvatarUploader
 

@@ -3,7 +3,8 @@ Birds::Application.routes.draw do
 
   devise_for :users,
              :controllers => { registrations: 'users',
-                               omniauth_callbacks: 'users/omniauth_callbacks' },
+                               omniauth_callbacks: 'users/omniauth_callbacks',
+                               sessions: 'users/sessions' },
              path: '/user',
              skip: :registrations
 
@@ -14,7 +15,20 @@ Birds::Application.routes.draw do
     get 'user/sign_up', to: 'users#new', as: :new_user_registration
     put 'user/change_password', to: 'users#change_password'
     get 'user/unregister', to: 'users#unregister', as: :user_unregister
+
+    # Parol to'g'ri kiritilgach, agar akkauntda 2FA yoqilgan bo'lsa,
+    # Users::SessionsController shu sahifaga yo'naltiradi (kirish hali
+    # tugallanmagan — sign_in faqat kod tasdiqlangach chaqiriladi).
+    get 'user/otp', to: 'users/otp_sessions#new', as: :new_user_otp
+    post 'user/otp', to: 'users/otp_sessions#create', as: :user_otp
   end
+
+  # Admin uchun ikki bosqichli tasdiqlash (2FA) sozlamalari — profildagi
+  # "2FA sozlamalari" havolasi shu yerga olib boradi.
+  get    'two_factor_auth',         to: 'two_factor_auth#show',    as: :two_factor_auth
+  post   'two_factor_auth/enable',  to: 'two_factor_auth#enable',  as: :enable_two_factor_auth
+  post   'two_factor_auth/confirm', to: 'two_factor_auth#confirm', as: :confirm_two_factor_auth
+  delete 'two_factor_auth',         to: 'two_factor_auth#disable', as: :disable_two_factor_auth
 
   resources :profiles, only: [:show, :update]
 
