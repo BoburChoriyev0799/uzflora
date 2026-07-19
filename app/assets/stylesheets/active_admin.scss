@@ -39,3 +39,51 @@ a.button, input[type="submit"].button, button.button {
     background-color: #163f18;
   }
 }
+
+// Dashboard statistika kartochkalari (3-bosqich)
+.uzflora-stats-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.uzflora-stat-card {
+  flex: 1 1 180px;
+  min-width: 180px;
+  border-radius: 6px;
+  padding: 18px 20px;
+  color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+
+  .uzflora-stat-number {
+    font-size: 34px;
+    font-weight: bold;
+    line-height: 1.1;
+
+    a {
+      color: #fff;
+      text-decoration: underline;
+    }
+  }
+
+  .uzflora-stat-label {
+    font-size: 14px;
+    margin-top: 4px;
+    font-weight: 600;
+  }
+
+  .uzflora-stat-sub {
+    font-size: 12px;
+    margin-top: 6px;
+    opacity: 0.85;
+  }
+
+  &.purple { background-color: #6a1b9a; }
+  &.green { background-color: #1e5620; }
+  &.blue { background-color: #1a237e; }
+  &.orange { background-color: #f9a825; color: #3e2f00;
+    .uzflora-stat-number a { color: #3e2f00; }
+  }
+  &.dark-green { background-color: #2e7d32; }
+}
