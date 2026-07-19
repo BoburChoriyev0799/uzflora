@@ -344,7 +344,7 @@ html {
     height: 60px;
     padding: 18px 13px;
 }
-.navbar-right ul.nav > li > a {
+.navbar-right ul.nav > li:not(.navbar-locale-switch) > a {
     font-size:14px;
     color: #fff;
     height: 60px;
@@ -352,6 +352,33 @@ html {
 }
 .birds-nav ul.nav > li > a:hover, .birds-nav ul.nav > li.active > a {
     background-color:#551683;
+}
+
+// Mobil/hamburger menyu (0-1250px): har bir band alohida yumaloq
+// burchakli "tugma" qatoriga o'xshaydi. .navbar-right'ning o'zining
+// (edge-to-edge, width:104%) mobil telefon dizayni ATAYLAB tegilmaydi —
+// avval xuddi shu joyda ikkita manfiy margin qo'shilib matn kesilib
+// qolgan edi (-30px bug), shuning uchun bu yerdagi qo'shimchalar FAQAT
+// chap menyuga va (1080-1250px oralig'idagi) o'ng menyuga tegadi.
+@media (max-width: 1250px) {
+    // Bootstrap'ning o'zi .navbar-fixed-top .navbar-collapse'ga qattiq
+    // max-height:340px belgilaydi (ekran balandligidan qat'iy nazar) —
+    // shuning uchun mobil oynada har bir bandning balandligi (avval 60px)
+    // muhim: 60px'da 6-7 band (chap menyu + profil + Chiqish + til
+    // tanlash) 340px'ga sig'may, ichki skroll talab qilardi. Balandlikni
+    // kichraytirib (avtomatikka), ko'proq band skrollsiz sig'adi.
+    .birds-nav .navbar-nav > li:not(.navbar-locale-switch) > a {
+        height: auto;
+        line-height: 20px;
+        padding: 8px 15px;
+        border-radius: 8px;
+        margin: 2px 15px;
+        background-color: rgba(255, 255, 255, .08);
+    }
+    .birds-nav .navbar-nav > li:not(.navbar-locale-switch) > a:hover,
+    .birds-nav .navbar-nav > li.active > a {
+        background-color: rgba(255, 255, 255, .2);
+    }
 }
 .birds-nav .navbar-toggle {
     border-color: #9c5cc2;
@@ -398,6 +425,32 @@ html {
         height: auto !important;
         padding-bottom: 0;
         overflow: visible !important;
+    }
+
+    // Menyu bandlari endi shunchaki matn emas, haqiqiy tugmaga o'xshaydi
+    // (fon, yumaloq burchak, hover/faol holat). Bootstrap'ning
+    // `.navbar{min-height:60px}` qoidasi navbar balandligini har doim
+    // kafolatlab turgani uchun bu yerda <a>'ning balandligini (60px'dan
+    // avtomatikka) kichraytirish XAVFSIZ — umumiy navbar qatori baribir
+    // 60px bo'lib qoladi, .content'ning padding-top'iga tegmaydi, sarlavha
+    // yashirinmaydi (avval tuzatilgan muammo qaytmaydi).
+    .birds-nav ul.nav > li > a,
+    .navbar-right ul.nav > li:not(.navbar-locale-switch) > a {
+        height: auto;
+        line-height: 20px;
+        padding: 9px 14px;
+        margin: 0 2px;
+        border-radius: 20px;
+        background-color: rgba(255, 255, 255, .08);
+        transition: background-color .15s ease, box-shadow .15s ease;
+    }
+    .birds-nav ul.nav > li > a:hover,
+    .navbar-right ul.nav > li:not(.navbar-locale-switch) > a:hover {
+        background-color: rgba(255, 255, 255, .2) !important;
+    }
+    .birds-nav ul.nav > li.active > a {
+        background-color: rgba(255, 255, 255, .22) !important;
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .45);
     }
 }
 
@@ -631,7 +684,7 @@ a.navbar-brand {
         border-radius: 0;
         padding-left: 20px;
     }
-    .navbar-right ul.nav > li > a {
+    .navbar-right ul.nav > li:not(.navbar-locale-switch) > a {
         padding-left: 20px !important;
     }
     .navbar-right a.btn:hover, .navbar-right a.profile-lnk:hover {

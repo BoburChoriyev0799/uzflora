@@ -55,6 +55,56 @@
       margin-left: 5px;
       vertical-align: middle;
     }
+    /* Til tanlash (navbar, yuqori o'ng burchak) — xalqaro saytlarga o'xshab
+       ixcham pill-tugmalar. Footer'даgi til tanlashga qo'shimcha (u ham
+       saqlanib qoladi) — bu yerdagisi doimo ko'zga ko'rinadi. Mavjud
+       o'ng menyu <ul>'ining ICHIDA (yangi alohida flex konteyner emas) —
+       chunki alohida flex konteyner qo'shish avvalgi sinovda chap/o'ng
+       menyu floatlarini buzib, ularni qayta ikki qatorga bo'lib yuborgan
+       edi. Bitta <li> ichida 3ta kichik havola sifatida saqlash xavfsiz. */
+    /* Bootstrap'ning `.nav > li > a { display:block; padding:10px 15px }`
+       qoidasi ustunligi (specificity) yuqoriroq bo'lgani uchun bu yerda
+       display/padding/margin/height'ni !important bilan majburlash kerak —
+       aks holda 3ta til havolasi katta blok bo'lib bir-birining ustiga
+       tushib qolardi (sinovda aynan shu xato topilgan edi). */
+    .navbar-locale-switch a {
+      display: inline-block !important;
+      height: auto !important;
+      width: auto !important;
+      padding: 4px 9px !important;
+      margin: 0 0 0 3px !important;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, .12);
+      color: #fff !important;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .02em;
+      text-decoration: none !important;
+      opacity: .8;
+      transition: background-color .15s ease, opacity .15s ease;
+    }
+    .navbar-locale-switch a:hover {
+      opacity: 1;
+      background: rgba(255, 255, 255, .22);
+    }
+    .navbar-locale-switch a.active {
+      opacity: 1;
+      background: rgba(255, 255, 255, .32);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .5);
+    }
+    @media (max-width: 1250px) {
+      .navbar-locale-switch {
+        display: block;
+        text-align: center;
+        padding: 10px 15px 8px;
+        border-top: 1px solid rgba(255, 255, 255, .15);
+      }
+      .navbar-locale-switch a {
+        padding: 5px 12px !important;
+        margin: 0 4px !important;
+        font-size: 12px;
+      }
+    }
 
 %nav.navbar.birds-nav.navbar-fixed-top
   .container
@@ -108,3 +158,8 @@
                 =link_to "#{I18n.t('sign-up', scope: navbar_scope)}", new_user_registration_path, class: 'btn btn-success'
             %li
               =link_to "#{I18n.t('sign-in', scope: navbar_scope)}", new_user_session_path
+          / Til tanlash — yuqori o'ng burchak, o'sha bir xil <ul> ichida
+          %li.navbar-locale-switch
+            =link_to 'O\'Z', switch_locale_path(locale: :uz), class: "#{'active' if I18n.locale == :uz}"
+            =link_to 'RU', switch_locale_path(locale: :ru), class: "#{'active' if I18n.locale == :ru}"
+            =link_to 'EN', switch_locale_path(locale: :en), class: "#{'active' if I18n.locale == :en}"
