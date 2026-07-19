@@ -16,6 +16,18 @@ class ApplicationController < ActionController::Base
     redirect_back(fallback_location: '/', allow_other_host: false)
   end
 
+  # ActiveAdmin chaqiradi (config.on_unauthorized_access, config/
+  # initializers/active_admin.rb) — admin bo'lmagan foydalanuvchi /admin
+  # ostidagi biror sahifaga kirmoqchi bo'lganda. MUHIM: bu yerda
+  # dashboard'ga (yoki boshqa /admin sahifasiga) QAYTARILMAYDI — aks
+  # holda o'sha sahifaga ham ruxsat bo'lmagani uchun cheksiz redirect
+  # loop hosil bo'ladi (ActiveAdmin'ning o'zi shuni ogohlantirgan edi).
+  # root_path — oddiy ommaviy sahifa, hech qanday admin tekshiruviga
+  # bog'liq emas, shuning uchun loop bo'lishi mumkin emas.
+  def admin_access_denied(_exception = nil)
+    redirect_to root_path, alert: I18n.t('errors.messages.admin_access_denied')
+  end
+
   private
 
   def set_locale

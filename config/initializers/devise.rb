@@ -140,7 +140,12 @@ Devise.setup do |config|
 
   # ==> Configuration for :validatable
   # Range for password length.
-  config.password_length = 3..128
+  # 3 -> 8: 3 belgi juda zaif edi. Bu faqat YANGI parol o'rnatilganda
+  # (ro'yxatdan o'tish, parolni tiklash, parolni o'zgartirish) tekshiriladi —
+  # mavjud foydalanuvchilarning saqlangan (shifrlangan) parollariga va
+  # ularning hozirgi tizimga kirish qobiliyatiga hech qanday ta'sir
+  # qilmaydi (login — solishtirish, validatsiya emas).
+  config.password_length = 8..128
 
   # Email regex used to validate email formats. It simply asserts that
   # one (and only one) @ exists in the given string. This is mainly

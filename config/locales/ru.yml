@@ -2,6 +2,9 @@ ru:
   site_name: "Uzflora.uz"
   actions: "Действия"
   soon: "скоро"
+  errors:
+    messages:
+      admin_access_denied: "Эта страница доступна только администратору."
   time:
     formats:
       default: "%d.%m.%Y"

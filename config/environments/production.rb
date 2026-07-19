@@ -47,7 +47,11 @@ Birds::Application.configure do
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for nginx
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  # config.force_ssl = true
+  # Endi admin panel (parol bilan kirish) shu orqali o'tadi, shuning uchun
+  # xavfsiz cookie (Secure flag) va HSTS qo'shimcha himoya qatlami sifatida
+  # yoqildi. Render X-Forwarded-Proto header'ini to'g'ri uzatadi, shuning
+  # uchun Cloudflare/Render orqasida ham redirect loop bo'lmaydi.
+  config.force_ssl = true
 
   # Set to :debug to see everything in the log.
   config.log_level = :info

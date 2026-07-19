@@ -24,6 +24,10 @@ gem 'puma', '~> 6.4'
 # app/admin/*.rb DSL o'zgarishlari va Ransack allowlist talabi tekshiriladi.
 gem 'activeadmin', '~> 3.2'
 
+# Brute-force (parol taxmin qilish) himoyasi — login va /admin uchun
+# so'rov chastotasini cheklaydi (config/initializers/rack_attack.rb).
+gem 'rack-attack', '~> 6.7'
+
 # Deyarli tashlab qo'yilgan gem (oxirgi relizi 2018), Rails 7/UJS bilan
 # sinovdan o'tkazish kerak (app/views/profiles/_profile.html.haml).
 gem 'best_in_place', '~> 3.1', require: false

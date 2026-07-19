@@ -1,5 +1,8 @@
 en:
   site_name: "Uzflora.uz"
+  errors:
+    messages:
+      admin_access_denied: "This page is for administrators only."
   activerecord:
     attributes:
       user:

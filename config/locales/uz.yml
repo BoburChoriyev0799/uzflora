@@ -42,6 +42,7 @@ uz:
       max_width_error: "Rasm eni %{max_width}px dan kichik bo'lishi kerak"
       min_height_error: "Rasm bo'yi %{min_height}px dan katta bo'lishi kerak"
       max_height_error: "Rasm bo'yi %{max_height}px dan kichik bo'lishi kerak"
+      admin_access_denied: "Bu sahifaga faqat administrator kira oladi."
   activerecord:
     attributes:
       plant_sighting:
