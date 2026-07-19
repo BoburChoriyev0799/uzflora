@@ -1,33 +1,57 @@
 ActiveAdmin.register_page "Dashboard" do
+  menu priority: 1, label: "Boshqaruv paneli"
 
-  menu priority: 1, label: proc{ I18n.t("active_admin.dashboard") }
+  content title: "Uzflora Admin" do
+    columns do
+      column do
+        panel "Foydalanuvchilar" do
+          para "Jami: #{User.count}"
+          para "Ekspertlar: #{User.where(is_expert: true).count}"
+          para "Adminlar: #{User.where(is_admin: true).count}"
+          para "Katta yilga obuna bo'lganlar (#{Time.zone.now.year}): #{Subscription.where(year: Time.zone.now.year).count}"
+        end
+      end
 
-  content title: proc{ I18n.t("active_admin.dashboard") } do
-    div class: "blank_slate_container", id: "dashboard_default_message" do
-      span class: "blank_slate" do
-        span I18n.t("active_admin.dashboard_welcome.welcome")
-        small I18n.t("active_admin.dashboard_welcome.call_to_action")
+      column do
+        panel "O'simliklar" do
+          para "Jami: #{Plant.count}"
+          para "Qizil kitobda: #{Plant.where(red_book: true).count}"
+        end
+      end
+
+      column do
+        panel "Kuzatuvlar (rasmlar)" do
+          para "Jami: #{PlantSighting.count}"
+          para link_to("Kutilayotgan: #{PlantSighting.pending.count}", admin_plant_sightings_path(q: { status_eq: 'pending' }))
+          para "Tasdiqlangan: #{PlantSighting.approved.count}"
+          para "Rad etilgan: #{PlantSighting.rejected.count}"
+        end
       end
     end
 
-    # Here is an example of a simple dashboard with columns and panels.
-    #
-    # columns do
-    #   column do
-    #     panel "Recent Posts" do
-    #       ul do
-    #         Post.recent(5).map do |post|
-    #           li link_to(post.title, admin_post_path(post))
-    #         end
-    #       end
-    #     end
-    #   end
+    columns do
+      column do
+        panel "So'nggi kuzatuvlar" do
+          table_for PlantSighting.order(created_at: :desc).limit(10) do
+            column(:id) { |ps| link_to ps.id, admin_plant_sighting_path(ps) }
+            column(:user)
+            column(:plant)
+            column(:status) { |ps| status_tag(ps.status) }
+            column(:created_at)
+          end
+        end
+      end
 
-    #   column do
-    #     panel "Info" do
-    #       para "Welcome to ActiveAdmin."
-    #     end
-    #   end
-    # end
-  end # content
+      column do
+        panel "So'nggi ro'yxatdan o'tganlar" do
+          table_for User.order(created_at: :desc).limit(10) do
+            column(:id) { |user| link_to user.id, admin_user_path(user) }
+            column(:email)
+            column(:full_name) { |user| user.full_name }
+            column(:created_at)
+          end
+        end
+      end
+    end
+  end
 end

@@ -68,4 +68,14 @@ class PlantSighting < ApplicationRecord
   def reject!(expert, note = nil)
     update!(status: :rejected, expert: expert, reviewed_at: Time.zone.now, moderation_note: note)
   end
+
+  # Ransack 4+ xavfsizlik uchun ochiq ustunlarni talab qiladi — admin
+  # paneldagi filter/qidiruv shu ro'yxatga tayanadi.
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[id status published timestamp created_at]
+  end
+
+  def self.ransackable_associations(_auth_object = nil)
+    %w[user plant expert]
+  end
 end

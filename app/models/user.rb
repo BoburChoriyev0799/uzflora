@@ -21,6 +21,17 @@ class User < ActiveRecord::Base
 
   scope :big_year_members, ->() { where(big_year: true) }
 
+  # Ransack 4+ xavfsizlik uchun ochiq (filtrlanadigan/qidiriladigan)
+  # ustunlarni ANIQ ro'yxatlashni talab qiladi — admin paneldagi
+  # filter'lar shu ro'yxatga tayanadi.
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[id email first_name last_name is_expert is_admin big_year created_at]
+  end
+
+  def self.ransackable_associations(_auth_object = nil)
+    []
+  end
+
   def full_name
     "#{last_name} #{first_name}"
   end

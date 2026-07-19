@@ -44,6 +44,16 @@ class Plant < ApplicationRecord
     red_book
   end
 
+  # Ransack 4+ xavfsizlik uchun ochiq ustunlarni talab qiladi — admin
+  # paneldagi filter/qidiruv shu ro'yxatga tayanadi.
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[id species_sci species_ru species_uz genus_lat family_lat red_book created_at]
+  end
+
+  def self.ransackable_associations(_auth_object = nil)
+    %w[plant_sightings]
+  end
+
   # --- 3 tilli tavsif maydonlari ---
   # `display_name`даgi naqsh bilan bir xil: tarjima bo'sh bo'lsa
   # o'zbekcha (asl) qiymatga qaytadi, umuman yo'qolib qolmaydi.

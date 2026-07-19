@@ -7,6 +7,13 @@
 // For example, to change the sidebar width:
 // $sidebar-width: 242px;
 
+// Uzflora.uz brend ranglariga moslashtirildi: purple — sarlavha/menyu,
+// to'q yashil — havolalar. $primary-color'дан ko'p narsa (menyu fon,
+// tanlangan band rangi) avtomatik hisoblanadi (lighten($primary-color)).
+$primary-color: #6a1b9a !default;
+$link-color: #1e5620 !default;
+$table-stripe-color: #f6f2fa !default;
+
 // Active Admin's got SASS!
 @import "active_admin/mixins";
 @import "active_admin/base";
@@ -15,3 +22,20 @@
 // For example, to change the default status-tag color:
 //
 //   .status_tag { background: #6090DB; }
+
+#header {
+  background-color: #6a1b9a;
+}
+.status_tag.yes {
+  background: #1e5620;
+}
+.status_tag.no {
+  background: #c62828;
+}
+a.button, input[type="submit"].button, button.button {
+  background-color: #1e5620;
+  border-color: #163f18;
+  &:hover {
+    background-color: #163f18;
+  }
+}
