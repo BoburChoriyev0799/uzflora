@@ -22,10 +22,22 @@ function uzfloraBaseLayers() {
         maxZoom: 19,
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     });
-    layers[labels.satellite] = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+
+    // Sof sputnik rasmda davlat/viloyat/tuman chegaralari va nomlari
+    // ko'rinmaydi — shuning uchun Esri'ning bepul (kalit shart emas)
+    // "Reference" qatlami sputnik tasviri ustiga qo'shiladi (L.layerGroup
+    // orqali ikkalasi BITTA "Sputnik" band sifatida birga yoqiladi/
+    // o'chiriladi).
+    var satelliteImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
         maxZoom: 19,
         attribution: 'Tiles &copy; Esri &mdash; Esri, Maxar, Earthstar Geographics'
     });
+    var referenceOverlay = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
+        maxZoom: 19,
+        attribution: 'Chegaralar/nomlar &copy; Esri'
+    });
+    layers[labels.satellite] = L.layerGroup([satelliteImagery, referenceOverlay]);
+
     return layers;
 }
 

@@ -26,6 +26,8 @@
       color: #55605a;
       font-size: 17px;
       line-height: 1.7;
+      font-family: 'Manrope', Arial, sans-serif !important;
+      font-weight: 700 !important;
     }
     .welcome-gallery-row {
       display: flex;
@@ -75,10 +77,27 @@
       color: #4a7c2a;
       font-size: 48px;
     }
+    /* Galereya (5ta surat) o'zining ustunini (col-md-9) to'liq to'ldirgani
+       uchun "Bizga qo'shiling" kartasiga (yonidagi col-md-3) to'g'ridan-
+       to'g'ri yopishib qolardi (o'lchab tasdiqlandi: oralig'i 0px edi).
+       Ustunlar eniga (12 ustun) tegmasdan, faqat galereyaning O'ZINI
+       (flex konteyner sifatida) biroz torайtirib, orasiga bo'sh joy
+       ochamiz — bu xavfsiz, chunki flex elementlar konteyner kichrayganда
+       o'zlari mutanosib ravishda kichrayadi (float kabi keyingi qatorga
+       "sakrab" tushish xavfi yo'q). Faqat kompyuterda (>=992px) — mobilda
+       ustunlar baribir bir-birining OSTIGA tushadi, gorizontal oraliq
+       kerak emas. */
+    @media (min-width: 992px) {
+      .welcome-gallery-row {
+        margin-right: 24px;
+      }
+    }
     .welcome-cta-col {
       display: flex;
       flex-direction: column;
       justify-content: center;
+      align-items: center;
+      text-align: center;
       padding: 28px 26px;
       background: #f7fbf1;
       border: 1px solid #e2ecd9;
@@ -98,6 +117,36 @@
       font-size: 15px;
       line-height: 1.6;
       margin-bottom: 22px;
+    }
+    /* Kirish/Ro'yxatdan o'tish — ikkalasi ham zamonaviy, aniq fon rangли
+       tugmaga o'xshasin (avval faqat Ro'yxatdan o'tishда yorqin fon bor
+       edi). Sayt palitrasidagi ranglar: Kirish — purple, Ro'yxatdan
+       o'tish — to'q yashil (bir-biridan farqli, lekin mos juft). */
+    .welcome-btn-signin,
+    .welcome-btn-signup {
+      border: none !important;
+      border-radius: 10px !important;
+      font-weight: 700 !important;
+      letter-spacing: .01em;
+      transition: background-color .15s ease, box-shadow .15s ease;
+    }
+    .welcome-btn-signin {
+      background-color: #6a1b9a !important;
+      color: #fff !important;
+    }
+    .welcome-btn-signin:hover,
+    .welcome-btn-signin:focus {
+      background-color: #551683 !important;
+      color: #fff !important;
+    }
+    .welcome-btn-signup {
+      background-color: #1e5620 !important;
+      color: #fff !important;
+    }
+    .welcome-btn-signup:hover,
+    .welcome-btn-signup:focus {
+      background-color: #163f18 !important;
+      color: #fff !important;
     }
     .welcome-map-title {
       font-family: 'Merriweather', Georgia, serif;
@@ -159,8 +208,8 @@
       .col-md-3.col-sm-12.welcome-cta-col
         .welcome-cta-eyebrow= I18n.t('.cta_eyebrow', scope: w)
         %p.welcome-cta-text= I18n.t('.cta_text', scope: w)
-        = link_to I18n.t('.sign_in', scope: w), new_user_session_path, class: 'btn btn-info btn-lg btn-block mbtm10'
-        = link_to I18n.t('.sign_up', scope: w), new_user_registration_path, class: 'btn btn-success btn-lg btn-block'
+        = link_to I18n.t('.sign_in', scope: w), new_user_session_path, class: 'btn welcome-btn-signin btn-lg btn-block mbtm10'
+        = link_to I18n.t('.sign_up', scope: w), new_user_registration_path, class: 'btn welcome-btn-signup btn-lg btn-block'
 
     .row
       %h4.welcome-map-title.acenter= I18n.t('.map_title', scope: w)
