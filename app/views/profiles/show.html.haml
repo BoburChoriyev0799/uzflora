@@ -19,7 +19,7 @@
                 =link_to "#{I18n.t('.rating_2', scope: profile_scope)} - #{@big_year_rating}", big_year_path
         .col-md-3.col-sm-12.profile-user-icons
           -if @user.expert?
-            =image_tag 'user/icon-expert.png'
+            = render 'shared/expert_icon', size: 36
 
       .row.sub-nav-pils.mtop20.sm-display-none
         -if @user.current?(current_user)

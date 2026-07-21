@@ -1,0 +1,12 @@
+- size ||= 36
+/ Ekspert belgisi — avval birds.uz'dan qolgan yashil qush ikonkasi
+/ (icon-expert.png) edi, endi o'simlik mavzusiga mos, tashqi faylga
+/ bog'liq bo'lmagan inline SVG (lola/kurtak) — sayt logotipidagi
+/ kurtak uslubiga mos, to'q yashil doira fonda.
+%svg{width: size, height: size, viewbox: "0 0 36 36", xmlns: "http://www.w3.org/2000/svg", "aria-label" => I18n.t('expert', default: 'Ekspert'), role: "img"}
+  %title= I18n.t('expert', default: 'Ekspert')
+  %circle{cx: "18", cy: "18", r: "18", fill: "#1e5620"}
+  %path{d: "M18 27 L18 15", stroke: "#ffffff", "stroke-width" => "2", "stroke-linecap" => "round", fill: "none", opacity: ".95"}
+  %path{d: "M18 21 C 12.5 21, 10 17.3, 11 13 C 15.5 13, 18 16, 18 21 Z", fill: "#eaffd8"}
+  %path{d: "M18 16 C 23.5 16, 26 12.3, 25 8 C 20.5 8, 18 11, 18 16 Z", fill: "#ffffff"}
+  %path{d: "M18 11 C 14.5 8.5, 14.5 5, 18 3 C 21.5 5, 21.5 8.5, 18 11 Z", fill: "#eaffd8", opacity: ".9"}
