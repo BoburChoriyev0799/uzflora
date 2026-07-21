@@ -10,6 +10,31 @@
       font-size: 48px;
       background: linear-gradient(135deg, #eaf6ec 0%, #d3ecd8 100%);
     }
+    /* Tasdiqlangan rasm bor kartochkalar uchun — bir nechta rasm bo'lsa,
+       JS (plants_index.js) har 3.5 soniyada .active klassni navbatdagi
+       rasmga o'tkazadi, CSS esa faqat opacity orqali ohista fade qiladi
+       (og'ir kutubxonasiz, sof CSS transition). */
+    .plant-card-photo {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      border-radius: 6px 6px 0 0;
+      background: #eee;
+    }
+    .plant-card-photo-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity .6s ease-in-out;
+    }
+    .plant-card-photo-img.active {
+      opacity: 1;
+    }
     .plant-card {
       border: 1px solid #e2e2e2;
       border-radius: 6px;
@@ -101,7 +126,13 @@
             .col-sm-6.col-md-3
               .plant-card
                 = link_to plant_path(plant) do
-                  .plant-placeholder 🌿
+                  - plant_sightings = @sightings_by_plant[plant.id]
+                  - if plant_sightings.present?
+                    .plant-card-photo
+                      - plant_sightings.first(5).each_with_index do |sighting, i|
+                        = image_tag sighting.photo.small.url, class: "plant-card-photo-img #{'active' if i.zero?}"
+                  - else
+                    .plant-placeholder 🌿
                 .plant-card-body
                   = link_to plant_path(plant), class: 'plant-card-link' do
                     .plant-card-name-uz= plant.display_name(I18n.locale)

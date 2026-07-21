@@ -27,6 +27,17 @@ class PlantsController < ApplicationController
     @plants = @plants.page(params[:page]).per(PLANTS_PER_PAGE)
 
     @families = Plant.where.not(family_lat: nil).distinct.order(:family_lat).pluck(:family_lat)
+
+    # Kartochkalarda placeholder o'rniga tasdiqlangan rasm(lar)ni
+    # ko'rsatish uchun — BITTA query bilan (N+1 emas!) joriy sahifadagi
+    # (24 ta) o'simlikka tegishli barcha tasdiqlangan kuzatuvlarni olib,
+    # plant_id bo'yicha Ruby'da guruhlaymiz (@sightings_by_plant[id]).
+    # plants/show'даgi bilan bir xil siyosat: faqat .published.approved.
+    plant_ids = @plants.map(&:id)
+    @sightings_by_plant = PlantSighting.published.approved
+                                        .where(plant_id: plant_ids)
+                                        .order(created_at: :desc)
+                                        .group_by(&:plant_id)
   end
 
   def show
