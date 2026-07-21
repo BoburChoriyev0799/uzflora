@@ -4,10 +4,16 @@ class PlantSightingsController < ApplicationController
 
   layout 'plant_map', only: [:edit_map, :show]
 
-  # Moderatsiya navbati — faqat ekspertlarga ko'rinadi. Tur (plant_id) allaqachon
-  # tanlangan (known), lekin hali ko'rib chiqilmagan (pending) kuzatuvlar.
+  # Moderatsiya navbati — faqat ekspertlarga ko'rinadi. BUG TUZATILDI:
+  # avval bu yerda `.known` scope'i bor edi, ya'ni faqat tur (plant_id)
+  # tanlangan kuzatuvlar ko'rinardi — lekin plant_id ixtiyoriy
+  # (`belongs_to :plant, optional: true`, `can_publish?` plant_id'ni
+  # talab qilmaydi), shuning uchun turi aniqlanmagan (unknown) holda
+  # nashr qilingan kuzatuvlar moderatsiya navbatidan butunlay tushib
+  # qolardi. Endi published+pending BARCHASI (known ham, unknown ham)
+  # ko'rsatiladi.
   def pending
-    @plant_sightings = PlantSighting.published.known.pending
+    @plant_sightings = PlantSighting.published.pending
                                      .includes(:plant, :user)
                                      .order(created_at: :asc)
   end

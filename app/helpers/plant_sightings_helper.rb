@@ -5,8 +5,9 @@ module PlantSightingsHelper
   end
 
   # Navbar'dagi "Tasdiqlash uchun" tugmasidagi son belgisi uchun —
-  # PlantSightingsController#pending bilan bir xil scope.
+  # PlantSightingsController#pending bilan bir xil scope (o'sha yerdagi
+  # `.known` bug shu yerda ham bor edi — birga tuzatildi).
   def pending_plant_sightings_count
-    PlantSighting.published.known.pending.count
+    PlantSighting.published.pending.count
   end
 end
