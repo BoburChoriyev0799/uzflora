@@ -8,13 +8,13 @@
   border-radius: 8px;
   padding: 20px;
   margin-top: 30px !important;
-  font-family: 'Manrope', Arial, sans-serif !important;
+  font-family: 'Samsung Sharp Sans', 'Manrope', Arial, sans-serif !important;
   font-size: 15px;
   // :not(.glyphicon) — tahrirlash qalam belgilari (input-group-addon
   // ichida) Glyphicons ikon shriftini ishlatadi, ularга Manrope
   // tegib qolsa belgilar noto'g'ri ko'rinib qoladi.
   *:not(.glyphicon) {
-    font-family: 'Manrope', Arial, sans-serif !important;
+    font-family: 'Samsung Sharp Sans', 'Manrope', Arial, sans-serif !important;
     font-weight: 700;
   }
   .profile-purple-btn {

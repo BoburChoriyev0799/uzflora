@@ -38,9 +38,49 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+// Samsung Sharp Sans (Samsung Electronics'ning brend shrifti) —
+// foydalanuvchi o'z javobgarligiga ko'ra, litsenziya xavfidan xabardor
+// holda ishlatishga qaror qildi. Fayl (.otf'дан o'girilgan) tekshirildi:
+// KIRILL harflar (а-я, А-Я — U+0400-04FF) UMUMAN YO'Q, faqat lotin/umumiy
+// belgilar bor. Shuning uchun unicode-range FAQAT shu diapazonlar bilan
+// cheklangan — kirill matn uchun brauzer avtomatik ravishda navbatdagi
+// shrift (yuqoridagi Manrope) ga o'tadi, alohida almashtirish kod bilan
+// yozilmaydi (brauzerning o'zi @font-face unicode-range'ga qarab hal
+// qiladi).
+$samsung-sharp-sans-range: U+0000-00FF, U+0100-024F, U+1E00-1EFF, U+2000-206F, U+20AC, U+2113, U+2122, U+2C60-2C7F, U+A720-A7FF;
+@font-face {
+  font-family: 'Samsung Sharp Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: font-url('samsung/samsungsharpsans-regular.woff2') format('woff2');
+  unicode-range: #{$samsung-sharp-sans-range};
+}
+@font-face {
+  font-family: 'Samsung Sharp Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: font-url('samsung/samsungsharpsans-medium.woff2') format('woff2');
+  unicode-range: #{$samsung-sharp-sans-range};
+}
+@font-face {
+  font-family: 'Samsung Sharp Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: font-url('samsung/samsungsharpsans-bold.woff2') format('woff2');
+  unicode-range: #{$samsung-sharp-sans-range};
+}
+
 /* GENERAL */
+// Butun sayt matni endi qalin (bold) — talab shunday: font-size'larga
+// tegilmadi, faqat shrift oilasi va og'irligi o'zgardi. Kirill matn
+// uchun Samsung Sharp Sans'da glif yo'qligi sababli ikkinchi navbatda
+// Manrope (bold, 200-800 variable font) ishlatiladi.
 * {
-    font-family:"Manrope", Arial, sans-serif !important;
+    font-family:"Samsung Sharp Sans", "Manrope", Arial, sans-serif !important;
+    font-weight: 700 !important;
 }
 h1, h2, h3, h4, h5, h6 {
     color:#4d4d4d !important;
@@ -1074,14 +1114,14 @@ a.navbar-brand {
   .footer-inner {
     background-color: #1e5620;
     padding: 20px 0;
-    font-family: 'Manrope', Arial, sans-serif !important;
+    font-family: 'Samsung Sharp Sans', 'Manrope', Arial, sans-serif !important;
     font-weight: 700;
     // `* { font-family: ... !important }` global qoidasi bor (faylning
     // boshida) — u har bir ICHKI elementga ham to'g'ridan-to'g'ri tegadi,
     // shuning uchun faqat .footer-inner'ning o'zida shrift belgilash
     // yetarli emas, avlodlarga ham alohida kerak.
     * {
-      font-family: 'Manrope', Arial, sans-serif !important;
+      font-family: 'Samsung Sharp Sans', 'Manrope', Arial, sans-serif !important;
     }
     // 420px min-width hech qanday @media bilan cheklanmagan edi — footer
     // HAR BIR sahifada chiqadi, shuning uchun bu butun saytda mobil
@@ -2193,12 +2233,12 @@ a.delete-comment-lnk:hover {
 
 /* People */
 .users-container {
-  font-family: 'Manrope', Arial, sans-serif !important;
+  font-family: 'Samsung Sharp Sans', 'Manrope', Arial, sans-serif !important;
   // `* { font-family: ... !important }` global qoidasi ichki
   // elementlarga to'g'ridan-to'g'ri tegadi, shuning uchun bu yerda ham
   // avlodlarga alohida kerak.
   * {
-    font-family: 'Manrope', Arial, sans-serif !important;
+    font-family: 'Samsung Sharp Sans', 'Manrope', Arial, sans-serif !important;
   }
   .users-text {
     i {
