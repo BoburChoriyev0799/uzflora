@@ -100,8 +100,21 @@
       background: rgba(255, 255, 255, .26);
     }
     .navbar-locale-flag {
-      font-size: 20px;
+      display: inline-flex;
+      align-items: center;
       line-height: 1;
+    }
+    .navbar-flag-svg {
+      width: 20px;
+      height: 14px;
+      border-radius: 2px;
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, .35);
+      display: block;
+    }
+    .navbar-locale-dropdown > .dropdown-toggle .navbar-locale-code {
+      margin-left: 6px;
+      font-size: 12px;
+      font-weight: 700;
     }
     .navbar-locale-dropdown > .dropdown-toggle > .caret {
       margin-left: 6px;
@@ -246,8 +259,9 @@
           / faqat ko'rinishi (3 alohida tugma -> joriy bayroq + ochiladigan
           / ro'yxat) o'zgardi.
           %li.dropdown.navbar-locale-dropdown
-            %a.dropdown-toggle{href: '#', data: {toggle: 'dropdown'}, role: 'button', 'aria-haspopup' => 'true', 'aria-expanded' => 'false'}
+            %a.dropdown-toggle{href: '#', role: 'button', 'aria-haspopup' => 'true', 'aria-expanded' => 'false'}
               %span.navbar-locale-flag= locale_flag(I18n.locale)
+              %span.navbar-locale-code= I18n.locale.to_s.upcase
               %span.caret
             %ul.dropdown-menu.pull-right.navbar-locale-menu{role: 'menu'}
               - I18n.available_locales.each do |loc|

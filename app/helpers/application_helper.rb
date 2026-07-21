@@ -1,12 +1,42 @@
 module ApplicationHelper
 
-  # Navbar til-tanlash dropdown'i uchun — SVG/tashqi rasmga bog'liq
-  # bo'lmasin deb, oddiy Unicode bayroq emoji ishlatiladi (barcha
-  # zamonaviy brauzer/OS'da qo'llab-quvvatlanadi).
-  LOCALE_FLAGS = { uz: '🇺🇿', ru: '🇷🇺', en: '🇬🇧' }.freeze
+  # Navbar til-tanlash dropdown'i uchun — Unicode bayroq emoji ba'zi
+  # OS/brauzer (jumladan Windows'ning ko'p qismi) kombinatsiyasida
+  # umuman ko'rinmadi (rangli emoji shrifti yo'q), shuning uchun
+  # to'g'ridan-to'g'ri inline SVG'ga o'tkazildi — tashqi fayl/URL'ga
+  # bog'liq emas, har doim bir xil rangli ko'rinadi.
+  LOCALE_FLAG_SVGS = {
+    uz: <<~SVG.freeze,
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 14" class="navbar-flag-svg" aria-hidden="true">
+        <rect width="20" height="14" fill="#1eb53a"/>
+        <rect width="20" height="4.3" fill="#0099b5"/>
+        <rect y="4.3" width="20" height="0.55" fill="#ce1126"/>
+        <rect y="4.85" width="20" height="4.3" fill="#fff"/>
+        <rect y="9.15" width="20" height="0.55" fill="#ce1126"/>
+        <circle cx="3.3" cy="2.15" r="1.35" fill="#fff"/>
+        <circle cx="3.85" cy="2.15" r="1.1" fill="#0099b5"/>
+      </svg>
+    SVG
+    ru: <<~SVG.freeze,
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 14" class="navbar-flag-svg" aria-hidden="true">
+        <rect width="20" height="14" fill="#fff"/>
+        <rect y="4.67" width="20" height="4.67" fill="#0039a6"/>
+        <rect y="9.33" width="20" height="4.67" fill="#d52b1e"/>
+      </svg>
+    SVG
+    en: <<~SVG.freeze,
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 14" class="navbar-flag-svg" aria-hidden="true">
+        <rect width="20" height="14" fill="#00247d"/>
+        <path d="M0,0 L20,14 M20,0 L0,14" stroke="#fff" stroke-width="2.8"/>
+        <path d="M0,0 L20,14 M20,0 L0,14" stroke="#cf142b" stroke-width="1"/>
+        <path d="M10,0 V14 M0,7 H20" stroke="#fff" stroke-width="4.6"/>
+        <path d="M10,0 V14 M0,7 H20" stroke="#cf142b" stroke-width="2.6"/>
+      </svg>
+    SVG
+  }.freeze
 
   def locale_flag(locale)
-    LOCALE_FLAGS[locale.to_sym] || '🏳️'
+    (LOCALE_FLAG_SVGS[locale.to_sym] || '').html_safe
   end
 
   def ldate(dt, hash = {})
