@@ -30,6 +30,9 @@ en:
       range_central_asia: "In Central Asia:"
       range_uzbekistan: "In Uzbekistan:"
       protected_areas: Presence in protected areas
+      photos_title: "User photos"
+      photos_empty: "No photos have been added for this plant yet."
+      photo_by: "By:"
     welcome:
       title: "uzflora.uz — the flora of Uzbekistan platform"
       subtitle: >-

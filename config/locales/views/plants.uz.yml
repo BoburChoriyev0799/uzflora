@@ -30,6 +30,9 @@ uz:
       range_central_asia: "O'rta Osiyoda:"
       range_uzbekistan: "O'zbekistonda:"
       protected_areas: Muhofaza etiladigan hududlarda mavjudligi
+      photos_title: "Foydalanuvchilar rasmlari"
+      photos_empty: "Bu o'simlik uchun hali rasm qo'shilmagan."
+      photo_by: "Muallif:"
     welcome:
       title: "uzflora.uz — O'zbekiston florasi platformasi"
       subtitle: >-

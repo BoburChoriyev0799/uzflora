@@ -31,5 +31,15 @@ class PlantsController < ApplicationController
 
   def show
     @plant = Plant.find(params[:id])
+
+    # Shu o'simlikka bog'langan, faqat tasdiqlangan va nashr qilingan
+    # kuzatuvlar (rasmlar) — index'даgi mehmon galereyasi bilan bir xil
+    # naqsh (.published.approved). Egasi ham, mehmon ham faqat
+    # tasdiqlanganlarini ko'radi — izchil siyosat (kutilayotgan/rad
+    # etilganlar bu yerda ko'rsatilmaydi). includes(:user) — N+1'ning
+    # oldini olish uchun (har rasm ostida muallif ismi ko'rsatiladi).
+    @sightings = @plant.plant_sightings.published.approved
+                        .includes(:user)
+                        .order(created_at: :desc)
   end
 end

@@ -60,6 +60,44 @@
       color: #888;
       margin-left: 6px;
     }
+    /* Foydalanuvchi rasmlari galereyasi — bosh sahifadagi rasm
+       kartochkalari (welcome-gallery) bilan bir xil vizual uslub
+       (yumaloq burchak, soya), lekin bu yerda tor ustunga mos ravishda
+       bitta ustunli ro'yxat sifatida. */
+    .plant-photos-title {
+      color: #2f4a1c !important;
+      margin-bottom: 12px;
+    }
+    .plant-photos-gallery {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .plant-photo-card {
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,.08);
+    }
+    .plant-photo-img {
+      width: 100%;
+      display: block;
+    }
+    .plant-photo-meta {
+      padding: 10px 12px;
+    }
+    .plant-photo-meta p {
+      margin-bottom: 3px;
+      font-size: 13px;
+      color: #666;
+    }
+    .plant-photo-author a {
+      color: #1e5620;
+    }
+    .plant-photos-empty {
+      color: #888;
+      font-style: italic;
+    }
 
 .bg-btm-container
   .container.content
@@ -151,4 +189,21 @@
               %p= @plant.protected_areas
 
       .col-sm-12.col.col-md-4.fright.m-no-float
-        .plant-show-placeholder 🌿
+        - if @sightings.present?
+          %h4.plant-photos-title= I18n.t('.photos_title', scope: plant_scope)
+          .plant-photos-gallery
+            - @sightings.each do |sighting|
+              .plant-photo-card
+                = link_to plant_sighting_path(sighting) do
+                  = image_tag sighting.photo.small.url, class: 'plant-photo-img'
+                .plant-photo-meta
+                  - if sighting.timestamp.present?
+                    %p.plant-photo-date= date_format(sighting.timestamp)
+                  - if sighting.address_valid?
+                    %p.plant-photo-place= sighting.address_string
+                  %p.plant-photo-author
+                    = I18n.t('.photo_by', scope: plant_scope)
+                    = link_to sighting.user.full_name, profile_path(sighting.user)
+        - else
+          .plant-show-placeholder 🌿
+          %p.plant-photos-empty.acenter= I18n.t('.photos_empty', scope: plant_scope)
