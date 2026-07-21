@@ -1,5 +1,14 @@
 module ApplicationHelper
 
+  # Navbar til-tanlash dropdown'i uchun — SVG/tashqi rasmga bog'liq
+  # bo'lmasin deb, oddiy Unicode bayroq emoji ishlatiladi (barcha
+  # zamonaviy brauzer/OS'da qo'llab-quvvatlanadi).
+  LOCALE_FLAGS = { uz: '🇺🇿', ru: '🇷🇺', en: '🇬🇧' }.freeze
+
+  def locale_flag(locale)
+    LOCALE_FLAGS[locale.to_sym] || '🏳️'
+  end
+
   def ldate(dt, hash = {})
     dt ? l(dt, hash) : nil
   end

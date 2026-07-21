@@ -31,7 +31,12 @@
       letter-spacing: .02em;
     }
     /* Foydalanuvchi ismi (masalan "Choriyev Bobur") — katta harflarga
-       aylanmaydi, chunki bu shaxs ismi, alohida shrift bilan ajratiladi. */
+       aylanmaydi, chunki bu shaxs ismi, alohida shrift bilan ajratiladi.
+       max-width keng va white-space:nowrap — uzun ism-familiya hech qachon
+       ikkinchi qatorga tushib "kesilgandek" ko'rinmasin. */
+    .nav-profile-lnk {
+      flex-shrink: 0;
+    }
     .nav-profile-lnk span {
       font-family: 'Samsung Sharp Sans', 'Manrope', Arial, sans-serif !important;
       font-style: italic;
@@ -39,6 +44,20 @@
       text-transform: none;
       font-weight: 400;
       letter-spacing: normal;
+      white-space: nowrap;
+      max-width: 260px;
+      overflow: visible;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    /* Avatar — avval taxminan 36px (uploader'ning "thumb" versiyasi
+       o'lchami) edi, endi kattaroq (50px) ko'rinishi uchun aniq
+       width/height berilgan (border-radius:50% saqlanadi). */
+    .nav-profile-lnk img.img-circle {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      vertical-align: middle;
     }
     .moderate-badge {
       display: inline-block;
@@ -55,54 +74,118 @@
       margin-left: 5px;
       vertical-align: middle;
     }
-    /* Til tanlash (navbar, yuqori o'ng burchak) — xalqaro saytlarga o'xshab
-       ixcham pill-tugmalar. Footer'даgi til tanlashga qo'shimcha (u ham
-       saqlanib qoladi) — bu yerdagisi doimo ko'zga ko'rinadi. Mavjud
-       o'ng menyu <ul>'ining ICHIDA (yangi alohida flex konteyner emas) —
-       chunki alohida flex konteyner qo'shish avvalgi sinovda chap/o'ng
-       menyu floatlarini buzib, ularni qayta ikki qatorga bo'lib yuborgan
-       edi. Bitta <li> ichida 3ta kichik havola sifatida saqlash xavfsiz. */
-    /* Bootstrap'ning `.nav > li > a { display:block; padding:10px 15px }`
-       qoidasi ustunligi (specificity) yuqoriroq bo'lgani uchun bu yerda
-       display/padding/margin/height'ni !important bilan majburlash kerak —
-       aks holda 3ta til havolasi katta blok bo'lib bir-birining ustiga
-       tushib qolardi (sinovda aynan shu xato topilgan edi). */
-    .navbar-locale-switch a {
-      display: inline-block !important;
+    /* Til tanlash (navbar, yuqori o'ng burchak) — endi bayroqli dropdown:
+       faqat joriy til bayrog'i ko'rinadi, bosilganda qolgan ikki til
+       ochiladi. Mantiq o'zgarmadi (switch_locale_path), faqat ko'rinishi.
+       Standart Bootstrap .dropdown/.dropdown-toggle/.dropdown-menu
+       mexanizmi ishlatiladi (bootstrap.min.js'da tayyor, alohida JS
+       yozish shart emas) — shuning uchun bu yerda faqat ranglar/o'lcham
+       burgundy mavzusiga moslashtiriladi. */
+    .navbar-locale-dropdown {
+      position: relative;
+    }
+    .navbar-locale-dropdown > .dropdown-toggle {
+      display: inline-flex !important;
+      align-items: center;
       height: auto !important;
-      width: auto !important;
-      padding: 4px 9px !important;
-      margin: 0 0 0 3px !important;
-      border-radius: 14px;
-      background: rgba(255, 255, 255, .12);
-      color: #fff !important;
-      font-size: 11px;
+      padding: 8px 12px !important;
+      margin: 0 0 0 6px !important;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .14);
+      cursor: pointer;
+      transition: background-color .15s ease;
+    }
+    .navbar-locale-dropdown > .dropdown-toggle:hover,
+    .navbar-locale-dropdown.open > .dropdown-toggle {
+      background: rgba(255, 255, 255, .26);
+    }
+    .navbar-locale-flag {
+      font-size: 20px;
+      line-height: 1;
+    }
+    .navbar-locale-dropdown > .dropdown-toggle > .caret {
+      margin-left: 6px;
+      border-top-color: #fff;
+    }
+    .navbar-locale-menu.dropdown-menu {
+      min-width: 130px;
+      margin-top: 10px;
+      padding: 6px 0;
+      background: #fff;
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 6px 20px rgba(0,0,0,.22);
+      overflow: hidden;
+    }
+    .navbar-locale-menu.dropdown-menu > li > a {
+      display: flex !important;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 16px;
+      color: #4d0013 !important;
       font-weight: 700;
-      letter-spacing: .02em;
-      text-decoration: none !important;
-      opacity: .8;
-      transition: background-color .15s ease, opacity .15s ease;
+      text-transform: none;
+      letter-spacing: normal;
     }
-    .navbar-locale-switch a:hover {
-      opacity: 1;
-      background: rgba(255, 255, 255, .22);
+    .navbar-locale-menu.dropdown-menu > li > a:hover,
+    .navbar-locale-menu.dropdown-menu > li > a:focus {
+      background: #f7eef0;
+      color: #800020 !important;
     }
-    .navbar-locale-switch a.active {
-      opacity: 1;
-      background: rgba(255, 255, 255, .32);
-      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .5);
+    .navbar-locale-menu .navbar-locale-code {
+      font-size: 12px;
+      opacity: .75;
     }
+    /* Mobil hamburger menyu: dropdown ochilib-yopilishi (position:absolute)
+       Bootstrap'ning ichki skrollanadigan .navbar-collapse.in konteyneri
+       ichida ishonchsiz ishladi (sinovda: dropdown-menu eni noto'g'ri
+       hisoblanib, ekran chetidan tashqariga chiqib ketdi). Shuning uchun
+       mobilda BOSHQACHA, oddiyroq yechim: joriy bayroq + qolgan tillar
+       BIR QATORDA, doim ko'rinadigan holda (dropdown ochish shart emas) —
+       xuddi shu li/a elementlari, faqat CSS bilan "har doim ochiq"
+       qilib ko'rsatiladi. */
     @media (max-width: 1250px) {
-      .navbar-locale-switch {
-        display: block;
-        text-align: center;
-        padding: 10px 15px 8px;
+      .navbar-locale-dropdown {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 15px;
         border-top: 1px solid rgba(255, 255, 255, .15);
       }
-      .navbar-locale-switch a {
-        padding: 5px 12px !important;
-        margin: 0 4px !important;
-        font-size: 12px;
+      .navbar-locale-dropdown > .dropdown-toggle {
+        margin: 0 !important;
+      }
+      .navbar-locale-dropdown > .dropdown-toggle > .caret {
+        display: none;
+      }
+      .navbar-locale-menu.dropdown-menu {
+        display: flex !important;
+        position: static;
+        float: none;
+        width: auto;
+        min-width: 0;
+        margin: 0;
+        padding: 0;
+        background: transparent;
+        box-shadow: none;
+        border: none;
+      }
+      .navbar-locale-menu.dropdown-menu > li {
+        margin-left: 8px;
+      }
+      .navbar-locale-menu.dropdown-menu > li > a {
+        padding: 8px 12px !important;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, .14);
+        color: #fff !important;
+      }
+      .navbar-locale-menu.dropdown-menu > li > a:hover,
+      .navbar-locale-menu.dropdown-menu > li > a:focus {
+        background: rgba(255, 255, 255, .26);
+        color: #fff !important;
+      }
+      .navbar-locale-menu .navbar-locale-code {
+        display: none;
       }
     }
 
@@ -158,8 +241,18 @@
                 =link_to "#{I18n.t('sign-up', scope: navbar_scope)}", new_user_registration_path, class: 'btn btn-success'
             %li
               =link_to "#{I18n.t('sign-in', scope: navbar_scope)}", new_user_session_path
-          / Til tanlash — yuqori o'ng burchak, o'sha bir xil <ul> ichida
-          %li.navbar-locale-switch
-            =link_to 'O\'Z', switch_locale_path(locale: :uz), class: "#{'active' if I18n.locale == :uz}"
-            =link_to 'RU', switch_locale_path(locale: :ru), class: "#{'active' if I18n.locale == :ru}"
-            =link_to 'EN', switch_locale_path(locale: :en), class: "#{'active' if I18n.locale == :en}"
+          / Til tanlash — yuqori o'ng burchak, bayroqli dropdown. Mantiq
+          / o'zgarmadi: baribir switch_locale_path(locale: ...) ga link,
+          / faqat ko'rinishi (3 alohida tugma -> joriy bayroq + ochiladigan
+          / ro'yxat) o'zgardi.
+          %li.dropdown.navbar-locale-dropdown
+            %a.dropdown-toggle{href: '#', data: {toggle: 'dropdown'}, role: 'button', 'aria-haspopup' => 'true', 'aria-expanded' => 'false'}
+              %span.navbar-locale-flag= locale_flag(I18n.locale)
+              %span.caret
+            %ul.dropdown-menu.pull-right.navbar-locale-menu{role: 'menu'}
+              - I18n.available_locales.each do |loc|
+                - next if loc == I18n.locale
+                %li
+                  =link_to switch_locale_path(locale: loc) do
+                    %span.navbar-locale-flag= locale_flag(loc)
+                    %span.navbar-locale-code= loc.to_s.upcase

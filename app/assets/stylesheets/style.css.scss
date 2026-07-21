@@ -517,6 +517,59 @@ html {
         padding-left: 30px;
         padding-right: 30px;
     }
+
+    // Logotip, menyu bandlari, ism va til-dropdown TEPAGA yopishib
+    // qolmasin, balki navbar balandligining ANIQ o'rtasida tursin.
+    // IKKI QAVATLI flex kerak edi:
+    //  1) .birds-nav (<nav>'ning o'zi) — .container'ni navbar balandligi
+    //     (84px) bo'ylab vertikal markazga oladi. Buni birinchi urinishda
+    //     unutgan edim: .container'ning O'ZI atigi ~50px (o'z kontenti
+    //     balandligicha) edi va navbar'ning TEPASIDA turardi — shuning
+    //     uchun ichidagi align-items:center hech narsani markazlamadi.
+    //  2) .container — ichidagi .navbar-header va #navbar.navbar-collapse
+    //     (ikkalasi ham flex ITEM bo'lib qoladi, ularning O'Z ichidagi
+    //     eski float asosidagi joylashuvi — chap/o'ng menyu — esa
+    //     TEGILMAY qoladi, bu ikki narsa mustaqil qatlam).
+    // MUHIM: avvalgi sinovda .navbar-right'ning O'ZINI flex qilish
+    // floatlarni buzib, navbar'ni qayta ikki qatorga bo'lib yuborgan
+    // edi — bu safar ikkala flex ham .navbar-right'dan YUQORI
+    // qatlamlarda, shu sababli o'sha xato takrorlanmaydi.
+    .birds-nav {
+        display: flex;
+        align-items: center;
+    }
+    .birds-nav .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .birds-nav .navbar-header {
+        float: none;
+    }
+    .birds-nav #navbar.navbar-collapse {
+        float: none;
+        flex: 1 1 auto;
+    }
+
+    // Navbar ~1.4x balandroq (60px -> 84px). Yuqoridagi flex
+    // align-items:center (ikkala qavatda ham) tufayli barcha elementlar
+    // (logotip, menyu, avatar, ism, til-dropdown) qo'shimcha bo'sh
+    // joyning ANIQ o'rtasida avtomatik markazlashadi — alohida padding
+    // hisoblash shart emas.
+    // !important shart: asset pipeline tartibida (application.css.sass)
+    // "require style.css" bootstrap'dan OLDIN keladi, shuning uchun
+    // Bootstrap'ning `.navbar{min-height:60px}` qoidasi (bir xil
+    // specificity, lekin keyinroq joylashgan) aks holda ustun chiqardi.
+    .birds-nav {
+        min-height: 84px !important;
+    }
+    // Navbar FIXED (navbar-fixed-top) bo'lgani uchun balandligi oshsa,
+    // ostidagi sahifa kontenti ustidan yashiringan bo'lardi (avval xuddi
+    // shu turdagi xato bir marta chiqqan va tuzatilgan edi) — .content'ning
+    // padding-top'ini ham 84px'ga moslashtiramiz.
+    .content {
+        padding-top: 84px;
+    }
 }
 
 a.navbar-brand {
