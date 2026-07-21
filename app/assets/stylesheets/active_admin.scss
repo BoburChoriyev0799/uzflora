@@ -7,12 +7,12 @@
 // For example, to change the sidebar width:
 // $sidebar-width: 242px;
 
-// Uzflora.uz brend ranglariga moslashtirildi: purple — sarlavha/menyu,
+// Uzflora.uz brend ranglariga moslashtirildi: burgundy — sarlavha/menyu,
 // to'q yashil — havolalar. $primary-color'дан ko'p narsa (menyu fon,
 // tanlangan band rangi) avtomatik hisoblanadi (lighten($primary-color)).
-$primary-color: #6a1b9a !default;
+$primary-color: #800020 !default;
 $link-color: #1e5620 !default;
-$table-stripe-color: #f6f2fa !default;
+$table-stripe-color: #f7eef0 !default;
 
 // Active Admin's got SASS!
 @import "active_admin/mixins";
@@ -24,7 +24,7 @@ $table-stripe-color: #f6f2fa !default;
 //   .status_tag { background: #6090DB; }
 
 #header {
-  background-color: #6a1b9a;
+  background-color: #800020;
 }
 .status_tag.yes {
   background: #1e5620;
@@ -79,7 +79,7 @@ a.button, input[type="submit"].button, button.button {
     opacity: 0.85;
   }
 
-  &.purple { background-color: #6a1b9a; }
+  &.purple { background-color: #800020; }
   &.green { background-color: #1e5620; }
   &.blue { background-color: #1a237e; }
   &.orange { background-color: #f9a825; color: #3e2f00;

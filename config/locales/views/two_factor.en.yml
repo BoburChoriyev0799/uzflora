@@ -2,6 +2,7 @@ en:
   two_factor:
     setup:
       title: "Two-factor authentication (2FA)"
+      profile_link: "2FA settings"
       intro: "Add an extra layer of security to your account — at login, in addition to your password, you'll be asked for a 6-digit code from an Authenticator app (Google Authenticator, Authy, Microsoft Authenticator) on your phone."
       status_enabled: "2FA is enabled"
       status_disabled: "2FA is not enabled yet"

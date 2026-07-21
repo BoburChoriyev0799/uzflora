@@ -2,6 +2,7 @@ ru:
   two_factor:
     setup:
       title: "Двухфакторная аутентификация (2FA)"
+      profile_link: "Настройки 2FA"
       intro: "Добавьте дополнительный уровень защиты аккаунта — при входе, помимо пароля, будет запрашиваться 6-значный код из приложения Authenticator (Google Authenticator, Authy, Microsoft Authenticator) на вашем телефоне."
       status_enabled: "2FA включена"
       status_disabled: "2FA пока не включена"

@@ -2,6 +2,7 @@ uz:
   two_factor:
     setup:
       title: "Ikki bosqichli tasdiqlash (2FA)"
+      profile_link: "2FA sozlamalari"
       intro: "Akkauntingizga qo'shimcha himoya qatlami qo'shing — kirishda paroldan tashqari, telefoningizdagi Authenticator ilovasi (Google Authenticator, Authy, Microsoft Authenticator) beradigan 6 xonali kod ham so'raladi."
       status_enabled: "2FA yoqilgan"
       status_disabled: "2FA hozircha yoqilmagan"
