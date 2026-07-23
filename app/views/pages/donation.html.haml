@@ -1,0 +1,201 @@
+%style
+  :plain
+    .donation-wrap {
+      max-width: 760px;
+      margin: 24px auto 0;
+    }
+    .donation-title {
+      font-family: 'Merriweather', Georgia, serif;
+      font-weight: 900;
+      font-size: 30px;
+      color: #2f4a1c;
+      text-align: center;
+      margin-bottom: 14px;
+      text-wrap: balance;
+    }
+    .donation-intro {
+      color: #55605a;
+      font-size: 15px;
+      line-height: 1.7;
+      text-align: center;
+      max-width: 620px;
+      margin: 0 auto 36px;
+    }
+    .donation-section-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #2f4a1c;
+      margin: 0 0 14px;
+    }
+    .donation-amounts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 36px;
+    }
+    .donation-amount-card {
+      flex: 1 1 130px;
+      text-align: center;
+      padding: 16px 10px;
+      background: #f7fbf1;
+      border: 2px solid #e2ecd9;
+      border-radius: 10px;
+      font-weight: 700;
+      color: #2f4a1c;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: border-color .15s ease, background-color .15s ease, color .15s ease;
+      user-select: none;
+    }
+    .donation-amount-card:hover {
+      border-color: #b9d2a0;
+    }
+    .donation-amount-card.selected {
+      background: #DCEBC8;
+      border-color: #046A38;
+      color: #046A38;
+    }
+    .donation-methods {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .donation-method-card {
+      flex: 1 1 300px;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .donation-method-head {
+      background: #046A38;
+      color: #fff;
+      font-weight: 700;
+      padding: 8px 14px;
+    }
+    .donation-method-body {
+      background: #DCEBC8;
+      color: #223318;
+      padding: 14px;
+    }
+    .donation-card-number-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .donation-card-number {
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: .04em;
+      color: #223318;
+      word-break: break-all;
+    }
+    .donation-card-holder {
+      font-size: 13px;
+      color: #4a6b3a;
+      margin-top: 6px;
+    }
+    .donation-copy-btn {
+      border: none;
+      border-radius: 8px;
+      background: #046A38;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 7px 14px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .donation-copy-btn:hover {
+      background: #035a2f;
+    }
+    .donation-copy-confirm {
+      font-size: 12px;
+      color: #046A38;
+      font-weight: 700;
+      opacity: 0;
+      transition: opacity .2s ease;
+    }
+    .donation-copy-confirm.visible {
+      opacity: 1;
+    }
+    .donation-method-link {
+      display: inline-block;
+      padding: 9px 18px;
+      border-radius: 8px;
+      background: #046A38;
+      color: #fff !important;
+      font-weight: 700;
+      text-decoration: none !important;
+    }
+    .donation-method-link:hover {
+      background: #035a2f;
+      color: #fff !important;
+    }
+    .donation-qr-img {
+      max-width: 180px;
+      width: 100%;
+      border-radius: 8px;
+      display: block;
+    }
+    .donation-thanks {
+      text-align: center;
+      color: #55605a;
+      font-size: 15px;
+      line-height: 1.7;
+      padding-top: 22px;
+      border-top: 1px solid #e2e0d4;
+    }
+    @media (max-width: 480px) {
+      .donation-amount-card {
+        flex: 1 1 42%;
+      }
+      .donation-card-number {
+        font-size: 16px;
+      }
+    }
+
+.bg-btm-container
+  .container.content
+    .row.donation-container.mtop20.content-container
+      - d = 'pages.donation'
+      - donation = Rails.configuration.donation
+      .donation-wrap
+        %h2.donation-title= I18n.t('.title', scope: d)
+        %p.donation-intro= I18n.t('.intro', scope: d)
+
+        %h3.donation-section-title= I18n.t('.amounts_title', scope: d)
+        .donation-amounts
+          - [20000, 50000, 100000].each do |amount|
+            .donation-amount-card{data: {amount: amount}}= I18n.t('.amount_sum', scope: d, amount: number_with_delimiter(amount, delimiter: ' '))
+          .donation-amount-card{data: {amount: 'other'}}= I18n.t('.amount_other', scope: d)
+
+        - if donation.card_number.present? || donation.payme_url.present? || donation.click_url.present? || donation.qr_image.present?
+          %h3.donation-section-title= I18n.t('.methods_title', scope: d)
+          .donation-methods
+            - if donation.card_number.present?
+              .donation-method-card
+                .donation-method-head= I18n.t('.card_title', scope: d)
+                .donation-method-body
+                  .donation-card-number-row
+                    %span.donation-card-number= donation.card_number
+                    %button.donation-copy-btn{type: 'button', data: {clipboard_text: donation.card_number}}= I18n.t('.copy', scope: d)
+                    %span.donation-copy-confirm= I18n.t('.copied', scope: d)
+                  .donation-card-holder= donation.card_holder
+            - if donation.payme_url.present?
+              .donation-method-card
+                .donation-method-head Payme
+                .donation-method-body
+                  = link_to I18n.t('.open_payme', scope: d), donation.payme_url, class: 'donation-method-link', target: '_blank', rel: 'noopener'
+            - if donation.click_url.present?
+              .donation-method-card
+                .donation-method-head Click
+                .donation-method-body
+                  = link_to I18n.t('.open_click', scope: d), donation.click_url, class: 'donation-method-link', target: '_blank', rel: 'noopener'
+            - if donation.qr_image.present?
+              .donation-method-card
+                .donation-method-head= I18n.t('.qr_title', scope: d)
+                .donation-method-body
+                  = image_tag donation.qr_image, class: 'donation-qr-img', alt: I18n.t('.qr_title', scope: d)
+
+        %p.donation-thanks= I18n.t('.thanks', scope: d)

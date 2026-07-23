@@ -185,6 +185,59 @@
         padding: 22px 20px;
       }
     }
+    /* "Bizga qo'shiling" kartasi ostidagi qo'llab-quvvatlash kartasi —
+       xuddi shu kartaning vizual uslubi (fon, chegara, soya) takrorlanadi,
+       lekin butun eni bo'yicha, gorizontal joylashuvda. */
+    .welcome-support-card {
+      max-width: 760px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      padding: 20px 26px;
+      background: #f7fbf1;
+      border: 1px solid #e2ecd9;
+      border-radius: 14px;
+      box-shadow: 0 4px 20px rgba(47,74,28,.09);
+    }
+    .welcome-support-text {
+      flex: 1 1 320px;
+    }
+    .welcome-support-eyebrow {
+      font-family: 'Merriweather', Georgia, serif;
+      font-weight: 800;
+      font-size: 17px;
+      color: #2f4a1c;
+      margin-bottom: 4px;
+    }
+    .welcome-support-desc {
+      color: #55605a;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 0;
+    }
+    .welcome-support-btn {
+      flex-shrink: 0;
+      border: none !important;
+      border-radius: 10px !important;
+      font-weight: 700 !important;
+      background-color: #046A38 !important;
+      color: #fff !important;
+    }
+    .welcome-support-btn:hover,
+    .welcome-support-btn:focus {
+      background-color: #035a2f !important;
+      color: #fff !important;
+    }
+    @media (max-width: 767px) {
+      .welcome-support-card {
+        padding: 18px 20px;
+        text-align: center;
+        justify-content: center;
+      }
+    }
 
 .bg-btm-container
   .container.content
@@ -210,6 +263,13 @@
         %p.welcome-cta-text= I18n.t('.cta_text', scope: w)
         = link_to I18n.t('.sign_in', scope: w), new_user_session_path, class: 'btn welcome-btn-signin btn-lg btn-block mbtm10'
         = link_to I18n.t('.sign_up', scope: w), new_user_registration_path, class: 'btn welcome-btn-signup btn-lg btn-block'
+
+    .row.mtop20
+      .welcome-support-card
+        .welcome-support-text
+          .welcome-support-eyebrow= I18n.t('.support_eyebrow', scope: w)
+          %p.welcome-support-desc= I18n.t('.support_text', scope: w)
+        = link_to I18n.t('.support_btn', scope: w), donation_pages_path, class: 'btn welcome-support-btn btn-lg'
 
     .row
       %h4.welcome-map-title.acenter= I18n.t('.map_title', scope: w)

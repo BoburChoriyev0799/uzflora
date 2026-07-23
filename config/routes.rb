@@ -39,6 +39,7 @@ Birds::Application.routes.draw do
   resource :pages, path: '', only: [] do
     get :about
     get :approve
+    get 'qollab-quvvatlash', to: 'pages#donation', as: :donation
   end
 
   resource :big_year, only: [] do

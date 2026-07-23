@@ -34,6 +34,24 @@
         .footer-locale-switch a.locale-en {
           background: #c62828;
         }
+        .footer-support-row {
+          clear: both;
+          text-align: center;
+          padding-top: 14px;
+          margin-top: 14px;
+          border-top: 1px solid rgba(255,255,255,.15);
+        }
+        .footer-support-row a {
+          color: #fff !important;
+          font-size: 12px;
+          font-weight: 700;
+          text-decoration: none !important;
+          opacity: .85;
+        }
+        .footer-support-row a:hover {
+          opacity: 1;
+          text-decoration: underline !important;
+        }
     - footer_scope = 'shared.footer'
     .container
       .fleft
@@ -53,3 +71,5 @@
           %br
           = I18n.t('contacts', scope: footer_scope)
           = mail_to 'boburchoriyev465@gmail.com', 'boburchoriyev465@gmail.com'
+      .footer-support-row
+        = link_to I18n.t('donation_link', scope: footer_scope), donation_pages_path

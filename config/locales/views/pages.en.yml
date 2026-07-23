@@ -35,5 +35,27 @@ en:
         - "Kungrad–Karakul OHTL Livelihood Restoration Plan"
         - "Mirzo Ulugbek BESS Livelihood Restoration Plan"
       contacts_title: Contact
+      support_title: "Support the project"
+      support_text: "uzflora.uz runs as an open, free platform. If you'd like to support it:"
+      support_link: "Support page →"
     approve:
       title: Approve
+    donation:
+      title: "Support the project"
+      intro: >-
+        uzflora.uz is an open, free scientific platform about the plants
+        of Uzbekistan. Running the project has real costs: the server
+        (Render, $25/month), the domain, and cloud storage for photos
+        (Cloudflare R2). Your support goes toward keeping the site
+        running and building new features.
+      amounts_title: Suggested amount
+      amount_sum: "%{amount} UZS"
+      amount_other: Other amount
+      methods_title: Payment methods
+      card_title: Bank card
+      copy: Copy
+      copied: "Copied ✓"
+      open_payme: Pay via Payme
+      open_click: Pay via Click
+      qr_title: Via QR code
+      thanks: "Thank you for any support! It helps keep uzflora.uz free and open for everyone."

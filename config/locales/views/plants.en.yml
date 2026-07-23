@@ -43,4 +43,7 @@ en:
       cta_text: "To use all of the platform's features:"
       sign_in: Log in
       sign_up: Sign up
+      support_eyebrow: "Support the project"
+      support_text: "uzflora.uz runs free and ad-free. Help cover server and storage costs."
+      support_btn: "Support us"
       map_title: "Recent observations map"

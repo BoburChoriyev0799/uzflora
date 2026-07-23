@@ -109,6 +109,34 @@
       flex-wrap: wrap;
       gap: 10px;
     }
+    .about-support {
+      margin-top: 32px;
+      padding: 20px 22px;
+      background: #DCEBC8;
+      border-radius: 10px;
+    }
+    .about-support .about-section-title {
+      margin: 0 0 8px;
+    }
+    .about-support p {
+      color: #223318;
+      margin-bottom: 12px;
+    }
+    .about-support-btn {
+      display: inline-block;
+      border: none !important;
+      border-radius: 8px !important;
+      background-color: #046A38 !important;
+      color: #fff !important;
+      font-weight: 700 !important;
+      text-decoration: none !important;
+      padding: 8px 18px;
+    }
+    .about-support-btn:hover,
+    .about-support-btn:focus {
+      background-color: #035a2f !important;
+      color: #fff !important;
+    }
 
 .bg-btm-container
   .container.content
@@ -157,3 +185,8 @@
             = social_link 'Email', 'mailto:boburchoriyev465@gmail.com', glyph: 'envelope', color: '#7cb342'
             = social_link 'Admin (Telegram)', 'https://t.me/Biolog_B', glyph: 'send', color: '#229ED9', target: '_blank', rel: 'noopener'
             = social_link '+998 91 969 12 99', 'tel:+998919691299', glyph: 'earphone', color: '#7cb342'
+
+        .about-support
+          %h3.about-section-title= I18n.t('.support_title', scope: about_scope)
+          %p= I18n.t('.support_text', scope: about_scope)
+          = link_to I18n.t('.support_link', scope: about_scope), donation_pages_path, class: 'about-support-btn'

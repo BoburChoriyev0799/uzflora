@@ -35,5 +35,27 @@ uz:
         - "Qo'ng'irot–Qorako'l HEUL yashash sharoitini tiklash rejasi"
         - "Mirzo Ulug'bek BESS yashash sharoitini tiklash rejasi"
       contacts_title: Aloqa
+      support_title: "Loyihani qo'llab-quvvatlash"
+      support_text: "uzflora.uz ochiq va bepul platforma sifatida ishlaydi. Agar loyihani qo'llab-quvvatlashni istasangiz:"
+      support_link: "Qo'llab-quvvatlash sahifasi →"
     approve:
       title: Tasdiqlash
+    donation:
+      title: "Loyihani qo'llab-quvvatlash"
+      intro: >-
+        uzflora.uz — O'zbekiston o'simliklari haqidagi ochiq, bepul ilmiy
+        platforma. Loyihani yuritish uchun haqiqiy xarajatlar bor: server
+        (Render, oyiga $25), domen, rasmlar uchun bulutli saqlash
+        (Cloudflare R2). Qo'llab-quvvatlashingiz saytning ishlab
+        turishiga va yangi funksiyalarga sarflanadi.
+      amounts_title: Tavsiya etilgan summa
+      amount_sum: "%{amount} so'm"
+      amount_other: Boshqa miqdor
+      methods_title: To'lov usullari
+      card_title: Bank kartasi
+      copy: Nusxa olish
+      copied: "Nusxalandi ✓"
+      open_payme: Payme orqali o'tkazish
+      open_click: Click orqali o'tkazish
+      qr_title: QR-kod orqali
+      thanks: "Har qanday hajmdagi yordam uchun rahmat! Sizning qo'llab-quvvatlashingiz uzflora.uz'ni bepul va ochiq saqlab turishga yordam beradi."

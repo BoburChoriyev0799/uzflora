@@ -1,0 +1,33 @@
+# "Loyihani qo'llab-quvvatlash" (/qollab-quvvatlash) sahifasidagi to'lov
+# rekvizitlari — HAMMASI SHU YAGONA FAYLDA. Kodga tegmasdan faqat shu
+# yerdagi qiymatlarni yangilang:
+#
+#   card_number  — karta raqami, ko'rsatilgan holicha chiqadi (masalan
+#                  "9860 1234 5678 9012"). Sahifadagi "Nusxa olish"
+#                  tugmasi ham aynan shu matnni nusxalaydi.
+#   card_holder  — karta egasining ismi.
+#   payme_url    — Payme to'lov havolasi. BO'SH bo'lsa, Payme bloki
+#                  sahifada umuman ko'rsatilmaydi.
+#   click_url    — Click to'lov havolasi. BO'SH bo'lsa, Click bloki
+#                  ko'rsatilmaydi.
+#   qr_image     — app/assets/images ichidagi QR-kod rasm fayli nomi
+#                  (masalan "donation/qr.png" — rasmni shu papkaga
+#                  qo'ying). BO'SH bo'lsa, QR bloki ko'rsatilmaydi.
+#
+# Har bir maydon barcha muhitlarda (development/test/production) bir xil
+# bo'lgani uchun faqat &defaults'ni tahrirlash kifoya.
+defaults: &defaults
+  card_number: "0000 0000 0000 0000"
+  card_holder: "CHORIYEV BOBUR"
+  payme_url: ""
+  click_url: ""
+  qr_image: ""
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults
