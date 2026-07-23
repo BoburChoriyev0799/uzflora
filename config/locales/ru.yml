@@ -45,6 +45,11 @@ ru:
     attributes:
       user:
         reset_password_token: "Ссылка"
+      donation:
+        amount: "Сумма"
+        comment: "Комментарий"
+        donor_name: "Имя"
+        payment_method: "Способ оплаты"
     errors:
       models:
         user:

@@ -31,6 +31,13 @@ class Rack::Attack
     req.ip if req.path.start_with?('/admin')
   end
 
+  # "Loyihani qo'llab-quvvatlash" formasi mehmonlarga ham ochiq (login
+  # shart emas), shuning uchun spam/bazani to'ldirish xavfi bor — bir IP
+  # soatiga 10 tadan ortiq Donation yozuvi yubora olmaydi.
+  throttle('donations/ip', limit: 10, period: 3600) do |req|
+    req.ip if req.path == '/donations' && req.post?
+  end
+
   self.throttled_responder = lambda do |request|
     retry_after = (request.env['rack.attack.match_data'] || {})[:period]
     [

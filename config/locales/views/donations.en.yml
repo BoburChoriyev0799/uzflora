@@ -1,0 +1,11 @@
+en:
+  donations:
+    thanks:
+      title: "Thank you!"
+      message: "To complete your payment, continue in the app."
+      card_title: Bank card
+      copy: Copy
+      copied: "Copied ✓"
+      open_payme: Open the Payme app
+      open_click: Open the Click app
+      back_link: "← Back to the support page"

@@ -7,6 +7,11 @@ en:
     attributes:
       user:
         reset_password_token: "Link"
+      donation:
+        amount: "Amount"
+        comment: "Comment"
+        donor_name: "Name"
+        payment_method: "Payment method"
     errors:
       models:
         user:

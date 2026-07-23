@@ -51,11 +51,14 @@ en:
       amounts_title: Suggested amount
       amount_sum: "%{amount} UZS"
       amount_other: Other amount
-      methods_title: Payment methods
-      card_title: Bank card
-      copy: Copy
-      copied: "Copied ✓"
-      open_payme: Pay via Payme
-      open_click: Pay via Click
-      qr_title: Via QR code
+      amount_label: "Amount (UZS)"
+      comment_label: "Why are you supporting the project? (optional)"
+      comment_placeholder: "Leave a comment..."
+      donor_name_label: "Your name (optional)"
+      donor_name_placeholder: Your name
+      method_label: Payment method
+      method_payme: Payme
+      method_click: Click
+      method_card: Bank card
+      submit: Continue
       thanks: "Thank you for any support! It helps keep uzflora.uz free and open for everyone."

@@ -3,13 +3,27 @@
 # yerdagi qiymatlarni yangilang:
 #
 #   card_number  — karta raqami, ko'rsatilgan holicha chiqadi (masalan
-#                  "9860 1234 5678 9012"). Sahifadagi "Nusxa olish"
-#                  tugmasi ham aynan shu matnni nusxalaydi.
+#                  "9860 1234 5678 9012"). "Nusxa olish" tugmasi ham
+#                  aynan shu matnni nusxalaydi.
 #   card_holder  — karta egasining ismi.
-#   payme_url    — Payme to'lov havolasi. BO'SH bo'lsa, Payme bloki
-#                  sahifada umuman ko'rsatilmaydi.
-#   click_url    — Click to'lov havolasi. BO'SH bo'lsa, Click bloki
-#                  ko'rsatilmaydi.
+#
+#   payme_url / click_url — MUHIM: Payme va Click'ning rasmiy hujjatlari
+#                  faqat RO'YXATDAN O'TGAN MERCHANT (service_id/
+#                  merchant_id) uchun summa+karta oldindan to'ldirilgan
+#                  havola yaratishga imkon beradi (masalan Click'da
+#                  "https://my.click.uz/services/pay?service_id=...&
+#                  merchant_id=...&amount=..."; Payme'da
+#                  "https://checkout.paycom.uz/<base64>"). Bizda bunday
+#                  merchant integratsiyasi YO'Q, shuning uchun bu ikkala
+#                  havola shunchaki ILOVANI OCHISH uchun ishlatiladi —
+#                  summasiz. Foydalanuvchi ilova ichida karta raqamini
+#                  (yuqoridagi card_number, nusxalab olingan) o'zi qo'lda
+#                  kiritadi. Standart qiymatlar — ilovaning umumiy
+#                  sahifalari; agar shaxsiy Payme/Click hisobingizda
+#                  boshqa (masalan to'g'ridan-to'g'ri profilingizga
+#                  olib boradigan) havola bo'lsa, shu yerga almashtiring.
+#                  BO'SH qoldirilsa, tegishli "... ilovasini ochish"
+#                  tugmasi ko'rsatilmaydi.
 #   qr_image     — app/assets/images ichidagi QR-kod rasm fayli nomi
 #                  (masalan "donation/qr.png" — rasmni shu papkaga
 #                  qo'ying). BO'SH bo'lsa, QR bloki ko'rsatilmaydi.
@@ -17,10 +31,10 @@
 # Har bir maydon barcha muhitlarda (development/test/production) bir xil
 # bo'lgani uchun faqat &defaults'ni tahrirlash kifoya.
 defaults: &defaults
-  card_number: "0000 0000 0000 0000"
-  card_holder: "CHORIYEV BOBUR"
+  card_number: "9860 2301 0106 7984"
+  card_holder: "BOBUR CHORIEV"
   payme_url: ""
-  click_url: ""
+  click_url: "https://my.click.uz/clickp2p/CF0C507081985BE1F8A0AD1EABF9CBEB40C470721497899802F1EFDA8E37DD38"
   qr_image: ""
 
 development:

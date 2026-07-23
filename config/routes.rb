@@ -51,6 +51,16 @@ Birds::Application.routes.draw do
 
   resources :plants, only: [:index, :show]
 
+  # DonationsController — "Loyihani qo'llab-quvvatlash" formasi (yozuv
+  # bazaga saqlanadi, pages#donation'dagi statik sahifadan farqli).
+  # `donations_path` (ko'plik) — `donation_pages_path` (pages resursidagi
+  # /qollab-quvvatlash) bilan chalkashmaydi, ikkalasi ham mustaqil.
+  resources :donations, only: [:create] do
+    collection do
+      get :thanks
+    end
+  end
+
   resources :map, only: [:index]
 
   resources :birds, except: [:index] do

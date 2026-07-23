@@ -14,6 +14,10 @@ ActiveAdmin.register_page "Dashboard" do
     rejected_total     = PlantSighting.rejected.count
     participants_total = Subscription.where(year: current_year).count
 
+    donations_confirmed_total = Donation.tasdiqlangan.sum(:amount)
+    donations_month_total     = Donation.tasdiqlangan.where(created_at: Time.zone.now.beginning_of_month..).sum(:amount)
+    donations_pending_total   = Donation.kutilmoqda.count
+
     div class: "uzflora-stats-grid" do
       div class: "uzflora-stat-card purple" do
         div(class: "uzflora-stat-number") { users_total }
@@ -43,6 +47,15 @@ ActiveAdmin.register_page "Dashboard" do
         div(class: "uzflora-stat-number") { participants_total }
         div(class: "uzflora-stat-label") { "Katta yil ishtirokchilari" }
         div(class: "uzflora-stat-sub") { "#{current_year}-yil" }
+      end
+
+      div class: "uzflora-stat-card emerald" do
+        div(class: "uzflora-stat-number") { "#{number_with_delimiter(donations_confirmed_total, delimiter: ' ')} so'm" }
+        div(class: "uzflora-stat-label") { "Jami tasdiqlangan xayriyalar" }
+        div(class: "uzflora-stat-sub") do
+          text_node "shu oyda #{number_with_delimiter(donations_month_total, delimiter: ' ')} so'm — "
+          span link_to("#{donations_pending_total} kutilmoqda", admin_donations_path(q: { status_eq: 'kutilmoqda' }))
+        end
       end
     end
 

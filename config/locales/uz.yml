@@ -58,6 +58,11 @@ uz:
         note: "Izoh"
       user:
         reset_password_token: "Havola"
+      donation:
+        amount: "Summa"
+        comment: "Izoh"
+        donor_name: "Ism"
+        payment_method: "To'lov usuli"
     errors:
       models:
         user:

@@ -51,11 +51,14 @@ uz:
       amounts_title: Tavsiya etilgan summa
       amount_sum: "%{amount} so'm"
       amount_other: Boshqa miqdor
-      methods_title: To'lov usullari
-      card_title: Bank kartasi
-      copy: Nusxa olish
-      copied: "Nusxalandi ✓"
-      open_payme: Payme orqali o'tkazish
-      open_click: Click orqali o'tkazish
-      qr_title: QR-kod orqali
+      amount_label: "Summa (so'm)"
+      comment_label: "Nima uchun qo'llab-quvvatlayapsiz? (ixtiyoriy)"
+      comment_placeholder: "Izoh qoldiring..."
+      donor_name_label: "Ismingiz (ixtiyoriy)"
+      donor_name_placeholder: Ismingiz
+      method_label: To'lov usuli
+      method_payme: Payme
+      method_click: Click
+      method_card: Bank kartasi
+      submit: Davom etish
       thanks: "Har qanday hajmdagi yordam uchun rahmat! Sizning qo'llab-quvvatlashingiz uzflora.uz'ni bepul va ochiq saqlab turishga yordam beradi."

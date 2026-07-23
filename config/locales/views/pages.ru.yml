@@ -51,11 +51,14 @@ ru:
       amounts_title: Рекомендуемая сумма
       amount_sum: "%{amount} сум"
       amount_other: Другая сумма
-      methods_title: Способы оплаты
-      card_title: Банковская карта
-      copy: Копировать
-      copied: "Скопировано ✓"
-      open_payme: Перевести через Payme
-      open_click: Перевести через Click
-      qr_title: По QR-коду
+      amount_label: "Сумма (сум)"
+      comment_label: "Почему вы поддерживаете проект? (необязательно)"
+      comment_placeholder: "Оставьте комментарий..."
+      donor_name_label: "Ваше имя (необязательно)"
+      donor_name_placeholder: Ваше имя
+      method_label: Способ оплаты
+      method_payme: Payme
+      method_click: Click
+      method_card: Банковская карта
+      submit: Продолжить
       thanks: "Спасибо за любую помощь! Ваша поддержка помогает uzflora.uz оставаться бесплатным и открытым."

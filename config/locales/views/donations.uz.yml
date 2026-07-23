@@ -1,0 +1,11 @@
+uz:
+  donations:
+    thanks:
+      title: "Rahmat!"
+      message: "To'lovni yakunlash uchun ilovada davom eting."
+      card_title: Bank kartasi
+      copy: Nusxa olish
+      copied: "Nusxalandi ✓"
+      open_payme: Payme ilovasini ochish
+      open_click: Click ilovasini ochish
+      back_link: "← Qo'llab-quvvatlash sahifasiga qaytish"

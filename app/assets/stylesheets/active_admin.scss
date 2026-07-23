@@ -77,6 +77,12 @@ a.button, input[type="submit"].button, button.button {
     font-size: 12px;
     margin-top: 6px;
     opacity: 0.85;
+
+    a {
+      color: #fff;
+      text-decoration: underline;
+      opacity: 1;
+    }
   }
 
   &.purple { background-color: #800020; }
@@ -86,4 +92,5 @@ a.button, input[type="submit"].button, button.button {
     .uzflora-stat-number a { color: #3e2f00; }
   }
   &.dark-green { background-color: #2e7d32; }
+  &.emerald { background-color: #046A38; }
 }
