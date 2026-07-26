@@ -107,6 +107,23 @@ class PlantSightingsController < ApplicationController
     end
   end
 
+  # AJAX (JSON): "O'simlik" bosqichidagi live-autocomplete uchun yengil
+  # endpoint — foydalanuvchi yozayotganda pastda ochiluvchi ro'yxatni
+  # to'ldiradi. Kamida 2 belgidan keyin ishlaydi, natija 10 taga cheklangan.
+  def autocomplete
+    text = params[:text].to_s.strip
+    plants = text.length >= 2 ? Plant.search(text).limit(10) : Plant.none
+
+    render json: plants.map { |plant|
+      {
+        id: plant.id,
+        sci: plant.species_sci,
+        secondary: [plant.species_uz, plant.species_ru].map(&:presence).compact.uniq.join(' / '),
+        selected_text: "#{plant.display_name(I18n.locale)} | #{plant.species_sci}"
+      }
+    }
+  end
+
   private
 
   def require_expert!

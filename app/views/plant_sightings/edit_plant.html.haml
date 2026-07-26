@@ -14,7 +14,9 @@
               %span.selected-plant= I18n.t('.unknown_plant', scope: edit_scope)
 
           = form_tag plant_sightings_search_path, method: :post, remote: true do
-            = text_field_tag :text, nil, class: 'form-control w80 sm-width-max', autofocus: true, placeholder: I18n.t('.plant_name_placeholder', scope: edit_scope)
+            .plant-autocomplete.w80.sm-width-max{ data: { url: plant_sightings_autocomplete_path, not_found: I18n.t('.not_found', scope: edit_scope) } }
+              = text_field_tag :text, nil, class: 'form-control plant-autocomplete-input', autofocus: true, autocomplete: 'off', placeholder: I18n.t('.plant_name_placeholder', scope: edit_scope)
+              %ul.plant-autocomplete-list
             = submit_tag I18n.t('.find', scope: edit_scope), class: 'btn btn-success fright sm-center sm-mtop10 w15 m-mtop20'
             .search-description
               = I18n.t('.howto_find_plant', scope: edit_scope)

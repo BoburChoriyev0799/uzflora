@@ -1481,6 +1481,73 @@ div.search-btn a.search:hover{
   color: #94846e;
 }
 
+/* PLANT AUTOCOMPLETE - "O'simlik" bosqichidagi jonli qidiruv dropdown'i */
+.plant-autocomplete {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.plant-autocomplete-input {
+  width: 100% !important;
+}
+
+.plant-autocomplete-list {
+  display: none;
+  position: absolute;
+  z-index: 20;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin: 2px 0 0 0;
+  padding: 0;
+  list-style: none;
+  background: #fff;
+  border: 1px solid #d8d8ce;
+  border-radius: 3px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, .12);
+  max-height: 260px;
+  overflow-y: auto;
+  text-align: left;
+}
+
+.plant-autocomplete.open .plant-autocomplete-list {
+  display: block;
+}
+
+.plant-autocomplete-item {
+  padding: 8px 12px;
+  font-size: 14px;
+  line-height: 20px;
+  color: #333;
+  cursor: pointer;
+  border-bottom: 1px solid #f0f0e8;
+}
+
+.plant-autocomplete-item:last-child {
+  border-bottom: none;
+}
+
+.plant-autocomplete-item:hover,
+.plant-autocomplete-item.active {
+  background-color: #f7f7ed;
+  color: #90b444;
+}
+
+.plant-autocomplete-empty {
+  padding: 8px 12px;
+  font-size: 12px;
+  color: #94846e;
+  cursor: default;
+}
+
+@media (max-width: 767px) {
+  .plant-autocomplete-item {
+    padding: 12px;
+    font-size: 15px;
+  }
+}
+
 @media (max-width: 550px) {
     .form-container .fright, .bird-photo-container .fright {
         float:none !important;

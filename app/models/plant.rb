@@ -19,13 +19,26 @@ class Plant < ApplicationRecord
 
   # Nom bo'yicha qidiruv (ilmiy, ruscha yoki o'zbekcha):
   #   Plant.search("lola")
+  # Nom BOSHIDAN mos kelganlar (masalan "Rosa..." so'rovi "lola" so'ziga
+  # emas, "Rosa"ga) natijalar ro'yxatida yuqorida chiqadi — autocomplete
+  # uchun muhim, foydalanuvchi odatda so'z boshini yozadi.
   scope :search, lambda { |q|
-    term = "%#{q.to_s.strip.downcase}%"
+    raw = q.to_s.strip.downcase
+    term = "%#{raw}%"
+    prefix = "#{raw}%"
     where(
       'LOWER(species_sci) LIKE :t OR LOWER(species_ru) LIKE :t OR ' \
       'LOWER(species_uz) LIKE :t OR LOWER(genus_lat) LIKE :t',
       t: term
-    )
+    ).order(
+      Arel.sql(
+        sanitize_sql_array(
+          ['CASE WHEN LOWER(species_sci) LIKE :p OR LOWER(species_ru) LIKE :p OR ' \
+           'LOWER(species_uz) LIKE :p OR LOWER(genus_lat) LIKE :p THEN 0 ELSE 1 END',
+           p: prefix]
+        )
+      )
+    ).order(:species_sci)
   }
 
   # --- Ko'rsatiladigan nom ---

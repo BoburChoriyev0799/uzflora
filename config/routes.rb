@@ -88,6 +88,7 @@ Birds::Application.routes.draw do
   end
 
   post 'plant_sightings_search' => 'plant_sightings#search_plant'
+  get 'plant_sightings_autocomplete' => 'plant_sightings#autocomplete', as: :plant_sightings_autocomplete
 
   resources :comments, only: [:create, :destroy]
 
