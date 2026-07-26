@@ -7,7 +7,7 @@ uz:
       intro: >-
         uzflora.uz — O'zbekiston o'simliklari haqidagi ochiq, bepul ilmiy
         platforma. Loyihani yuritish uchun haqiqiy xarajatlar bor: server
-        (Render, oyiga $25), domen, rasmlar uchun bulutli saqlash
+        (Render), domen, rasmlar uchun bulutli saqlash
         (Cloudflare R2). Qo'llab-quvvatlashingiz saytning ishlab
         turishiga va yangi funksiyalarga sarflanadi.
       amounts_title: Tavsiya etilgan summa

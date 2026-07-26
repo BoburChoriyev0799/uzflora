@@ -52,6 +52,14 @@
           opacity: 1;
           text-decoration: underline !important;
         }
+        .footer-heart {
+          display: inline-block;
+          vertical-align: middle;
+          color: #E23744;
+          font-size: 1.35em;
+          line-height: 1;
+          margin-right: 4px;
+        }
     - footer_scope = 'shared.footer'
     .container
       .fleft
@@ -72,4 +80,6 @@
           = I18n.t('contacts', scope: footer_scope)
           = mail_to 'boburchoriyev465@gmail.com', 'boburchoriyev465@gmail.com'
       .footer-support-row
-        = link_to I18n.t('donation_link', scope: footer_scope), donation_pages_path
+        = link_to donation_pages_path do
+          %span.footer-heart ❤
+          = I18n.t('donation_link', scope: footer_scope)

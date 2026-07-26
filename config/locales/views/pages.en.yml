@@ -7,7 +7,7 @@ en:
       intro: >-
         uzflora.uz is an open, free scientific platform about the plants
         of Uzbekistan. Running the project has real costs: the server
-        (Render, $25/month), the domain, and cloud storage for photos
+        (Render), the domain, and cloud storage for photos
         (Cloudflare R2). Your support goes toward keeping the site
         running and building new features.
       amounts_title: Suggested amount
