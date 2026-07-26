@@ -1,43 +1,5 @@
 uz:
   pages:
-    about:
-      title: Biz haqimizda
-      name: Bobur Choriyev
-      role: "Botanik — Green Business Innovation MChJ, Toshkent"
-      address_label: "Manzil:"
-      address: "Surxondaryo, O'zbekiston"
-      nationality_label: "Millati:"
-      nationality: "O'zbekiston"
-      experience_title: Ish tajribasi
-      experience:
-        - period: "2024 — hozirgacha"
-          text: "Green Business Innovation MChJ botanigi, Toshkent"
-        - period: "2023-aprel — 2024"
-          text: "Yuqori Tupolang milliy tabiat bog'i ilmiy kotibi, Surxondaryo viloyati"
-        - period: "2023-mart — 2023-may"
-          text: "Atrof-muhit va tabiatni muhofaza qilish texnologiyalari ilmiy-tadqiqot instituti laboratoriya tadqiqotchisi, Toshkent"
-      education_title: Ta'lim
-      education:
-        - period: "2023-fevral — hozirgacha"
-          text: "O'zbekiston Milliy universiteti biologiya yo'nalishi magistranti"
-        - period: "2018-sentabr — 2022-iyun"
-          text: "Termiz davlat universiteti biologiya bakalavri"
-        - period: "2015-sentabr — 2018-may"
-          text: "Termiz davlat universiteti huzuridagi 2-akademik litsey"
-      projects_title: Ishtirok etgan loyihalar
-      projects:
-        - Artemisia Hybrid loyihasi
-        - "Buxoro Batareya Energiya Saqlash Tizimi (BESS) loyihasi — 500 MWh"
-        - "Zarafshon BESS loyihasi — 300 MW"
-        - "Toshkent City–Mirzo Ulug'bek BESS loyihasi — 300 MWh"
-        - "Qo'ng'irot shamol elektr stansiyasi loyihasi — 1 500 MW"
-        - "Qo'ng'irot–Qorako'l 500 kV havo elektr uzatish liniyasi loyihasi — 844 km"
-        - "Qo'ng'irot–Qorako'l HEUL yashash sharoitini tiklash rejasi"
-        - "Mirzo Ulug'bek BESS yashash sharoitini tiklash rejasi"
-      contacts_title: Aloqa
-      support_title: "Loyihani qo'llab-quvvatlash"
-      support_text: "uzflora.uz ochiq va bepul platforma sifatida ishlaydi. Agar loyihani qo'llab-quvvatlashni istasangiz:"
-      support_link: "Qo'llab-quvvatlash sahifasi →"
     approve:
       title: Tasdiqlash
     donation:

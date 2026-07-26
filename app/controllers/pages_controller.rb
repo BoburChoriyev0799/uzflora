@@ -7,9 +7,6 @@ class PagesController < ApplicationController
     @birds = Bird.published.known.unconfirmed.no_hybrid.order(created_at: :desc)
   end
 
-  def about
-  end
-
   def donation
     @donation = Donation.new(amount: 20_000, payment_method: 'payme')
   end

@@ -1,43 +1,5 @@
 en:
   pages:
-    about:
-      title: About us
-      name: Bobur Choriyev
-      role: "Botanist — Green Business Innovation LLC, Tashkent"
-      address_label: "Address:"
-      address: "Surkhandarya, Uzbekistan"
-      nationality_label: "Nationality:"
-      nationality: "Uzbekistan"
-      experience_title: Work experience
-      experience:
-        - period: "2024 — present"
-          text: "Botanist at Green Business Innovation LLC, Tashkent"
-        - period: "April 2023 — 2024"
-          text: "Scientific Secretary of Upper Topalang National Nature Park, Surkhandarya region"
-        - period: "March 2023 — May 2023"
-          text: "Laboratory researcher at the Scientific Research Institute of Environment and Nature Protection Technologies, Tashkent"
-      education_title: Education
-      education:
-        - period: "February 2023 — present"
-          text: "Master's student, Department of Biology, National University of Uzbekistan"
-        - period: "September 2018 — June 2022"
-          text: "Bachelor's degree in Biology, Termez State University"
-        - period: "September 2015 — May 2018"
-          text: "Academic Lyceum No. 2 under Termez State University, Termez, Uzbekistan"
-      projects_title: Projects
-      projects:
-        - Artemisia Hybrid Project
-        - "Bukhara Battery Energy Storage System (BESS) Project — 500 MWh"
-        - "Zarafshan BESS Project — 300 MW"
-        - "Tashkent City–Mirzo Ulugbek BESS Project — 300 MWh"
-        - "Kungrad Wind Farm Project — 1,500 MW"
-        - "Kungrad–Karakul 500 kV OHTL Project — 844 km"
-        - "Kungrad–Karakul OHTL Livelihood Restoration Plan"
-        - "Mirzo Ulugbek BESS Livelihood Restoration Plan"
-      contacts_title: Contact
-      support_title: "Support the project"
-      support_text: "uzflora.uz runs as an open, free platform. If you'd like to support it:"
-      support_link: "Support page →"
     approve:
       title: Approve
     donation:

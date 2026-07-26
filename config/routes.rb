@@ -37,7 +37,6 @@ Birds::Application.routes.draw do
   get 'switch_locale' => 'application#switch_locale'
 
   resource :pages, path: '', only: [] do
-    get :about
     get :approve
     get 'qollab-quvvatlash', to: 'pages#donation', as: :donation
   end
