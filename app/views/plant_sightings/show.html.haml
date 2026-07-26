@@ -2,7 +2,7 @@
   .container.content
     - show_scope = 'plant_sightings.show'
     .row.mtop20.mbtm20
-      .col-md-8.col-sm-12
+      .col-md-8.col-sm-12.col-xs-12
         - if @plant_sighting.photo.present?
           = link_to @plant_sighting.photo.url, target: '_blank', rel: 'noopener', title: I18n.t('.view_full', scope: show_scope) do
             = image_tag @plant_sighting.photo.display.url, class: 'img-responsive'
@@ -44,7 +44,7 @@
           #sighting_map_canvas{style: 'display:none; width:100%; height:300px; margin-top:10px;'}
 
     .row
-      .col.col-md-8.col-sm-12
+      .col.col-md-8.col-sm-12.col-xs-12
         .row.bird-photo-comments
           %h4
             = I18n.t('.comments', scope: show_scope)
