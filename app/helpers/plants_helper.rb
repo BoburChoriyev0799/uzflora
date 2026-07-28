@@ -28,12 +28,15 @@ module PlantsHelper
   PLANT_EXTERNAL_LINK_LOGOS = {
     'inaturalist' => 'external_sources/inaturalist-logo.svg',
     'gbif' => 'external_sources/gbif-logo.svg',
-    'powo' => 'external_sources/powo-logo.png'
+    'powo' => 'external_sources/powo-logo.png',
+    'plantarium' => 'external_sources/plantarium-logo.svg',
+    'iucn' => 'external_sources/iucn-logo.png'
   }.freeze
 
-  # Tashqi ilmiy manbalar (iNaturalist, GBIF, POWO) uchun havolalar:
-  # [key, label, logo_path, url] ro'yxati. Tur nomi bo'lmasa bo'sh
-  # massiv qaytadi — bu holda blok umuman ko'rsatilmaydi.
+  # Tashqi ilmiy manbalar (iNaturalist, GBIF, POWO, Plantarium, IUCN Red
+  # List) uchun havolalar: [key, label, logo_path, url] ro'yxati. Tur
+  # nomi bo'lmasa bo'sh massiv qaytadi — bu holda blok umuman
+  # ko'rsatilmaydi.
   def plant_external_links(plant)
     name = plant.external_search_name
     return [] if name.blank?
@@ -47,7 +50,12 @@ module PlantsHelper
       # shu jarayonda ?q= parametri tushib qolib, butun bazani ko'rsatib
       # yuboradi — shuning uchun to'g'ridan-to'g'ri "/taxon/search".
       ['gbif', 'GBIF', "https://www.gbif.org/taxon/search?q=#{q}"],
-      ['powo', 'POWO', "https://powo.science.kew.org/results?q=#{q}"]
+      ['powo', 'POWO', "https://powo.science.kew.org/results?q=#{q}"],
+      # Qidiruv formasining haqiqiy maydon nomlari (sample/match/type/
+      # mode) plantarium.ru'ning o'z HTML formasidan olindi — "query"
+      # kabi taxmin qilingan nom natija bermas edi.
+      ['plantarium', 'Plantarium', "https://www.plantarium.ru/page/search.html?match=begins&type=0&mode=full&sample=#{q}"],
+      ['iucn', 'IUCN Red List', "https://www.iucnredlist.org/search?query=#{q}&searchType=species"]
     ].map { |key, label, url| [key, label, PLANT_EXTERNAL_LINK_LOGOS[key], url] }
   end
 end
