@@ -21,18 +21,33 @@ module PlantsHelper
     end
   end
 
+  # Tashqi manba tugmalarida ko'rsatiladigan rasmiy logo fayllari
+  # (app/assets/images/external_sources/). Har biri o'z nomini o'zida
+  # tashiydi (wordmark), shuning uchun tugmada alohida matn label
+  # kerak emas — logo yonida faqat img bor.
+  PLANT_EXTERNAL_LINK_LOGOS = {
+    'inaturalist' => 'external_sources/inaturalist-logo.svg',
+    'gbif' => 'external_sources/gbif-logo.svg',
+    'powo' => 'external_sources/powo-logo.png'
+  }.freeze
+
   # Tashqi ilmiy manbalar (iNaturalist, GBIF, POWO) uchun havolalar:
-  # [key, label, url] ro'yxati. Tur nomi bo'lmasa bo'sh massiv qaytadi —
-  # bu holda blok umuman ko'rsatilmaydi.
+  # [key, label, logo_path, url] ro'yxati. Tur nomi bo'lmasa bo'sh
+  # massiv qaytadi — bu holda blok umuman ko'rsatilmaydi.
   def plant_external_links(plant)
     name = plant.external_search_name
     return [] if name.blank?
 
-    q = CGI.escape(name)
+    # ERB::Util.url_encode bo'shliqni "%20" bilan kodlaydi ("+" emas) —
+    # GBIF'ning qidiruv sahifasi "+" ni to'g'ri dekodlamas edi.
+    q = ERB::Util.url_encode(name)
     [
       ['inaturalist', 'iNaturalist', "https://www.inaturalist.org/observations?taxon_name=#{q}"],
-      ['gbif', 'GBIF', "https://www.gbif.org/species/search?q=#{q}"],
+      # "/species/search" GBIF'da "/taxon/search"ga redirect bo'ladi va
+      # shu jarayonda ?q= parametri tushib qolib, butun bazani ko'rsatib
+      # yuboradi — shuning uchun to'g'ridan-to'g'ri "/taxon/search".
+      ['gbif', 'GBIF', "https://www.gbif.org/taxon/search?q=#{q}"],
       ['powo', 'POWO', "https://powo.science.kew.org/results?q=#{q}"]
-    ]
+    ].map { |key, label, url| [key, label, PLANT_EXTERNAL_LINK_LOGOS[key], url] }
   end
 end

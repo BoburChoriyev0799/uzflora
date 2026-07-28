@@ -108,26 +108,31 @@
     .plant-external-link-btn {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 8px 16px;
+      padding: 6px;
       border-radius: 20px;
       border: 1px solid #046A38;
       background: #DCEBC8;
-      color: #046A38;
-      font-weight: 600;
-      font-size: 14px;
       text-decoration: none;
-      transition: background-color .15s ease, color .15s ease;
+      transition: background-color .15s ease, border-color .15s ease;
     }
     .plant-external-link-btn:hover,
     .plant-external-link-btn:focus {
       background: #046A38;
-      color: #fff;
       text-decoration: none;
     }
-    .plant-external-link-icon {
-      font-size: 15px;
-      line-height: 1;
+    .plant-external-link-logo {
+      display: inline-flex;
+      align-items: center;
+      background: #fff;
+      border-radius: 14px;
+      padding: 5px 12px;
+    }
+    .plant-external-link-logo img {
+      display: block;
+      height: 22px;
+      width: auto;
+      max-width: 130px;
+      object-fit: contain;
     }
 
 .bg-btm-container
@@ -225,10 +230,10 @@
             .plant-info-block-head= I18n.t('.external_sources', scope: plant_scope)
             .plant-info-block-body
               .plant-external-links
-                - external_links.each do |key, label, url|
+                - external_links.each do |key, label, logo_path, url|
                   = link_to url, target: '_blank', rel: 'noopener noreferrer', class: "plant-external-link-btn plant-external-link-#{key}" do
-                    %span.plant-external-link-icon 🔗
-                    = label
+                    %span.plant-external-link-logo
+                      = image_tag logo_path, alt: label
 
       .col-sm-12.col.col-md-4.fright.m-no-float
         - if @sightings.present?
