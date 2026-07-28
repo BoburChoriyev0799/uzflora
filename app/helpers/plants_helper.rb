@@ -20,4 +20,19 @@ module PlantsHelper
       [label_key, lat, ru] if lat.present? || ru.present?
     end
   end
+
+  # Tashqi ilmiy manbalar (iNaturalist, GBIF, POWO) uchun havolalar:
+  # [key, label, url] ro'yxati. Tur nomi bo'lmasa bo'sh massiv qaytadi —
+  # bu holda blok umuman ko'rsatilmaydi.
+  def plant_external_links(plant)
+    name = plant.external_search_name
+    return [] if name.blank?
+
+    q = CGI.escape(name)
+    [
+      ['inaturalist', 'iNaturalist', "https://www.inaturalist.org/observations?taxon_name=#{q}"],
+      ['gbif', 'GBIF', "https://www.gbif.org/species/search?q=#{q}"],
+      ['powo', 'POWO', "https://powo.science.kew.org/results?q=#{q}"]
+    ]
+  end
 end

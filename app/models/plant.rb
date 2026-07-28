@@ -57,6 +57,19 @@ class Plant < ApplicationRecord
     red_book
   end
 
+  # Tashqi ilmiy manbalar (iNaturalist, GBIF, POWO) qidiruvi uchun toza
+  # tur nomi: muallif va boshqa qo'shimchalarsiz "Jins epitet" (masalan
+  # "Tulipa korolkovii Regel" -> "Tulipa korolkovii"). Gibrid formulalar
+  # ("Psylliostachys x androssovii Roshkova") uchun "x"/"×" belgisi ham
+  # saqlanadi. species_sci bo'sh bo'lsa nil qaytadi.
+  def external_search_name
+    return nil if species_sci.blank?
+
+    words = species_sci.split(/\s+/)
+    take = words[1]&.match?(/\A[x×]\z/i) ? 3 : 2
+    words.first(take).join(' ')
+  end
+
   # Ransack 4+ xavfsizlik uchun ochiq ustunlarni talab qiladi — admin
   # paneldagi filter/qidiruv shu ro'yxatga tayanadi.
   def self.ransackable_attributes(_auth_object = nil)
