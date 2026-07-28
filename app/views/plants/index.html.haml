@@ -35,7 +35,46 @@
     .plant-card-photo-img.active {
       opacity: 1;
     }
+    /* Bootstrap 3 grid'i float asosida ishlaydi — kartochkalar bir
+       qatorda har xil balandlikda bo'lsa (masalan Qizil kitob belgisi
+       yoki ikki qatorli nom bor/yo'q), keyingi qator eng baland
+       kartochkaga "ilishib" qolib, tartibsiz bo'sh joy hosil bo'ladi.
+       Yechim: qatorni (.plants-grid-row) flexbox qilamiz — shunda har
+       bir "qator" (flex-wrap orqali hosil bo'lgan qatlam) o'z ichida
+       avtomatik teng balandlikka cho'ziladi (align-items:stretch,
+       standart qiymat), JS yoki qo'lda balandlik hisoblash shart emas.
+       Bu FAQAT shu grid qatoriga tegishli — boshqa .row'lar (filtr
+       formasi va h.k.) o'zgarmaydi. */
+    .plants-grid-row {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    /* Flex konteynerda .col-sm-6/.col-md-3'ning o'z width qoidalari
+       (Bootstrap'ning min-width:768px/992px media so'rovlari ichida)
+       ishlayveradi — lekin flex item sifatida ular endi "auto"
+       (kontentga qarab torayishi) emas, aniq width'ga muhtoj, aks
+       holda mobilda (768px'dan pastda, col-sm-6 hali ishlamay turgan
+       oraliqda) kartochkalar to'liq kenglikka cho'zilmay, tor holda
+       yonma-yon qisilib qolar edi. Shu uchun Bootstrap'ning o'zi
+       ishlatadigan xuddi shu breakpointlarda width qayta beriladi. */
+    .plants-grid-col {
+      display: flex;
+      width: 100%;
+    }
+    @media (min-width: 768px) {
+      .plants-grid-col {
+        width: 50%;
+      }
+    }
+    @media (min-width: 992px) {
+      .plants-grid-col {
+        width: 25%;
+      }
+    }
     .plant-card {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
       border: 1px solid #e2e2e2;
       border-radius: 6px;
       margin-bottom: 20px;
@@ -47,6 +86,9 @@
       box-shadow: 0 2px 10px rgba(0,0,0,.12);
     }
     .plant-card-body {
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 auto;
       padding: 12px 14px;
     }
     .plant-card-name-uz {
@@ -121,9 +163,9 @@
         %p.mbtm20
           = I18n.t('.total', scope: plants_scope, count: @plants.total_count)
 
-        .row
+        .row.plants-grid-row
           - @plants.each do |plant|
-            .col-sm-6.col-md-3
+            .col-sm-6.col-md-3.plants-grid-col
               .plant-card
                 = link_to plant_path(plant) do
                   - plant_sightings = @sightings_by_plant[plant.id]

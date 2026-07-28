@@ -39,6 +39,15 @@ module ApplicationHelper
     (LOCALE_FLAG_SVGS[locale.to_sym] || '').html_safe
   end
 
+  # Navbardagi "Rasm qo'shish" CTA tugmasidagi "+" belgisi.
+  NAV_ADD_PHOTO_ICON_SVG = <<~SVG.freeze
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+  SVG
+
+  def nav_add_photo_icon
+    NAV_ADD_PHOTO_ICON_SVG.html_safe
+  end
+
   def ldate(dt, hash = {})
     dt ? l(dt, hash) : nil
   end

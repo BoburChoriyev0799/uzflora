@@ -59,6 +59,38 @@
       object-fit: cover;
       vertical-align: middle;
     }
+    /* "Rasm qo'shish" CTA — faqat tizimga kirgan foydalanuvchilarga
+       ko'rinadi. Boshqa menyu bandlaridan farqli, doim yashil (emerald)
+       fonda — asosiy amal ekanligini ajratib turadi. !important va
+       to'liq selektor kerak, chunki bazaviy pill/hover/active qoidalar
+       (yuqorida, style.css.scss'da) ham !important ishlatadi. */
+    .nav-add-photo-btn {
+      display: inline-flex !important;
+      align-items: center;
+      gap: 6px;
+      background-color: #046A38 !important;
+      color: #fff !important;
+    }
+    .birds-nav ul.nav > li > a.nav-add-photo-btn:hover,
+    .birds-nav ul.nav > li > a.nav-add-photo-btn:focus {
+      background-color: #035a2f !important;
+      color: #fff !important;
+    }
+    .birds-nav ul.nav > li.active > a.nav-add-photo-btn {
+      background-color: #035a2f !important;
+      color: #fff !important;
+      box-shadow: none !important;
+    }
+    .nav-add-photo-icon {
+      display: inline-flex;
+      width: 15px;
+      height: 15px;
+      flex: none;
+    }
+    .nav-add-photo-icon svg {
+      width: 100%;
+      height: 100%;
+    }
     .moderate-badge {
       display: inline-block;
       min-width: 18px;
@@ -228,6 +260,9 @@
             =nav_link_to "#{I18n.t('bg', scope: navbar_scope)}", big_year_path
           %li
             =nav_link_to "#{I18n.t('birders', scope: navbar_scope)}", users_path
+          %li
+            - add_photo_label = safe_join([content_tag(:span, nav_add_photo_icon, class: 'nav-add-photo-icon'), I18n.t('shared.nav_add_photo.button')])
+            =nav_link_to add_photo_label, new_plant_sighting_path, class: 'nav-add-photo-btn'
         -if current_user.try(:expert?)
           %li
             - pending_count = pending_plant_sightings_count
