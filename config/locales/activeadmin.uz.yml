@@ -1,0 +1,172 @@
+uz:
+  activerecord:
+    models:
+      comment:
+        one: "Izoh"
+        other: "Izohlar"
+      active_admin/comment:
+        one: "Izoh"
+        other: "Izohlar"
+      plant_sighting:
+        one: "Kuzatuv"
+        other: "Kuzatuvlar"
+      plant_sighting_comment:
+        one: "Sharh"
+        other: "Sharhlar"
+      plant:
+        one: "O'simlik"
+        other: "O'simliklar"
+      donation:
+        one: "Xayriya"
+        other: "Xayriyalar"
+      subscription:
+        one: "Obuna"
+        other: "Obunalar"
+    attributes:
+      active_admin/comment:
+        author_type: "Muallif turi"
+        body: "Matn"
+        created_at: "Yaratilgan"
+        namespace: "Nomlar maydoni"
+        resource_type: "Resurs turi"
+        updated_at: "Yangilangan"
+  active_admin:
+    dashboard: "Boshqaruv paneli"
+    dashboard_welcome:
+      welcome: "Active Admin'ga xush kelibsiz. Bu standart boshqaruv paneli sahifasi."
+      call_to_action: "Boshqaruv paneliga bo'lim qo'shish uchun 'app/admin/dashboard.rb' faylini ko'ring"
+    view: "Ko'rish"
+    edit: "Tahrirlash"
+    delete: "O'chirish"
+    delete_confirmation: "Buni o'chirishga ishonchingiz komilmi?"
+    create_another: "Yana bitta %{model} qo'shish"
+    new_model: "Yangi %{model}"
+    edit_model: "%{model}ni tahrirlash"
+    delete_model: "%{model}ni o'chirish"
+    details: "%{model} tafsilotlari"
+    cancel: "Bekor qilish"
+    empty: "Bo'sh"
+    previous: "Oldingi"
+    next: "Keyingi"
+    download: "Yuklab olish:"
+    has_many_new: "Yangi %{model} qo'shish"
+    has_many_delete: "O'chirish"
+    has_many_remove: "Olib tashlash"
+    move: "Ko'chirish"
+    filters:
+      buttons:
+        filter: "Filtrlash"
+        clear: "Tozalash"
+      predicates:
+        from: "Dan"
+        to: "Gacha"
+    scopes:
+      all: "Barchasi"
+    search_status:
+      headline: "Qidiruv holati:"
+      current_scope: "Ko'lam:"
+      current_filters: "Joriy filtrlar:"
+      no_current_filters: "Yo'q"
+    status_tag:
+      "yes": "Ha"
+      "no": "Yo'q"
+      "unset": "Yo'q"
+      pending: "Kutilmoqda"
+      approved: "Tasdiqlangan"
+      rejected: "Rad etilgan"
+    main_content: "Iltimos, mazmunni ko'rsatish uchun %{model}#main_content'ni amalga oshiring."
+    logout: "Chiqish"
+    powered_by: ""
+    sidebars:
+      filters: "Filtrlar"
+      search_status: "Qidiruv holati"
+    pagination:
+      empty: "%{model} topilmadi"
+      one: "Ko'rsatilmoqda: <b>1</b> %{model}"
+      one_page: "Ko'rsatilmoqda: <b>barcha %{n}</b> %{model}"
+      multiple: "Ko'rsatilmoqda: %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b>, jami <b>%{total}</b> ta"
+      multiple_without_total: "Ko'rsatilmoqda: %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b>"
+      per_page: "Sahifada: "
+      entry:
+        one: "ta"
+        other: "ta"
+    any: "Har qanday"
+    blank_slate:
+      content: "Hozircha %{resource_name} yo'q."
+      link: "Yaratish"
+    dropdown_actions:
+      button_label: "Amallar"
+    batch_actions:
+      button_label: "Amallar"
+      default_confirmation: "Buni bajarishga ishonchingiz komilmi?"
+      delete_confirmation: "%{plural_model}ni o'chirishga ishonchingiz komilmi?"
+      succesfully_destroyed:
+        one: "1 ta %{model} muvaffaqiyatli o'chirildi"
+        other: "%{count} ta %{plural_model} muvaffaqiyatli o'chirildi"
+      selection_toggle_explanation: "(Belgilashni almashtirish)"
+      action_label: "Tanlanganlarni: %{title}"
+      labels:
+        destroy: "O'chirish"
+    comments:
+      created_at: "Yaratilgan"
+      resource_type: "Resurs turi"
+      author_type: "Muallif turi"
+      body: "Matn"
+      author: "Muallif"
+      add: "Izoh qo'shish"
+      delete: "Izohni o'chirish"
+      delete_confirmation: "Bu izohlarni o'chirishga ishonchingiz komilmi?"
+      resource: "Resurs"
+      no_comments_yet: "Hozircha izohlar yo'q."
+      author_missing: "Anonim"
+      title_content: "Izohlar (%{count})"
+      errors:
+        empty_text: "Izoh saqlanmadi, matn bo'sh edi."
+    devise:
+      username:
+        title: "Foydalanuvchi nomi"
+      email:
+        title: "Email"
+      subdomain:
+        title: "Subdomen"
+      password:
+        title: "Parol"
+      password_confirmation:
+        title: "Parolni tasdiqlash"
+      sign_up:
+        title: "Ro'yxatdan o'tish"
+        submit: "Ro'yxatdan o'tish"
+      login:
+        title: "Kirish"
+        remember_me: "Meni eslab qol"
+        submit: "Kirish"
+      reset_password:
+        title: "Parolni unutdingizmi?"
+        submit: "Parolni tiklash"
+      change_password:
+        title: "Parolni o'zgartirish"
+        submit: "Parolni o'zgartirish"
+      unlock:
+        title: "Blokdan chiqarish yo'riqnomasini qayta yuborish"
+        submit: "Blokdan chiqarish yo'riqnomasini qayta yuborish"
+      resend_confirmation_instructions:
+        title: "Tasdiqlash yo'riqnomasini qayta yuborish"
+        submit: "Tasdiqlash yo'riqnomasini qayta yuborish"
+      links:
+        sign_up: "Ro'yxatdan o'tish"
+        sign_in: "Kirish"
+        forgot_your_password: "Parolni unutdingizmi?"
+        sign_in_with_omniauth_provider: "%{provider} orqali kirish"
+        resend_unlock_instructions: "Blokdan chiqarish yo'riqnomasini qayta yuborish"
+        resend_confirmation_instructions: "Tasdiqlash yo'riqnomasini qayta yuborish"
+    unsupported_browser:
+      headline: "E'tibor bering: ActiveAdmin endi Internet Explorer 8 va undan eski versiyalarini qo'llab-quvvatlamaydi."
+      recommendation: "Tajribangizni yaxshilash uchun <a href=\"http://browsehappy.com/\">brauzeringizni yangilashni</a> tavsiya qilamiz."
+      turn_off_compatibility_view: "Agar IE 9 yoki undan yangi versiyadan foydalansangiz, <a href=\"https://support.microsoft.com/en-us/help/17471\">\"Moslik rejimi\"ni o'chirib qo'yganingizga</a> ishonch hosil qiling."
+    access_denied:
+      message: "Sizga bu amalni bajarishga ruxsat yo'q."
+    index_list:
+      table: "Jadval"
+      block: "Ro'yxat"
+      grid: "Katakcha"
+      blog: "Blog"
