@@ -23,20 +23,19 @@ ActiveAdmin.register PlantSighting do
   collection_action :export_xlsx, method: :get do
     scope = PlantSighting.published.approved
     scope = scope.ransack(params[:q]).result(distinct: true) if params[:q].present?
-    sightings = scope.includes(:plant, :user).order(timestamp: :desc)
+    sightings = scope.includes(:plant).order(timestamp: :desc)
 
     package = Axlsx::Package.new
     package.workbook.add_worksheet(name: 'Kuzatuvlar') do |sheet|
-      sheet.add_row ["O'simlik nomi", 'Sana', 'Kim joylagani', 'Rasm olingan joy', 'Rasmga havola', 'Izoh']
+      sheet.add_row ["O'simlik nomi", 'Sana', 'Joylashuv', 'Izoh', 'Rasmga havola']
       sightings.find_each do |s|
         photo_url = s.photo.url if s.photo.present?
         row = sheet.add_row [
           s.plant&.species_sci.presence || 'Aniqlanmagan',
-          s.timestamp&.strftime('%Y-%m-%d'),
-          s.user&.full_name,
+          s.timestamp&.strftime('%d.%m.%Y'),
           s.export_location_string,
-          photo_url,
-          s.note
+          s.note,
+          photo_url
         ]
         sheet.add_hyperlink(location: photo_url, ref: row.cells[4]) if photo_url.present?
       end
@@ -48,7 +47,10 @@ ActiveAdmin.register PlantSighting do
                disposition: 'attachment'
   end
 
-  index do
+  # Standart CSV/XML/JSON eksport (ActiveAdmin'ning o'zi beradigan, xom,
+  # ustunlarsiz format) shu resursda o'chirilgan — o'rniga faqat yuqoridagi
+  # tuzilgan "Excel (.xlsx)" tugmasi ishlatiladi.
+  index download_links: false do
     selectable_column
     column :id
     column :user
