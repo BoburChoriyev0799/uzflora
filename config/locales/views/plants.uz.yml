@@ -7,6 +7,7 @@ uz:
       red_book_only: Faqat Qizil kitobdagilar
       search: Qidirish
       clear: Tozalash
+      not_found: "Afsuski, so'rovingiz bo'yicha natija topilmadi."
       total: "Jami: %{count} ta o'simlik"
       red_book_badge: Qizil kitob
     show:

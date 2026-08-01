@@ -149,7 +149,9 @@
         .row.plants-filter-form
           = form_tag plants_path, method: :get, class: 'form-inline' do
             .form-group.mright10
-              = text_field_tag :q, params[:q], class: 'form-control', placeholder: I18n.t('.search_placeholder', scope: plants_scope)
+              .plant-autocomplete{ data: { url: plant_sightings_autocomplete_path, not_found: I18n.t('.not_found', scope: plants_scope), auto_submit: true } }
+                = text_field_tag :q, params[:q], class: 'form-control plant-autocomplete-input', placeholder: I18n.t('.search_placeholder', scope: plants_scope), autocomplete: 'off'
+                %ul.plant-autocomplete-list
             .form-group.mright10
               = select_tag :family, options_for_select(@families, params[:family]), include_blank: I18n.t('.all_families', scope: plants_scope), class: 'form-control'
             .form-group.mright10

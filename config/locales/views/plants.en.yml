@@ -7,6 +7,7 @@ en:
       red_book_only: Red Book species only
       search: Search
       clear: Clear
+      not_found: "Sorry, no results found for your search."
       total: "Total: %{count} plants"
       red_book_badge: Red Book
     show:

@@ -1,7 +1,8 @@
-// "O'simlik" bosqichidagi (edit_plant) o'simlik nomi maydoni uchun
-// jonli qidiruv (autocomplete). Faqat shu sahifada ".plant-autocomplete"
-// konteyneri mavjud, shuning uchun boshqa sahifalarga ta'sir qilmaydi —
-// application.js barcha sahifalarda yuklanadi (require_tree ./pages).
+// O'simlik nomi maydonlari uchun jonli qidiruv (autocomplete) —
+// ".plant-autocomplete" konteyneri joylashgan istalgan sahifada ishlaydi
+// (masalan "O'simlik" bosqichi edit_plant, va plants#index qidiruvi).
+// Konteyner topilmagan sahifalarga ta'sir qilmaydi — application.js
+// barcha sahifalarda yuklanadi (require_tree ./pages).
 //
 // document'ga bog'langan (delegated) va nomlangan (.plantAutocomplete)
 // handlerlar ishlatiladi — navbar_locale_dropdown.js/donation_page.js
@@ -48,12 +49,25 @@
     var id = $item.data('id');
     if (!id) { return; }
 
-    var $container = $wrap.closest('.add-plant-container');
     $wrap.find('.plant-autocomplete-input').val($item.data('sci'));
-    $container.find('span.selected-plant').text($item.data('selectedText'));
-    $container.find('#plant_sighting_plant_id').val(id);
-
     closeList($wrap);
+
+    // "O'simlik" bosqichi (edit_plant): tanlangan turni yon matn va
+    // hidden plant_id maydoniga yozib qo'yamiz, forma avtomatik
+    // yuborilmaydi ("Qidirish" tugmasi bosilishini kutadi).
+    var $container = $wrap.closest('.add-plant-container');
+    if ($container.length) {
+      $container.find('span.selected-plant').text($item.data('selectedText'));
+      $container.find('#plant_sighting_plant_id').val(id);
+      return;
+    }
+
+    // Boshqa sahifalar (masalan o'simliklar ro'yxati qidiruvi): tanlash
+    // bilanoq mavjud qidiruv formasi (GET) yuboriladi — data-auto-submit
+    // belgilangan bo'lsagina.
+    if ($wrap.data('autoSubmit')) {
+      $wrap.closest('form').trigger('submit');
+    }
   }
 
   $(document)
