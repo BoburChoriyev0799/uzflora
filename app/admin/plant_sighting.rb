@@ -6,8 +6,47 @@ ActiveAdmin.register PlantSighting do
   filter :status, as: :select, collection: PlantSighting.statuses.keys
   filter :published
   filter :user
-  filter :plant
+  filter :plant_species_sci_or_plant_species_uz_or_plant_species_ru_cont,
+         as: :string, label: "O'simlik nomi"
+  filter :plant_family_lat, as: :select,
+         collection: -> { Plant.distinct.pluck(:family_lat).compact.sort },
+         label: 'Oila'
+  filter :region, as: :select,
+         collection: -> { PlantSighting::REGIONS.map { |r| r[:name] } },
+         label: 'Viloyat'
   filter :created_at
+
+  action_item :export_xlsx, only: :index do
+    link_to "Excel (.xlsx)", export_xlsx_admin_plant_sightings_path(q: params[:q]&.to_unsafe_h), class: 'button'
+  end
+
+  collection_action :export_xlsx, method: :get do
+    scope = PlantSighting.published.approved
+    scope = scope.ransack(params[:q]).result(distinct: true) if params[:q].present?
+    sightings = scope.includes(:plant, :user).order(timestamp: :desc)
+
+    package = Axlsx::Package.new
+    package.workbook.add_worksheet(name: 'Kuzatuvlar') do |sheet|
+      sheet.add_row ["O'simlik nomi", 'Sana', 'Kim joylagani', 'Rasm olingan joy', 'Rasmga havola', 'Izoh']
+      sightings.find_each do |s|
+        photo_url = s.photo.url if s.photo.present?
+        row = sheet.add_row [
+          s.plant&.species_sci.presence || 'Aniqlanmagan',
+          s.timestamp&.strftime('%Y-%m-%d'),
+          s.user&.full_name,
+          s.export_location_string,
+          photo_url,
+          s.note
+        ]
+        sheet.add_hyperlink(location: photo_url, ref: row.cells[4]) if photo_url.present?
+      end
+    end
+
+    send_data package.to_stream.read,
+               filename: "plant_sightings_#{Time.zone.now.strftime('%Y%m%d_%H%M')}.xlsx",
+               type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+               disposition: 'attachment'
+  end
 
   index do
     selectable_column

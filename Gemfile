@@ -28,6 +28,11 @@ gem 'activeadmin', '~> 3.2'
 # so'rov chastotasini cheklaydi (config/initializers/rack_attack.rb).
 gem 'rack-attack', '~> 6.7'
 
+# Admin paneldan haqiqiy .xlsx (Excel) eksport uchun (app/admin/plant_sighting.rb).
+# `axlsx` tashlab qo'yilgan (oxirgi reliz 2017), shuning uchun uning
+# hamjamiyat tomonidan qo'llab-quvvatlanadigan forki ishlatiladi.
+gem 'caxlsx', '~> 4.1'
+
 # Deyarli tashlab qo'yilgan gem (oxirgi relizi 2018), Rails 7/UJS bilan
 # sinovdan o'tkazish kerak (app/views/profiles/_profile.html.haml).
 gem 'best_in_place', '~> 3.1', require: false

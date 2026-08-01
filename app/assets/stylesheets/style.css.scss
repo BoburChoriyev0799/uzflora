@@ -1158,11 +1158,11 @@ a.navbar-brand {
 .footer {
   flex-shrink: 0;
   width: 100%;
-  background: asset-data-url('share/bg_btm.jpg') no-repeat center bottom transparent;
-  -webkit-background-size: 100% 100%;
-  -moz-background-size: 100% 100%;
-  -o-background-size: 100% 100%;
-  background-size: 100% 100%;
+  // Avval bu yerda xira Google/Esri uslubidagi O'zbekiston xaritasi rasmi
+  // (share/bg_btm.jpg) fon sifatida qo'llanilardi — "Rasm qo'shish" CTA
+  // matni/tugmalari ustida (footer-inner'ning yashil foni uni to'liq
+  // yopmaydi) shu xarita ko'rinib turardi. Endi oddiy oq fon.
+  background-color: #fff;
 
   .footer-inner {
     background-color: #1e5620;
