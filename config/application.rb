@@ -53,6 +53,13 @@ module Birds
       config.send("#{key}=", deep_ordered_options.call(value))
     end
 
+    # Rasm versiyalarini yaratish + R2'ga yuklash (ProcessSightingImageJob)
+    # fon jarayonida ishlaydi. solid_queue navbatni ODDIY (asosiy)
+    # PostgreSQL'da saqlaydi — Redis shart emas. Test muhitida standart
+    # :test adapter qoladi (spec'lar `perform_enqueued_jobs` bilan nazorat
+    # qilishi uchun), shuning uchun bu yerda emas, pastda shart bilan.
+    config.active_job.queue_adapter = :solid_queue unless Rails.env.test?
+
     # "Loyihani qo'llab-quvvatlash" sahifasidagi to'lov rekvizitlari —
     # alohida faylda (config/donation.yml), chunki bu tez-tez yangilanadi
     # va settings.yml'dagi infratuzilma sozlamalaridan (google_maps,

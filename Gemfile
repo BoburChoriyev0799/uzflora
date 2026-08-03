@@ -59,6 +59,14 @@ gem 'kaminari', '~> 1.2'
 gem 'mini_magick', '~> 4.13'
 gem 'momentjs-rails', '~> 2.20'
 
+# Rasm versiyalarini yaratish + R2'ga yuklashni fon jarayoniga
+# ko'chirish uchun (ProcessSightingImageJob). Redis yoki alohida worker
+# process shart emas — job navbati mavjud PostgreSQL'da saqlanadi,
+# job'lar esa Puma plugin orqali xuddi shu web-process ichida ishlaydi
+# (config/puma.rb: `plugin :solid_queue`). Bu Render'da qo'shimcha
+# pullik xizmat (Redis/Background Worker) talab qilmaydi.
+gem 'solid_queue', '~> 1.1'
+
 # 1.x -> 2.x: 1.x'da GET so'rov orqali autentifikatsiyani amalga oshirish
 # mumkin bo'lgan CVE bor edi. 2.x bilan login route POST bo'lishi shart —
 # shuning uchun CSRF himoya gem'i ham qo'shildi.

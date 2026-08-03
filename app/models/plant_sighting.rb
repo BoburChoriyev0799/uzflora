@@ -13,12 +13,40 @@ class PlantSighting < ApplicationRecord
 
   mount_uploader :photo, PlantSightingUploader
 
+  # CarrierWave standart holda `save` dan keyin (after_save) darhol R2'ga
+  # yuklaydi — bu 4 ta versiyani (asl/display/small/thumb) TARMOQ orqali,
+  # SINXRON (foydalanuvchi kutib turgan so'rov ichida) yuklaydi va
+  # o'lchashlar shuni 6-12 soniyaga cho'zilishini ko'rsatdi. `cache!`
+  # (o'lchamni kichraytirish — LOKAL, tez) baribir `photo=` biriktirilganda
+  # sinxron ishlaydi va o'zgarmaydi — faqat TARMOQQA yuklash (`store!`)
+  # ProcessSightingImageJob orqali fon jarayoniga ko'chiriladi.
+  skip_callback :save, :after, :store_photo!
+
+  # Fon job'i keyinroq (boshqa request/process'da) shu YOZUvni qayta
+  # yuklab, keshlangan (hali R2'ga yuklanmagan) faylni topishi uchun
+  # cache identifikatorini saqlab qo'yamiz (`photo_cache` CarrierWave'ning
+  # o'zi band qilgan metod nomi bo'lgani uchun bu ALOHIDA ustun).
+  before_save :capture_photo_cache_name, if: -> { photo.present? && photo.cache_name.present? }
+
+  # Rasm haqiqatan ham o'zgargandagina (birinchi yuklash yoki kelajakda
+  # qayta yuklash) — job navbatga qo'yiladi va holat "pending"ga qaytariladi.
+  after_commit :enqueue_photo_processing,
+               on: [ :create, :update ],
+               if: -> { saved_change_to_photo? && photo.present? }
+
   # Moderatsiya holati. Rails enum'ning o'zi .pending/.approved/.rejected
   # scope'larini va pending?/approved?/rejected? metodlarini avtomatik
   # yaratadi — buni qo'lda alohida yozish shart emas. Yangi yozuv har doim
   # ustunning DB standart qiymati ("pending") bilan boshlanadi — hech qayerda
   # avtomatik "approved" qilinmaydi.
   enum status: { pending: 'pending', approved: 'approved', rejected: 'rejected' }
+
+  # Rasmning fon jarayonidagi holati (moderatsiya `status`'idan MUSTAQIL):
+  # so'rov darhol qaytgandan keyin versiyalar/R2 yuklash hali tugamagan
+  # bo'lishi mumkin. `prefix: true` — avtomatik yaratiladigan
+  # `pending?`/`.pending` yuqoridagi moderatsiya enum'i bilan
+  # to'qnashmasin (`photo_status_pending?`, `photo_status_ready?` va h.k.).
+  enum :photo_status, { pending: 'pending', ready: 'ready', failed: 'failed' }, prefix: true
 
   validates_presence_of :user_id
   validates :note, length: { maximum: 100 }
@@ -126,6 +154,29 @@ class PlantSighting < ApplicationRecord
     update!(status: :rejected, expert: expert, reviewed_at: Time.zone.now, moderation_note: note)
   end
 
+  # ProcessSightingImageJob shu metodni chaqiradi (fon jarayonida).
+  # `photo_cache_name` orqali hali R2'ga yuklanmagan keshlangan faylni
+  # qayta tiklaydi (`photo_cache=` — CarrierWave), keyin haqiqiy tarmoq
+  # ishini (versiyalarni R2'ga yuklash) bajaradi. Kesh topilmasa (masalan
+  # instance qayta ishga tushib, vaqtinchalik disk tozalangan bo'lsa)
+  # CarrierWave::InvalidParameter chiqadi — buni job qayta urinmasdan
+  # xato deb belgilaydi, chunki qayta urinish keshni tiklamaydi.
+  def process_pending_photo!
+    return if photo_status_ready?
+    raise CarrierWave::InvalidParameter, 'photo_cache_name saqlanmagan' if photo_cache_name.blank?
+
+    self.photo_cache = photo_cache_name
+    store_photo!
+    update_columns(photo_status: 'ready', photo_error: nil, photo_cache_name: nil)
+  end
+
+  # Job barcha qayta urinishlardan keyin ham muvaffaqiyatsiz bo'lsa —
+  # foydalanuvchi rasmi "yo'qolib" ketmasin, kamida holat va sabab
+  # ko'rinib tursin (keyinchalik qo'llab-quvvatlash/qayta urinish uchun).
+  def mark_photo_failed!(error_message)
+    update_columns(photo_status: 'failed', photo_error: error_message.to_s.truncate(500))
+  end
+
   # Ransack 4+ xavfsizlik uchun ochiq ustunlarni talab qiladi — admin
   # paneldagi filter/qidiruv shu ro'yxatga tayanadi.
   def self.ransackable_attributes(_auth_object = nil)
@@ -134,5 +185,16 @@ class PlantSighting < ApplicationRecord
 
   def self.ransackable_associations(_auth_object = nil)
     %w[user plant expert]
+  end
+
+  private
+
+  def capture_photo_cache_name
+    self.photo_cache_name = photo.cache_name
+  end
+
+  def enqueue_photo_processing
+    update_column(:photo_status, 'pending') unless photo_status_pending?
+    ProcessSightingImageJob.perform_later(id)
   end
 end

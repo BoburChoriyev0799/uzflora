@@ -1,5 +1,7 @@
 uz:
   plant_sightings:
+    photo_processing: "Rasm ishlanmoqda..."
+    photo_failed: "Rasmni qayta ishlashda xatolik yuz berdi."
     edit:
       title: "Rasm qo'shish"
       steps:

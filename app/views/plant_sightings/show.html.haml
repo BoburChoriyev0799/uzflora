@@ -3,9 +3,11 @@
     - show_scope = 'plant_sightings.show'
     .row.mtop20.mbtm20
       .col-md-8.col-sm-12.col-xs-12
-        - if @plant_sighting.photo.present?
+        - if @plant_sighting[:photo].present? && @plant_sighting.photo_status_ready?
           = link_to @plant_sighting.photo.url, target: '_blank', rel: 'noopener', title: I18n.t('.view_full', scope: show_scope) do
-            = image_tag @plant_sighting.photo.display.url, class: 'img-responsive'
+            = plant_sighting_photo_tag(@plant_sighting, :display, class: 'img-responsive')
+        - elsif @plant_sighting[:photo].present?
+          = plant_sighting_photo_tag(@plant_sighting, :display, class: 'img-responsive')
 
         %h3.mtop20
           - if @plant_sighting.plant.present?

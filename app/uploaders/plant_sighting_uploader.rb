@@ -46,4 +46,29 @@ class PlantSightingUploader < BaseUploader
   def salt
     ENV['PLANT_SIGHTING_CARRIERWAVE_SALT']
   end
+
+  # MUHIM: BaseUploader#secure_token natijani MODEL INSTANCE
+  # o'zgaruvchisida (xotirada) eslab qoladi — bu FAQAT bitta so'rov/
+  # instance davomida barqaror (avval `cache!` va `store!` doim BITTA
+  # request ichida ishlagani uchun muammo bo'lmagan). Endi `store!`
+  # ProcessSightingImageJob orqali BOSHQA (yangi yuklangan) model
+  # instance'ida ishlaydi — xotiradagi tasodifiy qiymat boshqacha
+  # chiqib, fayl R2'ga DB'dagi identifikatorga MOS KELMAYDIGAN nom bilan
+  # yuklanardi (fayl yuklangandek ko'rinsa-da, aslida "yo'qolgan" bo'lardi
+  # — o'lchov shuni ko'rsatdi).
+  #
+  # `model.id`ga bog'lash YECHIM EMAS: `write_photo_identifier`
+  # (before_save) INSERT'dan OLDIN, ya'ni `model.id` hali NIL bo'lganda
+  # ishlaydi — shu payt hisoblangan qiymat DB'ga yoziladi, keyin job
+  # `model.id` ALLAQACHON mavjud bo'lganda QAYTA hisoblasa, ikkalasi
+  # mos kelmay qoladi (xuddi shu muammoning o'zi, faqat boshqa shaklda).
+  #
+  # `cache_id` esa — CarrierWave `cache!` chaqirilganda (hali `save`dan
+  # OLDIN) o'rnatiladi va `photo_cache_name` orqali DB'ga saqlanadi
+  # (model.rb), keyin job xuddi shu cache_id'ni `photo_cache=` orqali
+  # tiklaydi — shuning uchun ASL so'rovda ham, keyingi job'da ham BIR
+  # XIL qiymat beradi.
+  def secure_token(length = 16)
+    Digest::SHA256.hexdigest([salt, cache_id, mounted_as].join('/'))[0, length]
+  end
 end

@@ -63,7 +63,7 @@
           .moderation-card{id: "sighting-#{sighting.id}"}
             .moderation-card-photo
               = link_to plant_sighting_path(sighting), target: '_blank' do
-                = image_tag sighting.photo.small.url
+                = plant_sighting_photo_tag(sighting, :small)
 
             .moderation-card-body
               = render 'plant_names', plant: sighting.plant

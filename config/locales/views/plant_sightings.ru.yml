@@ -1,5 +1,7 @@
 ru:
   plant_sightings:
+    photo_processing: "Фото обрабатывается..."
+    photo_failed: "Ошибка при обработке фото."
     edit:
       title: "Добавить фото"
       steps:

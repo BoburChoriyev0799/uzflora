@@ -242,7 +242,7 @@
             - @sightings.each do |sighting|
               .plant-photo-card
                 = link_to plant_sighting_path(sighting) do
-                  = image_tag sighting.photo.small.url, class: 'plant-photo-img'
+                  = plant_sighting_photo_tag(sighting, :small, class: 'plant-photo-img')
                 .plant-photo-meta
                   - if sighting.timestamp.present?
                     %p.plant-photo-date= date_format(sighting.timestamp)

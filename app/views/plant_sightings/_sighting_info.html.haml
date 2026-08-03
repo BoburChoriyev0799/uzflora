@@ -1,5 +1,5 @@
 .row
-  = image_tag sighting.photo.small.url, class: 'img-responsive sm-centered mbtm15' if sighting.photo.present?
+  = plant_sighting_photo_tag(sighting, :small, class: 'img-responsive sm-centered mbtm15')
 
   - if sighting.timestamp.present?
     .row.add-photo-info

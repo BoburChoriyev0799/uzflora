@@ -1,5 +1,7 @@
 en:
   plant_sightings:
+    photo_processing: "Processing photo..."
+    photo_failed: "There was a problem processing this photo."
     edit:
       title: "Add a photo"
       steps:

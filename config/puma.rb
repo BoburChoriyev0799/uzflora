@@ -29,3 +29,12 @@ if ENV.fetch("WEB_CONCURRENCY", 0).to_i > 0
 end
 
 plugin :tmp_restart
+
+# ProcessSightingImageJob (rasm versiyalarini yaratish + R2'ga yuklash)
+# shu yerda, xuddi shu web-service ichida bajariladi — Render'da alohida
+# "Background Worker" xizmati yoki Redis kerak emas (bu ikkalasi ham
+# Render'da PULLIK). Standart `:fork` rejimi SolidQueue::Supervisor'ni
+# alohida OS processiga fork qiladi (Puma web-threadlaridan mustaqil —
+# rasm ishlov berish davomida HTTP so'rovlarni sekinlashtirmaydi), lekin
+# u ham xuddi shu dyno/instance resurslarini ishlatadi.
+plugin :solid_queue unless ENV["DISABLE_SOLID_QUEUE_PUMA_PLUGIN"]

@@ -9,6 +9,18 @@ class BaseUploader < CarrierWave::Uploader::Base
   # barcha uploaderlarni (shu jumladan yangi PlantSighting) doim lokal
   # diskka yozishga majburlagan edi.
 
+  # MUHIM: CarrierWave `cache_storage` ko'rsatilmasa, standart holda
+  # `storage`ning O'ZINI ishlatadi (bu yerda — :fog). Demak `photo=`
+  # BIRIKTIRILGANDA (hali `save` chaqirilishidan OLDIN!) MiniMagick
+  # o'lchamni kichraytirishdan tashqari, R2'GA HAM (har versiya uchun
+  # alohida) yuklardi — o'lchov shuni ko'rsatdi: `photo=` biriktirish
+  # yolg'iz o'zi ~5.5 soniya oldi (bitta 6 MB rasmda). Kesh — vaqtinchalik,
+  # faqat shu instance ichida kerak (Render'da bitta process, WEB_CONCURRENCY=0,
+  # shuning uchun boshqa serverga "ko'rinmasligi" muammo emas) — shuning
+  # uchun LOKAL diskka yozamiz. Doimiy saqlash (`storage :fog`) o'zgarishsiz
+  # qoladi.
+  cache_storage :file
+
   # Render'ning 512 MB'lik bepul planida ImageMagick chegarasiz o'lchamdagi
   # rasmni (masalan telefondan 4000x3000+) xotiraga to'liq yuklab qayta
   # ishlashi OOM (502)ga olib kelgan edi. Har bir uploader/versiya birinchi

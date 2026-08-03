@@ -8,7 +8,7 @@
           = plant_sighting_status_badge(plant_sighting)
   .body
     =link_to plant_sighting_path(plant_sighting) do
-      = image_tag plant_sighting.photo.thumb.url, class: 'img-responsive'
+      = plant_sighting_photo_tag(plant_sighting, :thumb, class: 'img-responsive')
     .profile-sighting-meta
       - if plant_sighting.timestamp.present?
         %p.profile-sighting-date= date_format(plant_sighting.timestamp)
