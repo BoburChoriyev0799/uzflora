@@ -1,4 +1,4 @@
-.col-sm-6.col-md-2.map-img-block.xs-align-center.img-container-blck.profile-bird-container
+.col-sm-6.col-md-2.map-img-block.img-container-blck.profile-bird-container.profile-sighting-card
   .head
     .plant-sighting-header
       .plant-name
@@ -7,8 +7,8 @@
         .status-badge
           = plant_sighting_status_badge(plant_sighting)
   .body
-    =link_to plant_sighting_path(plant_sighting) do
-      = plant_sighting_photo_tag(plant_sighting, :thumb, class: 'img-responsive')
+    =link_to plant_sighting_path(plant_sighting), class: 'profile-sighting-photo' do
+      = plant_sighting_photo_tag(plant_sighting, :thumb)
     .profile-sighting-meta
       - if plant_sighting.timestamp.present?
         %p.profile-sighting-date= date_format(plant_sighting.timestamp)

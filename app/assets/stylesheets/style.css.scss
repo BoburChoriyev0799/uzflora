@@ -2478,6 +2478,12 @@ a.delete-comment-lnk:hover {
   color: #4d4d4d;
   word-wrap: break-word;
   overflow-wrap: break-word;
+  // 1 va 2 qatorli nomlar bir xil balandlikdan boshlansin (pastda) —
+  // shu tufayli har bir kartochkadagi rasm bir xil balandlikdan
+  // boshlanadi, nomi qisqa kartochkalarda ham bo'sh joy tepada emas,
+  // nom blokining o'zida qoladi.
+  line-height: 15px;
+  min-height: 30px;
 }
 .plant-sighting-header .status-badge {
   align-self: flex-start;
@@ -2494,6 +2500,64 @@ a.delete-comment-lnk:hover {
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+}
+
+// Profil "Suratlar" tab'idagi kartochkalar galereyasi — xuddi plants/index
+// grid'idagi bug: Bootstrap'ning float-based .col-sm-6/.col-md-2'i
+// kartochkalar har xil balandlikda bo'lganda (nomi 1/2 qator, status
+// tegi bor/yo'q, rasm nisbati har xil) keyingi qatorni eng baland
+// kartochkaga "ilishtirib" tartibsiz bo'sh joy hosil qilardi. Yechim
+// ham xuddi o'sha: qatorni flexbox qilamiz (flex-wrap + standart
+// align-items:stretch) — bitta "qator"dagi barcha kartochkalar
+// avtomatik bir xil balandlikka cho'ziladi. `.xs-align-center`
+// (mobil'da margin:0 auto !important beruvchi eski utility klass)
+// bu partial'dan olib tashlangan — flex-wrap qatorida auto-margin
+// kartochkalar orasidagi bo'shliqni notekis taqsimlab yuborar edi.
+//
+// DIQQAT: `.profile-bird-container` klassi shu kartochka bilan BIRGA
+// `map/_bird.html.haml`da (eski qushlar xaritasi) ham ishlatiladi —
+// shuning uchun yangi grid/flex qoidalari o'sha umumiy klassga EMAS,
+// faqat shu partial'ga xos yangi `.profile-sighting-card` klassiga
+// biriktirilgan — xarita sahifasiga tegmaydi.
+.profile-birds-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+.profile-sighting-card {
+  display: flex;
+  flex-direction: column;
+  float: none;
+  margin: 0 0 20px;
+}
+
+// Rasm qismi — versiya (:thumb) fayllarning haqiqiy nisbati turlicha
+// bo'lgani uchun `aspect-ratio` bilan bir xil balandlik/kenglikka
+// qat'iy cheklanadi, `object-fit:cover` esa nisbatni buzmasdan (cho'zib
+// yubormasdan) to'ldiradi. Rasm hali ishlanayotgan/xato bo'lsa
+// (`plant_sighting_photo_tag` shu holatda <img> o'rniga
+// `.plant-sighting-photo-status` placeholder <div> qaytaradi) — o'sha
+// ham xuddi shu o'lchamga (width/height:100%) moslashtiriladi, faqat
+// o'zining `display:flex` markazlashtirishi (spinner/matn uchun)
+// buzilmasin deb `display` bu yerda qayta belgilanmaydi.
+.profile-sighting-photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 4px;
+  background: #f2f2f2;
+}
+.profile-sighting-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.profile-sighting-photo .plant-sighting-photo-status {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
 }
 
 // Aloqa/ijtimoiy tarmoq tugmalari — ApplicationHelper#social_link orqali
