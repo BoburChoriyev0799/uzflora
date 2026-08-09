@@ -4,6 +4,15 @@ class UsersController < Devise::RegistrationsController
   end
   before_action :configure_permitted_parameters, :only => [:create]
   before_action :authenticate_user!, :require_admin!, only: [:toggle_expert]
+  # DIQQAT: oddiy `before_action :authenticate_user!` Devise'ning o'zidan
+  # meros olgan controller'larda (`devise_controller?` true bo'lganda)
+  # `force: true` bo'lmasa JIM turadi (Devise::Controllers::Helpers#
+  # define_helpers: `warden.authenticate!(opts) if !devise_controller? ||
+  # opts.delete(:force)`) — ya'ni bu yerda (`UsersController <
+  # Devise::RegistrationsController`) himoyasiz qoladi. Yuqoridagi
+  # change_password/unregister uchun `force: true` allaqachon shu sababdan
+  # ishlatilgan — follow/unfollow uchun ham xuddi shu naqsh kerak.
+  before_action(only: [:follow, :unfollow]) { authenticate_user!(force: true) }
 
   #TODO!!!:: remove to separate controller!!
   def index
@@ -27,6 +36,34 @@ class UsersController < Devise::RegistrationsController
     super do |user|
       user.subscribe!(Time.zone.now.year) if user.big_year
     end
+  end
+
+  # Bir tomonlama kuzatish — qabul/rad qilish yo'q. O'zini o'zi kuzatish
+  # bu yerda (server tomonda) ham tekshiriladi — view'da tugma
+  # ko'rsatilmasligi yagona himoya bo'lib qolmasin (masalan to'g'ridan-to'g'ri
+  # so'rov yuborilsa). `User#follow` model darajasida ham xuddi shu
+  # tekshiruvni takrorlaydi (`Follow#cannot_follow_self`), shu bilan birga
+  # unikal indeks parallel so'rovlardan (qo'sh bosish) himoya qiladi.
+  def follow
+    target = User.find(params[:id])
+    if target.id == current_user.id
+      render json: { success: false, error: I18n.t('profile.follow.cannot_follow_self') }, status: :unprocessable_entity
+      return
+    end
+
+    if current_user.follow(target)
+      render json: { success: true, following: true, followers_count: target.followers.count }
+    else
+      render json: { success: false, error: I18n.t('profile.follow.error') }, status: :unprocessable_entity
+    end
+  rescue ActiveRecord::RecordNotUnique
+    render json: { success: true, following: true, followers_count: target.followers.count }
+  end
+
+  def unfollow
+    target = User.find(params[:id])
+    current_user.unfollow(target)
+    render json: { success: true, following: false, followers_count: target.followers.count }
   end
 
   def change_password

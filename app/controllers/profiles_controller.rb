@@ -24,6 +24,13 @@ class ProfilesController < ApplicationController
     @drafts = PlantSighting.includes(:plant).unpublished.by_user(@user.id).order(created_at: :desc)
     @comments = PlantSightingComment.where(user_id: @user.id).order(created_at: :desc).page(params[:page_comments]).per(15)
 
+    # `.to_a` bilan darhol yuklanadi — shu bilan `.size` (son, tab
+    # yorlig'ida) va ro'yxatni render qilish JAMI bittadan (ikkalasi
+    # uchun 2 ta) SQL so'rov bo'ladi, har biri uchun alohida COUNT +
+    # SELECT emas (N+1'ning oldi olinadi).
+    @following = @user.following.order(:first_name, :last_name).to_a
+    @followers = @user.followers.order(:first_name, :last_name).to_a
+
     respond_to do |format|
       format.html
       format.js

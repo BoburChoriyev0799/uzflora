@@ -22,6 +22,14 @@ class User < ActiveRecord::Base
   has_many :comments, dependent: :destroy
   has_many :plant_sighting_comments, dependent: :destroy
 
+  # Kuzatish (follow) — bir tomonlama. "active" — MEN kimnidir kuzataman
+  # (follower men), "passive" — kimdir MENI kuzatadi (followed men).
+  has_many :active_follows, class_name: 'Follow', foreign_key: :follower_id, dependent: :destroy, inverse_of: :follower
+  has_many :following, through: :active_follows, source: :followed
+
+  has_many :passive_follows, class_name: 'Follow', foreign_key: :followed_id, dependent: :destroy, inverse_of: :followed
+  has_many :followers, through: :passive_follows, source: :follower
+
   validates_uniqueness_of :email, case_sensitive: false
   validates_presence_of :email, :first_name, :last_name
   validates :password, presence: true, if: :password_required?
@@ -65,6 +73,26 @@ class User < ActiveRecord::Base
   # tayinlashi/bekor qilishi mumkin (users#toggle_expert).
   def admin?
     is_admin?
+  end
+
+  # Ekspert huquqidan farqli — istalgan (login qilgan) foydalanuvchi
+  # boshqasini kuzatishi mumkin, tasdiqlash/rad etish yo'q. O'zini
+  # o'zi kuzatish — bu yerda ham (controllerdan tashqari, model
+  # darajasida ham) bloklanadi: `find_or_create_by` validatsiyani
+  # ishga tushiradi, `Follow#cannot_follow_self` uni saqlashga
+  # qo'ymaydi — natijada `persisted?` false qaytadi.
+  def follow(user)
+    return false if user.nil? || user.id == id
+
+    active_follows.find_or_create_by(followed_id: user.id).persisted?
+  end
+
+  def unfollow(user)
+    active_follows.where(followed_id: user&.id).destroy_all
+  end
+
+  def following?(user)
+    user.present? && following.exists?(user.id)
   end
 
   def friend?

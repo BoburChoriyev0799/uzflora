@@ -14,6 +14,14 @@ en:
       tab_photo: Photos
       tab_drafts: Drafts
       tab_comments: Comments
+      tab_following: Following
+      tab_followers: Followers
+      empty_follows: No one here yet.
+    follow:
+      follow: Follow
+      following: Following
+      cannot_follow_self: You can't follow yourself.
+      error: Something went wrong, please try again shortly.
     settings:
       change_photo: Edit photo
       edit: Edit

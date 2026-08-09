@@ -20,6 +20,9 @@
         .col-md-3.col-sm-12.profile-user-icons
           -if @user.expert?
             = render 'shared/expert_icon', size: 36
+        -unless @user.current?(current_user)
+          .col-md-3.col-sm-12.profile-follow-block
+            = render 'follow_button', user: @user
 
       .row.sub-nav-pils.mtop20.sm-display-none
         -if @user.current?(current_user)
@@ -47,6 +50,15 @@
             %span
               = I18n.t('.tab_comments', scope: profile_scope)
             %span.profile-comments-count [#{@comments.total_count}]
+        %a.profile-menu{"data-view" => "block6"}
+          .menu-title
+            %span
+              #{I18n.t('.tab_following', scope: profile_scope)} [#{@following.size}]
+        %a.profile-menu{"data-view" => "block7"}
+          .menu-title
+            %span
+              = I18n.t('.tab_followers', scope: profile_scope)
+            %span.profile-followers-count [<span class="followers-count">#{@followers.size}</span>]
 
       .row.blocks-content
         -if @user.current?(current_user)
@@ -102,3 +114,19 @@
                 =render 'comments'
               .comments-pagination.pagination-block
                 =paginate @comments, :remote => true, :param_name => 'page_comments'
+
+        .block-holder
+          .mobile-blocks-nav
+            %a{"data-view" => "block6"}
+              %span
+                #{I18n.t('.tab_following', scope: profile_scope)} [#{@following.size}]
+          #block6.row.profile-block-container.profile-follows-block.mtop20
+            = render 'follows_list', users: @following
+
+        .block-holder
+          .mobile-blocks-nav
+            %a{"data-view" => "block7"}
+              %span
+                #{I18n.t('.tab_followers', scope: profile_scope)} [<span class="followers-count">#{@followers.size}</span>]
+          #block7.row.profile-block-container.profile-follows-block.mtop20
+            = render 'follows_list', users: @followers

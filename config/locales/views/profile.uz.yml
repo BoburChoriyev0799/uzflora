@@ -14,6 +14,14 @@ uz:
       tab_photo: Suratlar
       tab_drafts: Qoralamalar
       tab_comments: Sharhlar
+      tab_following: Kuzataman
+      tab_followers: Kuzatuvchilar
+      empty_follows: Bu yerda hali hech kim yo'q.
+    follow:
+      follow: Kuzatish
+      following: Kuzatilmoqda
+      cannot_follow_self: O'zingizni kuzata olmaysiz.
+      error: Xatolik yuz berdi, birozdan so'ng qayta urinib ko'ring.
     settings:
       change_photo: Suratni tahrirlash
       edit: Tahrirlash

@@ -1,0 +1,4 @@
+- follow_scope = 'profile.follow'
+- is_following = current_user.following?(user)
+%button.follow-btn{class: ('following' if is_following), type: 'button', data: {user_id: user.id, following: is_following, follow_label: I18n.t('follow', scope: follow_scope), following_label: I18n.t('following', scope: follow_scope)}}
+  = is_following ? I18n.t('following', scope: follow_scope) : I18n.t('follow', scope: follow_scope)

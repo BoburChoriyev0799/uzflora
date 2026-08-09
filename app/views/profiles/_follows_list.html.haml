@@ -1,0 +1,8 @@
+- if users.empty?
+  %p.follows-list-empty= I18n.t('empty_follows', scope: 'profile.show')
+- else
+  .follows-list
+    - users.each do |listed_user|
+      = link_to profile_path(listed_user), class: 'follow-list-item' do
+        = image_tag listed_user.avatar.thumb.url, class: 'img-circle'
+        %span.follow-list-item-name= listed_user.full_name
