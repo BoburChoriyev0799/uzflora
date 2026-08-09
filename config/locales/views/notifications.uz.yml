@@ -1,0 +1,9 @@
+uz:
+  notifications:
+    title: Xabarlar
+    loading: Yuklanmoqda...
+    view_all: Hammasini ko'rish
+    empty: Hozircha xabar yo'q.
+    new_sighting_html: "%{actor} yangi o'simlik joyladi: %{plant}"
+    mark_all_as_read: Hammasini o'qilgan deb belgilash
+    time_ago: "%{time} oldin"

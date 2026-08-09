@@ -1,0 +1,48 @@
+%style
+  :plain
+    .notifications-page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .notifications-mark-all-form {
+      display: inline-block;
+    }
+    .notifications-list {
+      border: 1px solid #eee;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .notifications-empty {
+      padding: 40px 20px;
+      text-align: center;
+      color: #888;
+      font-style: italic;
+    }
+    @media (max-width: 480px) {
+      .notifications-page-header {
+        justify-content: flex-start;
+      }
+    }
+
+.bg-btm-container
+  .container.content
+    - notif_scope = 'notifications'
+    .row.mtop40.mbtm20
+      .notifications-page-header
+        %h3= I18n.t('title', scope: notif_scope)
+        - if current_user.notifications.unread.exists?
+          = button_to I18n.t('mark_all_as_read', scope: notif_scope), mark_all_as_read_notifications_path, method: :post, class: 'btn btn-default', form_class: 'notifications-mark-all-form'
+
+    .row
+      - if @notifications.empty?
+        .notifications-empty= I18n.t('empty', scope: notif_scope)
+      - else
+        .notifications-list
+          = render partial: 'notification', collection: @notifications, as: :notification
+
+    .row.acenter.mtop20
+      = paginate @notifications

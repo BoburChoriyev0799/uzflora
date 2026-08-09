@@ -234,6 +234,178 @@
       }
     }
 
+    /* XABARNOMA QO'NG'IROG'I — VARIANT A (ism/til yonida). Ikonka-doira,
+       .navbar-locale-dropdown'ning pill-toggle bilan bir xil uslub
+       (rgba oq fon), lekin doira shaklida — matn yo'q, joy tejaladi. */
+    .navbar-notifications-dropdown {
+      position: relative;
+    }
+    .navbar-notifications-dropdown > .nav-bell-lnk {
+      display: inline-flex !important;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      width: 38px;
+      height: 38px;
+      padding: 0 !important;
+      margin: 0 4px !important;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .14);
+      cursor: pointer;
+      transition: background-color .15s ease;
+    }
+    .navbar-notifications-dropdown > .nav-bell-lnk:hover,
+    .navbar-notifications-dropdown > .nav-bell-lnk:focus,
+    .navbar-notifications-dropdown.open > .nav-bell-lnk {
+      background: rgba(255, 255, 255, .26);
+    }
+    .nav-bell-icon {
+      display: inline-flex;
+      width: 18px;
+      height: 18px;
+      color: #fff;
+    }
+    .nav-bell-icon svg {
+      width: 100%;
+      height: 100%;
+    }
+    .nav-bell-badge {
+      position: absolute;
+      top: -1px;
+      right: -1px;
+      min-width: 16px;
+      height: 16px;
+      padding: 0 4px;
+      border-radius: 999px;
+      background: #d9363e;
+      color: #fff !important;
+      font-size: 10px;
+      font-weight: 700;
+      line-height: 16px;
+      text-align: center;
+      box-shadow: 0 0 0 2px #800020;
+    }
+    .navbar-notifications-menu.dropdown-menu {
+      min-width: 300px;
+      max-width: 340px;
+      margin-top: 10px;
+      padding: 0;
+      background: #fff;
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 6px 20px rgba(0,0,0,.22);
+      overflow: hidden;
+    }
+    .navbar-notifications-header {
+      padding: 12px 16px;
+      font-weight: 700;
+      color: #4d0013;
+      border-bottom: 1px solid #f0f0e8;
+    }
+    .navbar-notifications-list {
+      max-height: 360px;
+      overflow-y: auto;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .navbar-notifications-loading,
+    .navbar-notifications-empty {
+      padding: 18px 16px;
+      text-align: center;
+      color: #94846e;
+      font-size: 13px;
+    }
+    .navbar-notifications-footer {
+      border-top: 1px solid #f0f0e8;
+    }
+    .navbar-notifications-footer a {
+      display: block;
+      padding: 10px 16px;
+      text-align: center;
+      font-weight: 700;
+      color: #800020 !important;
+      text-decoration: none !important;
+    }
+    .navbar-notifications-footer a:hover {
+      background: #f7eef0;
+    }
+    /* Bitta xabar kartochkasi — navbar dropdown VA to'liq /notifications
+       sahifasida ikkalasida ham ishlatiladi (notifications/_notification
+       partial), shuning uchun shu yerda (navbar har sahifada render
+       bo'lgani uchun bu qoidalar allaqachon global). */
+    .notification-item {
+      display: block;
+      padding: 12px 16px;
+      border-bottom: 1px solid #f0f0e8;
+      text-decoration: none !important;
+      transition: background-color .15s ease;
+    }
+    .notification-item:last-child {
+      border-bottom: none;
+    }
+    .notification-item:hover,
+    .notification-item:focus {
+      background: #f7f7ed;
+    }
+    .notification-item.unread {
+      background: #eaf6ec;
+    }
+    .notification-item.unread:hover,
+    .notification-item.unread:focus {
+      background: #dcefe0;
+    }
+    .notification-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .notification-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .notification-col {
+      min-width: 0;
+    }
+    .notification-text {
+      font-size: 13px;
+      color: #333;
+      margin: 0 0 4px;
+      line-height: 1.4;
+      word-wrap: break-word;
+    }
+    .notification-text strong {
+      color: #1e5620;
+    }
+    .notification-text em {
+      font-style: italic;
+    }
+    .notification-time {
+      font-size: 11px;
+      color: #94846e;
+      margin: 0;
+    }
+    /* Mobilda (767px va pastda, hamburger rejimi) qo'ng'iroq oddiy
+       havolaga aylanadi — dropdown ochilmaydi (JS ham buni hisobga
+       oladi, bu yerda CSS himoya sifatida qo'shimcha kafolat beradi). */
+    @media (max-width: 767px) {
+      .navbar-notifications-menu {
+        display: none !important;
+      }
+      .navbar-notifications-dropdown {
+        display: flex !important;
+        align-items: center;
+        padding: 10px 15px;
+        border-top: 1px solid rgba(255, 255, 255, .15);
+      }
+      .navbar-notifications-dropdown > .nav-bell-lnk {
+        margin: 0 !important;
+      }
+    }
+
 %nav.navbar.birds-nav.navbar-fixed-top
   .container
     - navbar_scope = 'shared.navbar'
@@ -274,6 +446,27 @@
       .navbar-right
         %ul.nav.navbar-nav.fright.mleft10
           -if current_user
+            / Xabarnoma qo'ng'irog'i — VARIANT A (ism/til yonida). Desktopda
+            / bosilganda dropdown (oxirgi xabarlar, AJAX orqali yuklanadi —
+            / navbar HAR SAHIFADA render bo'lgani uchun bu ro'yxat shu yerda
+            / OLDINDAN yuklanmaydi, faqat keshlangan son ko'rinadi). Mobilda
+            / (767px va pastda) — oddiy havola, to'g'ridan-to'g'ri /notifications
+            / sahifasiga: mobil hamburger ichida position:absolute dropdown
+            / avval (navbar-locale-dropdown'da) ishonchsiz ishlagani
+            / kuzatilgan edi, shuning uchun bu yerda takrorlanmaydi.
+            - unread_count = current_user.unread_notifications_count
+            %li.dropdown.navbar-notifications-dropdown
+              =link_to notifications_path, class: 'dropdown-toggle nav-bell-lnk', 'aria-haspopup' => 'true', 'aria-expanded' => 'false' do
+                %span.nav-bell-icon= nav_bell_icon
+                - if unread_count.positive?
+                  %span.nav-bell-badge= unread_count > 9 ? '9+' : unread_count
+              %ul.dropdown-menu.pull-right.navbar-notifications-menu{role: 'menu'}
+                %li.navbar-notifications-header
+                  %span= I18n.t('title', scope: 'notifications')
+                .navbar-notifications-list{data: {loading_text: I18n.t('loading', scope: 'notifications')}}
+                  %li.navbar-notifications-loading= I18n.t('loading', scope: 'notifications')
+                %li.navbar-notifications-footer
+                  =link_to I18n.t('view_all', scope: 'notifications'), notifications_path
             %li
               %span.nav-profile-lnk
                 =link_to profile_path(current_user), class: 'profile-lnk' do

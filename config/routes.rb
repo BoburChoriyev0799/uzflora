@@ -34,6 +34,13 @@ Birds::Application.routes.draw do
 
   resources :profiles, only: [:show, :update]
 
+  resources :notifications, only: [:index, :show] do
+    collection do
+      get :recent
+      post :mark_all_as_read
+    end
+  end
+
   root to: 'plants#index'
 
   get 'switch_locale' => 'application#switch_locale'

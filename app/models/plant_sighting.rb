@@ -10,6 +10,7 @@ class PlantSighting < ApplicationRecord
   belongs_to :expert, class_name: 'User', optional: true
 
   has_many :plant_sighting_comments, dependent: :destroy
+  has_many :notifications, dependent: :destroy
 
   mount_uploader :photo, PlantSightingUploader
 
@@ -33,6 +34,19 @@ class PlantSighting < ApplicationRecord
   after_commit :enqueue_photo_processing,
                on: [ :create, :update ],
                if: -> { saved_change_to_photo? && photo.present? }
+
+  # Kuzatuv TASDIQLANGANDA (statusi boshqa holatdan "approved"ga
+  # o'tganda) egasining followers'lariga xabarnoma yaratiladi — fon
+  # jarayonida (ko'p follower bo'lsa ham ekspert kutmasin). Faqat
+  # `saved_change_to_status?` — ya'ni HAQIQATAN shu saqlashda status
+  # o'zgargan bo'lsa — ishga tushadi, shuning uchun: (1) eski
+  # (allaqachon approved) yozuvlarga qayta xabar YARATILMAYDI (ularning
+  # statusi bu saqlashda o'zgarmagan); (2) `approve!` orqali ham,
+  # ActiveAdmin'da status to'g'ridan-to'g'ri o'zgartirilganda ham bir xil
+  # ishlaydi (ikkalasi ham shu callback'ni chaqiradi).
+  after_commit :notify_followers_of_approval,
+               on: :update,
+               if: -> { saved_change_to_status? && approved? }
 
   # Moderatsiya holati. Rails enum'ning o'zi .pending/.approved/.rejected
   # scope'larini va pending?/approved?/rejected? metodlarini avtomatik
@@ -196,5 +210,9 @@ class PlantSighting < ApplicationRecord
   def enqueue_photo_processing
     update_column(:photo_status, 'pending') unless photo_status_pending?
     ProcessSightingImageJob.perform_later(id)
+  end
+
+  def notify_followers_of_approval
+    NotifyFollowersJob.perform_later(id)
   end
 end

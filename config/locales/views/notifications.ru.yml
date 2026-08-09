@@ -1,0 +1,9 @@
+ru:
+  notifications:
+    title: Уведомления
+    loading: Загрузка...
+    view_all: Смотреть все
+    empty: Пока нет уведомлений.
+    new_sighting_html: "%{actor}: новое наблюдение — %{plant}"
+    mark_all_as_read: Отметить все как прочитанные
+    time_ago: "%{time} назад"

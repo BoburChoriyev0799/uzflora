@@ -1,0 +1,6 @@
+= link_to notification_path(notification), class: "notification-item#{' unread' unless notification.read?}" do
+  .notification-row
+    = image_tag notification.actor.avatar.thumb.url, class: 'notification-avatar'
+    .notification-col
+      %p.notification-text= notification_text(notification)
+      %p.notification-time= notification_time_ago(notification.created_at)

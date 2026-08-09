@@ -30,6 +30,8 @@ class User < ActiveRecord::Base
   has_many :passive_follows, class_name: 'Follow', foreign_key: :followed_id, dependent: :destroy, inverse_of: :followed
   has_many :followers, through: :passive_follows, source: :follower
 
+  has_many :notifications, foreign_key: :recipient_id, dependent: :destroy, inverse_of: :recipient
+
   validates_uniqueness_of :email, case_sensitive: false
   validates_presence_of :email, :first_name, :last_name
   validates :password, presence: true, if: :password_required?
@@ -93,6 +95,35 @@ class User < ActiveRecord::Base
 
   def following?(user)
     user.present? && following.exists?(user.id)
+  end
+
+  # Navbar qo'ng'irog'idagi o'qilmagan xabarlar soni — bu HAR SAHIFADA
+  # so'raladi, shuning uchun to'g'ridan-to'g'ri COUNT so'rovi o'rniga
+  # qisqa muddatga (60s) keshlanadi. Yangi xabar yaratilganda
+  # (NotifyFollowersJob) va o'qilgan deb belgilanganda (Notification#
+  # mark_as_read!, NotificationsController#mark_all_as_read)
+  # `clear_unread_notifications_cache!` chaqirilib keshi tozalanadi —
+  # 60s TTL esa har qanday chetlab o'tilgan holat uchun xavfsizlik
+  # to'ri (eng yomon holatda son bir daqiqagacha eskirgan bo'lishi mumkin).
+  def unread_notifications_count
+    Rails.cache.fetch(self.class.unread_notifications_cache_key(id), expires_in: 60.seconds) do
+      notifications.unread.count
+    end
+  end
+
+  def clear_unread_notifications_cache!
+    self.class.clear_unread_notifications_cache!(id)
+  end
+
+  # Klass metodi sifatida ham — fon job'i ko'plab follower'ning keshini
+  # tozalayotganda har biri uchun to'liq User yozuvini yuklamasin
+  # (faqat id yetarli).
+  def self.unread_notifications_cache_key(user_id)
+    "user/#{user_id}/unread_notifications_count"
+  end
+
+  def self.clear_unread_notifications_cache!(user_id)
+    Rails.cache.delete(unread_notifications_cache_key(user_id))
   end
 
   def friend?

@@ -1,0 +1,9 @@
+en:
+  notifications:
+    title: Notifications
+    loading: Loading...
+    view_all: View all
+    empty: No notifications yet.
+    new_sighting_html: "%{actor} added a new plant: %{plant}"
+    mark_all_as_read: Mark all as read
+    time_ago: "%{time} ago"

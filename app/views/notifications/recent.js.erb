@@ -1,0 +1,7 @@
+$('.navbar-notifications-list').html('<%= j(
+  if @notifications.empty?
+    content_tag(:li, I18n.t('empty', scope: 'notifications'), class: 'navbar-notifications-empty')
+  else
+    render partial: 'notification', collection: @notifications, as: :notification
+  end
+) %>');
