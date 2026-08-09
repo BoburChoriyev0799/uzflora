@@ -42,6 +42,42 @@
     .moderation-actions .btn {
       flex: 1;
     }
+    .moderation-actions .btn[disabled] {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+    .moderation-plant-assign {
+      margin-bottom: 10px;
+    }
+    .moderation-plant-label {
+      display: block;
+      font-weight: 600;
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+    .moderation-plant-autocomplete {
+      display: block;
+      width: 100%;
+    }
+    .moderation-plant-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 6px;
+    }
+    .moderation-assign-plant[disabled] {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+    .moderation-assign-feedback {
+      font-size: 12px;
+      color: #5a8f3c;
+    }
+    .moderation-plant-warning {
+      color: #a94442;
+      font-size: 13px;
+      margin: 6px 0 0;
+    }
     @media (max-width: 480px) {
       .moderation-card {
         max-width: 100%;
@@ -58,7 +94,7 @@
       .row.mtop40.acenter#moderation-empty
         %p= I18n.t('.empty', scope: pending_scope)
     - else
-      .row.moderation-list.mtop30
+      .row.moderation-list.mtop30{data: {plant_required_warning: I18n.t('.plant_required_warning', scope: pending_scope)}}
         - @plant_sightings.each do |sighting|
           .moderation-card{id: "sighting-#{sighting.id}"}
             .moderation-card-photo
@@ -66,7 +102,16 @@
                 = plant_sighting_photo_tag(sighting, :small)
 
             .moderation-card-body
-              = render 'plant_names', plant: sighting.plant
+              .moderation-plant-assign
+                %label.moderation-plant-label{for: "plant_query_#{sighting.id}"}= I18n.t('.plant_label', scope: pending_scope)
+                .plant-autocomplete.moderation-plant-autocomplete{data: {url: plant_sightings_autocomplete_path, not_found: I18n.t('.not_found', scope: pending_scope)}}
+                  = text_field_tag "plant_query_#{sighting.id}", (sighting.plant.present? ? "#{sighting.plant.display_name(I18n.locale)} | #{sighting.plant.species_sci}" : nil), class: 'form-control plant-autocomplete-input', autocomplete: 'off', placeholder: I18n.t('.plant_name_placeholder', scope: pending_scope)
+                  %ul.plant-autocomplete-list
+                = hidden_field_tag "plant_id_#{sighting.id}", sighting.plant_id, class: 'moderation-plant-id'
+                .moderation-plant-actions
+                  %button.btn.btn-default.btn-sm.moderation-assign-plant{data: {id: sighting.id}, type: 'button', disabled: sighting.plant_id.blank?}
+                    = I18n.t('.assign_plant', scope: pending_scope)
+                  %span.moderation-assign-feedback{data: {id: sighting.id}}
 
               %p.moderation-meta
                 %span.lbl= I18n.t('.author', scope: pending_scope)
@@ -86,8 +131,12 @@
               - if sighting.note.present?
                 %p.moderation-note= sighting.note
 
+              - if sighting.unknown?
+                %p.moderation-plant-warning{data: {warning_for: sighting.id}}
+                  = I18n.t('.plant_required_warning', scope: pending_scope)
+
               .moderation-actions
-                %button.btn.btn-success.moderation-approve{data: {id: sighting.id}, type: 'button'}
+                %button.btn.btn-success.moderation-approve{data: {id: sighting.id}, type: 'button', disabled: sighting.unknown?}
                   = I18n.t('.approve', scope: pending_scope)
                 %button.btn.btn-danger.moderation-reject{data: {id: sighting.id}, type: 'button'}
                   = I18n.t('.reject', scope: pending_scope)

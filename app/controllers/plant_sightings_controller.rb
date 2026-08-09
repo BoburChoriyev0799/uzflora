@@ -1,6 +1,6 @@
 class PlantSightingsController < ApplicationController
   before_action :authenticate_user!, except: [:show]
-  before_action :require_expert!, only: [:pending, :approve, :reject]
+  before_action :require_expert!, only: [:pending, :approve, :reject, :assign_plant]
 
   layout 'plant_map', only: [:edit_map, :show]
 
@@ -18,9 +18,17 @@ class PlantSightingsController < ApplicationController
                                      .order(created_at: :asc)
   end
 
-  # Ekspert faqat tasdiqlaydi — foydalanuvchi tanlagan turga (plant_id) tegmaydi.
+  # Ekspert tasdiqlaydi. Tur hali biriktirilmagan (plant_id NULL) bo'lsa
+  # tasdiqlashga yo'l qo'yilmaydi — avvalgi bug (unknown kuzatuvlar tur
+  # biriktirmasdan ham tasdiqlanaverishi) qaytmasligi uchun himoya frontendda
+  # (tugma disabled) VA shu yerda backendda ham tekshiriladi.
   def approve
     sighting = PlantSighting.find(params[:id])
+    if sighting.unknown?
+      render json: { success: false, error: I18n.t('plant_sightings.pending.plant_required_warning') }, status: :unprocessable_entity
+      return
+    end
+
     sighting.approve!(current_user)
     render json: { success: true }
   end
@@ -29,6 +37,29 @@ class PlantSightingsController < ApplicationController
     sighting = PlantSighting.find(params[:id])
     sighting.reject!(current_user, params[:moderation_note])
     render json: { success: true }
+  end
+
+  # Ekspert moderatsiya navbatida turni biriktiradi/tuzatadi — tasdiqlashdan
+  # ALOHIDA amal, status/expert/reviewed_at'ga tegmaydi. plant_id doim
+  # bazadagi mavjud Plant yozuviga ishora qilishi shart — ekspert faqat
+  # autocomplete ro'yxatidan tanlaydi, erkin matn saqlanmaydi.
+  def assign_plant
+    sighting = PlantSighting.find(params[:id])
+    plant = Plant.find_by(id: params[:plant_id])
+
+    if plant.nil?
+      render json: { success: false, error: I18n.t('plant_sightings.pending.plant_not_found') }, status: :unprocessable_entity
+      return
+    end
+
+    sighting.update!(plant: plant)
+    render json: {
+      success: true,
+      plant: {
+        id: plant.id,
+        selected_text: "#{plant.display_name(I18n.locale)} | #{plant.species_sci}"
+      }
+    }
   end
 
   # Rad etilgan kuzatuvni faqat egasi va ekspert ko'ra oladi.

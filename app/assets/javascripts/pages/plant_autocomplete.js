@@ -62,6 +62,18 @@
       return;
     }
 
+    // Ekspert moderatsiya navbati (pending.html.haml): bir sahifada bir
+    // nechta karta bo'lgani uchun ID emas, shu kartaga xos class'lar
+    // orqali ishlaymiz — moderate_plant_sightings.js "Biriktirish"
+    // tugmasi bosilganda shu hidden maydondagi qiymatni yuboradi.
+    var $card = $wrap.closest('.moderation-card');
+    if ($card.length) {
+      $card.find('.moderation-plant-id').val(id);
+      $card.find('.moderation-assign-plant').prop('disabled', false);
+      $card.find('.moderation-assign-feedback').text('');
+      return;
+    }
+
     // Boshqa sahifalar (masalan o'simliklar ro'yxati qidiruvi): tanlash
     // bilanoq mavjud qidiruv formasi (GET) yuboriladi — data-auto-submit
     // belgilangan bo'lsagina.
