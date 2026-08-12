@@ -13,7 +13,9 @@ uz:
     show:
       back_to_list: "← O'simliklar ro'yxatiga qaytish"
       red_book_badge: Qizil kitobda
-      russian_name: "Ruscha nomi:"
+      name_uz: "O'zbekcha nomi:"
+      name_lat: "Lotincha nomi:"
+      name_ru: "Ruscha nomi:"
       taxonomy: Taksonomiya
       taxon_division: "Bo'lim:"
       taxon_class_name: "Sinf:"

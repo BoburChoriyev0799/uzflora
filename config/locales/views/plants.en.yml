@@ -13,7 +13,9 @@ en:
     show:
       back_to_list: "← Back to plants list"
       red_book_badge: Red Book species
-      russian_name: "Russian name:"
+      name_lat: "Latin name:"
+      name_ru: "Russian name:"
+      name_local: "Local name:"
       taxonomy: Taxonomy
       taxon_division: "Division:"
       taxon_class_name: "Class:"

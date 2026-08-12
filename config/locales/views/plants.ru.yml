@@ -13,7 +13,9 @@ ru:
     show:
       back_to_list: "← Вернуться к списку растений"
       red_book_badge: В Красной книге
-      russian_name: "Русское название:"
+      name_ru: "Русское название:"
+      name_lat: "Латинское название:"
+      name_local: "Местное название:"
       taxonomy: Таксономия
       taxon_division: "Отдел:"
       taxon_class_name: "Класс:"

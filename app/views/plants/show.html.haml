@@ -58,10 +58,6 @@
       white-space: nowrap;
       padding-right: 8px;
     }
-    .plant-taxon-ru {
-      color: #4a6b3a;
-      margin-left: 6px;
-    }
     /* Foydalanuvchi rasmlari galereyasi — bosh sahifadagi rasm
        kartochkalari (welcome-gallery) bilan bir xil vizual uslub
        (yumaloq burchak, soya), lekin bu yerda tor ustunga mos ravishda
@@ -146,13 +142,10 @@
           .plant-red-book-badge= I18n.t('.red_book_badge', scope: plant_scope)
 
         %h3= @plant.display_name(I18n.locale)
-        - if @plant.species_uz.present? && @plant.species_uz != @plant.species_sci
+        - plant_name_rows(@plant, I18n.locale).each do |label_key, value|
           %p
-            %i= @plant.species_sci
-        - if @plant.species_ru.present?
-          %p
-            %span.plant-lbl= I18n.t('.russian_name', scope: plant_scope)
-            = @plant.species_ru
+            %span.plant-lbl= I18n.t(".#{label_key}", scope: plant_scope)
+            = value
 
         - taxonomy_rows = plant_taxonomy_rows(@plant)
         - if taxonomy_rows.any?
@@ -160,14 +153,11 @@
             .plant-info-block-head= I18n.t('.taxonomy', scope: plant_scope)
             .plant-info-block-body
               %table.plant-taxonomy-table
-                - taxonomy_rows.each do |label_key, lat, ru|
+                - taxonomy_rows.each do |label_key, lat|
                   %tr
                     %td.plant-lbl= I18n.t(".taxon_#{label_key}", scope: plant_scope)
                     %td
-                      - if lat.present?
-                        %i= lat
-                      - if ru.present?
-                        %span.plant-taxon-ru= "(#{ru})"
+                      %i= lat
 
         - life_form_text = @plant.life_form_localized(I18n.locale)
         - if life_form_text.present?

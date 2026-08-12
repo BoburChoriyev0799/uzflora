@@ -1,24 +1,54 @@
 # frozen_string_literal: true
 module PlantsHelper
   # Botanik taksonomiya zanjiri, yuqoridan pastga: bo'lim -> sinf ->
-  # tartib -> oila -> turkum -> tur. Har biri [label_key, lat_ustun, ru_ustun].
+  # tartib -> oila -> turkum -> tur. Har biri [label_key, lat_ustun].
+  # Faqat lotincha (ilmiy) nom ko'rsatiladi — bazadagi *_ru ustunlari
+  # (qavs ichidagi ruscha tarjima, masalan "Однодольные") uch tilda ham
+  # keraksiz hisoblanib chiqarib tashlangan.
   PLANT_TAXONOMY_LEVELS = [
-    [:division, :division_lat, :division_ru],
-    [:class_name, :class_lat, :class_ru],
-    [:order, :order_lat, :order_ru],
-    [:family, :family_lat, :family_ru],
-    [:genus, :genus_lat, :genus_ru],
-    [:species, :species_sci, :species_ru]
+    [:division, :division_lat],
+    [:class_name, :class_lat],
+    [:order, :order_lat],
+    [:family, :family_lat],
+    [:genus, :genus_lat],
+    [:species, :species_sci]
   ].freeze
 
-  # plants/show'даgi taksonomiya jadvali uchun qatorlar: [label_key, lat, ru]
-  # — ikkalasi ham bo'sh bo'lgan daraja butunlay chiqarib tashlanadi.
+  # plants/show'даgi taksonomiya jadvali uchun qatorlar: [label_key, lat]
+  # — lotincha nomi bo'sh bo'lgan daraja butunlay chiqarib tashlanadi.
   def plant_taxonomy_rows(plant)
-    PLANT_TAXONOMY_LEVELS.filter_map do |label_key, lat_attr, ru_attr|
+    PLANT_TAXONOMY_LEVELS.filter_map do |label_key, lat_attr|
       lat = plant.public_send(lat_attr)
-      ru = plant.public_send(ru_attr)
-      [label_key, lat, ru] if lat.present? || ru.present?
+      [label_key, lat] if lat.present?
     end
+  end
+
+  # plants/show'даgi "uch nom" bloki uchun qatorlar: [label_key, value].
+  # Til bo'yicha tartib va yorliqlar farq qiladi (uz/ru/en), lekin har
+  # birida bo'sh qiymatli qator chiqarib tashlanadi. species_en ustuni
+  # bazada yo'q — "Common name:" shu sabab hozircha doim yashiringan.
+  def plant_name_rows(plant, locale)
+    rows = case locale.to_sym
+           when :ru
+             [
+               [:name_ru, plant.species_ru],
+               [:name_lat, plant.species_sci],
+               [:name_local, plant.species_uz]
+             ]
+           when :en
+             [
+               [:name_lat, plant.species_sci],
+               [:name_ru, plant.species_ru],
+               [:name_local, plant.species_uz]
+             ]
+           else
+             [
+               [:name_uz, plant.species_uz],
+               [:name_lat, plant.species_sci],
+               [:name_ru, plant.species_ru]
+             ]
+           end
+    rows.select { |_, value| value.present? }
   end
 
   # Tashqi manba tugmalarida ko'rsatiladigan rasmiy logo fayllari
