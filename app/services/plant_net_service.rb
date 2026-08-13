@@ -72,17 +72,15 @@ class PlantNetService
   # qaytaradi — hech qachon istisno (exception) tashqariga chiqmaydi,
   # chaqiruvchi controller shunchaki `outcome.success?`ni tekshiradi.
   def identify(image_io)
-    log_key_status
-
-    return Outcome.new(predictions: [], error: :missing_api_key) if @api_key.blank?
+    if @api_key.blank?
+      Rails.logger.error('[PlantNetService] api_key MISSING (credentials.dig(:plantnet, :api_key) bo\'sh)')
+      return Outcome.new(predictions: [], error: :missing_api_key)
+    end
 
     response = perform_request(image_io)
     handle_response(response)
   rescue Net::OpenTimeout, Net::ReadTimeout, Timeout::Error => e
-    Rails.logger.error(
-      "[PlantNetService] timeout: #{e.class} - #{e.message} " \
-      "(open_timeout=#{OPEN_TIMEOUT}s, read_timeout=#{READ_TIMEOUT}s)"
-    )
+    Rails.logger.error("[PlantNetService] timeout: #{e.class} - #{e.message}")
     Outcome.new(predictions: [], error: :timeout)
   rescue StandardError => e
     Rails.logger.error("[PlantNetService] exception: #{e.class} - #{e.message}")
@@ -91,36 +89,12 @@ class PlantNetService
 
   private
 
-  # DIQQAT: kalitning O'ZI hech qachon log qilinmaydi — faqat mavjudligi,
-  # uzunligi va oxirgi 4 belgisi (production'da credentials to'g'ri
-  # o'qilayotganini tekshirish uchun yetarli, lekin kalitni oshkor
-  # qilmaydi).
-  def log_key_status
-    if @api_key.blank?
-      Rails.logger.error(
-        '[PlantNetService] api_key MISSING (Rails.application.credentials.dig(:plantnet, :api_key) bo\'sh) — ' \
-        'RAILS_MASTER_KEY yoki credentials.yml.enc shu muhitda tekshirilsin'
-      )
-    else
-      Rails.logger.info("[PlantNetService] api_key present: length=#{@api_key.length}, last4=#{@api_key[-4..]}")
-    end
-  end
-
   def perform_request(image_io)
     uri = URI("#{ENDPOINT}/#{@project}")
     uri.query = URI.encode_www_form(
       'api-key' => @api_key,
       'lang' => PLANTNET_LANG,
       'nb-results' => @nb_results
-    )
-
-    # DIQQAT: log qatorida `uri` (api-key'ni o'z ichiga oladi) EMAS,
-    # faqat kalitsiz komponentlar ishlatiladi.
-    image_size_kb = image_io.respond_to?(:size) ? (image_io.size / 1024.0).round(1) : 'unknown'
-    Rails.logger.info(
-      "[PlantNetService] request: endpoint=#{ENDPOINT}/#{@project}, project=#{@project}, " \
-      "organs=auto, lang=#{PLANTNET_LANG}, nb_results=#{@nb_results}, image_size=#{image_size_kb}KB, " \
-      "open_timeout=#{OPEN_TIMEOUT}s, read_timeout=#{READ_TIMEOUT}s"
     )
 
     http = Net::HTTP.new(uri.host, uri.port)
@@ -146,47 +120,35 @@ class PlantNetService
   end
 
   def handle_response(response)
-    # Barcha holatlarda (200 ham, 401/403/429/400 ham) log qilinadi —
-    # aynan xato javoblar (masalan noto'g'ri kalit yoki limit tugashi)
-    # ilgari LOG QILINMAGANDI, shuning uchun sabab ko'rinmasdi.
-    body_preview = response.body.to_s[0, 500]
-    Rails.logger.info("[PlantNetService] response: HTTP #{response.code}, body_preview=#{body_preview.inspect}")
-
     case response
     when Net::HTTPSuccess
       Outcome.new(predictions: build_predictions(JSON.parse(response.body)), error: nil)
     when Net::HTTPTooManyRequests
+      Rails.logger.error("[PlantNetService] HTTP #{response.code} (quota_exceeded): #{response.body.to_s[0, 300]}")
       Outcome.new(predictions: [], error: :quota_exceeded)
     when Net::HTTPUnauthorized, Net::HTTPForbidden
+      Rails.logger.error("[PlantNetService] HTTP #{response.code} (invalid_api_key): #{response.body.to_s[0, 300]}")
       Outcome.new(predictions: [], error: :invalid_api_key)
     when Net::HTTPBadRequest, Net::HTTPNotFound, Net::HTTPUnprocessableEntity
+      Rails.logger.error("[PlantNetService] HTTP #{response.code} (invalid_image): #{response.body.to_s[0, 300]}")
       Outcome.new(predictions: [], error: :invalid_image)
     else
+      Rails.logger.error("[PlantNetService] HTTP #{response.code} (unknown): #{response.body.to_s[0, 300]}")
       Outcome.new(predictions: [], error: :unknown)
     end
   end
 
   def build_predictions(body)
-    results = Array(body['results'])
-    Rails.logger.info("[PlantNetService] results count=#{results.size}")
-
-    results.filter_map do |result|
+    Array(body['results']).filter_map do |result|
       species = result['species'] || {}
       scientific_name = species['scientificNameWithoutAuthor'].presence || species['scientificName']
       next if scientific_name.blank?
 
-      score_percent = (result['score'].to_f * 100).round
-      plant = match_plant(scientific_name)
-      Rails.logger.info(
-        "[PlantNetService] returned: #{scientific_name} (score #{score_percent}) → " \
-        "#{plant ? "bazada topildi (id=#{plant.id})" : 'bazada topilmadi'}"
-      )
-
       Prediction.new(
         scientific_name: scientific_name,
         common_name: Array(species['commonNames']).first,
-        score_percent: score_percent,
-        plant: plant
+        score_percent: (result['score'].to_f * 100).round,
+        plant: match_plant(scientific_name)
       )
     end
   end
