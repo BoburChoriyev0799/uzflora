@@ -59,18 +59,39 @@ class PlantNetService
   # qaytaradi — hech qachon istisno (exception) tashqariga chiqmaydi,
   # chaqiruvchi controller shunchaki `outcome.success?`ni tekshiradi.
   def identify(image_io)
+    log_key_status
+
     return Outcome.new(predictions: [], error: :missing_api_key) if @api_key.blank?
 
     response = perform_request(image_io)
     handle_response(response)
-  rescue Net::OpenTimeout, Net::ReadTimeout, Timeout::Error
+  rescue Net::OpenTimeout, Net::ReadTimeout, Timeout::Error => e
+    Rails.logger.error(
+      "[PlantNetService] timeout: #{e.class} - #{e.message} " \
+      "(open_timeout=#{OPEN_TIMEOUT}s, read_timeout=#{READ_TIMEOUT}s)"
+    )
     Outcome.new(predictions: [], error: :timeout)
   rescue StandardError => e
-    Rails.logger.error("[PlantNetService] #{e.class}: #{e.message}")
+    Rails.logger.error("[PlantNetService] exception: #{e.class} - #{e.message}")
     Outcome.new(predictions: [], error: :unknown)
   end
 
   private
+
+  # DIQQAT: kalitning O'ZI hech qachon log qilinmaydi — faqat mavjudligi,
+  # uzunligi va oxirgi 4 belgisi (production'da credentials to'g'ri
+  # o'qilayotganini tekshirish uchun yetarli, lekin kalitni oshkor
+  # qilmaydi).
+  def log_key_status
+    if @api_key.blank?
+      Rails.logger.error(
+        '[PlantNetService] api_key MISSING (Rails.application.credentials.dig(:plantnet, :api_key) bo\'sh) — ' \
+        'RAILS_MASTER_KEY yoki credentials.yml.enc shu muhitda tekshirilsin'
+      )
+    else
+      Rails.logger.info("[PlantNetService] api_key present: length=#{@api_key.length}, last4=#{@api_key[-4..]}")
+    end
+  end
 
   def perform_request(image_io)
     uri = URI("#{ENDPOINT}/#{@project}")
@@ -78,6 +99,15 @@ class PlantNetService
       'api-key' => @api_key,
       'lang' => I18n.locale.to_s,
       'nb-results' => @nb_results
+    )
+
+    # DIQQAT: log qatorida `uri` (api-key'ni o'z ichiga oladi) EMAS,
+    # faqat kalitsiz komponentlar ishlatiladi.
+    image_size_kb = image_io.respond_to?(:size) ? (image_io.size / 1024.0).round(1) : 'unknown'
+    Rails.logger.info(
+      "[PlantNetService] request: endpoint=#{ENDPOINT}/#{@project}, project=#{@project}, " \
+      "organs=auto, lang=#{I18n.locale}, nb_results=#{@nb_results}, image_size=#{image_size_kb}KB, " \
+      "open_timeout=#{OPEN_TIMEOUT}s, read_timeout=#{READ_TIMEOUT}s"
     )
 
     http = Net::HTTP.new(uri.host, uri.port)
@@ -103,6 +133,12 @@ class PlantNetService
   end
 
   def handle_response(response)
+    # Barcha holatlarda (200 ham, 401/403/429/400 ham) log qilinadi —
+    # aynan xato javoblar (masalan noto'g'ri kalit yoki limit tugashi)
+    # ilgari LOG QILINMAGANDI, shuning uchun sabab ko'rinmasdi.
+    body_preview = response.body.to_s[0, 500]
+    Rails.logger.info("[PlantNetService] response: HTTP #{response.code}, body_preview=#{body_preview.inspect}")
+
     case response
     when Net::HTTPSuccess
       Outcome.new(predictions: build_predictions(JSON.parse(response.body)), error: nil)
@@ -113,22 +149,31 @@ class PlantNetService
     when Net::HTTPBadRequest, Net::HTTPNotFound, Net::HTTPUnprocessableEntity
       Outcome.new(predictions: [], error: :invalid_image)
     else
-      Rails.logger.error("[PlantNetService] HTTP #{response.code}: #{response.body}")
       Outcome.new(predictions: [], error: :unknown)
     end
   end
 
   def build_predictions(body)
-    Array(body['results']).filter_map do |result|
+    results = Array(body['results'])
+    Rails.logger.info("[PlantNetService] results count=#{results.size}")
+
+    results.filter_map do |result|
       species = result['species'] || {}
       scientific_name = species['scientificNameWithoutAuthor'].presence || species['scientificName']
       next if scientific_name.blank?
 
+      score_percent = (result['score'].to_f * 100).round
+      plant = match_plant(scientific_name)
+      Rails.logger.info(
+        "[PlantNetService] returned: #{scientific_name} (score #{score_percent}) → " \
+        "#{plant ? "bazada topildi (id=#{plant.id})" : 'bazada topilmadi'}"
+      )
+
       Prediction.new(
         scientific_name: scientific_name,
         common_name: Array(species['commonNames']).first,
-        score_percent: (result['score'].to_f * 100).round,
-        plant: match_plant(scientific_name)
+        score_percent: score_percent,
+        plant: plant
       )
     end
   end
