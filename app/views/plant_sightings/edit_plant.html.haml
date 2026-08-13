@@ -1,3 +1,121 @@
+%style
+  :plain
+    .sighting-identify-row {
+      margin-bottom: 20px;
+    }
+    .sighting-identify-btn {
+      display: inline-block;
+      background: #046A38;
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+    }
+    .sighting-identify-btn:hover,
+    .sighting-identify-btn:focus {
+      background: #035129;
+      color: #fff;
+    }
+    .sighting-identify-btn:disabled {
+      background: #9bb89b;
+      cursor: default;
+    }
+    .sighting-identify-not-ready {
+      font-style: italic;
+    }
+    .sighting-identify-status {
+      margin-top: 10px;
+      color: #4a6b3a;
+      font-weight: 600;
+    }
+    .sighting-identify-results {
+      margin-top: 10px;
+    }
+    .sighting-identify-error,
+    .sighting-identify-empty {
+      color: #7a3b1e;
+    }
+    .sighting-identify-disclaimer {
+      font-size: 12px;
+      color: #4a6b3a;
+      font-style: italic;
+      margin-bottom: 10px;
+    }
+    .sighting-identify-prediction {
+      background: #DCEBC8;
+      border-radius: 6px;
+      padding: 10px 12px;
+      margin-bottom: 8px;
+    }
+    .sighting-identify-prediction-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+    }
+    .sighting-identify-prediction-name {
+      font-weight: 600;
+      color: #223318;
+    }
+    .sighting-identify-prediction-score {
+      color: #046A38;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .sighting-identify-prediction-common {
+      color: #666;
+      font-size: 13px;
+      margin: 2px 0 6px;
+    }
+    .sighting-identify-score-bar {
+      background: #fff;
+      border-radius: 4px;
+      height: 6px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+    .sighting-identify-score-bar-fill {
+      background: #046A38;
+      height: 100%;
+    }
+    .sighting-identify-prediction-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .sighting-identify-select-btn {
+      background: #fff;
+      border: 1px solid #046A38;
+      color: #046A38;
+      border-radius: 14px;
+      padding: 4px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .sighting-identify-select-btn:hover,
+    .sighting-identify-select-btn:focus {
+      background: #046A38;
+      color: #fff;
+    }
+    .sighting-identify-profile-link {
+      font-size: 13px;
+      font-weight: 600;
+    }
+    @media (max-width: 480px) {
+      .sighting-identify-prediction-row {
+        flex-direction: column;
+        gap: 2px;
+      }
+      .sighting-identify-prediction-actions {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+      }
+    }
+
 .bg-btm-container
   .container.content
     - edit_scope = 'plant_sightings.edit'
@@ -12,6 +130,19 @@
             .col-md-9.col-sm-12
               %span= I18n.t('.plant_label', scope: edit_scope)
               %span.selected-plant= I18n.t('.unknown_plant', scope: edit_scope)
+
+          .row.sighting-identify-row
+            .col-md-9.col-sm-12
+              - if @plant_sighting.photo_status_ready?
+                %button.sighting-identify-btn#sighting-identify-btn{ type: 'button', data: { url: identify_plant_sighting_path(@plant_sighting) } }
+                  🔍
+                  = I18n.t('button', scope: 'plant_sightings.edit.identify')
+              - elsif @plant_sighting.photo_status_failed?
+                %p.text-muted.sighting-identify-not-ready= I18n.t('plant_sightings.photo_failed')
+              - else
+                %p.text-muted.sighting-identify-not-ready= I18n.t('not_ready', scope: 'plant_sightings.edit.identify.errors')
+              .sighting-identify-status{ style: 'display:none;' }= I18n.t('loading', scope: 'plant_sightings.edit.identify')
+              #sighting-identify-results.sighting-identify-results{ data: { error_generic: I18n.t('generic', scope: 'plants.index.identify.errors') } }
 
           = form_tag plant_sightings_search_path, method: :post, remote: true do
             .plant-autocomplete.w80.sm-width-max{ data: { url: plant_sightings_autocomplete_path, not_found: I18n.t('.not_found', scope: edit_scope) } }

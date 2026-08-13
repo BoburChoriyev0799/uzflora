@@ -28,6 +28,16 @@ uz:
       note_label: "Qisqa izoh (ixtiyoriy):"
       note_hint: "Eng ko'pi bilan 100 belgi."
       publish: "Nashr qilish"
+      identify:
+        button: "AI bilan aniqlash"
+        loading: "Aniqlanmoqda..."
+        disclaimer: "Bu taxminiy natija. Aniq tur uchun ekspert tasdiqi kerak."
+        no_results: "Hech narsa aniqlanmadi. Ro'yxatdan qidirib ko'ring."
+        select: "Tanlash"
+        view_profile: "Profilni ko'rish"
+        errors:
+          not_ready: "Rasm hali tayyor emas, biroz kuting."
+          fetch_failed: "Rasmni yuklab bo'lmadi. Keyinroq urinib ko'ring."
     show:
       unknown_plant: "Turi aniqlanmagan o'simlik"
       author: "Muallif:"

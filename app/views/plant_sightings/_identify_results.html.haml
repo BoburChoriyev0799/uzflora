@@ -1,0 +1,23 @@
+- identify_scope = 'plant_sightings.edit.identify'
+- if @identify_error_message.present?
+  .sighting-identify-error= @identify_error_message
+- elsif @predictions.blank?
+  .sighting-identify-empty= I18n.t('no_results', scope: identify_scope)
+- else
+  %p.sighting-identify-disclaimer= I18n.t('disclaimer', scope: identify_scope)
+  .sighting-identify-predictions
+    - @predictions.each do |prediction|
+      .sighting-identify-prediction
+        .sighting-identify-prediction-row
+          %span.sighting-identify-prediction-name
+            %i= prediction.scientific_name
+          %span.sighting-identify-prediction-score= "#{prediction.score_percent}%"
+        - if prediction.common_name.present?
+          %p.sighting-identify-prediction-common= prediction.common_name
+        .sighting-identify-score-bar
+          .sighting-identify-score-bar-fill{ style: "width: #{prediction.score_percent}%;" }
+        - if prediction.plant
+          .sighting-identify-prediction-actions
+            %button.sighting-identify-select-btn{ type: 'button', data: { plant_id: prediction.plant.id, selected_text: "#{prediction.plant.display_name(I18n.locale)} | #{prediction.plant.species_sci}" } }
+              = I18n.t('select', scope: identify_scope)
+            = link_to I18n.t('view_profile', scope: identify_scope), plant_path(prediction.plant), target: '_blank', rel: 'noopener noreferrer', class: 'sighting-identify-profile-link'

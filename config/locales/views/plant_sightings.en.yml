@@ -28,6 +28,16 @@ en:
       note_label: "Short note (optional):"
       note_hint: "Up to 100 characters."
       publish: "Publish"
+      identify:
+        button: "Identify with AI"
+        loading: "Identifying..."
+        disclaimer: "This is an approximate result. Expert confirmation is needed for an exact species."
+        no_results: "Nothing could be identified. Try searching manually."
+        select: "Select"
+        view_profile: "View profile"
+        errors:
+          not_ready: "The photo isn't ready yet, please wait a bit."
+          fetch_failed: "Couldn't load the photo. Please try again later."
     show:
       unknown_plant: "Unidentified plant"
       author: "Author:"

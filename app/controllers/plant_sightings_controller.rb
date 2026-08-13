@@ -104,6 +104,47 @@ class PlantSightingsController < ApplicationController
     @plant_sighting = PlantSighting.find(params[:id])
   end
 
+  # AJAX ("O'simlik" bosqichi — edit_plant.html.haml, 2b-bosqichda ekspert
+  # moderatsiyasi ham shu action'ni qayta ishlatadi, shuning uchun
+  # avtorizatsiya ikkalasini ham qamrab oladi: egasi YOKI ekspert).
+  #
+  # Bu bosqichga kelib ORIGINAL yuklangan fayl (create so'rovidagi
+  # tempfile) allaqachon yo'q — faqat R2'da (yoki hali fon jarayonida)
+  # saqlangan versiya bor. Shuning uchun original faylni EMAS, R2'dagi
+  # mavjud faylni serverda qayta yuklab olamiz (HTTP GET → Tempfile) va
+  # uni MAVJUD, O'ZGARTIRILMAGAN PlantNetService#identify'ga beramiz —
+  # servisning o'ziga hech narsa qo'shilmaydi.
+  def identify
+    sighting = PlantSighting.find(params[:id])
+
+    unless sighting.owner?(current_user) || current_user.try(:expert?)
+      render json: { error: 'forbidden' }, status: :forbidden
+      return
+    end
+
+    unless sighting.photo_status_ready?
+      @identify_error_message = I18n.t('not_ready', scope: 'plant_sightings.edit.identify.errors')
+      render json: { html: render_to_string(partial: 'plant_sightings/identify_results', formats: [:html]) }
+      return
+    end
+
+    image_io = fetch_sighting_photo_tempfile(sighting)
+    if image_io.nil?
+      @identify_error_message = I18n.t('fetch_failed', scope: 'plant_sightings.edit.identify.errors')
+    else
+      outcome = PlantNetService.new.identify(image_io)
+      if outcome.success?
+        @predictions = outcome.predictions
+      else
+        @identify_error_message = I18n.t('generic', scope: 'plants.index.identify.errors')
+      end
+    end
+
+    render json: { html: render_to_string(partial: 'plant_sightings/identify_results', formats: [:html]) }
+  ensure
+    image_io&.close! if image_io.respond_to?(:close!)
+  end
+
   def update
     @plant_sighting = PlantSighting.find(params[:id])
 
@@ -159,6 +200,26 @@ class PlantSightingsController < ApplicationController
 
   def require_expert!
     redirect_to root_path unless current_user.try(:expert?)
+  end
+
+  # `identify` action uchun — R2'dagi (Cloudflare, `PlantSightingUploader`
+  # orqali `:fog` bilan saqlangan) mavjud rasmni HTTP GET bilan qayta
+  # yuklab, mahalliy Tempfile'ga yozadi. PlantNetService bu haqda hech
+  # narsa bilmaydi — u faqat oddiy IO oladi, xuddi to'g'ridan-to'g'ri
+  # yuklangan fayl kabi (plants#identify'даgi bilan bir xil interfeys).
+  # Xato bo'lsa (tarmoq, R2'da fayl yo'q va h.k.) — nil qaytadi, chaqiruvchi
+  # buni "hozir aniqlab bo'lmadi" xabariga aylantiradi, ilova qulamaydi.
+  def fetch_sighting_photo_tempfile(sighting)
+    response = Net::HTTP.get_response(URI(sighting.photo.display.url))
+    return nil unless response.is_a?(Net::HTTPSuccess)
+
+    tempfile = Tempfile.new(['sighting_photo', '.jpg'], binmode: true)
+    tempfile.write(response.body)
+    tempfile.rewind
+    tempfile
+  rescue StandardError => e
+    Rails.logger.error("[PlantSightingsController#identify] R2 fetch error: #{e.class} - #{e.message}")
+    nil
   end
 
   def plant_sighting_params

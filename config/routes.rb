@@ -105,6 +105,7 @@ Birds::Application.routes.draw do
       post 'approve' => 'plant_sightings#approve'
       post 'reject' => 'plant_sightings#reject'
       post 'assign_plant' => 'plant_sightings#assign_plant'
+      post 'identify' => 'plant_sightings#identify'
     end
   end
 

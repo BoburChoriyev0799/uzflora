@@ -31,12 +31,22 @@ class Rack::Attack
     req.ip if req.path.start_with?('/admin')
   end
 
-  # O'simlik aniqlash (PlantNet, plants#identify) — login talab qilinadi
-  # (controller darajasida), lekin PlantNet'ning bepul kunlik limiti
-  # (~500/kun) bitta foydalanuvchi/skript tomonidan tez tugatilib
-  # qo'yilmasligi uchun IP bo'yicha ham cheklanadi.
+  # O'simlik aniqlash (PlantNet) — login talab qilinadi (controller
+  # darajasida), lekin PlantNet'ning bepul kunlik limiti (~500/kun)
+  # bitta foydalanuvchi/skript tomonidan tez tugatilib qo'yilmasligi
+  # uchun IP bo'yicha ham cheklanadi. BITTA umumiy hisoblagich — bir necha
+  # kirish nuqtasi bor (o'simliklar sahifasi `/plants/identify` va rasm
+  # qo'shish wizardining "O'simlik" bosqichi `/plant_sightings/:id/
+  # identify`, 2b-bosqichda ekspert moderatsiyasi ham shu ikkinchi
+  # yo'ldan foydalanadi) — agar har biri ALOHIDA hisoblansa, bitta IP
+  # kunlik 500 ta so'rovni bir necha barobar tezroq tugatib qo'yishi
+  # mumkin edi.
   throttle('plant_identify/ip', limit: 10, period: 60) do |req|
-    req.ip if req.path == '/plants/identify' && req.post?
+    next unless req.post?
+
+    is_plants_identify = req.path == '/plants/identify'
+    is_sighting_identify = req.path.match?(%r{\A/plant_sightings/\d+/identify\z})
+    req.ip if is_plants_identify || is_sighting_identify
   end
 
   # "Loyihani qo'llab-quvvatlash" formasi mehmonlarga ham ochiq (login
