@@ -114,6 +114,60 @@
       border-radius: 10px;
       margin-top: 6px;
     }
+    /* MOBIL (767px va pastda) — o'simliklar ro'yxati iNaturalist
+       uslubidagi ixcham 3 ustunli grid'ga aylanadi (avval 1 ustun edi).
+       Planshet (768px+, .plants-grid-col{width:50%}) va desktop (992px+,
+       width:25%) — yuqoridagi mavjud qoidalar bilan O'ZGARISHSIZ qoladi,
+       bu blok faqat max-width:767px'da ishlaydi. Bootstrap'ning
+       col-sm-6/col-md-3 klasslaridan kelayotgan 15px gutter (padding/
+       .row margin) shu diapazonda kichikroqqa (4px) almashtiriladi —
+       aks holda 3 ustunda kartalar orasidagi bo'shliq nomutanosib katta
+       bo'lib qolar edi. */
+    @media (max-width: 767px) {
+      .plants-grid-row {
+        margin-left: -4px;
+        margin-right: -4px;
+      }
+      .plants-grid-col {
+        width: 33.333%;
+        padding-left: 4px;
+        padding-right: 4px;
+      }
+      .plant-card {
+        margin-bottom: 8px;
+        border-radius: 4px;
+      }
+      .plant-card-body {
+        padding: 6px 7px;
+      }
+      .plant-card-name-uz {
+        font-size: 12px;
+        line-height: 1.25;
+        margin-bottom: 1px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .plant-card-name-sci {
+        font-size: 10px;
+        margin-bottom: 2px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .plant-card-family {
+        font-size: 10px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .plant-red-book-badge {
+        font-size: 9px;
+        padding: 1px 5px;
+        margin-top: 3px;
+      }
+    }
     .plants-filter-form {
       margin-bottom: 24px;
     }
