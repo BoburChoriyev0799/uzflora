@@ -273,7 +273,7 @@
           .plant-identify-body
             .plant-identify-title= I18n.t('title', scope: 'plants.index.identify')
             .plant-identify-subtitle= I18n.t('subtitle', scope: 'plants.index.identify')
-            = form_tag identify_plants_path, remote: true, multipart: true, id: 'plant-identify-form' do
+            = form_tag identify_plants_path, multipart: true, id: 'plant-identify-form' do
               %label.plant-identify-choose-btn{ for: 'plant-identify-file' }
                 = I18n.t('choose_photo', scope: 'plants.index.identify')
               = file_field_tag :image, accept: 'image/*', id: 'plant-identify-file', class: 'plant-identify-file-input'

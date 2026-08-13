@@ -57,6 +57,14 @@ Birds::Application.routes.draw do
 
   resources :species, only: [:show]
 
+  # Rasm orqali o'simlik aniqlash (POST, AJAX) — faqat shu manzil GET
+  # bilan TO'G'RIDAN-TO'G'RI ochilsa (havola ulashilgan, sahifa yangilangan
+  # va h.k.), pastdagi `resources :plants`даgi `GET /plants/:id` (show)
+  # bilan mos kelib, "identify"ni tur ID sifatida izlab 404 bermasin —
+  # bu qator BIRINCHI turgani uchun ustunlik qiladi (Rails marshrutlarni
+  # e'lon qilingan tartibda tekshiradi).
+  get 'plants/identify', to: redirect('/plants')
+
   resources :plants, only: [:index, :show] do
     collection do
       post :identify

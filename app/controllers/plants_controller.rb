@@ -66,6 +66,13 @@ class PlantsController < ApplicationController
   # tushunarli xato xabarini (@identify_error_message) qaytaradi.
   # Bazaga hech narsa saqlanmaydi — 1-bosqichda faqat bir martalik
   # taxmin, wizard/ekspert integratsiyasi keyingi bosqichda.
+  #
+  # MUHIM: har doim `render json:` — `respond_to`/format.js EMAS.
+  # Productionda `.js.erb` formatga tayangan versiya HTTP 406 berardi:
+  # brauzer AJAX so'rovi (yoki jquery_ujs'ning `data-remote` mexanizmi)
+  # har doim ham "text/javascript" Accept header bilan kelavermas edi —
+  # `render json:` esa so'rovning Accept header'iga qaramay doim ishlaydi,
+  # shuning uchun format nomuvofiqligi endi mumkin emas.
   def identify
     image = params[:image]
 
@@ -84,7 +91,7 @@ class PlantsController < ApplicationController
       end
     end
 
-    respond_to(&:js)
+    render json: { html: render_to_string(partial: 'plant_identify_results', formats: [:html]) }
   end
 
   private
