@@ -390,19 +390,59 @@
     }
     /* Mobilda (767px va pastda, hamburger rejimi) qo'ng'iroq oddiy
        havolaga aylanadi — dropdown ochilmaydi (JS ham buni hisobga
-       oladi, bu yerda CSS himoya sifatida qo'shimcha kafolat beradi). */
+       oladi, bu yerda CSS himoya sifatida qo'shimcha kafolat beradi).
+       Avval qo'ng'iroq ismdan ALOHIDA, to'liq kengligli o'z qatorida
+       chiqardi va rangi (14% shaffof oq doira ustida oq belgi, to'q
+       burgundy fonда) deyarli ko'rinmasdi — "bo'sh qizil quti"ga
+       o'xshab qolardi. Endi: (1) ism/avatar bilan BIR QATORDA (HTML
+       tartibi o'zgarmaydi — bell hali .nav-profile-li'dan OLDIN keladi,
+       DOM strukturasi/Bootstrap dropdown mexanizmi butun saqlanadi,
+       faqat ikkalasi ham inline-flex bilan bir qatorga tushadi);
+       (2) TO'LIQ OQ doira + to'q burgundy belgi — fonga qaramay har
+       doim aniq kontrastли. */
     @media (max-width: 767px) {
       .navbar-notifications-menu {
         display: none !important;
       }
       .navbar-notifications-dropdown {
-        display: flex !important;
+        display: inline-flex !important;
+        width: auto;
         align-items: center;
-        padding: 10px 15px;
+        padding: 10px 4px 10px 15px !important;
         border-top: 1px solid rgba(255, 255, 255, .15);
+        vertical-align: middle;
       }
       .navbar-notifications-dropdown > .nav-bell-lnk {
         margin: 0 !important;
+        background: #fff;
+      }
+      .navbar-notifications-dropdown > .nav-bell-lnk:hover,
+      .navbar-notifications-dropdown > .nav-bell-lnk:focus,
+      .navbar-notifications-dropdown.open > .nav-bell-lnk {
+        background: #eaf6ec;
+      }
+      .navbar-notifications-dropdown .nav-bell-icon {
+        color: #800020;
+      }
+      .navbar-notifications-dropdown .nav-bell-badge {
+        box-shadow: 0 0 0 2px #fff;
+      }
+      .nav-profile-li {
+        display: inline-flex !important;
+        align-items: center;
+        width: auto;
+        padding: 10px 15px 10px 4px !important;
+        border-top: 1px solid rgba(255, 255, 255, .15);
+      }
+      .nav-profile-li .nav-profile-lnk img.img-circle {
+        width: 34px;
+        height: 34px;
+      }
+      .nav-profile-li .nav-profile-lnk span {
+        max-width: 130px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 15px;
       }
     }
 
@@ -467,7 +507,7 @@
                   %li.navbar-notifications-loading= I18n.t('loading', scope: 'notifications')
                 %li.navbar-notifications-footer
                   =link_to I18n.t('view_all', scope: 'notifications'), notifications_path
-            %li
+            %li.nav-profile-li
               %span.nav-profile-lnk
                 =link_to profile_path(current_user), class: 'profile-lnk' do
                   =image_tag current_user.avatar.thumb.url, class: 'img-circle'

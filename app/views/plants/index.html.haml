@@ -223,8 +223,18 @@
       font-size: 13px;
       margin-bottom: 10px;
     }
+    /* Ikkita tugma ("Rasmga olish" — kamera, va "Rasm tanlash" —
+       galereya) — yonma-yon, tor ekranda ikkinchi qatorga o'tishi
+       mumkin (flex-wrap). */
+    .plant-identify-btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
     .plant-identify-choose-btn {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
       background: #046A38;
       color: #fff;
       padding: 8px 16px;
@@ -328,9 +338,14 @@
             .plant-identify-title= I18n.t('title', scope: 'plants.index.identify')
             .plant-identify-subtitle= I18n.t('subtitle', scope: 'plants.index.identify')
             = form_tag identify_plants_path, multipart: true, id: 'plant-identify-form' do
-              %label.plant-identify-choose-btn{ for: 'plant-identify-file' }
-                = I18n.t('choose_photo', scope: 'plants.index.identify')
-              = file_field_tag :image, accept: 'image/*', id: 'plant-identify-file', class: 'plant-identify-file-input'
+              .plant-identify-btn-row
+                %label.plant-identify-choose-btn{ for: 'plant-identify-camera-file' }
+                  📷
+                  = I18n.t('take_photo', scope: 'plants.index.identify')
+                = file_field_tag :image, accept: 'image/*', capture: 'environment', id: 'plant-identify-camera-file', class: 'plant-identify-file-input'
+                %label.plant-identify-choose-btn{ for: 'plant-identify-file' }
+                  = I18n.t('choose_photo', scope: 'plants.index.identify')
+                = file_field_tag :image, accept: 'image/*', id: 'plant-identify-file', class: 'plant-identify-file-input'
             .plant-identify-status{ style: 'display:none;' }= I18n.t('loading', scope: 'plants.index.identify')
             #plant-identify-results.plant-identify-results{ data: { error_generic: I18n.t('generic', scope: 'plants.index.identify.errors') } }
 

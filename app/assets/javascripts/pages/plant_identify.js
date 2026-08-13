@@ -14,54 +14,57 @@
 // (shu fayl ichidagi kod) sahifada FAQAT birinchi to'liq yuklanishda
 // ishga tushadi, Turbolinks esa keyingi navigatsiyalarda <body>'ni
 // almashtiradi (`$(function(){})` qayta ishga tushmaydi). To'g'ridan
-// elementga bog'langan handler (`$('#plant-identify-file').on(...)`)
-// shu holatda ESKI, endi hujjatdan olib tashlangan DOM elementiga
-// bog'langan bo'lib qolar edi — foydalanuvchi rasm tansa ham hech
-// narsa sodir bo'lmasdi. Delegatsiya har doim JORIY elementni topadi.
-$(document).on('change', '#plant-identify-file', function () {
+// elementga bog'langan handler shu holatda ESKI, endi hujjatdan olib
+// tashlangan DOM elementiga bog'langan bo'lib qolar edi. Delegatsiya
+// har doim JORIY elementni topadi.
+//
+// Ikkita fayl input bor ("Rasmga olish" — capture="environment", va
+// "Rasm tanlash" — oddiy) — ikkalasi ham `.plant-identify-file-input`
+// klassiga ega, shuning uchun BITTA delegated handler ikkalasini ham
+// ushlaydi. Ikkalasi ham `name="image"` bo'lgani uchun (mos autofill/
+// forma semantikasi uchun), FormData'ni BUTUN FORMADAN ("new
+// FormData(form)") EMAS, faqat AYNAN TANLANGAN faylning o'zidan qo'lda
+// yasaymiz — aks holda ikkinchi (bo'sh) input ham FormData'ga o'z
+// "image" yozuvini qo'shib, qaysi biri serverga ketishini DOM tartibiga
+// bog'liq qilib qo'yardi.
+$(document).on('change', '.plant-identify-file-input', function () {
     var input = this;
-    var $form = $(input).closest('form');
     var photo = input.files[0];
     if (!photo) {
         return;
     }
 
     uzfloraCompressSightingPhoto(photo, function (processedFile) {
-        if (processedFile !== photo && typeof window.DataTransfer === 'function') {
-            try {
-                var dataTransfer = new DataTransfer();
-                dataTransfer.items.add(processedFile);
-                input.files = dataTransfer.files;
-            } catch (e) {
-                // DataTransfer bilan almashtirib bo'lmadi — asl fayl
-                // (inputda allaqachon turgan) o'zgarishsiz yuboriladi.
-            }
-        }
-
-        submitPlantIdentifyForm($form);
+        submitPlantIdentifyForm(processedFile);
+        // Xuddi shu faylni qayta tansa ham `change` qayta ishga tushishi
+        // uchun (brauzer bir xil qiymatda hodisani takrorlamaydi).
+        input.value = '';
     });
 });
 
 // Xavfsizlik uchun: agar forma boshqa yo'l bilan (masalan Enter
 // tugmasi) haqiqatan submit qilinsa ham — sahifa to'liq qayta
-// yuklanmasin (native submit 406/HTML sahifaga olib borar edi),
-// xuddi shu AJAX yo'li ishlatilsin.
+// yuklanmasin (native submit 406/HTML sahifaga olib borar edi).
 $(document).on('submit', '#plant-identify-form', function (event) {
     event.preventDefault();
-    submitPlantIdentifyForm($(this));
 });
 
-function submitPlantIdentifyForm($form) {
+function submitPlantIdentifyForm(file) {
+    var $form = $('#plant-identify-form');
     var $status = $('.plant-identify-status');
     var $results = $('#plant-identify-results');
 
     $results.empty();
     $status.show();
 
+    var formData = new FormData();
+    formData.append('authenticity_token', $form.find('input[name="authenticity_token"]').val());
+    formData.append('image', file, file.name);
+
     $.ajax({
         url: $form.attr('action'),
         type: 'POST',
-        data: new FormData($form[0]),
+        data: formData,
         processData: false,
         contentType: false,
         dataType: 'json'

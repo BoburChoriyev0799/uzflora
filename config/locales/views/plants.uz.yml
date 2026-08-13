@@ -14,6 +14,7 @@ uz:
         title: "Rasm orqali o'simlik aniqlash"
         subtitle: "O'simlik surati yuklang — PlantNet xizmati eng ehtimoliy turlarni taxmin qiladi."
         choose_photo: "Rasm tanlash"
+        take_photo: "Rasmga olish"
         loading: "Aniqlanmoqda..."
         disclaimer: "Bu taxminiy natija. Aniq tur uchun ekspert tasdiqi kerak."
         no_results: "Hech narsa aniqlanmadi. Boshqa rasm bilan urinib ko'ring."

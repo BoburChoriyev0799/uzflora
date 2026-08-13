@@ -14,6 +14,7 @@ en:
         title: "Identify a plant from a photo"
         subtitle: "Upload a plant photo — the PlantNet service will suggest the most likely species."
         choose_photo: "Choose photo"
+        take_photo: "Take photo"
         loading: "Identifying..."
         disclaimer: "This is an approximate result. Expert confirmation is needed for an exact species."
         no_results: "Nothing could be identified. Try another photo."
