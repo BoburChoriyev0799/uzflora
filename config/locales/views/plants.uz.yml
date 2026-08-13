@@ -10,6 +10,17 @@ uz:
       not_found: "Afsuski, so'rovingiz bo'yicha natija topilmadi."
       total: "Jami: %{count} ta o'simlik"
       red_book_badge: Qizil kitob
+      identify:
+        title: "Rasm orqali o'simlik aniqlash"
+        subtitle: "O'simlik surati yuklang — PlantNet xizmati eng ehtimoliy turlarni taxmin qiladi."
+        choose_photo: "Rasm tanlash"
+        loading: "Aniqlanmoqda..."
+        disclaimer: "Bu taxminiy natija. Aniq tur uchun ekspert tasdiqi kerak."
+        no_results: "Hech narsa aniqlanmadi. Boshqa rasm bilan urinib ko'ring."
+        view_profile: "Profilni ko'rish"
+        errors:
+          generic: "Hozir aniqlab bo'lmadi, keyinroq urinib ko'ring."
+          invalid_image: "Rasm formati yoki hajmi mos emas (JPG/PNG, 10 MB gacha)."
     show:
       back_to_list: "← O'simliklar ro'yxatiga qaytish"
       red_book_badge: Qizil kitobda

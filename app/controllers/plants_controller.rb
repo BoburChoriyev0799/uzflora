@@ -1,5 +1,12 @@
 class PlantsController < ApplicationController
+  before_action :authenticate_user!, only: [:identify]
+
   PLANTS_PER_PAGE = 24
+
+  # PlantSightingUploader bilan bir xil chegara (10 MB) — foydalanuvchi
+  # kutgan xatti-harakat izchil bo'lsin.
+  IDENTIFY_MAX_IMAGE_SIZE = 10.megabytes
+  IDENTIFY_ALLOWED_CONTENT_TYPES = %w[image/jpeg image/jpg image/png].freeze
 
   # Mehmon (ro'yxatdan o'tmagan) foydalanuvchi uchun — o'simliklar ro'yxati
   # o'rniga faqat ko'rsatuv uchun mo'ljallangan "kirish oynasi" (karusel +
@@ -52,5 +59,42 @@ class PlantsController < ApplicationController
     @sightings = @plant.plant_sightings.published.approved
                         .includes(:user)
                         .order(created_at: :desc)
+  end
+
+  # AJAX (plants#index'даgi "Rasm orqali o'simlik aniqlash" bo'limi):
+  # PlantNet'ga rasm yuboradi, top natijalarni (@predictions) yoki
+  # tushunarli xato xabarini (@identify_error_message) qaytaradi.
+  # Bazaga hech narsa saqlanmaydi — 1-bosqichda faqat bir martalik
+  # taxmin, wizard/ekspert integratsiyasi keyingi bosqichda.
+  def identify
+    image = params[:image]
+
+    if (validation_error = validate_identify_image(image))
+      @identify_error_message = validation_error
+    else
+      outcome = PlantNetService.new.identify(image.tempfile)
+      if outcome.success?
+        @predictions = outcome.predictions
+      else
+        # Hozircha PlantNet'dagi barcha nosozliklar (limit, timeout,
+        # noto'g'ri kalit, kutilmagan javob) uchun bitta tushunarli xabar —
+        # foydalanuvchi texnik sababni bilishi shart emas (xato turi
+        # PlantNetService orqali serverda allaqachon log qilingan).
+        @identify_error_message = I18n.t('generic', scope: 'plants.index.identify.errors')
+      end
+    end
+
+    respond_to(&:js)
+  end
+
+  private
+
+  def validate_identify_image(image)
+    scope = 'plants.index.identify.errors'
+    return I18n.t('invalid_image', scope: scope) unless image.respond_to?(:tempfile)
+    return I18n.t('invalid_image', scope: scope) unless IDENTIFY_ALLOWED_CONTENT_TYPES.include?(image.content_type)
+    return I18n.t('invalid_image', scope: scope) if image.size > IDENTIFY_MAX_IMAGE_SIZE
+
+    nil
   end
 end

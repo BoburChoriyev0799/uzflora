@@ -31,6 +31,14 @@ class Rack::Attack
     req.ip if req.path.start_with?('/admin')
   end
 
+  # O'simlik aniqlash (PlantNet, plants#identify) — login talab qilinadi
+  # (controller darajasida), lekin PlantNet'ning bepul kunlik limiti
+  # (~500/kun) bitta foydalanuvchi/skript tomonidan tez tugatilib
+  # qo'yilmasligi uchun IP bo'yicha ham cheklanadi.
+  throttle('plant_identify/ip', limit: 10, period: 60) do |req|
+    req.ip if req.path == '/plants/identify' && req.post?
+  end
+
   # "Loyihani qo'llab-quvvatlash" formasi mehmonlarga ham ochiq (login
   # shart emas), shuning uchun spam/bazani to'ldirish xavfi bor — bir IP
   # soatiga 10 tadan ortiq Donation yozuvi yubora olmaydi.

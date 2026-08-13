@@ -1,0 +1,20 @@
+- identify_scope = 'plants.index.identify'
+- if @identify_error_message.present?
+  .plant-identify-error= @identify_error_message
+- elsif @predictions.blank?
+  .plant-identify-empty= I18n.t('no_results', scope: identify_scope)
+- else
+  %p.plant-identify-disclaimer= I18n.t('disclaimer', scope: identify_scope)
+  .plant-identify-predictions
+    - @predictions.each do |prediction|
+      .plant-identify-prediction
+        .plant-identify-prediction-row
+          %span.plant-identify-prediction-name
+            %i= prediction.scientific_name
+          %span.plant-identify-prediction-score= "#{prediction.score_percent}%"
+        - if prediction.common_name.present?
+          %p.plant-identify-prediction-common= prediction.common_name
+        .plant-identify-score-bar
+          .plant-identify-score-bar-fill{ style: "width: #{prediction.score_percent}%;" }
+        - if prediction.plant
+          = link_to I18n.t('view_profile', scope: identify_scope), plant_path(prediction.plant), class: 'plant-identify-profile-link'

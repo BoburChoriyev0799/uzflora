@@ -10,6 +10,17 @@ en:
       not_found: "Sorry, no results found for your search."
       total: "Total: %{count} plants"
       red_book_badge: Red Book
+      identify:
+        title: "Identify a plant from a photo"
+        subtitle: "Upload a plant photo — the PlantNet service will suggest the most likely species."
+        choose_photo: "Choose photo"
+        loading: "Identifying..."
+        disclaimer: "This is an approximate result. Expert confirmation is needed for an exact species."
+        no_results: "Nothing could be identified. Try another photo."
+        view_profile: "View profile"
+        errors:
+          generic: "Couldn't identify right now. Please try again later."
+          invalid_image: "Photo format or size not supported (JPG/PNG, up to 10 MB)."
     show:
       back_to_list: "← Back to plants list"
       red_book_badge: Red Book species

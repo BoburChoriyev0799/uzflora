@@ -138,6 +138,128 @@
         border-color: #8e0000 !important;
       }
     }
+    /* Rasm orqali o'simlik aniqlash (PlantNet) bo'limi — sahifa uslubiga
+       mos emerald/pistachio (plants/show'даgi .plant-info-block bilan
+       bir xil palitra). */
+    .plant-identify-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      background: #DCEBC8;
+      border: 1px solid #b9d69e;
+      border-radius: 8px;
+      padding: 16px 18px;
+      margin-bottom: 20px;
+    }
+    .plant-identify-icon {
+      font-size: 34px;
+      line-height: 1;
+    }
+    .plant-identify-body {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+    .plant-identify-title {
+      color: #223318;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+    .plant-identify-subtitle {
+      color: #4a6b3a;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+    .plant-identify-choose-btn {
+      display: inline-block;
+      background: #046A38;
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+    }
+    .plant-identify-choose-btn:hover,
+    .plant-identify-choose-btn:focus {
+      background: #035129;
+      color: #fff;
+    }
+    .plant-identify-file-input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      opacity: 0;
+    }
+    .plant-identify-status {
+      margin-top: 12px;
+      color: #4a6b3a;
+      font-weight: 600;
+    }
+    .plant-identify-results {
+      margin-top: 12px;
+    }
+    .plant-identify-error,
+    .plant-identify-empty {
+      color: #7a3b1e;
+    }
+    .plant-identify-disclaimer {
+      font-size: 12px;
+      color: #4a6b3a;
+      font-style: italic;
+      margin-bottom: 10px;
+    }
+    .plant-identify-prediction {
+      background: #fff;
+      border-radius: 6px;
+      padding: 10px 12px;
+      margin-bottom: 8px;
+    }
+    .plant-identify-prediction-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+    }
+    .plant-identify-prediction-name {
+      font-weight: 600;
+      color: #223318;
+    }
+    .plant-identify-prediction-score {
+      color: #046A38;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .plant-identify-prediction-common {
+      color: #666;
+      font-size: 13px;
+      margin: 2px 0 6px;
+    }
+    .plant-identify-score-bar {
+      background: #eaf1e2;
+      border-radius: 4px;
+      height: 6px;
+      overflow: hidden;
+      margin-bottom: 6px;
+    }
+    .plant-identify-score-bar-fill {
+      background: #046A38;
+      height: 100%;
+    }
+    .plant-identify-profile-link {
+      font-size: 13px;
+      font-weight: 600;
+    }
+    @media (max-width: 480px) {
+      .plant-identify-card {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .plant-identify-prediction-row {
+        flex-direction: column;
+        gap: 2px;
+      }
+    }
 
 .bg-btm-container
   .container.content
@@ -145,6 +267,18 @@
     .row.mtop20.mbtm20.content-container
       .col.col-md-12.col-sm-12
         %h3.plants-index-title= I18n.t('.title', scope: plants_scope)
+
+        .plant-identify-card
+          .plant-identify-icon 📷
+          .plant-identify-body
+            .plant-identify-title= I18n.t('title', scope: 'plants.index.identify')
+            .plant-identify-subtitle= I18n.t('subtitle', scope: 'plants.index.identify')
+            = form_tag identify_plants_path, remote: true, multipart: true, id: 'plant-identify-form' do
+              %label.plant-identify-choose-btn{ for: 'plant-identify-file' }
+                = I18n.t('choose_photo', scope: 'plants.index.identify')
+              = file_field_tag :image, accept: 'image/*', id: 'plant-identify-file', class: 'plant-identify-file-input'
+            .plant-identify-status{ style: 'display:none;' }= I18n.t('loading', scope: 'plants.index.identify')
+            #plant-identify-results.plant-identify-results{ data: { error_generic: I18n.t('generic', scope: 'plants.index.identify.errors') } }
 
         .row.plants-filter-form
           = form_tag plants_path, method: :get, class: 'form-inline' do

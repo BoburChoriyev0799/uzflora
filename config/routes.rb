@@ -57,7 +57,11 @@ Birds::Application.routes.draw do
 
   resources :species, only: [:show]
 
-  resources :plants, only: [:index, :show]
+  resources :plants, only: [:index, :show] do
+    collection do
+      post :identify
+    end
+  end
 
   # DonationsController — "Loyihani qo'llab-quvvatlash" formasi (yozuv
   # bazaga saqlanadi, pages#donation'dagi statik sahifadan farqli).
