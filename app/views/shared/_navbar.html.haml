@@ -234,13 +234,20 @@
       }
     }
 
-    /* XABARNOMA QO'NG'IROG'I — VARIANT A (ism/til yonida). Ikonka-doira,
-       .navbar-locale-dropdown'ning pill-toggle bilan bir xil uslub
-       (rgba oq fon), lekin doira shaklida — matn yo'q, joy tejaladi. */
+    /* XABARNOMA QO'NG'IROG'I — oq yumaloq-burchakli kvadrat + qizil-sariq
+       belgi, MOBIL VA DESKTOPDA BIR XIL dizayn. DIQQAT (markazlashmaslik
+       sababi topildi): `.navbar-right ul.nav > li:not(.navbar-locale-
+       switch) > a` qoidasi (yuqorida, @media max-width:1250px, "menyu
+       bandlari tugmaga o'xshasin" bo'limi) shu bell havolasiga ham mos
+       kelib, o'zining padding/height/line-height/background'ini
+       !important bilan yuklardi — specificity (0,0,3,3) bizning eski
+       ikki-klassli selektorimizdan (0,0,2,0) YUQORI edi, shuning uchun
+       o'sha g'olib chiqib, belgi markazdan chetга suriladi. Shu sabab
+       bu yerda ATAYLAB kengroq, yuqori specificity selektor ishlatiladi. */
     .navbar-notifications-dropdown {
       position: relative;
     }
-    .navbar-notifications-dropdown > .nav-bell-lnk {
+    .navbar-right ul.nav > li.navbar-notifications-dropdown > a.dropdown-toggle.nav-bell-lnk {
       display: inline-flex !important;
       align-items: center;
       justify-content: center;
@@ -249,30 +256,34 @@
       height: 38px;
       padding: 0 !important;
       margin: 0 4px !important;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, .14);
+      line-height: normal !important;
+      border-radius: 8px;
+      background: #fff;
       cursor: pointer;
       transition: background-color .15s ease;
     }
-    .navbar-notifications-dropdown > .nav-bell-lnk:hover,
-    .navbar-notifications-dropdown > .nav-bell-lnk:focus,
-    .navbar-notifications-dropdown.open > .nav-bell-lnk {
-      background: rgba(255, 255, 255, .26);
+    .navbar-right ul.nav > li.navbar-notifications-dropdown > a.dropdown-toggle.nav-bell-lnk:hover,
+    .navbar-right ul.nav > li.navbar-notifications-dropdown > a.dropdown-toggle.nav-bell-lnk:focus,
+    .navbar-notifications-dropdown.open > a.dropdown-toggle.nav-bell-lnk {
+      background: #f7eef0 !important;
     }
     .nav-bell-icon {
       display: inline-flex;
+      align-items: center;
+      justify-content: center;
       width: 18px;
       height: 18px;
-      color: #fff;
+      color: #E23744;
     }
     .nav-bell-icon svg {
+      display: block;
       width: 100%;
       height: 100%;
     }
     .nav-bell-badge {
       position: absolute;
-      top: -1px;
-      right: -1px;
+      top: -4px;
+      right: -4px;
       min-width: 16px;
       height: 16px;
       padding: 0 4px;
@@ -283,7 +294,7 @@
       font-weight: 700;
       line-height: 16px;
       text-align: center;
-      box-shadow: 0 0 0 2px #800020;
+      box-shadow: 0 0 0 2px #fff;
     }
     .navbar-notifications-menu.dropdown-menu {
       min-width: 300px;
@@ -391,15 +402,11 @@
     /* Mobilda (767px va pastda, hamburger rejimi) qo'ng'iroq oddiy
        havolaga aylanadi — dropdown ochilmaydi (JS ham buni hisobga
        oladi, bu yerda CSS himoya sifatida qo'shimcha kafolat beradi).
-       Avval qo'ng'iroq ismdan ALOHIDA, to'liq kengligli o'z qatorida
-       chiqardi va rangi (14% shaffof oq doira ustida oq belgi, to'q
-       burgundy fonда) deyarli ko'rinmasdi — "bo'sh qizil quti"ga
-       o'xshab qolardi. Endi: (1) ism/avatar bilan BIR QATORDA (HTML
-       tartibi o'zgarmaydi — bell hali .nav-profile-li'dan OLDIN keladi,
-       DOM strukturasi/Bootstrap dropdown mexanizmi butun saqlanadi,
-       faqat ikkalasi ham inline-flex bilan bir qatorga tushadi);
-       (2) TO'LIQ OQ doira + to'q burgundy belgi — fonga qaramay har
-       doim aniq kontrastли. */
+       Qo'ng'iroqning O'ZI (oq kvadrat/qizil-sariq belgi) endi yuqorida,
+       BARCHA o'lchamlar uchun umumiy qoidada — bu yerda faqat MOBILGA
+       xos JOYLASHUV qoladi: ism/avatar bilan BIR QATORDA (HTML tartibi
+       o'zgarmaydi, faqat inline-flex bilan bir qatorga tushadi) va
+       shu qatorda ortiqcha yon margin kerak emasligi (0). */
     @media (max-width: 767px) {
       .navbar-notifications-menu {
         display: none !important;
@@ -412,20 +419,8 @@
         border-top: 1px solid rgba(255, 255, 255, .15);
         vertical-align: middle;
       }
-      .navbar-notifications-dropdown > .nav-bell-lnk {
+      .navbar-right ul.nav > li.navbar-notifications-dropdown > a.dropdown-toggle.nav-bell-lnk {
         margin: 0 !important;
-        background: #fff;
-      }
-      .navbar-notifications-dropdown > .nav-bell-lnk:hover,
-      .navbar-notifications-dropdown > .nav-bell-lnk:focus,
-      .navbar-notifications-dropdown.open > .nav-bell-lnk {
-        background: #eaf6ec;
-      }
-      .navbar-notifications-dropdown .nav-bell-icon {
-        color: #800020;
-      }
-      .navbar-notifications-dropdown .nav-bell-badge {
-        box-shadow: 0 0 0 2px #fff;
       }
       .nav-profile-li {
         display: inline-flex !important;

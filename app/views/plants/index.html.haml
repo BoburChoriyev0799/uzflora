@@ -167,6 +167,16 @@
         padding: 1px 5px;
         margin-top: 3px;
       }
+      /* Navbar (60px, fixed) bilan sarlavha orasidagi bo'shliq mobilda
+         haddan tashqari katta ko'rinardi (.content'ning global
+         padding-top:60px + shu qatorning umumiy .mtop20 (20px) =
+         80px). Global `.content`/`.mtop20` boshqa BARCHA sahifalarda
+         ham ishlatilgani uchun ularga tegilmaydi — faqat shu sahifaga
+         xos qatorning o'z margin-top'i mobilda kichraytiriladi.
+         Desktop/planshet — o'zgarishsiz (mtop20 saqlanadi). */
+      .plants-index-header-row {
+        margin-top: 8px !important;
+      }
     }
     .plants-filter-form {
       margin-bottom: 24px;
@@ -175,13 +185,46 @@
       font-family: 'Samsung Sharp Sans', 'Manrope', Arial, sans-serif !important;
       font-weight: 700;
     }
+    /* Qidiruv (matn) va oila (dropdown) yacheykalari — sayt uslubiga mos
+       emerald/pistachio chegara, yumaloq burchak, yumshoq soya, ikkalasi
+       bir xil balandlik/uslub (avval to'q ko'k #1a237e chegara edi, sayt
+       palitrasiga mos emas edi). */
     .plants-filter-form .form-control {
       background-color: #fff;
-      border: 2px solid #1a237e;
+      border: 1.5px solid #b9d69e;
+      border-radius: 10px;
+      height: 42px;
+      padding: 8px 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,.05);
+      transition: border-color .15s ease, box-shadow .15s ease;
     }
     .plants-filter-form .form-control:focus {
-      border-color: #1a237e;
-      box-shadow: 0 0 0 2px rgba(26,35,126,.2);
+      border-color: #046A38;
+      box-shadow: 0 0 0 3px rgba(4,106,56,.14);
+      outline: none;
+    }
+    /* Qidiruv maydoni ichida chapда lupa belgisi — input BO'SH bo'lganda
+       (placeholder ko'rinib turganda) ko'rinadi, foydalanuvchi yoza
+       boshlashi bilan (`:placeholder-shown` endi mos kelmay qoladi)
+       yashiriladi — JS shart emas, sof CSS. Bu klasslar FAQAT shu
+       sahifaga xos (`.plants-index-search`) — `.plant-autocomplete`/
+       `.plant-autocomplete-input`ning o'zi boshqa sahifalarda ham
+       (wizard, moderatsiya) ishlatiladi, ularga tegilmaydi. */
+    .plants-index-search .plant-autocomplete-input {
+      padding-left: 36px !important;
+    }
+    .plants-index-search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 14px;
+      color: #6b8f5a;
+      pointer-events: none;
+      transition: opacity .15s ease;
+    }
+    .plants-index-search .plant-autocomplete-input:not(:placeholder-shown) ~ .plants-index-search-icon {
+      opacity: 0;
     }
     .plants-search-btn {
       background-color: #c62828 !important;
@@ -194,23 +237,17 @@
     }
     /* Rasm orqali o'simlik aniqlash (PlantNet) bo'limi — sahifa uslubiga
        mos emerald/pistachio (plants/show'даgi .plant-info-block bilan
-       bir xil palitra). */
+       bir xil palitra). Tepadagi katta 📷 ikonka olib tashlandi (faqat
+       pastdagi "Rasmga olish" tugmasidagi kichik ikonka qoladi) —
+       shuning uchun bo'lim endi flex-row emas (bitta bola qoldi). */
     .plant-identify-card {
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
       background: #DCEBC8;
       border: 1px solid #b9d69e;
       border-radius: 8px;
       padding: 16px 18px;
       margin-bottom: 20px;
     }
-    .plant-identify-icon {
-      font-size: 34px;
-      line-height: 1;
-    }
     .plant-identify-body {
-      flex: 1 1 auto;
       min-width: 0;
     }
     .plant-identify-title {
@@ -315,10 +352,6 @@
       font-weight: 600;
     }
     @media (max-width: 480px) {
-      .plant-identify-card {
-        flex-direction: column;
-        align-items: stretch;
-      }
       .plant-identify-prediction-row {
         flex-direction: column;
         gap: 2px;
@@ -328,12 +361,11 @@
 .bg-btm-container
   .container.content
     - plants_scope = 'plants.index'
-    .row.mtop20.mbtm20.content-container
+    .row.mtop20.mbtm20.content-container.plants-index-header-row
       .col.col-md-12.col-sm-12
         %h3.plants-index-title= I18n.t('.title', scope: plants_scope)
 
         .plant-identify-card
-          .plant-identify-icon 📷
           .plant-identify-body
             .plant-identify-title= I18n.t('title', scope: 'plants.index.identify')
             .plant-identify-subtitle= I18n.t('subtitle', scope: 'plants.index.identify')
@@ -352,8 +384,9 @@
         .row.plants-filter-form
           = form_tag plants_path, method: :get, class: 'form-inline' do
             .form-group.mright10
-              .plant-autocomplete{ data: { url: plant_sightings_autocomplete_path, not_found: I18n.t('.not_found', scope: plants_scope), auto_submit: true } }
+              .plant-autocomplete.plants-index-search{ data: { url: plant_sightings_autocomplete_path, not_found: I18n.t('.not_found', scope: plants_scope), auto_submit: true } }
                 = text_field_tag :q, params[:q], class: 'form-control plant-autocomplete-input', placeholder: I18n.t('.search_placeholder', scope: plants_scope), autocomplete: 'off'
+                %span.plants-index-search-icon 🔍
                 %ul.plant-autocomplete-list
             .form-group.mright10
               = select_tag :family, options_for_select(@families, params[:family]), include_blank: I18n.t('.all_families', scope: plants_scope), class: 'form-control'
