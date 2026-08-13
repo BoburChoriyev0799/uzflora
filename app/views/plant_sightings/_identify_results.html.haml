@@ -1,3 +1,12 @@
+-#
+  `PlantSightingsController#identify` shu partial'ni IKKI kontekstда ham
+  render qiladi: wizard 4-qadami (edit_plant.html.haml) va ekspert
+  moderatsiyasi (pending.html.haml, 2b-bosqich) — shuning uchun "Tanlash"
+  tugmasida IKKALA JS fayl uchun ham class/data bor: `sighting-identify-
+  select-btn` (wizard, plant_sighting_identify.js) va `moderation-
+  identify-select-btn` (moderatsiya, moderate_plant_sighting_identify.js)
+  — har biri faqat o'z sahifasida mavjud ota elementni topgani uchun,
+  boshqa sahifada handler harakatsiz qoladi (xato bermaydi).
 - identify_scope = 'plant_sightings.edit.identify'
 - if @identify_error_message.present?
   .sighting-identify-error= @identify_error_message
@@ -18,6 +27,6 @@
           .sighting-identify-score-bar-fill{ style: "width: #{prediction.score_percent}%;" }
         - if prediction.plant
           .sighting-identify-prediction-actions
-            %button.sighting-identify-select-btn{ type: 'button', data: { plant_id: prediction.plant.id, selected_text: "#{prediction.plant.display_name(I18n.locale)} | #{prediction.plant.species_sci}" } }
+            %button.sighting-identify-select-btn.moderation-identify-select-btn{ type: 'button', data: { plant_id: prediction.plant.id, selected_text: "#{prediction.plant.display_name(I18n.locale)} | #{prediction.plant.species_sci}", sci: prediction.plant.species_sci } }
               = I18n.t('select', scope: identify_scope)
             = link_to I18n.t('view_profile', scope: identify_scope), plant_path(prediction.plant), target: '_blank', rel: 'noopener noreferrer', class: 'sighting-identify-profile-link'

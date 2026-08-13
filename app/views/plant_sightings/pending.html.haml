@@ -78,6 +78,93 @@
       font-size: 13px;
       margin: 6px 0 0;
     }
+    /* "AI bilan aniqlash" (PlantNet, 2b-bosqich) — natija bloki
+       plants/index.html.haml'даgi bilan bir xil markup/class'larni
+       (_identify_results.html.haml, ikkala kontekstда ham ishlatiladi)
+       shu kartaga mos kichraytirilgan uslubda qayta bo'yaydi. */
+    .moderation-identify-row {
+      margin-bottom: 10px;
+    }
+    .moderation-identify-not-ready {
+      font-size: 12px;
+      margin: 0 0 6px;
+    }
+    .moderation-identify-status {
+      font-size: 12px;
+      color: #5a8f3c;
+      margin-top: 4px;
+    }
+    .moderation-identify-results {
+      margin-top: 6px;
+    }
+    .moderation-identify-results .sighting-identify-error,
+    .moderation-identify-results .sighting-identify-empty {
+      font-size: 12px;
+      color: #a94442;
+    }
+    .moderation-identify-results .sighting-identify-disclaimer {
+      font-size: 11px;
+      color: #777;
+      font-style: italic;
+      margin-bottom: 6px;
+    }
+    .moderation-identify-results .sighting-identify-prediction {
+      background: #f7faf3;
+      border-radius: 4px;
+      padding: 6px 8px;
+      margin-bottom: 6px;
+      font-size: 12px;
+    }
+    .moderation-identify-results .sighting-identify-prediction-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 6px;
+    }
+    .moderation-identify-results .sighting-identify-prediction-score {
+      color: #5a8f3c;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .moderation-identify-results .sighting-identify-prediction-common {
+      font-size: 11px;
+      color: #666;
+      margin: 2px 0 4px;
+    }
+    .moderation-identify-results .sighting-identify-score-bar {
+      background: #e5e5e5;
+      border-radius: 3px;
+      height: 4px;
+      overflow: hidden;
+      margin: 4px 0;
+    }
+    .moderation-identify-results .sighting-identify-score-bar-fill {
+      background: #5a8f3c;
+      height: 100%;
+    }
+    .moderation-identify-results .sighting-identify-prediction-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 4px;
+    }
+    .moderation-identify-results .sighting-identify-select-btn {
+      font-size: 11px;
+      padding: 2px 8px;
+      border: 1px solid #5a8f3c;
+      color: #5a8f3c;
+      background: #fff;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .moderation-identify-results .sighting-identify-select-btn:hover,
+    .moderation-identify-results .sighting-identify-select-btn:focus {
+      background: #5a8f3c;
+      color: #fff;
+    }
+    .moderation-identify-results .sighting-identify-profile-link {
+      font-size: 11px;
+    }
     @media (max-width: 480px) {
       .moderation-card {
         max-width: 100%;
@@ -112,6 +199,18 @@
                   %button.btn.btn-default.btn-sm.moderation-assign-plant{data: {id: sighting.id}, type: 'button', disabled: sighting.plant_id.blank?}
                     = I18n.t('.assign_plant', scope: pending_scope)
                   %span.moderation-assign-feedback{data: {id: sighting.id}}
+
+              .moderation-identify-row
+                - if sighting.photo_status_ready?
+                  %button.btn.btn-default.btn-sm.moderation-identify-btn{data: {id: sighting.id}, type: 'button'}
+                    🔍
+                    = I18n.t('button', scope: 'plant_sightings.edit.identify')
+                - elsif sighting.photo_status_failed?
+                  %p.text-muted.moderation-identify-not-ready= I18n.t('plant_sightings.photo_failed')
+                - else
+                  %p.text-muted.moderation-identify-not-ready= I18n.t('not_ready', scope: 'plant_sightings.edit.identify.errors')
+                .moderation-identify-status{data: {id: sighting.id}, style: 'display:none;'}= I18n.t('loading', scope: 'plant_sightings.edit.identify')
+                .moderation-identify-results{data: {id: sighting.id, error_generic: I18n.t('generic', scope: 'plants.index.identify.errors')}}
 
               %p.moderation-meta
                 %span.lbl= I18n.t('.author', scope: pending_scope)
