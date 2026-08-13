@@ -26,6 +26,19 @@ class PlantNetService
   OPEN_TIMEOUT = 8
   READ_TIMEOUT = 18
 
+  # PlantNet `lang` parametri FAQAT PlantNet o'zi qaytaradigan umumiy nom
+  # (commonNames) tilini belgilaydi — u qo'llab-quvvatlagan tillar (en,
+  # fr, de, es, ru, it, pt, zh va h.k.) ro'yxatida "uz" YO'Q, va Render
+  # log'i buni tasdiqladi: `I18n.locale` ("uz") yuborilganda PlantNet
+  # so'rovning O'ZINI 404 bilan rad etardi ("No localization available
+  # for uz"). Shuning uchun bu yerda ilova tilidan (I18n.locale) MUSTAQIL
+  # ravishda doim "en" yuboriladi — PlantNet buni albatta qo'llaydi.
+  # Lotincha nom (scientificName) tildan qat'i nazar bir xil va bazaga
+  # solishtirish shu nom bo'yicha ishlaydi (match_plant), foydalanuvchiga
+  # ko'rsatiladigan o'zbekcha/ruscha nom esa bazadagi Plant yozuvidan
+  # olinadi — shuning uchun "en" natijaning to'g'riligiga ta'sir qilmaydi.
+  PLANTNET_LANG = 'en'
+
   # PlantNet'da O'zbekiston yoki O'rta Osiyoga alohida "project" (flora
   # to'plami) yo'q — /v2/projects ro'yxatidagilar asosan mintaqaviy
   # (masalan "weurope" — G'arbiy Yevropa, "canada"), boshqa qit'alarga mos
@@ -97,7 +110,7 @@ class PlantNetService
     uri = URI("#{ENDPOINT}/#{@project}")
     uri.query = URI.encode_www_form(
       'api-key' => @api_key,
-      'lang' => I18n.locale.to_s,
+      'lang' => PLANTNET_LANG,
       'nb-results' => @nb_results
     )
 
@@ -106,7 +119,7 @@ class PlantNetService
     image_size_kb = image_io.respond_to?(:size) ? (image_io.size / 1024.0).round(1) : 'unknown'
     Rails.logger.info(
       "[PlantNetService] request: endpoint=#{ENDPOINT}/#{@project}, project=#{@project}, " \
-      "organs=auto, lang=#{I18n.locale}, nb_results=#{@nb_results}, image_size=#{image_size_kb}KB, " \
+      "organs=auto, lang=#{PLANTNET_LANG}, nb_results=#{@nb_results}, image_size=#{image_size_kb}KB, " \
       "open_timeout=#{OPEN_TIMEOUT}s, read_timeout=#{READ_TIMEOUT}s"
     )
 
