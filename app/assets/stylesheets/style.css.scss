@@ -340,11 +340,17 @@ ol li:before {
 // qat'iy nazar hech qachon ustiga chiqmaydi.
 html {
   height: 100%;
+  // Yuqoridagi (footer, galereya, profil email) sabablar tuzatilgandan
+  // keyin ehtiyot uchun: kelajakda biror element bir necha piksel
+  // tashqariga chiqsa ham, gorizontal scroll butun sahifada
+  // ko'rinmasin (faqat o'sha elementning o'zi kesiladi).
+  overflow-x: hidden;
   body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     background-size: 100%;
+    overflow-x: hidden;
   }
   body.none-background {
     background: none;
@@ -739,6 +745,28 @@ a.navbar-brand {
 
     ul.selectOptions.w220 {
         width:210px !important;
+    }
+
+    /* Profil sahifasidagi e-mail qutisi (display:table asosida, min-content'dan
+       kichraymaydi) — uzun email (bo'shliqsiz bitta "so'z") 220px'dan
+       kengroq chizilishi mumkin edi. */
+    .input-group.d-inline-table.w220 {
+        overflow-wrap: break-word;
+        word-break: break-word;
+    }
+
+    /* Footer'ning .fleft/.fright'i .container'ga to'g'ridan-to'g'ri
+       (col- klassisiz) joylashgan, shuning uchun boshqa sahifalardagi
+       15px gutter bu yerda yo'q edi — matn ekran chetiga tirband
+       yopishib, shrift o'lchash farqi (bold, uzun email kabi)
+       bir necha piksel gorizontal overflow'ga sabab bo'lardi. */
+    .footer .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    .footer .fleft,
+    .footer .fright {
+        max-width: 100%;
     }
 
 }
@@ -1198,6 +1226,8 @@ a.navbar-brand {
     font-size: 12px;
     line-height: 15px;
     margin-bottom: 0;
+    overflow-wrap: break-word;
+    word-break: break-word;
   }
   img {
     margin: -5px 15px 0 0;
@@ -1207,6 +1237,8 @@ a.navbar-brand {
     font-size: 12px;
     line-height: 15px;
     text-decoration: underline;
+    overflow-wrap: break-word;
+    word-break: break-word;
 
     &:hover {
       text-decoration: none;
