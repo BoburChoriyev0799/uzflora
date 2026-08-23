@@ -146,6 +146,14 @@
           %p
             %span.plant-lbl= I18n.t(".#{label_key}", scope: plant_scope)
             = value
+          - if label_key == :name_lat && @plant.alt_name.present?
+            %p
+              %span.plant-lbl= I18n.t(".#{@plant.alt_name_label_key}", scope: plant_scope)
+              = @plant.alt_name
+
+        - if @plant.powo_id.present?
+          %p
+            = link_to I18n.t('.powo_link', scope: plant_scope), "https://powo.science.kew.org/taxon/#{@plant.powo_id}", target: '_blank', rel: 'noopener', style: 'font-size:12px;color:#6b8f5a;'
 
         - taxonomy_rows = plant_taxonomy_rows(@plant)
         - if taxonomy_rows.any?

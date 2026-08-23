@@ -28,6 +28,9 @@ ru:
       name_ru: "Русское название:"
       name_lat: "Латинское название:"
       name_local: "Местное название:"
+      synonym: "Синоним:"
+      spelling_variant: "Написание в базе:"
+      powo_link: "Смотреть в POWO"
       taxonomy: Таксономия
       taxon_division: "Отдел:"
       taxon_class_name: "Класс:"

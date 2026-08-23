@@ -1,24 +1,27 @@
 # frozen_string_literal: true
 module PlantsHelper
   # Botanik taksonomiya zanjiri, yuqoridan pastga: bo'lim -> sinf ->
-  # tartib -> oila -> turkum -> tur. Har biri [label_key, lat_ustun].
+  # tartib -> oila -> turkum -> tur. Har biri [label_key, qiymat_metodi].
   # Faqat lotincha (ilmiy) nom ko'rsatiladi — bazadagi *_ru ustunlari
   # (qavs ichidagi ruscha tarjima, masalan "Однодольные") uch tilda ham
-  # keraksiz hisoblanib chiqarib tashlangan.
+  # keraksiz hisoblanib chiqarib tashlangan. Oila/turkum/tur POWO
+  # moslashtirilgan bo'lsa accepted_* qiymatlardan olinadi (Plant#display_
+  # family_lat/display_genus_lat/display_sci_name), bo'lmasa eskisidan —
+  # bo'lim/sinf/tartib uchun POWO ustuni yo'q, o'zgarishsiz qoladi.
   PLANT_TAXONOMY_LEVELS = [
     [:division, :division_lat],
     [:class_name, :class_lat],
     [:order, :order_lat],
-    [:family, :family_lat],
-    [:genus, :genus_lat],
-    [:species, :species_sci]
+    [:family, :display_family_lat],
+    [:genus, :display_genus_lat],
+    [:species, :display_sci_name]
   ].freeze
 
   # plants/show'даgi taksonomiya jadvali uchun qatorlar: [label_key, lat]
   # — lotincha nomi bo'sh bo'lgan daraja butunlay chiqarib tashlanadi.
   def plant_taxonomy_rows(plant)
-    PLANT_TAXONOMY_LEVELS.filter_map do |label_key, lat_attr|
-      lat = plant.public_send(lat_attr)
+    PLANT_TAXONOMY_LEVELS.filter_map do |label_key, method_name|
+      lat = plant.public_send(method_name)
       [label_key, lat] if lat.present?
     end
   end
@@ -28,23 +31,24 @@ module PlantsHelper
   # birida bo'sh qiymatli qator chiqarib tashlanadi. species_en ustuni
   # bazada yo'q — "Common name:" shu sabab hozircha doim yashiringan.
   def plant_name_rows(plant, locale)
+    sci_name = plant.display_sci_name
     rows = case locale.to_sym
            when :ru
              [
                [:name_ru, plant.species_ru],
-               [:name_lat, plant.species_sci],
+               [:name_lat, sci_name],
                [:name_local, plant.species_uz]
              ]
            when :en
              [
-               [:name_lat, plant.species_sci],
+               [:name_lat, sci_name],
                [:name_ru, plant.species_ru],
                [:name_local, plant.species_uz]
              ]
            else
              [
                [:name_uz, plant.species_uz],
-               [:name_lat, plant.species_sci],
+               [:name_lat, sci_name],
                [:name_ru, plant.species_ru]
              ]
            end

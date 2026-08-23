@@ -28,6 +28,9 @@ uz:
       name_uz: "O'zbekcha nomi:"
       name_lat: "Lotincha nomi:"
       name_ru: "Ruscha nomi:"
+      synonym: "Sinonimi:"
+      spelling_variant: "Bazadagi imlo:"
+      powo_link: "POWO'da ko'rish"
       taxonomy: Taksonomiya
       taxon_division: "Bo'lim:"
       taxon_class_name: "Sinf:"

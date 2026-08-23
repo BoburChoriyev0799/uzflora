@@ -28,6 +28,9 @@ en:
       name_lat: "Latin name:"
       name_ru: "Russian name:"
       name_local: "Local name:"
+      synonym: "Synonym:"
+      spelling_variant: "Spelling in database:"
+      powo_link: "View in POWO"
       taxonomy: Taxonomy
       taxon_division: "Division:"
       taxon_class_name: "Class:"

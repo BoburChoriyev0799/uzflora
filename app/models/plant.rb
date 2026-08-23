@@ -22,19 +22,25 @@ class Plant < ApplicationRecord
   # Nom BOSHIDAN mos kelganlar (masalan "Rosa..." so'rovi "lola" so'ziga
   # emas, "Rosa"ga) natijalar ro'yxatida yuqorida chiqadi — autocomplete
   # uchun muhim, foydalanuvchi odatda so'z boshini yozadi.
+  # POWO/WCVP moslashtirilgandan keyin foydalanuvchi eski nomni ham
+  # (species_sci/genus_lat), qabul qilingan yangi nomni ham
+  # (accepted_name/accepted_genus) yozishi mumkin — ikkalasi ham bir xil
+  # natijaga olib kelishi kerak.
   scope :search, lambda { |q|
     raw = q.to_s.strip.downcase
     term = "%#{raw}%"
     prefix = "#{raw}%"
     where(
       'LOWER(species_sci) LIKE :t OR LOWER(species_ru) LIKE :t OR ' \
-      'LOWER(species_uz) LIKE :t OR LOWER(genus_lat) LIKE :t',
+      'LOWER(species_uz) LIKE :t OR LOWER(genus_lat) LIKE :t OR ' \
+      'LOWER(accepted_name) LIKE :t OR LOWER(accepted_genus) LIKE :t',
       t: term
     ).order(
       Arel.sql(
         sanitize_sql_array(
           ['CASE WHEN LOWER(species_sci) LIKE :p OR LOWER(species_ru) LIKE :p OR ' \
-           'LOWER(species_uz) LIKE :p OR LOWER(genus_lat) LIKE :p THEN 0 ELSE 1 END',
+           'LOWER(species_uz) LIKE :p OR LOWER(genus_lat) LIKE :p OR ' \
+           'LOWER(accepted_name) LIKE :p OR LOWER(accepted_genus) LIKE :p THEN 0 ELSE 1 END',
            p: prefix]
         )
       )
@@ -55,6 +61,53 @@ class Plant < ApplicationRecord
   # Qizil kitob belgisi (frontendda ishlatish uchun)
   def red_book?
     red_book
+  end
+
+  # --- POWO/WCVP taksonomiyasi asosida ko'rsatiladigan nomlar ---
+  # Qabul qilingan (accepted) ilmiy nom + muallif. POWO moslashtirilmagan
+  # (accepted_name bo'sh) yozuvlarda eski species_sci'ga qaytadi — sahifa
+  # avvalgidek ko'rinishda qoladi.
+  def display_sci_name
+    return species_sci if accepted_name.blank?
+
+    [accepted_name, accepted_authors.presence].compact.join(' ')
+  end
+
+  # Bazadagi eski (species_sci) nom, FAQAT display_sci_name'dan haqiqatan
+  # farq qilsa qaytadi — bo'shliq/qiyshiq apostrof farqi hisobga
+  # olinmaydi (import_plants.rake'dagi normalize_species_sci bilan bir
+  # xil mantiq). Farq bo'lmasa (yoki POWO moslashtirilmagan bo'lsa) nil.
+  def alt_name
+    return nil if accepted_name.blank?
+    return nil if normalize_sci_name(display_sci_name) == normalize_sci_name(species_sci)
+
+    species_sci
+  end
+
+  # alt_name uchun yorliq: WCVP "Synonym" desa haqiqatan boshqa tur
+  # (sinonim), aks holda faqat imlo farqi (tur o'sha) — bularni
+  # aralashtirib bo'lmaydi, botanik jihatdan ikki xil holat.
+  def alt_name_label_key
+    wcvp_status == 'Synonym' ? :synonym : :spelling_variant
+  end
+
+  # Taksonomiya jadvali uchun oila/turkum — accepted_family/accepted_genus
+  # bor bo'lsa o'sha, bo'lmasa CSV manbadagi family_lat/genus_lat.
+  #
+  # DIQQAT: family_lat/genus_lat'da muallif qo'shimchasi bor (masalan
+  # "Ophioglossum L."), accepted_family/accepted_genus'da esa yo'q — POWO
+  # bu darajalar uchun alohida muallif ustuni bermaydi (faqat tur
+  # darajasida accepted_authors bor). Muallifni sun'iy ravishda
+  # accepted_family/accepted_genus'ga yopishtirib qo'yish noto'g'ri
+  # bo'lardi (oila/turkumning o'z muallifi turniki bilan bir xil emas),
+  # shuning uchun ular qasddan mualifsiz qoldirilgan — xuddi POWO'ning
+  # o'zi ham yuqori darajalarni shunday ko'rsatadi.
+  def display_family_lat
+    accepted_family.presence || family_lat
+  end
+
+  def display_genus_lat
+    accepted_genus.presence || genus_lat
   end
 
   # Tashqi ilmiy manbalar (iNaturalist, GBIF, POWO) qidiruvi uchun toza
@@ -112,6 +165,13 @@ class Plant < ApplicationRecord
   end
 
   private
+
+  # import_plants.rake'dagi normalize_species_sci bilan bir xil: faqat
+  # qiyshiq apostrof va ortiqcha bo'shliqni tenglashtiradi, haqiqiy imlo
+  # farqiga tegmaydi.
+  def normalize_sci_name(value)
+    value.to_s.tr('’‘ʼ´', "'").gsub(/\s+/, ' ').strip
+  end
 
   def localized_field(uz_value, ru_value, en_value, locale)
     case locale.to_sym
