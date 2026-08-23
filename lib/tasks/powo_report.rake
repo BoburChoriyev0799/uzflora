@@ -130,8 +130,12 @@ namespace :plants do
           case r[:outcome]
           when :accepted then "WCVP'da 'Accepted' — nom to'g'ri, o'zgarish kerak emas"
           when :synonym_resolved then "Sinonim — qabul qilingan nomga o'tkazish TAVSIYA ETILADI"
+          when :defective_resolved
+            "WCVP holati: #{r[:chosen_row][:status]} (nomenklatura nuqsoni), lekin 'accepted_plant_name_id' " \
+            "orqali qabul qilingan nomga zanjir topildi — o'tkazish TAVSIYA ETILADI"
           when :canon_recovered then "IMLO farqi tufayli avvalgi bosqichda topilmagan edi — kanonik kalit orqali TIKLANDI (#{r[:match_type]}), nom TAVSIYA ETILADI"
           when :unresolved then "Sinonim, lekin 'accepted' yozuv topilmadi/aniqlanmadi — qo'lda tekshirilsin"
+          when :chain_loop then "WCVP holati: #{r[:chosen_row][:status]}, lekin accepted_plant_name_id zanjirida HALQA topildi — qo'lda tekshirilsin"
           else POWO_STATUS_NOTES_UZ[r[:chosen_row]&.fetch(:status, nil)] || (r[:chosen_row] ? "WCVP holati: #{r[:chosen_row][:status]}" : '')
           end
         end

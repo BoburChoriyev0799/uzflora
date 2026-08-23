@@ -23,6 +23,46 @@ MAPPING_HEADERS = %w[
   accepted_family accepted_genus accepted_rank powo_id powo_match_type
 ].freeze
 
+OVERRIDES_PATH = Rails.root.join('db', 'powo_overrides.csv')
+OVERRIDE_VALUE_COLUMNS = %w[accepted_name accepted_authors accepted_family accepted_genus powo_id].freeze
+
+# db/powo_overrides.csv (commit qilinadigan, qo'lda tahrirlanadigan fayl) —
+# WCVP zanjiri botanik jihatdan noto'g'ri natija bergan yoki hali qaror
+# qilinmagan (accepted_name ATAYLAB bo'sh) holatlar uchun Boburning qo'lda
+# qabul qilgan qarorlarini USTIDAN yozadi. `mapping_rows` — species_sci =>
+# row Hash (yuqoridagi `rows`dan `index_by` bilan) — JOYIDA (in-place)
+# o'zgartiriladi. `wcvp_matched_name`/`wcvp_status`ga TEGILMAYDI — ular
+# WCVP'dan qanday hisoblangan bo'lsa, shundayligicha qoladi.
+def apply_powo_overrides!(mapping_rows_by_sci)
+  return unless File.exist?(OVERRIDES_PATH)
+
+  applied = 0
+  CSV.foreach(OVERRIDES_PATH, headers: true, skip_lines: /\A#/) do |orow|
+    sci = orow['species_sci']
+    target = mapping_rows_by_sci[sci]
+    if target.nil?
+      puts "OGOHLANTIRISH: db/powo_overrides.csv da '#{sci}' bazada topilmadi " \
+           "(species_sci mos kelmadi — imlo xatosi bo'lishi mumkin), o'tkazib yuborildi."
+      next
+    end
+
+    OVERRIDE_VALUE_COLUMNS.each { |col| target[col] = orow[col] }
+    # accepted_name bo'sh (hali qaror qilinmagan, "kutib turibdi") bo'lsa,
+    # accepted_rank ham bo'sh qoladi — mazmunsiz "Species" yozib
+    # qo'yilmaydi. To'ldirilgan bo'lsa, standart WCVP formatiga mos
+    # ravishda Bosh-harf bilan ("Species"/"Subspecies"/...), bo'sh
+    # qoldirilgan bo'lsa "Species" deb olinadi (spetsifikatsiya bo'yicha).
+    target['accepted_rank'] =
+      if orow['accepted_name'].present?
+        rank = orow['accepted_rank'].to_s.strip
+        rank.present? ? rank.capitalize : 'Species'
+      end
+    target['powo_match_type'] = 'manual_override'
+    applied += 1
+  end
+  puts "\ndb/powo_overrides.csv qo'llanildi: #{applied} ta qator qo'lda tuzatilgan qiymat bilan almashtirildi."
+end
+
 namespace :plants do
   desc "Powo::Matcher natijasini db/powo_mapping.csv ga yozish (commit qilinadigan, kichik fayl)"
   task powo_export_mapping: :environment do
@@ -50,6 +90,8 @@ namespace :plants do
         'powo_match_type' => r[:match_type].to_s
       }
     }
+
+    apply_powo_overrides!(rows.index_by { |row| row['species_sci'] })
 
     # Alifbo tartibi: fayl qayta yaratilganda git diff toza/qisqa bo'lishi
     # uchun (aks holda Plant.order(:id) tartibida ham chiqishi mumkin edi,

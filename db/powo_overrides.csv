@@ -1,0 +1,40 @@
+# db/powo_overrides.csv — POWO/WCVP moslikning QO'LDA TUZATILGAN natijalari.
+#
+# NIMA UCHUN: Powo::Matcher WCVP faylidagi accepted_plant_name_id zanjiriga
+# ergashadi, lekin bu zanjir har doim ham botanik jihatdan to'g'ri
+# o'simlikka olib kelmaydi (masalan Illegitimate nom ko'pincha
+# TIPIFIKATSIYA muammosi tufayli shunday bo'lib qolgan — zanjir
+# nomenklatura qoidasini to'g'ri kuzatadi, lekin natija mahalliy flora
+# nazarda tutgan o'simlik emas bo'lishi mumkin). Bunday holatlarni faqat
+# odam (Bobur) ko'rib chiqib hal qila oladi.
+#
+# QANDAY ISHLAYDI: `plants:powo_export_mapping` avval WCVP bilan solishtirib
+# natija hisoblaydi, KEYIN shu faylni o'qiydi va species_sci bo'yicha mos
+# kelgan qatorni USTIDAN YOZADI (accepted_name/accepted_authors/
+# accepted_family/accepted_genus/accepted_rank/powo_id — shu qatordagi
+# qiymatlar bilan, `powo_match_type` esa "manual_override" bo'lib
+# belgilanadi). `wcvp_status` ustuniga tegilmaydi — u WCVP'dan qanday
+# hisoblangan bo'lsa, shundayligicha qoladi (sahifadagi "Sinonimi"/
+# "Bazadagi imlo" yorlig'i shunga qarab chiqadi).
+#
+# QANDAY TO'LDIRILADI (Excel'da): har qator — bitta Plant yozuvi uchun
+# qo'lda tekshirilgan qaror.
+#   species_sci      — KALIT: bazadagi (uzflora_plants_v8.csv dagi) species_sci
+#                       bilan HARFMA-HARF bir xil bo'lishi shart
+#   accepted_name    — to'g'ri deb topilgan qabul qilingan nom, MUALLIFSIZ
+#   accepted_authors — muallif qismi alohida
+#   accepted_family, accepted_genus, accepted_rank (Species/Subspecies/Variety...)
+#   powo_id          — POWO taxon ID (bilmasangiz bo'sh qoldiring)
+#   izoh             — NEGA qo'lda belgilangan (keyingi safar ochib
+#                       o'qigan kishi uchun tushunarli bo'lsin)
+#   sana             — qo'shilgan/oxirgi tahrirlangan sana (YYYY-MM-DD)
+#
+# accepted_name USTUNI BO'SH qoldirilsa — bu "hali qaror qilinmagan, kutib
+# turibdi" degani (masalan Taraxacum pseudoalpinum'ga qarang): shunda
+# powo_match_type baribir "manual_override" bo'ladi (WCVP'ning o'z, ehtimol
+# noto'g'ri, avtomatik xulosasi ustidan YOZILADI — bo'sh bilan), lekin
+# accepted_* bazaga bo'sh yoziladi, ya'ni "POWO'siz" holatda qoladi, qaror
+# qilingunga qadar hech narsa ko'rsatilmaydi.
+species_sci,accepted_name,accepted_authors,accepted_family,accepted_genus,accepted_rank,powo_id,izoh,sana
+"Setaria lutescens (Weig.) F.T. Hubb.",Setaria pumila,(Poir.) Roem. & Schult.,Poaceae,Setaria,Species,421764-1,"WCVP zanjiri Cenchrus americanus (marvarid tariq) ga olib boradi, lekin bu sariq tulkiquyruq (sarg'ish qo'noq). Panicum glaucum L. tipifikatsiyasi marvarid tariq bo'lib chiqqani sababli Illegitimate deb belgilangan — nomenklatura zanjiri to'g'ri, lekin natija mahalliy flora nazarda tutgan o'simlik emas.",2026-08-23
+"Taraxacum pseudoalpinum Schischk. ex Orazova",,,,,,,"SHUBHALI: WCVP zanjiri Taraxacum maracandicum'ga olib boradi (Invalid holati orqali), lekin Bobur hali qaror qilmagan. Ataylab BO'SH qoldirilgan — qaror qilingunga qadar POWO'siz holatda qoladi.",2026-08-23

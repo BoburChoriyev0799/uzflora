@@ -84,11 +84,34 @@ class Plant < ApplicationRecord
     species_sci
   end
 
-  # alt_name uchun yorliq: WCVP "Synonym" desa haqiqatan boshqa tur
-  # (sinonim), aks holda faqat imlo farqi (tur o'sha) — bularni
-  # aralashtirib bo'lmaydi, botanik jihatdan ikki xil holat.
+  # alt_name uchun yorliq: wcvp_status TO'RT xil botanik holatni bildiradi,
+  # bularni aralashtirib bo'lmaydi —
+  #   "Synonym"                     — nom to'g'ri e'lon qilingan, lekin
+  #                                    boshqa (qabul qilingan) turga
+  #                                    qo'shilgan → :synonym ("Sinonimi")
+  #   "Orthographic"                — bu O'SHA tur, faqat imlosi bazada
+  #                                    boshqacha yozilgan → :spelling_variant
+  #                                    ("Bazadagi imlo")
+  #   "Illegitimate"/"Invalid"      — nom nomenklatura QOIDALARI bo'yicha
+  #                                    yaroqsiz (noqonuniy yoki haqiqiy
+  #                                    emas e'lon qilingan) — na sinonim, na
+  #                                    imlo farqi, alohida holat →
+  #                                    :rejected_name ("Rad etilgan nom")
+  #   boshqa hammasi (shu jumladan BO'SH) — zaxira: qo'lda tuzatilgan
+  #                                    (manual_override) yozuvda WCVP
+  #                                    holati umuman bo'lmasligi mumkin —
+  #                                    unda yuqoridagi uch aniq ma'nodan
+  #                                    birini "taxmin qilib" ko'rsatish
+  #                                    yolg'on bo'lardi, shuning uchun
+  #                                    neytral :database_name ("Bazadagi
+  #                                    nom")
   def alt_name_label_key
-    wcvp_status == 'Synonym' ? :synonym : :spelling_variant
+    case wcvp_status
+    when 'Synonym' then :synonym
+    when 'Orthographic' then :spelling_variant
+    when 'Illegitimate', 'Invalid' then :rejected_name
+    else :database_name
+    end
   end
 
   # Taksonomiya jadvali uchun oila/turkum — accepted_family/accepted_genus

@@ -30,6 +30,8 @@ en:
       name_local: "Local name:"
       synonym: "Synonym:"
       spelling_variant: "Spelling in database:"
+      rejected_name: "Rejected name:"
+      database_name: "Name in database:"
       powo_link: "View in POWO"
       taxonomy: Taxonomy
       taxon_division: "Division:"

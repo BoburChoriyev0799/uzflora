@@ -248,10 +248,33 @@ module Powo
       found
     end
 
-    # Berilgan WCVP yozuvni "yakuniy" holatga keltiradi: Accepted bo'lsa —
-    # o'zi; Synonym bo'lsa — accepted_plant_name_id zanjiri bo'ylab (2
-    # qadamgacha) Accepted yozuvga boradi; boshqa holatlar (Illegitimate
-    # va h.k.) uchun avtomatik yechim yo'q.
+    # WCVP holatlari — Synonym'dan tashqari — qachonki
+    # `accepted_plant_name_id` to'ldirilgan bo'lsa, baribir ergashib
+    # bo'ladi: nom nomenklatura jihatidan nuqsonli (Illegitimate/Invalid/
+    # Orthographic) yoki hali joylashtirilmagan (Unplaced) bo'lsa ham,
+    # WCVP qaysi turga tegishli ekanini biladi. `Misapplied` ATAYLAB bu
+    # ro'yxatda YO'Q — "noto'g'ri qo'llangan nom" boshqa turga ishora
+    # qilishi mumkin, avtomatik ergashib bo'lmaydi, doim bo'sh qoladi.
+    RESOLVABLE_DEFECTIVE_STATUSES = %w[Illegitimate Invalid Orthographic Unplaced].freeze
+    MAX_CHAIN_HOPS = 5
+
+    # Berilgan WCVP yozuvni "yakuniy" holatga keltiradi:
+    #   - Accepted bo'lsa — o'zi
+    #   - Synonym bo'lsa — accepted_plant_name_id zanjiri bo'ylab (2
+    #     qadamgacha, O'ZGARISHSIZ — pastdagi kengaytirilgan zanjir bilan
+    #     ATAYLAB ARALASHTIRILMAGAN, quyida sababi izohlangan)
+    #   - RESOLVABLE_DEFECTIVE_STATUSES'dan biri bo'lsa —
+    #     `resolve_defective_chain` orqali (5 qadamgacha, halqadan himoya
+    #     bilan)
+    #   - Misapplied va boshqa har qanday holat uchun avtomatik yechim yo'q
+    #
+    # NEGA Synonym'ning 2 qadamlik zanjiri kengaytirilmagan: bu funksiya
+    # 4258 ta BOSHQA (allaqachon to'g'ri ishlagan) yozuv uchun ham
+    # ishlatiladi — agar Synonym zanjirini ham 5 qadamga uzaytirsak, o'sha
+    # yozuvlardan ba'zilari kutilmaganda YANGI ravishda tiklanib qolishi
+    # mumkin edi (regressiya xavfi). Kengaytirilgan (5 qadam) zanjir FAQAT
+    # yangi qo'shilgan 4 ta holat uchun — ular avval umuman avtomatik
+    # yechilmagan, shu sabab bu yerda xavf yo'q.
     def resolve_outcome(row, records_by_id)
       return [ nil, nil ] if row.nil?
 
@@ -268,9 +291,40 @@ module Powo
           target2 = target[:accepted_id] && records_by_id[target[:accepted_id]]
           (target2 && target2[:status] == 'Accepted') ? [ :synonym_resolved, target2 ] : [ :unresolved, nil ]
         end
+      when *RESOLVABLE_DEFECTIVE_STATUSES
+        resolve_defective_chain(row, records_by_id)
       else
         [ row[:status].downcase.tr(' ', '_').to_sym, nil ]
       end
+    end
+
+    # Illegitimate/Invalid/Orthographic/Unplaced holat uchun:
+    # `accepted_plant_name_id` zanjiri bo'ylab (maksimal MAX_CHAIN_HOPS
+    # qadam) Accepted yozuvgacha yuradi. Har qadamda ko'rilgan id'lar
+    # `visited`da saqlanadi — halqa (masalan A->B->A) uchraса, darhol
+    # to'xtaydi va `:chain_loop` bilan bo'sh qaytadi (hisobotda alohida
+    # ko'rinishi uchun). Zanjir Accepted'ga yetmasdan tugasa (accepted_id
+    # yo'q, yozuv topilmadi yoki MAX_CHAIN_HOPS tugadi) — boshlang'ich
+    # holatning o'z nomi bilan (masalan :illegitimate) bo'sh qaytadi, xuddi
+    # avvalgi (ergashmaydigan) xatti-harakat kabi.
+    def resolve_defective_chain(row, records_by_id)
+      original = row[:status].downcase.tr(' ', '_').to_sym
+      visited = Set.new([ row[:id] ])
+      current = row
+
+      MAX_CHAIN_HOPS.times do
+        next_id = current[:accepted_id]
+        return [ original, nil ] if next_id.nil?
+        return [ :chain_loop, nil ] if visited.include?(next_id)
+
+        visited << next_id
+        nxt = records_by_id[next_id]
+        return [ original, nil ] if nxt.nil?
+        return [ :defective_resolved, nxt ] if nxt[:status] == 'Accepted'
+
+        current = nxt
+      end
+      [ original, nil ]
     end
 
     # Bir nechta WCVP id (bir xil/yaqin kanonik kalitga ega nomzodlar)
@@ -538,10 +592,21 @@ module Powo
       log.call("  Jami WCVP qatorlari o'qildi: #{line_no}")
       log.call("  Bazamiz nomlariga mos WCVP yozuvlari: #{records_by_id.size}")
 
-      log.call("Sinonimlarning 'accepted' nishon yozuvlarini qo'shimcha pass(lar) bilan yuklash...")
+      # Faqat Synonym EMAS — RESOLVABLE_DEFECTIVE_STATUSES (Illegitimate/
+      # Invalid/Orthographic/Unplaced) uchun ham nishon yozuvlar shu yerda
+      # oldindan yuklanadi, aks holda `resolve_defective_chain` ularni
+      # `records_by_id`da topa olmay, zanjir yeta oladigan holatlarda ham
+      # bo'sh qaytarardi. DIQQAT: bu faqat ANIQ nom mosligi (`classify_exact`)
+      # bosqichi uchun — pastdagi `canon_retry!`ning o'z (fuzzy/kanonik)
+      # prefetch'i ATAYLAB o'zgartirilmagan (faqat Synonym'ni yuklaydi),
+      # shunda bu kengaytirilgan zanjir faqat tahlil qilingan 47 ta aniq-mos
+      # yozuvga ta'sir qiladi, "topilmadi" to'plamidagi boshqa yozuvlarga
+      # emas.
+      log.call("Sinonim va nuqsonli holatlarning 'accepted' nishon yozuvlarini qo'shimcha pass(lar) bilan yuklash...")
+      chain_follow_statuses = ([ 'Synonym' ] + RESOLVABLE_DEFECTIVE_STATUSES).freeze
       5.times do |hop|
         missing = records_by_id.values
-                                .select { |r| r[:status] == 'Synonym' && r[:accepted_id] && !records_by_id.key?(r[:accepted_id]) }
+                                .select { |r| chain_follow_statuses.include?(r[:status]) && r[:accepted_id] && !records_by_id.key?(r[:accepted_id]) }
                                 .map { |r| r[:accepted_id] }
                                 .uniq
         break if missing.empty?

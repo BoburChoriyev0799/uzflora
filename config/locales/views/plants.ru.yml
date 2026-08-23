@@ -30,6 +30,8 @@ ru:
       name_local: "Местное название:"
       synonym: "Синоним:"
       spelling_variant: "Написание в базе:"
+      rejected_name: "Отвергнутое название:"
+      database_name: "Название в базе:"
       powo_link: "Смотреть в POWO"
       taxonomy: Таксономия
       taxon_division: "Отдел:"
