@@ -23,6 +23,18 @@
 require 'csv'
 require 'digest'
 
+# species_sci'ni bazaga yozishdan OLDIN va find_or_initialize_by uchun
+# kalit sifatida ishlatishdan OLDIN normallashtiradi:
+#   - qiyshiq/tipografik apostroflarni (’ ‘ ʼ ´) to'g'ri apostrofga (') aylantiradi
+#   - ketma-ket bo'shliqlarni bittaga tushiradi
+#   - chetdagi bo'shliqlarni olib tashlaydi
+# Manba: CSV va bazada bir xil o'simlik turli ko'rinishda yozilgan bo'lishi
+# mumkin (masalan ikkilangan bo'shliq yoki apostrof varianti) — shu sabab
+# find_or_initialize_by mavjud yozuvni topa olmay dublikat yaratardi.
+def normalize_species_sci(value)
+  value.to_s.tr('’‘ʼ´', "'").gsub(/\s+/, ' ').strip
+end
+
 namespace :plants do
   desc 'CSV faylidan o\'simliklarni bazaga import qilish (kerak bo\'lgandagina)'
   task import: :environment do
@@ -54,7 +66,7 @@ namespace :plants do
       row_num += 1
       attrs = row.to_h
 
-      sci = attrs['species_sci'].to_s.strip
+      sci = normalize_species_sci(attrs['species_sci'])
 
       if sci.blank?
         puts "Qator #{row_num}: species_sci bo'sh, o'tkazib yuborildi."
@@ -77,6 +89,7 @@ namespace :plants do
       attrs.delete('id')
       attrs.each { |k, v| attrs[k] = nil if v.nil? || v.to_s.strip.empty? }
       attrs['red_book'] = %w[true True TRUE 1].include?(attrs['red_book'].to_s)
+      attrs['species_sci'] = sci
 
       plant = Plant.find_or_initialize_by(species_sci: sci)
       was_new = plant.new_record?
