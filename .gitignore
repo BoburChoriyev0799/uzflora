@@ -42,3 +42,8 @@ config/settings.local.yml
 /public/assets
 
 *.*env
+
+# WCVP (World Checklist of Vascular Plants) tashqi ma'lumotlar bazasi —
+# taksonomik solishtirish uchun yuklab olinadi, KATTA fayl, hech qachon
+# commit qilinmasligi kerak.
+/db/external/
