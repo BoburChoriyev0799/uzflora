@@ -55,6 +55,21 @@ module PlantsHelper
     rows.select { |_, value| value.present? }
   end
 
+  # plants#index kartochkasida "= eski nom" qatori uchun: shu yozuvning
+  # eski nomi (species_sci) — FAQAT accepted_name @duplicate_accepted_names
+  # to'plamida bo'lsa (ya'ni butun jadval bo'yicha 2+ Plant yozuviga
+  # tegishli) VA plant.alt_name mavjud bo'lsa (ya'ni bu YOZUVNING o'zi
+  # qayta nomlangan). Guruhning "asl" a'zosi uchun (masalan Calligonum
+  # aphyllum guruhida species_sci allaqachon accepted_name bilan bir xil
+  # bo'lgan yozuv) alt_name nil bo'ladi va qator chiqmaydi — o'zining
+  # nomini o'ziga qaytarib ko'rsatish keraksiz bo'lardi, chunki yuqorida
+  # ko'rsatilgan ilmiy nom bilan farqi yo'q.
+  def plant_duplicate_alt_name(plant, duplicate_accepted_names)
+    return nil unless plant.accepted_name.present? && duplicate_accepted_names.include?(plant.accepted_name)
+
+    plant.alt_name
+  end
+
   # Tashqi manba tugmalarida ko'rsatiladigan rasmiy logo fayllari
   # (app/assets/images/external_sources/). Har biri o'z nomini o'zida
   # tashiydi (wordmark), shuning uchun tugmada alohida matn label

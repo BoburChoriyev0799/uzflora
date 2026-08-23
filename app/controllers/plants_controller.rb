@@ -45,6 +45,31 @@ class PlantsController < ApplicationController
                                         .where(plant_id: plant_ids)
                                         .order(created_at: :desc)
                                         .group_by(&:plant_id)
+
+    # POWO/WCVP taksonomik birlashtirish natijasida bir nechta eski tur
+    # bitta accepted_name'ga tenglashtirilgan bo'lishi mumkin (masalan
+    # Elaeagnus angustifolia/orientalis/oxycarpa/turcomanica — to'rttasi
+    # ham endi bitta qabul qilingan turga tegishli). Shunday holatda
+    # kartochkalarda bir xil ilmiy nom bir necha marta chiqib, foydalanuvchi
+    # ularni farqlay olmaydi — buni "= eski nom" qatori bilan ko'rsatamiz
+    # (ko'rish: plant_duplicate_alt_name helperi).
+    #
+    # Sanoq JORIY SAHIFADAGI emas, BUTUN jadval bo'yicha olinishi shart —
+    # aks holda 5 a'zoli guruhning 2 tasi shu sahifada, qolgani keyingi
+    # sahifada bo'lsa, noto'g'ri "yagona" (dublikat emas) ko'rinib qolardi.
+    # BITTA qo'shimcha so'rov (N+1 emas) — yuqoridagi @sightings_by_plant
+    # bilan bir xil naqsh.
+    accepted_names = @plants.map(&:accepted_name).select(&:present?).uniq
+    @duplicate_accepted_names = if accepted_names.any?
+                                   Plant.where(accepted_name: accepted_names)
+                                        .group(:accepted_name)
+                                        .count
+                                        .select { |_, count| count > 1 }
+                                        .keys
+                                        .to_set
+                                 else
+                                   Set.new
+                                 end
   end
 
   def show

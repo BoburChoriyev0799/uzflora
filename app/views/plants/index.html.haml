@@ -101,6 +101,20 @@
       font-size: 13px;
       margin-bottom: 4px;
     }
+    /* POWO taksonomik birlashtirish natijasida bir nechta eski tur
+       bitta accepted_name'ga tenglashtirilgan bo'lishi mumkin — shunday
+       holatda kartochkalar bir xil ilmiy nom bilan chiqib, foydalanuvchi
+       ularni farqlay olmaydi. Shu qatorda o'sha yozuvning O'Z eski nomi
+       "= ..." bilan ko'rsatiladi (faqat haqiqatan dublikat bo'lganda —
+       ko'rish: PlantsHelper#plant_duplicate_alt_name). .plant-card-family
+       bilan bir xil kulrang (#999), bir pog'ona kichikroq shrift — yangi
+       rang/blok qo'shilmagan. */
+    .plant-card-alt-sci {
+      font-style: italic;
+      color: #999;
+      font-size: 11px;
+      margin-bottom: 4px;
+    }
     .plant-card-family {
       font-size: 12px;
       color: #999;
@@ -151,6 +165,13 @@
       }
       .plant-card-name-sci {
         font-size: 10px;
+        margin-bottom: 2px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .plant-card-alt-sci {
+        font-size: 9px;
         margin-bottom: 2px;
         white-space: nowrap;
         overflow: hidden;
@@ -417,6 +438,8 @@
                   = link_to plant_path(plant), class: 'plant-card-link' do
                     .plant-card-name-uz= plant.display_name(I18n.locale)
                     .plant-card-name-sci= plant.display_sci_name
+                    - if (alt_sci = plant_duplicate_alt_name(plant, @duplicate_accepted_names))
+                      .plant-card-alt-sci= "= #{alt_sci}"
                   - if plant.display_family_lat.present?
                     .plant-card-family= plant.display_family_lat
                   - if plant.red_book?
