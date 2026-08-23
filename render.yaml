@@ -42,6 +42,9 @@ services:
       # Bitta Puma processida bir vaqtda nechta so'rov qayta ishlanishini
       # cheklaydi. 5 (standart) rasm yuklash kabi xotira talab qiladigan
       # so'rovlar uchun ko'p — 2 tasi bir vaqtda tushsa ham OOM xavfi bor.
+      # ENDI faqat shu maqsadga xizmat qiladi — database.yml'dagi baza
+      # ulanishlari havzasi (pool) buni endi ko'r-ko'rona ergashtirmaydi,
+      # o'zining DB_POOL formulasiga ega (SolidQueue uchun).
       - key: RAILS_MAX_THREADS
         value: 3
 

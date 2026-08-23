@@ -1,7 +1,25 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  # DIQQAT: pool RAILS_MAX_THREADS'ga TENG emas — ataylab shunday. Bu ikkovi
+  # mantiqan bog'liq bo'lmasligi kerak: pool — Postgres'ga necha ulanish
+  # OCHILISHI MUMKINLIGI chegarasi, lazy (faqat kerak bo'lganda ochiladi,
+  # ishlatilmagan slot xotira olmaydi); Puma thread esa har biri BIR VAQTNING
+  # o'zida to'liq HTTP so'rovni qayta ishlaydi va shu so'rovning butun
+  # xotirasini (masalan rasm buferini) egallaydi — ikkalasi butunlay boshqa
+  # narsa. RAILS_MAX_THREADS=3 aynan rasm yuklashda OOM bo'lgani uchun
+  # ataylab pasaytirilgan (render.yaml) va shu sabab o'zgartirilmaydi — pool
+  # esa undan mustaqil ravishda kattaroq bo'lishi mumkin va kerak.
+  #
+  # SolidQueue processi (Puma'dan alohida OS processi, o'z pool'i bilan)
+  # o'zining worker'lari uchun kamida `threads + 2` ulanish talab qiladi —
+  # +2 = 1 ta polling thread + 1 ta heartbeat vazifasi (solid_queue gem,
+  # lib/solid_queue/configuration.rb#estimated_database_pool_size_for_worker).
+  # config/queue.yml'da threads: 3 — demak minimal talab 3+2=5. RAILS_MAX_
+  # THREADS+5 formulasi buni RAILS_MAX_THREADS qanday bo'lishidan qat'i nazar
+  # kamida 3 ta zaxira bilan qanoatlantiradi (prodda 3+5=8), DB_POOL orqali
+  # esa istalgan qiymatga qo'lda bekor qilish mumkin.
+  pool: <%= ENV.fetch("DB_POOL") { ENV.fetch("RAILS_MAX_THREADS", 5).to_i + 5 } %>
   username: <%= ENV.fetch("UZFLORA_DATABASE_USERNAME") { "bobur" } %>
   password: <%= ENV["UZFLORA_DATABASE_PASSWORD"] %>
 
