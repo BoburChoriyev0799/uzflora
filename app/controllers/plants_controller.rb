@@ -2,6 +2,11 @@ class PlantsController < ApplicationController
   before_action :authenticate_user!, only: [:identify]
 
   PLANTS_PER_PAGE = 24
+  # Ikki ustunli grid uchun juft son (4 qator). 6 juda tez sahifalashni
+  # talab qiladi, 10 esa panelni haddan tashqari uzun qiladi (chap
+  # tarafdagi taksonomiya jadvali bilan balans buziladi) — 8 ikkalasi
+  # orasidagi muvozanat.
+  SIGHTINGS_PER_PAGE = 8
 
   # PlantSightingUploader bilan bir xil chegara (10 MB) — foydalanuvchi
   # kutgan xatti-harakat izchil bo'lsin.
@@ -81,9 +86,15 @@ class PlantsController < ApplicationController
     # tasdiqlanganlarini ko'radi — izchil siyosat (kutilayotgan/rad
     # etilganlar bu yerda ko'rsatilmaydi). includes(:user) — N+1'ning
     # oldini olish uchun (har rasm ostida muallif ismi ko'rsatiladi).
+    # `param_name: :sightings_page` — bu sahifada hozircha boshqa
+    # sahifalanadigan ro'yxat yo'q, lekin standart `:page` nomini
+    # ATAYLAB ishlatmaymiz: profiles#show'da xuddi shu xato (umumiy
+    # `:page` bir nechta ro'yxat orasida to'qnashib, sahifalash
+    # ishlamay qolgan edi) shu yerda takrorlanmasligi uchun.
     @sightings = @plant.plant_sightings.published.approved
                         .includes(:user)
                         .order(created_at: :desc)
+                        .page(params[:sightings_page]).per(SIGHTINGS_PER_PAGE)
   end
 
   # AJAX (plants#index'даgi "Rasm orqali o'simlik aniqlash" bo'limi):

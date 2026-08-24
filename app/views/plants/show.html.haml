@@ -60,16 +60,24 @@
     }
     /* Foydalanuvchi rasmlari galereyasi — bosh sahifadagi rasm
        kartochkalari (welcome-gallery) bilan bir xil vizual uslub
-       (yumaloq burchak, soya), lekin bu yerda tor ustunga mos ravishda
-       bitta ustunli ro'yxat sifatida. */
+       (yumaloq burchak, soya). IKKI USTUNLI grid (avval bitta ustunli
+       ro'yxat edi, kartochkalar juda katta bo'lib ko'rinardi) — 480px
+       dan tor ekranlarda (masalan 375px mobil) ikkita ustun matnni
+       (sana/joy/muallif) siqib, o'qib bo'lmaydigan qilib qo'yardi, shu
+       sabab shu chegaradan pastda bitta ustunga qaytariladi. */
     .plant-photos-title {
       color: #2f4a1c !important;
       margin-bottom: 12px;
     }
     .plant-photos-gallery {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    @media (max-width: 480px) {
+      .plant-photos-gallery {
+        grid-template-columns: 1fr;
+      }
     }
     .plant-photo-card {
       border-radius: 8px;
@@ -79,15 +87,20 @@
     }
     .plant-photo-img {
       width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
       display: block;
     }
     .plant-photo-meta {
-      padding: 10px 12px;
+      padding: 6px 8px;
     }
     .plant-photo-meta p {
-      margin-bottom: 3px;
-      font-size: 13px;
+      margin-bottom: 2px;
+      font-size: 11px;
       color: #666;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .plant-photo-author a {
       color: #1e5620;
@@ -95,6 +108,10 @@
     .plant-photos-empty {
       color: #888;
       font-style: italic;
+    }
+    .plant-photos-pagination {
+      margin-top: 10px;
+      text-align: center;
     }
     .plant-external-links {
       display: flex;
@@ -234,7 +251,7 @@
                       = image_tag logo_path, alt: label
 
       .col-sm-12.col.col-md-4.fright.m-no-float
-        - if @sightings.present?
+        - if @sightings.total_count.positive?
           %h4.plant-photos-title= I18n.t('.photos_title', scope: plant_scope)
           .plant-photos-gallery
             - @sightings.each do |sighting|
@@ -249,6 +266,9 @@
                   %p.plant-photo-author
                     = I18n.t('.photo_by', scope: plant_scope)
                     = link_to sighting.user.full_name, profile_path(sighting.user)
+          - if @sightings.total_pages > 1
+            .plant-photos-pagination
+              = paginate @sightings, param_name: :sightings_page
         - else
           .plant-show-placeholder 🌿
           %p.plant-photos-empty.acenter= I18n.t('.photos_empty', scope: plant_scope)

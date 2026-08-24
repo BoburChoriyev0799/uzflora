@@ -1,13 +1,42 @@
+%style
+  :plain
+    /* Kuzatuv rasmi: `:display` versiyasi (resize_to_fill) rasmni QIRQIB
+       700x524'ga moslardi — bo'yiga yoki eniga cho'zilgan rasmlarda
+       tepa/pastki yoki yon qismlar kesilib qolardi. Shu o'rniga `:original`
+       (faqat resize_to_limit, 1600px'gacha, HECH QISH QIRQILMAYDI)
+       ishlatiladi, nisbat CSS orqali saqlanadi (max-width/max-height +
+       height:auto — object-fit: contain qo'shimcha ehtiyot chorasi). */
+    .plant-sighting-photo-frame {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+    .plant-sighting-photo-img {
+      max-width: 800px;
+      max-height: 65vh;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 6px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.08);
+    }
+    @media (max-width: 480px) {
+      .plant-sighting-photo-img {
+        max-height: 45vh;
+      }
+    }
 .bg-btm-container
   .container.content
     - show_scope = 'plant_sightings.show'
     .row.mtop20.mbtm20
       .col-md-8.col-sm-12.col-xs-12
         - if @plant_sighting[:photo].present? && @plant_sighting.photo_status_ready?
-          = link_to @plant_sighting.photo.url, target: '_blank', rel: 'noopener', title: I18n.t('.view_full', scope: show_scope) do
-            = plant_sighting_photo_tag(@plant_sighting, :display, class: 'img-responsive')
+          .plant-sighting-photo-frame
+            = link_to @plant_sighting.photo.url, target: '_blank', rel: 'noopener', title: I18n.t('.view_full', scope: show_scope) do
+              = plant_sighting_photo_tag(@plant_sighting, :original, class: 'img-responsive plant-sighting-photo-img')
         - elsif @plant_sighting[:photo].present?
-          = plant_sighting_photo_tag(@plant_sighting, :display, class: 'img-responsive')
+          .plant-sighting-photo-frame
+            = plant_sighting_photo_tag(@plant_sighting, :original, class: 'img-responsive plant-sighting-photo-img')
 
         %h3.mtop20
           - if @plant_sighting.plant.present?
