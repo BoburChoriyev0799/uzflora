@@ -41,6 +41,7 @@ en:
     show:
       unknown_plant: "Unidentified plant"
       author: "Author:"
+      identified_by: "Identified by:"
       date: "Date:"
       place: "Location:"
       latin_name: "Latin name:"
@@ -68,6 +69,7 @@ en:
       title: "Observations awaiting review"
       empty: "There are no observations awaiting review right now."
       author: "Author:"
+      identified_by: "Identified by:"
       date: "Date:"
       place: "Location:"
       on_map: "(view on map)"

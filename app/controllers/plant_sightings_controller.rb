@@ -14,7 +14,7 @@ class PlantSightingsController < ApplicationController
   # ko'rsatiladi.
   def pending
     @plant_sightings = PlantSighting.published.pending
-                                     .includes(:plant, :user)
+                                     .includes(:plant, :user, :identified_by)
                                      .order(created_at: :asc)
   end
 
@@ -52,7 +52,7 @@ class PlantSightingsController < ApplicationController
       return
     end
 
-    sighting.update!(plant: plant)
+    sighting.update!(plant: plant, identified_by: current_user)
     render json: {
       success: true,
       plant: {

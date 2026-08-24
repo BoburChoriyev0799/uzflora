@@ -62,6 +62,11 @@
           %span.lbl= I18n.t('.author', scope: show_scope)
           = link_to @plant_sighting.user.full_name, profile_path(@plant_sighting.user)
 
+        - if @plant_sighting.identified_by.present? && @plant_sighting.identified_by_id != @plant_sighting.user_id
+          %p.mtop10
+            %span.lbl= I18n.t('.identified_by', scope: show_scope)
+            = link_to @plant_sighting.identified_by.full_name, profile_path(@plant_sighting.identified_by)
+
         - if @plant_sighting.timestamp.present?
           %p
             %span.lbl= I18n.t('.date', scope: show_scope)

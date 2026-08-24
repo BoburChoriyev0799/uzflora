@@ -216,6 +216,11 @@
                 %span.lbl= I18n.t('.author', scope: pending_scope)
                 = link_to sighting.user.full_name, profile_path(sighting.user), target: '_blank'
 
+              - if sighting.identified_by.present?
+                %p.moderation-meta
+                  %span.lbl= I18n.t('.identified_by', scope: pending_scope)
+                  = link_to sighting.identified_by.full_name, profile_path(sighting.identified_by), target: '_blank'
+
               - if sighting.timestamp.present?
                 %p.moderation-meta
                   %span.lbl= I18n.t('.date', scope: pending_scope)

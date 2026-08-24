@@ -9,6 +9,12 @@ class PlantSighting < ApplicationRecord
   belongs_to :plant, optional: true
   belongs_to :expert, class_name: 'User', optional: true
 
+  # Turni ANIQLAGAN ekspert — `expert_id` (kim tasdiqladi/rad etdi)dan
+  # ATAYLAB alohida: agar A ekspert `assign_plant` orqali turni biriktirsa-yu,
+  # B ekspert keyinroq tasdiqlasa, "Turini aniqladi" ko'rsatuvchisi A'ni
+  # ko'rsatishi kerak, tasdiqlagan B'ni emas.
+  belongs_to :identified_by, class_name: 'User', optional: true
+
   has_many :plant_sighting_comments, dependent: :destroy
   has_many :notifications, dependent: :destroy
 
@@ -157,7 +163,10 @@ class PlantSighting < ApplicationRecord
   end
 
   # Ekspert turni o'zgartirmaydi (foydalanuvchi tanlagan plant_id qoladi) —
-  # faqat tasdiqlaydi yoki rad etadi.
+  # faqat tasdiqlaydi yoki rad etadi. `expert_id` — KIM TASDIQLADI/RAD ETDI
+  # degan ma'no, har doim shu chaqirgan ekspertga yoziladi. Turni KIM
+  # ANIQLAGANI — butunlay alohida `identified_by_id` ustunida saqlanadi
+  # (`assign_plant`da to'ldiriladi), bu yerda unga tegilmaydi.
   def approve!(expert)
     update!(status: :approved, expert: expert, reviewed_at: Time.zone.now, moderation_note: nil)
   end
@@ -198,7 +207,7 @@ class PlantSighting < ApplicationRecord
   end
 
   def self.ransackable_associations(_auth_object = nil)
-    %w[user plant expert]
+    %w[user plant expert identified_by]
   end
 
   private

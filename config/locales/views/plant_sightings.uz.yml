@@ -41,6 +41,7 @@ uz:
     show:
       unknown_plant: "Turi aniqlanmagan o'simlik"
       author: "Muallif:"
+      identified_by: "Turini aniqladi:"
       date: "Sana:"
       place: "Joylashuv:"
       latin_name: "Lotincha nom:"
@@ -68,6 +69,7 @@ uz:
       title: "Tekshirilishi kerak bo'lgan kuzatuvlar"
       empty: "Hozircha tekshirilishi kerak bo'lgan kuzatuvlar yo'q."
       author: "Muallif:"
+      identified_by: "Turini aniqladi:"
       date: "Sana:"
       place: "Joylashuv:"
       on_map: "(xaritada ko'rish)"
