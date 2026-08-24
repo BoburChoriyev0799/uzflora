@@ -3,4 +3,4 @@
     -@species.each do |plant|
       %li
         =link_to plant_path(plant) do
-          %em= plant.species_sci
+          %em= plant.display_sci_name

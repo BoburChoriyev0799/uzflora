@@ -27,6 +27,6 @@
           .sighting-identify-score-bar-fill{ style: "width: #{prediction.score_percent}%;" }
         - if prediction.plant
           .sighting-identify-prediction-actions
-            %button.sighting-identify-select-btn.moderation-identify-select-btn{ type: 'button', data: { plant_id: prediction.plant.id, selected_text: "#{prediction.plant.display_name(I18n.locale)} | #{prediction.plant.species_sci}", sci: prediction.plant.species_sci } }
+            %button.sighting-identify-select-btn.moderation-identify-select-btn{ type: 'button', data: { plant_id: prediction.plant.id, selected_text: "#{prediction.plant.display_name(I18n.locale)} | #{prediction.plant.display_sci_name}", sci: prediction.plant.display_sci_name } }
               = I18n.t('select', scope: identify_scope)
             = link_to I18n.t('view_profile', scope: identify_scope), plant_path(prediction.plant), target: '_blank', rel: 'noopener noreferrer', class: 'sighting-identify-profile-link'

@@ -32,7 +32,6 @@ ru:
       spelling_variant: "Написание в базе:"
       rejected_name: "Отвергнутое название:"
       database_name: "Название в базе:"
-      powo_link: "Смотреть в POWO"
       taxonomy: Таксономия
       taxon_division: "Отдел:"
       taxon_class_name: "Класс:"

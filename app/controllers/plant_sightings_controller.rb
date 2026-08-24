@@ -57,7 +57,7 @@ class PlantSightingsController < ApplicationController
       success: true,
       plant: {
         id: plant.id,
-        selected_text: "#{plant.display_name(I18n.locale)} | #{plant.species_sci}"
+        selected_text: "#{plant.display_name(I18n.locale)} | #{plant.display_sci_name}"
       }
     }
   end
@@ -189,9 +189,9 @@ class PlantSightingsController < ApplicationController
     render json: plants.map { |plant|
       {
         id: plant.id,
-        sci: plant.species_sci,
+        sci: plant.display_sci_name,
         secondary: [plant.species_uz, plant.species_ru].map(&:presence).compact.uniq.join(' / '),
-        selected_text: "#{plant.display_name(I18n.locale)} | #{plant.species_sci}"
+        selected_text: "#{plant.display_name(I18n.locale)} | #{plant.display_sci_name}"
       }
     }
   end

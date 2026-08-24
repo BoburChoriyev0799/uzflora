@@ -189,10 +189,6 @@
               %span.plant-lbl= I18n.t(".#{@plant.alt_name_label_key}", scope: plant_scope)
               = @plant.alt_name
 
-        - if @plant.powo_id.present?
-          %p
-            = link_to I18n.t('.powo_link', scope: plant_scope), "https://powo.science.kew.org/taxon/#{@plant.powo_id}", target: '_blank', rel: 'noopener', style: 'font-size:12px;color:#6b8f5a;'
-
         - taxonomy_rows = plant_taxonomy_rows(@plant)
         - if taxonomy_rows.any?
           .plant-info-block
@@ -278,7 +274,7 @@
             - @sightings.each do |sighting|
               .plant-photo-card
                 = link_to plant_sighting_path(sighting) do
-                  = plant_sighting_photo_tag(sighting, :thumb, class: 'plant-photo-img')
+                  = plant_sighting_photo_tag(sighting, :small, class: 'plant-photo-img')
                 .plant-photo-meta
                   - if sighting.timestamp.present?
                     %p.plant-photo-date= date_format(sighting.timestamp)

@@ -2579,8 +2579,11 @@ a.delete-comment-lnk:hover {
   box-shadow: 0 2px 10px rgba(0,0,0,.12);
 }
 
-// Rasm qismi — versiya (:thumb) fayllarning haqiqiy nisbati turlicha
-// bo'lgani uchun `aspect-ratio` bilan bir xil balandlik/kenglikka
+// Rasm qismi — versiya (:small, 256x192 — kartochka ~120-195px, lekin
+// 2-3x zichlikdagi ekranlarda :thumb (154x116) xira ko'rinardi, shu
+// sabab :small tanlandi, xuddi plants#show gridi bilan bir xil sabab
+// bilan) fayllarning haqiqiy nisbati turlicha bo'lgani uchun
+// `aspect-ratio` bilan bir xil balandlik/kenglikka
 // qat'iy cheklanadi, `object-fit:cover` esa nisbatni buzmasdan (cho'zib
 // yubormasdan) to'ldiradi. Rasm hali ishlanayotgan/xato bo'lsa
 // (`plant_sighting_photo_tag` shu holatda <img> o'rniga

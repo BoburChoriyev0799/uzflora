@@ -1,9 +1,13 @@
 - if plant.present?
   .plant-full-names.mtop10
-    - if plant.species_sci.present?
+    - if plant.display_sci_name.present?
       %p
         %span.lbl= I18n.t('latin_name', scope: 'plant_sightings.show')
-        %em= plant.species_sci
+        %em= plant.display_sci_name
+      - if plant.alt_name.present?
+        %p
+          %span.lbl= I18n.t(plant.alt_name_label_key, scope: 'plant_sightings.show')
+          %em= plant.alt_name
     - if plant.species_ru.present?
       %p
         %span.lbl= I18n.t('russian_name', scope: 'plant_sightings.show')
