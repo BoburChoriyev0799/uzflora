@@ -20,9 +20,18 @@
 #      shu o'zgarishning o'zi git diff'da alohida, ko'rinadigan qadam
 #      bo'ladi — WCVP tahlili va bazaga yozish ENDI ikkita mustaqil qadam.
 #
-# `species_sci` ustuniga UMUMAN TEGILMAYDI — u CSV importining (
-# lib/tasks/import_plants.rake) tabiiy kaliti bo'lib qoladi, shu bilan
-# birga mapping faylida ham QIDIRUV KALITI sifatida ishlatiladi.
+# `species_sci` QIYMATI o'zgartirilmaydi (u CSV importining
+# lib/tasks/import_plants.rake tabiiy kaliti bo'lib qoladi, mapping
+# faylida ham QIDIRUV KALITI sifatida ishlatiladi) — LEKIN `upsert_all`
+# chaqiruviga baribir uzatiladi (`update_only:` ro'yxatida ATAYLAB YO'Q,
+# demak haqiqiy UPDATE paytida hech qachon YOZILMAYDI). Sabab: `species_sci`
+# NOT NULL bo'lgach (migratsiya), Postgres `INSERT ... ON CONFLICT DO
+# UPDATE` uchun NOMZOD qatorni — konflikt UPDATE'ga yo'naltirilishidan
+# OLDIN — jadval cheklovlariga (shu jumladan NOT NULL) qarshi tekshiradi.
+# `species_sci` VALUES ro'yxatida umuman bo'lmasa, nomzod qatorda u NULL
+# bo'lib qoladi va shu tekshiruvning o'zida (hali konfliktga yetmasdan!)
+# `PG::NotNullViolation` bilan yiqiladi — garchi natijada baribir faqat
+# UPDATE bajarilishi kerak bo'lsa ham.
 #
 # Faqat XAVFSIZ deb topilgan match_type'lar yoziladi:
 #   exact_full, exact_name_unique, name_multi_author_ok, canon_exact,
@@ -118,7 +127,7 @@ namespace :plants do
 
       changed = POWO_APPLY_COLUMNS.any? { |col| plant.public_send(col).to_s != new_attrs[col].to_s }
 
-      to_write << { id: plant.id, changed: changed, attrs: new_attrs.merge(powo_matched_at: now) }
+      to_write << { id: plant.id, species_sci: plant.species_sci, changed: changed, attrs: new_attrs.merge(powo_matched_at: now) }
     end
 
     changed_count = to_write.count { |w| w[:changed] }
@@ -140,7 +149,7 @@ namespace :plants do
     puts "Jami: #{to_write.size + blank_count + unmapped_count} (bazadagi #{plants.size} taga teng bo'lishi kerak)"
 
     if apply
-      rows_to_upsert = to_write.select { |w| w[:changed] }.map { |w| w[:attrs].merge(id: w[:id]) }
+      rows_to_upsert = to_write.select { |w| w[:changed] }.map { |w| w[:attrs].merge(id: w[:id], species_sci: w[:species_sci]) }
 
       if rows_to_upsert.any?
         ActiveRecord::Base.transaction do

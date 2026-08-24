@@ -2889,7 +2889,7 @@ Myosotis alpestris F.W. Schmidt,Myosotis alpestris F.W.Schmidt,Accepted,Myosotis
 Myosotis asiatica (Vesterg.) Schischk. & Serg.,Myosotis asiatica (Vestergr.) Schischk. & Serg.,Accepted,Myosotis asiatica,(Vestergr.) Schischk. & Serg.,Boraginaceae,Myosotis,Species,118917-1,exact_name_unique
 Myosotis caespitosa Schultz,,,,,,,,,canon_ambiguous
 Myosotis imitata Serg.,Myosotis imitata Serg.,Accepted,Myosotis imitata,Serg.,Boraginaceae,Myosotis,Species,119055-1,exact_full
-Myosotis micrantha Pall. & Lehm.,Myosotis micrantha Pall. ex Lehm.,Synonym,,,,,,,manual_override
+Myosotis micrantha Pall. & Lehm.,Myosotis micrantha Pall. ex Lehm.,Synonym,Arnebia decumbens subsp. decumbens,"",Boraginaceae,Arnebia,Subspecies,77228219-1,distribution_resolved
 Myosotis refracta Boiss.,Myosotis refracta Boiss.,Accepted,Myosotis refracta,Boiss.,Boraginaceae,Myosotis,Species,119211-1,exact_full
 Myosotis sparsiflora Pohl,,,,,,,,,name_ambiguous
 Myosotis sylvatica Hoffm.,Myosotis sylvatica Ehrh. ex Hoffm.,Accepted,Myosotis sylvatica,Ehrh. ex Hoffm.,Boraginaceae,Myosotis,Species,119282-1,exact_name_unique
@@ -3082,7 +3082,7 @@ Papaver litwinowii Fedde ex Bornm.,Papaver litwinowii Fedde ex Popov,Synonym,Pap
 Papaver pavoninum C.A. Mey.,Papaver pavoninum Schrenk,Synonym,Roemeria pavonina,"(Schrenk) Banfi, Bartolucci, J.-M.Tison & Galasso",Papaveraceae,Roemeria,Species,77307935-1,distribution_resolved
 Papaver tianschanicum Popov,Papaver tianschanicum Popov,Synonym,Oreomecon tianschanica,"(Popov) Galasso, Banfi & Bartolucci",Papaveraceae,Oreomecon,Species,77332871-1,ambiguous_same_target
 Paracaryum emiri Popov,Paracaryum emiri Popov,Synonym,Paracaryum himalayense,(Klotzsch) C.B.Clarke,Boraginaceae,Paracaryum,Species,120053-1,exact_full
-Paracaryum glochidiatum (Bunge) Riedl.,Paracaryum glochidiatum (Bunge) Riedl,Illegitimate,,,,,,,manual_override
+Paracaryum glochidiatum (Bunge) Riedl.,Paracaryum glochidiatum (Bunge) Riedl,Illegitimate,Microparacaryum intermedium f. intermedium,"",Boraginaceae,Microparacaryum,Form,77223646-1,distribution_resolved
 Paracaryum himalayense (Klotzsch) C.B. Clarke,Paracaryum himalayense (Klotzsch) C.B.Clarke,Accepted,Paracaryum himalayense,(Klotzsch) C.B.Clarke,Boraginaceae,Paracaryum,Species,120053-1,exact_full
 Paracaryum physodes (Bunge) Riedl.,Paracaryum physodes (Bunge) Riedl,Synonym,Microparacaryum intermedium f. intermedium,"",Boraginaceae,Microparacaryum,Form,77223646-1,exact_name_unique
 Paraligusticum discolor (Ledeb.) V.N. Tikhom.,Paraligusticum discolor (Ledeb.) V.N.Tikhom.,Accepted,Paraligusticum discolor,(Ledeb.) V.N.Tikhom.,Apiaceae,Paraligusticum,Species,845642-1,exact_full
@@ -4136,7 +4136,7 @@ Taraxacum nevskii Juz.,Taraxacum nevskii Juz.,Accepted,Taraxacum nevskii,Juz.,As
 Taraxacum nuratavicum Schischk.,Taraxacum nuratavicum Schischk.,Accepted,Taraxacum nuratavicum,Schischk.,Asteraceae,Taraxacum,Species,254125-1,exact_full
 Taraxacum officinale F.H. Wigg.,Taraxacum officinale F.H.Wigg.,Synonym,Taraxacum sect. Taraxacum,F.H.Wigg.,Asteraceae,Taraxacum,Species,254151-1,exact_full
 Taraxacum popovii Kovalevsk. ex Vainberg,Taraxacum popovii Kovalevsk. ex Vainberg,Accepted,Taraxacum popovii,Kovalevsk. ex Vainberg,Asteraceae,Taraxacum,Species,960202-1,exact_full
-Taraxacum pseudoalpinum Schischk. ex Orazova,Taraxacum pseudoalpinum Schischk.,Invalid,,,,,,,manual_override
+Taraxacum pseudoalpinum Schischk. ex Orazova,Taraxacum pseudoalpinum Schischk.,Invalid,Taraxacum maracandicum,Kovalevsk.,Asteraceae,Taraxacum,Species,253945-1,exact_name_unique
 Taraxacum pseudominutilobum Kovalevsk.,Taraxacum pseudominutilobum Kovalevsk.,Accepted,Taraxacum pseudominutilobum,Kovalevsk.,Asteraceae,Taraxacum,Species,254488-1,exact_full
 Taraxacum repandum Pavlov,Taraxacum repandum Pavlov,Accepted,Taraxacum repandum,Pavlov,Asteraceae,Taraxacum,Species,77112354-1,exact_full
 Taraxacum strobilocephalum Kovalevsk.,Taraxacum strobilocephalum Kovalevsk.,Accepted,Taraxacum strobilocephalum,Kovalevsk.,Asteraceae,Taraxacum,Species,254824-1,exact_full

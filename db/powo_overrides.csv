@@ -30,12 +30,22 @@
 #      chiqadi va qator TEGILMAY, avvalgi (asosiy quvurdan kelgan) holatida
 #      qoladi (jim o'tkazib yuborilmaydi).
 #
-#   3) accepted_name HAM, wcvp_name HAM BO'SH — "hali qaror qilinmagan,
-#      kutib turibdi" (masalan Taraxacum pseudoalpinum'ga qarang): shunda
-#      powo_match_type baribir "manual_override" bo'ladi (WCVP'ning o'z,
-#      ehtimol noto'g'ri, avtomatik xulosasi ustidan YOZILADI — bo'sh
-#      bilan), lekin accepted_* bazaga bo'sh yoziladi, ya'ni "POWO'siz"
-#      holatda qoladi, qaror qilingunga qadar hech narsa ko'rsatilmaydi.
+#   3) accepted_name HAM, wcvp_name HAM BO'SH — bu holat IKKI XIL ma'noni
+#      bildirishi mumkin, faqat `izoh` ustunidagi matn ORQALI farqlanadi:
+#        a) "hali qaror qilinmagan, kutib turibdi" — Bobur hali ko'rib
+#           chiqmagan, keyinroq accepted_name yoki wcvp_name to'ldirilishi
+#           kutilmoqda.
+#        b) "QAROR QILINGAN: bazadagi nom O'ZGARMASIN" — Bobur ANIQ ko'rib
+#           chiqib, WCVP/avtomatik natijani RAD ETGAN (masalan Koeleria
+#           cristata'ga qarang — POWO'siz qolishi ATAYLAB, YAKUNIY qaror,
+#           "hali ishlanmagan" degani EMAS).
+#      Ikkala holatda ham `powo_match_type` baribir "manual_override"
+#      bo'ladi (WCVP'ning o'z, ehtimol noto'g'ri, avtomatik xulosasi
+#      ustidan YOZILADI — bo'sh bilan), accepted_* bazaga bo'sh yoziladi,
+#      ya'ni "POWO'siz" holatda qoladi. SHUNING UCHUN `izoh` ustuni HAR
+#      DOIM aniq yozilishi SHART — "SHUBHALI ... hali qaror qilmagan" (a)
+#      va "QAROR QILINGAN ... o'zgarmasin" (b) formulasi bilan boshlansin,
+#      shunda keyingi safar ochib o'qigan kishi ikkalasini adashtirmaydi.
 #
 # `wcvp_status` ustuniga TO'G'RIDAN-TO'G'RI TUZATISH (1-holat)da tegilmaydi
 # — u WCVP'dan qanday hisoblangan bo'lsa, shundayligicha qoladi. TAXALLUS
@@ -59,10 +69,7 @@
 #   sana             — qo'shilgan/oxirgi tahrirlangan sana (YYYY-MM-DD)
 species_sci,accepted_name,accepted_authors,accepted_family,accepted_genus,accepted_rank,powo_id,wcvp_name,izoh,sana
 "Setaria lutescens (Weig.) F.T. Hubb.",Setaria pumila,(Poir.) Roem. & Schult.,Poaceae,Setaria,Species,421764-1,,"WCVP zanjiri Cenchrus americanus (marvarid tariq) ga olib boradi, lekin bu sariq tulkiquyruq (sarg'ish qo'noq). Panicum glaucum L. tipifikatsiyasi marvarid tariq bo'lib chiqqani sababli Illegitimate deb belgilangan — nomenklatura zanjiri to'g'ri, lekin natija mahalliy flora nazarda tutgan o'simlik emas.",2026-08-23
-"Taraxacum pseudoalpinum Schischk. ex Orazova",,,,,,,,"SHUBHALI: WCVP zanjiri Taraxacum maracandicum'ga olib boradi (Invalid holati orqali), lekin Bobur hali qaror qilmagan. Ataylab BO'SH qoldirilgan — qaror qilingunga qadar POWO'siz holatda qoladi.",2026-08-23
-"Koeleria cristata (L.) Pers.",,,,,,,,"SHUBHALI: distribution_resolved qoidasi Rostraria cristata'ni (O'rta yer dengizi bir yillik o'ti) tanladi, chunki UZB tarqalishida faqat shu topildi. Lekin Markaziy Osiyo va rus floralarida ""Koeleria cristata"" odatda Koeleria macrantha (ko'p yillik dasht o'ti) ma'nosida qo'llanadi — keng tarqalgan noto'g'ri qo'llash bo'lishi mumkin. POWO'da ikkala nom ham alohida mavjud. Ataylab BO'SH qoldirilgan — qaror qilingunga qadar POWO'siz holatda qoladi.",2026-08-24
-"Myosotis micrantha Pall. & Lehm.",,,,,,,,"SHUBHALI: distribution_resolved qoidasi Arnebia decumbens subsp. decumbens'ni tanladi (mualliflik bo'yicha to'g'ri), lekin ""Myosotis micrantha"" nomi ostida odatda Myosotis stricta (unutmagul) tushuniladi — ikki xil o'simlik. Ataylab BO'SH qoldirilgan — qaror qilingunga qadar POWO'siz holatda qoladi.",2026-08-24
-"Paracaryum glochidiatum (Bunge) Riedl.",,,,,,,,"SHUBHALI: distribution_resolved qoidasi Microparacaryum intermedium f. intermedium'ni tanladi — turkum o'zgarishi kutilgan edi, lekin epitet ham glochidiatum → intermedium bo'lib o'zgargan, tekshirilishi kerak. Ataylab BO'SH qoldirilgan — qaror qilingunga qadar POWO'siz holatda qoladi.",2026-08-24
+"Koeleria cristata (L.) Pers.",,,,,,,,"QAROR QILINGAN (2026-08-24): bazadagi nom O'ZGARMASIN, POWO nomi qo'llanmasin — bu hali ishlanmagan qator EMAS. Sabab: WCVP zanjiri Rostraria cristata (O'rta yer dengizi bir yillik o'ti) ga olib boradi, lekin Markaziy Osiyo va rus floralarida ""Koeleria cristata"" odatda Koeleria macrantha (ko'p yillik dasht o'ti) ma'nosida qo'llanadi — WCVP'ning aniq nomi mahalliy florada nazarda tutilgan turga to'g'ri kelmaydi. Bobur ataylab POWO'siz holatda qoldirishga qaror qildi.",2026-08-24
 "Erysimim babataghi Korsh.",,,,,,,"Erysimum babataghi Korsh.","TAXALLUS: bazada turkum nomi xato terilgan — ""Erysimim"" (kerak: ""Erysimum""). Boshqa hamma narsa bir xil, WCVP'da bu imlo bilan qidirilsa avtomatik topiladi.",2026-08-24
 "Petatistes spurius (Retz.) Reichend.",,,,,,,"Petasites spurius (Retz.) Rchb.","TAXALLUS: turkum nomi buzilgan — ""Petatistes"" (kerak: ""Petasites""), muallif qisqartmasi ham bazada to'liqroq yozilgan (""Reichend."" → WCVP'da ""Rchb."").",2026-08-24
 "Lycopus europeanus L.",,,,,,,"Lycopus europaeus L.","TAXALLUS: epitet imlo xatosi — ""europeanus"" (kerak: ""europaeus"").",2026-08-24
