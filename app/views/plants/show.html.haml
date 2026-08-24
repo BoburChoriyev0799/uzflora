@@ -60,23 +60,26 @@
     }
     /* Foydalanuvchi rasmlari galereyasi — bosh sahifadagi rasm
        kartochkalari (welcome-gallery) bilan bir xil vizual uslub
-       (yumaloq burchak, soya). IKKI USTUNLI grid (avval bitta ustunli
-       ro'yxat edi, kartochkalar juda katta bo'lib ko'rinardi) — 480px
-       dan tor ekranlarda (masalan 375px mobil) ikkita ustun matnni
-       (sana/joy/muallif) siqib, o'qib bo'lmaydigan qilib qo'yardi, shu
-       sabab shu chegaradan pastda bitta ustunga qaytariladi. */
+       (yumaloq burchak, soya). UCH USTUNLI grid ish stoli/planshetda
+       (avval ikki ustun edi, Bobur uch ustun qulayroq deb hisobladi).
+       480px dan tor ekranlarda (mobil) IKKI ustunga tushadi — bitta
+       ustunga EMAS: bitta ustunda rasm butun ekran enini egallab, juda
+       katta bo'lib ko'rinardi (avvalgi holat). Ikki ustunda ham kartochka
+       ~150-170px, uch ustunli ish stoli bilan deyarli bir xil o'lchamda
+       — shu sabab pastda alohida "mobil uchun kichikroq matn" qoidasi
+       shart emas, bitta o'lcham ikkalasiga ham mos keladi. */
     .plant-photos-title {
       color: #2f4a1c !important;
       margin-bottom: 12px;
     }
     .plant-photos-gallery {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
     }
     @media (max-width: 480px) {
       .plant-photos-gallery {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
       }
     }
     .plant-photo-card {
@@ -92,15 +95,33 @@
       display: block;
     }
     .plant-photo-meta {
-      padding: 6px 8px;
+      padding: 4px 6px;
     }
     .plant-photo-meta p {
       margin-bottom: 2px;
-      font-size: 11px;
+      font-size: 10px;
+      line-height: 1.3;
       color: #666;
+    }
+    /* Sana va muallif odatda qisqa — bitta qatorda, toshib ketsa "..."
+       bilan kesiladi. Joy/koordinata (address_string — manzil topilmasa
+       "41.311081; 69.279737" kabi UZUN raqamlar qatoriga tushib qoladi,
+       Plant#address_string'ga qarang) esa BITTA qatorga sig'maydi —
+       shuning uchun alohida, 2 QATORGACHA bo'linishga ruxsat beriladi
+       (-webkit-line-clamp — CSS-line-clamp'ning keng qo'llab-quvvatlanadigan
+       varianti), undan uzun bo'lsa "..." bilan kesiladi. Ikkalasi ham
+       kartochkadan HECH QACHON toshib chiqmaydi. */
+    .plant-photo-date,
+    .plant-photo-author {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+    .plant-photo-place {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
     .plant-photo-author a {
       color: #1e5620;
@@ -257,7 +278,7 @@
             - @sightings.each do |sighting|
               .plant-photo-card
                 = link_to plant_sighting_path(sighting) do
-                  = plant_sighting_photo_tag(sighting, :small, class: 'plant-photo-img')
+                  = plant_sighting_photo_tag(sighting, :thumb, class: 'plant-photo-img')
                 .plant-photo-meta
                   - if sighting.timestamp.present?
                     %p.plant-photo-date= date_format(sighting.timestamp)

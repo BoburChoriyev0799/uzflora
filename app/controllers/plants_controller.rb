@@ -2,11 +2,12 @@ class PlantsController < ApplicationController
   before_action :authenticate_user!, only: [:identify]
 
   PLANTS_PER_PAGE = 24
-  # Ikki ustunli grid uchun juft son (4 qator). 6 juda tez sahifalashni
-  # talab qiladi, 10 esa panelni haddan tashqari uzun qiladi (chap
-  # tarafdagi taksonomiya jadvali bilan balans buziladi) — 8 ikkalasi
-  # orasidagi muvozanat.
-  SIGHTINGS_PER_PAGE = 8
+  # Endi UCH ustunli grid (avval ikki edi) — 3 ga bo'linadigan son kerak,
+  # aks holda oxirgi qator chala qoladi. 9 = 3 qator: 12 (4 qator) ham
+  # to'g'ri bo'lardi, lekin oldingi 8/2=4 qatorlik balans (chap tarafdagi
+  # taksonomiya jadvali bilan) saqlanishi uchun 9 (3 qator) tanlandi —
+  # sahifa juda uzun bo'lib ketmaydi.
+  SIGHTINGS_PER_PAGE = 9
 
   # PlantSightingUploader bilan bir xil chegara (10 MB) — foydalanuvchi
   # kutgan xatti-harakat izchil bo'lsin.
