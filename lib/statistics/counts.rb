@@ -3,39 +3,21 @@ module Statistics
 
     class << self
 
-      # Total amount of species met by all users
-      def total_users_species_amount
-        Species.joins(:birds)
-            .where("(birds.published = 'true') AND (birds.expert_id IS NOT NULL)")
-            .select(:id).distinct.count
-      end
-
-
-      # List of all users and the number of their photos(publisheds)
-      def users_birds
-        sql = "SELECT u.*, COALESCE(ub.birds_count, 0) birds_count
+      # List of all users and the number of their published sightings.
+      def users_sightings
+        sql = "SELECT u.*, COALESCE(us.sightings_count, 0) sightings_count
                FROM users u
                LEFT JOIN (
                    SELECT
                       ps.user_id,
-                      count(ps.id) AS birds_count
+                      count(ps.id) AS sightings_count
                    FROM plant_sightings ps
                    WHERE ps.published = 'true'
                    GROUP BY ps.user_id
-                   ) ub on ub.user_id = u.id
+                   ) us on us.user_id = u.id
                ORDER BY u.last_name, u.first_name, u.created_at"
 
         User.find_by_sql(sql)
-      end
-
-      # Total amount of species met by some user
-      def user_species(user_id)
-        list = Species.joins(:birds)
-            .with_translations([I18n.locale])
-            .where(birds: {published: true, user_id: user_id})
-            .where("birds.expert_id IS NOT NULL")
-            .distinct
-        list.sort_by { |s| s.name } #TODO:: user sql order
       end
 
       # Total amount of distinct plant species met by some user (published sightings only)

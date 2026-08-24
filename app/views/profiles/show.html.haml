@@ -38,7 +38,7 @@
           .menu-title
             %span
               = I18n.t('.tab_photo', scope: profile_scope)
-            %span.profile-birds-count [#{@birds.total_count}]
+            %span.profile-birds-count [#{@sightings.total_count}]
         -if @user.current?(current_user)
           %a.profile-menu{"data-view" => "block4"}
             .menu-title
@@ -82,13 +82,13 @@
             %a{"data-view" => "block3"}
               %span
                 = I18n.t('.tab_photo', scope: profile_scope)
-              %span.profile-birds-count [#{@birds.total_count}]
+              %span.profile-birds-count [#{@sightings.total_count}]
           #block3.row.profile-block-container.profile-birds-block.mtop20
             .row
               .row.row-sm.profile-birds-container
-                =render partial: 'plant_sighting', collection: @birds, as: :plant_sighting
+                =render partial: 'plant_sighting', collection: @sightings, as: :plant_sighting
               .birds-pagination.pagination-block
-                =paginate @birds, :remote => true, :param_name => 'page_birds'
+                =paginate @sightings, :remote => true, :param_name => 'page_sightings'
 
         -if @user.current?(current_user)
           .block-holder

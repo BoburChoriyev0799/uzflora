@@ -24,7 +24,7 @@
        bo'lgani uchun qora matn deyarli o'qilmas edi (WCAG kontrast juda
        past), shuning uchun oq rang saqlab qolindi (talab ichida shu
        variant ham taklif qilingan edi). */
-    .birds-nav ul.nav > li > a,
+    .site-nav ul.nav > li > a,
     .navbar-right ul.nav > li > a {
       text-transform: uppercase;
       font-weight: 700;
@@ -71,12 +71,12 @@
       background-color: #046A38 !important;
       color: #fff !important;
     }
-    .birds-nav ul.nav > li > a.nav-add-photo-btn:hover,
-    .birds-nav ul.nav > li > a.nav-add-photo-btn:focus {
+    .site-nav ul.nav > li > a.nav-add-photo-btn:hover,
+    .site-nav ul.nav > li > a.nav-add-photo-btn:focus {
       background-color: #035a2f !important;
       color: #fff !important;
     }
-    .birds-nav ul.nav > li.active > a.nav-add-photo-btn {
+    .site-nav ul.nav > li.active > a.nav-add-photo-btn {
       background-color: #035a2f !important;
       color: #fff !important;
       box-shadow: none !important;
@@ -441,7 +441,7 @@
       }
     }
 
-%nav.navbar.birds-nav.navbar-fixed-top
+%nav.navbar.site-nav.navbar-fixed-top
   .container
     - navbar_scope = 'shared.navbar'
     .navbar-header
@@ -466,7 +466,7 @@
           %li
             =nav_link_to "#{I18n.t('bg', scope: navbar_scope)}", big_year_path
           %li
-            =nav_link_to "#{I18n.t('birders', scope: navbar_scope)}", users_path
+            =nav_link_to "#{I18n.t('users_link', scope: navbar_scope)}", users_path
           %li
             - add_photo_label = safe_join([content_tag(:span, nav_add_photo_icon, class: 'nav-add-photo-icon'), I18n.t('shared.nav_add_photo.button')])
             =nav_link_to add_photo_label, new_plant_sighting_path, class: 'nav-add-photo-btn'

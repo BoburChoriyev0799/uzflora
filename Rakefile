@@ -3,4 +3,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Birds::Application.load_tasks
+Uzflora::Application.load_tasks

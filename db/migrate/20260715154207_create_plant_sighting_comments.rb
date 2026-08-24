@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 #
-# O'simlik kuzatuviga sharh — Bird'ning eski Comment tizimiga o'xshash
-# naqsh, lekin alohida jadval (mavjud Comment/Bird tizimiga tegilmaydi).
+# O'simlik kuzatuviga sharh — alohida jadval.
 #
 class CreatePlantSightingComments < ActiveRecord::Migration[7.1]
   def change

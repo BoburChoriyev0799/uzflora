@@ -1,8 +1,7 @@
 module PagesHelper
 
   # Ijtimoiy tarmoq (Telegram/Facebook/Twitter) preview'да ko'rinadigan
-  # rasm — o'simlik/sayt logotipi bilan, birds.uz'дан meros qolgan qush
-  # rasmi (fb/birds-fb-share.png) o'rniga.
+  # rasm — o'simlik/sayt logotipi bilan.
   OG_IMAGE = 'fb/uzflora-share.png'
 
   def member_column_count(total_count)

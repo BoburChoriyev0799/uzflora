@@ -33,29 +33,6 @@ $(function() {
         $(this).closest('form').submit();
     });
 
-    $('.profile-birds-container, .map-img-container').on('click', '.delete_user_bird', function(event) {
-        event.preventDefault();
-        var $this = $(event.target);
-
-        var result = confirm("Rostdan ham suratni o'chirmoqchimisiz?");
-        if (result) {
-            var bird_id = $this.data('id');
-            $.ajax({
-                url: '/birds/' + bird_id,
-                type: 'DELETE',
-                success: function(result) {
-                    $this.closest('.profile-bird-container').remove();
-                    if (result['published']) {
-                        $('.profile-birds-count').html('[' + result['count'] + ']');
-                    }
-                    else {
-                        $('.profile-drafts-count').html('[' + result['count'] + ']');
-                    }
-                }
-            });
-        }
-    });
-
     $('.profile-birds-container').on('click', '.delete_user_plant_sighting', function(event) {
         event.preventDefault();
         var $this = $(event.target);

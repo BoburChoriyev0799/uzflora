@@ -1,8 +1,0 @@
-ru:
-  map:
-    index:
-      title: Все встречи с видом
-      species_info: Общая информация о виде
-    bird:
-      delete_photo: Удалить фотографию
-      edit_photo: Редактировать фотографию

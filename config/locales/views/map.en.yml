@@ -1,8 +1,0 @@
-en:
-  map:
-    index:
-      title: All records of the species
-      species_info: General information on the species
-    bird:
-      delete_photo: Delete photo
-      edit_photo: Edit photo

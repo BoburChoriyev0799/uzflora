@@ -369,7 +369,7 @@ html {
 
 
 /* NAVIGATION ADDONS */
-.birds-nav {
+.site-nav {
     background-color:#800020;
 
 }
@@ -379,12 +379,12 @@ html {
 .navbar {
     border-radius:0 !important;
 }
-.birds-nav, .footer-inner {
+.site-nav, .footer-inner {
     -webkit-box-shadow: 0px 0px 8px -2px rgba(0,0,0,0.75);
     -moz-box-shadow: 0px 0px 8px -2px rgba(0,0,0,0.75);
     box-shadow: 0px 0px 8px -2px rgba(0,0,0,0.75);
 }
-.birds-nav ul.nav > li > a {
+.site-nav ul.nav > li > a {
     font-size:14px;
     color: #fff;
     height: 60px;
@@ -396,7 +396,7 @@ html {
     height: 60px;
     padding: 18px 12px;
 }
-.birds-nav ul.nav > li > a:hover, .birds-nav ul.nav > li.active > a {
+.site-nav ul.nav > li > a:hover, .site-nav ul.nav > li.active > a {
     background-color:#66001a;
 }
 
@@ -413,7 +413,7 @@ html {
     // muhim: 60px'da 6-7 band (chap menyu + profil + Chiqish + til
     // tanlash) 340px'ga sig'may, ichki skroll talab qilardi. Balandlikni
     // kichraytirib (avtomatikka), ko'proq band skrollsiz sig'adi.
-    .birds-nav .navbar-nav > li:not(.navbar-locale-switch) > a {
+    .site-nav .navbar-nav > li:not(.navbar-locale-switch) > a {
         height: auto;
         line-height: 20px;
         padding: 8px 15px;
@@ -421,16 +421,16 @@ html {
         margin: 2px 15px;
         background-color: rgba(255, 255, 255, .08);
     }
-    .birds-nav .navbar-nav > li:not(.navbar-locale-switch) > a:hover,
-    .birds-nav .navbar-nav > li.active > a {
+    .site-nav .navbar-nav > li:not(.navbar-locale-switch) > a:hover,
+    .site-nav .navbar-nav > li.active > a {
         background-color: rgba(255, 255, 255, .2);
     }
 }
-.birds-nav .navbar-toggle {
+.site-nav .navbar-toggle {
     border-color: #9c5cc2;
 }
 
-.birds-nav .navbar-toggle .icon-bar {
+.site-nav .navbar-toggle .icon-bar {
     background-color: #fff;
 }
 
@@ -441,32 +441,32 @@ html {
 // chegarasi 1250px'gacha ko'tarildi (Bootstrap 3'ning o'zi 768px'da
 // qo'llaydigan qoidalarni shu yerda yuqori chegarada qaytaramiz).
 @media (max-width: 1250px) {
-    .birds-nav .navbar-header {
+    .site-nav .navbar-header {
         float: none;
     }
-    .birds-nav .navbar-toggle {
+    .site-nav .navbar-toggle {
         display: block;
     }
-    .birds-nav .navbar-collapse.collapse {
+    .site-nav .navbar-collapse.collapse {
         display: none !important;
     }
-    .birds-nav .navbar-collapse.in {
+    .site-nav .navbar-collapse.in {
         display: block !important;
         overflow-y: auto;
     }
-    .birds-nav .navbar-nav {
+    .site-nav .navbar-nav {
         float: none !important;
         margin: 0;
     }
-    .birds-nav .navbar-nav > li {
+    .site-nav .navbar-nav > li {
         float: none;
     }
 }
 @media (min-width: 1251px) {
-    .birds-nav .navbar-toggle {
+    .site-nav .navbar-toggle {
         display: none;
     }
-    .birds-nav .navbar-collapse.collapse {
+    .site-nav .navbar-collapse.collapse {
         display: block !important;
         height: auto !important;
         padding-bottom: 0;
@@ -480,7 +480,7 @@ html {
     // avtomatikka) kichraytirish XAVFSIZ — umumiy navbar qatori baribir
     // 60px bo'lib qoladi, .content'ning padding-top'iga tegmaydi, sarlavha
     // yashirinmaydi (avval tuzatilgan muammo qaytmaydi).
-    .birds-nav ul.nav > li > a,
+    .site-nav ul.nav > li > a,
     .navbar-right ul.nav > li:not(.navbar-locale-switch) > a {
         height: auto;
         line-height: 20px;
@@ -490,11 +490,11 @@ html {
         background-color: rgba(255, 255, 255, .08);
         transition: background-color .15s ease, box-shadow .15s ease;
     }
-    .birds-nav ul.nav > li > a:hover,
+    .site-nav ul.nav > li > a:hover,
     .navbar-right ul.nav > li:not(.navbar-locale-switch) > a:hover {
         background-color: rgba(255, 255, 255, .2) !important;
     }
-    .birds-nav ul.nav > li.active > a {
+    .site-nav ul.nav > li.active > a {
         background-color: rgba(255, 255, 255, .22) !important;
         box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .45);
     }
@@ -517,7 +517,7 @@ html {
 // kengroq (deyarli butun ekran, 1600px'gacha) qilamiz — bu shrift qanday
 // bo'lishidan qat'iy nazar bir qatorga sig'ishni kafolatlaydi.
 @media (min-width: 1251px) {
-    .birds-nav .container {
+    .site-nav .container {
         width: 100%;
         max-width: 1600px;
         padding-left: 30px;
@@ -527,7 +527,7 @@ html {
     // Logotip, menyu bandlari, ism va til-dropdown TEPAGA yopishib
     // qolmasin, balki navbar balandligining ANIQ o'rtasida tursin.
     // IKKI QAVATLI flex kerak edi:
-    //  1) .birds-nav (<nav>'ning o'zi) — .container'ni navbar balandligi
+    //  1) .site-nav (<nav>'ning o'zi) — .container'ni navbar balandligi
     //     (84px) bo'ylab vertikal markazga oladi. Buni birinchi urinishda
     //     unutgan edim: .container'ning O'ZI atigi ~50px (o'z kontenti
     //     balandligicha) edi va navbar'ning TEPASIDA turardi — shuning
@@ -540,19 +540,19 @@ html {
     // floatlarni buzib, navbar'ni qayta ikki qatorga bo'lib yuborgan
     // edi — bu safar ikkala flex ham .navbar-right'dan YUQORI
     // qatlamlarda, shu sababli o'sha xato takrorlanmaydi.
-    .birds-nav {
+    .site-nav {
         display: flex;
         align-items: center;
     }
-    .birds-nav .container {
+    .site-nav .container {
         display: flex;
         align-items: center;
         justify-content: space-between;
     }
-    .birds-nav .navbar-header {
+    .site-nav .navbar-header {
         float: none;
     }
-    .birds-nav #navbar.navbar-collapse {
+    .site-nav #navbar.navbar-collapse {
         float: none;
         flex: 1 1 auto;
     }
@@ -566,7 +566,7 @@ html {
     // "require style.css" bootstrap'dan OLDIN keladi, shuning uchun
     // Bootstrap'ning `.navbar{min-height:60px}` qoidasi (bir xil
     // specificity, lekin keyinroq joylashgan) aks holda ustun chiqardi.
-    .birds-nav {
+    .site-nav {
         min-height: 84px !important;
     }
     // Navbar FIXED (navbar-fixed-top) bo'lgani uchun balandligi oshsa,
@@ -836,7 +836,7 @@ a.navbar-brand {
     .progrees-bar-container *{
         display:none;
     }
-    .birds-nav .navbar-right {
+    .site-nav .navbar-right {
         float:none !important;
     }
     .add-photo-container .col-md-3 {
@@ -1170,7 +1170,7 @@ a.navbar-brand {
        ko'rinishiga sabab bo'lardi. Endi flexbox bilan ikkalasi ham
        AYNI bir balandlikda vertikal markazlashtiriladi — piksel
        taxmin qilish shart emas. */
-    .birds-nav .navbar-nav,
+    .site-nav .navbar-nav,
     .navbar-right .navbar-nav {
         display: flex;
         align-items: center;
@@ -1630,10 +1630,10 @@ div.search-btn a.search:hover{
   padding-right: 20px;
   padding-top: 5px
 }
-.content-container .bird-photo-comments {
+.content-container .sighting-comments {
     padding-top:10px;
 }
-.content-container .bird-photo-comments .comments-container {
+.content-container .sighting-comments .comments-container {
     padding-top:10px;
     padding-left:20px;
 }

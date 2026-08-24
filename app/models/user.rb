@@ -17,9 +17,7 @@ class User < ActiveRecord::Base
   mount_uploader :avatar, AvatarUploader
 
   has_and_belongs_to_many :roles
-  has_many :birds
   has_many :plant_sightings, dependent: :destroy
-  has_many :comments, dependent: :destroy
   has_many :plant_sighting_comments, dependent: :destroy
 
   # Kuzatish (follow) — bir tomonlama. "active" — MEN kimnidir kuzataman
@@ -63,10 +61,9 @@ class User < ActiveRecord::Base
 
   # Ekspert huquqi shu ustun orqali beriladi (Role/has_role? tizimi emas —
   # u hech qachon seed qilinmagan va biriktirish uchun UI yo'q edi).
-  # PlantSighting moderatsiyasi va Bird'ning eski "Confirm" tugmasi
-  # (birds_controller#approve) ikkalasi ham shu metoddan foydalanadi.
-  # Admin har doim ekspert huquqiga ham ega — buning uchun is_expert
-  # ustunini alohida yoqish shart emas.
+  # PlantSighting moderatsiyasi shu metoddan foydalanadi. Admin har doim
+  # ekspert huquqiga ham ega — buning uchun is_expert ustunini alohida
+  # yoqish shart emas.
   def expert?
     is_expert? || admin?
   end

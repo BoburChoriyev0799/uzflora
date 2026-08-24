@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 #
 # Foydalanuvchi yuklagan o'simlik kuzatuvi — rasm, sana, joylashuv va
-# (ixtiyoriy) aniqlangan tur. Bird modeliga o'xshash naqsh: Plant — katalog,
-# PlantSighting — kuzatuv yozuvi.
+# (ixtiyoriy) aniqlangan tur. Plant — katalog, PlantSighting — kuzatuv
+# yozuvi.
 #
 class PlantSighting < ApplicationRecord
   belongs_to :user

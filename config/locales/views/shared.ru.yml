@@ -8,8 +8,7 @@ ru:
       title: Меню
       plants: Растения
       bg: Большой год
-      birders: Пользователи
-      approve: Одобрить
+      users_link: Пользователи
       moderate_plants: "На подтверждение"
       exit: Выход
       sign-up: Зарегистрироваться

@@ -20,7 +20,7 @@ class ProfilesController < ApplicationController
     unless viewing_own_profile
       sightings = current_user.try(:expert?) ? sightings.where(status: %w[approved rejected]) : sightings.approved
     end
-    @birds = sightings.order(created_at: :desc).page(params[:page_birds]).per(18)
+    @sightings = sightings.order(created_at: :desc).page(params[:page_sightings]).per(18)
     @drafts = PlantSighting.includes(:plant).unpublished.by_user(@user.id).order(created_at: :desc)
     @comments = PlantSightingComment.where(user_id: @user.id).order(created_at: :desc).page(params[:page_comments]).per(15)
 

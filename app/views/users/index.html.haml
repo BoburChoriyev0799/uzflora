@@ -12,7 +12,7 @@
             #{@big_year_users_count}
       .row
         .users-list-title.mbtm15
-          = I18n.t('birders', scope: users_scope)
+          = I18n.t('users_list_title', scope: users_scope)
 
         - index = 1
         - @users.each do |user|
@@ -24,7 +24,7 @@
                 -index += 1
             .col-md-3.user-right-blck
               =link_to user.full_name, profile_path(user.id)
-              %p= "#{I18n.t('photo_count', scope: users_scope)} #{user['birds_count'] || 0}"
+              %p= "#{I18n.t('photo_count', scope: users_scope)} #{user['sightings_count'] || 0}"
               %p= "#{I18n.t('registered_at', scope: users_scope)} #{date_format(user.created_at)}"
               -if current_user.try(:admin?)
                 - if user.is_expert?

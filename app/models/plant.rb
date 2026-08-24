@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 #
-# Plant (O'simlik) modeli.
-# Bu birds.uz'dagi Bird modelining o'simliklarga moslashtirilgan variantidir.
+# Plant (O'simlik) modeli — o'simliklar katalogi.
 #
 class Plant < ApplicationRecord
   # --- Bog'lanishlar ---

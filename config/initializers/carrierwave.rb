@@ -11,8 +11,8 @@ module CarrierWave
 end
 
 # Render'ning bepul rejasida disk efemer (har deploy'da tozalanadi) —
-# barcha uploaderlar (avatar, bird/plant rasmi, species/category rasmi)
-# S3-mos obyekt xotirasida saqlanadi. Sozlama provayderdan MUSTAQIL:
+# barcha uploaderlar (avatar, o'simlik kuzatuvi rasmi) S3-mos obyekt
+# xotirasida saqlanadi. Sozlama provayderdan MUSTAQIL:
 # hozir Cloudflare R2, lekin credentials.yml.enc'dagi `object_storage`
 # qiymatlarini almashtirish bilan (masalan Backblaze B2'ga) kod
 # o'zgarishisiz o'tish mumkin — chunki ikkalasi ham S3-mos.

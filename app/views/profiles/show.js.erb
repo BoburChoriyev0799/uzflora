@@ -1,5 +1,5 @@
-$('.profile-birds-block .profile-birds-container').empty().append("<%= escape_javascript( render partial: 'plant_sighting', collection: @birds, as: :plant_sighting ) %>");
-$('.profile-birds-block .birds-pagination').html('<%= escape_javascript(paginate(@birds, :remote => true, :param_name => 'page_birds').to_s) %>');
+$('.profile-birds-block .profile-birds-container').empty().append("<%= escape_javascript( render partial: 'plant_sighting', collection: @sightings, as: :plant_sighting ) %>");
+$('.profile-birds-block .birds-pagination').html('<%= escape_javascript(paginate(@sightings, :remote => true, :param_name => 'page_sightings').to_s) %>');
 
 $('.comments-container').empty().append("<%= escape_javascript( render partial: 'profiles/comments' ) %>");
 $('.comments-pagination').html('<%= escape_javascript(paginate(@comments, :remote => true, :param_name => 'page_comments').to_s) %>');

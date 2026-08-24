@@ -16,7 +16,7 @@ class UsersController < Devise::RegistrationsController
 
   #TODO!!!:: remove to separate controller!!
   def index
-    @users = Statistics::Counts.users_birds
+    @users = Statistics::Counts.users_sightings
     @big_year_users_count = Statistics::BigYear.users_count
   end
 
@@ -29,9 +29,10 @@ class UsersController < Devise::RegistrationsController
     redirect_to users_path
   end
 
-  # reCAPTCHA vaqtincha o'chirilgan — kalit (BIRDS_RECAPTCHA_KEY) hech qachon
-  # sozlanmagan edi, shuning uchun ro'yxatdan o'tish butunlay ishlamas edi.
-  # gem/initializer saqlanib qoldi, kerak bo'lsa qayta yoqish oson bo'lsin.
+  # reCAPTCHA vaqtincha o'chirilgan — kalit (UZFLORA_RECAPTCHA_KEY /
+  # BIRDS_RECAPTCHA_KEY) hech qachon sozlanmagan edi, shuning uchun
+  # ro'yxatdan o'tish butunlay ishlamas edi. gem/initializer saqlanib
+  # qoldi, kerak bo'lsa qayta yoqish oson bo'lsin.
   def create
     super do |user|
       user.subscribe!(Time.zone.now.year) if user.big_year

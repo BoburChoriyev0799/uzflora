@@ -1,12 +1,18 @@
 defaults: &defaults
-  host: birds.uz
+  # Bu qiymat kodda hech qayerda o'qilmaydi (Rails.configuration.host
+  # ishlatilmaydi — mailer host'i config/environments/*.rb'da alohida
+  # to'g'ri o'rnatilgan) — shunchaki eskirgan, zararsiz qoldiq, yangilandi.
+  host: uzflora.uz
+  # Yangi UZFLORA_ nomi BIRINCHI tekshiriladi, topilmasa eski BIRDS_ nomiga
+  # qaytadi — Render panelida yangi o'zgaruvchi qo'shilmaguncha eskisi
+  # ishlayveradi, sayt uzilmaydi (qiymatlar o'zi o'zgarmaydi).
   google_analytics:
-    account_id:  <%= ENV['BIRDS_GOOGLE_ANALYTICS_ID'] %>
+    account_id:  <%= ENV['UZFLORA_GOOGLE_ANALYTICS_ID'] || ENV['BIRDS_GOOGLE_ANALYTICS_ID'] %>
   google_maps:
-    api_key: <%= ENV['BIRDS_GOOGLE_MAPS_API_KEY'] %>
+    api_key: <%= ENV['UZFLORA_GOOGLE_MAPS_API_KEY'] || ENV['BIRDS_GOOGLE_MAPS_API_KEY'] %>
   recaptcha:
-    public_key: <%= ENV['BIRDS_RECAPTCHA_KEY'] %>
-    private_key: <%= ENV['BIRDS_RECAPTCHA_SECRET'] %>
+    public_key: <%= ENV['UZFLORA_RECAPTCHA_KEY'] || ENV['BIRDS_RECAPTCHA_KEY'] %>
+    private_key: <%= ENV['UZFLORA_RECAPTCHA_SECRET'] || ENV['BIRDS_RECAPTCHA_SECRET'] %>
   hybrid:
     order:
       id: 95

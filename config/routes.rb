@@ -1,4 +1,4 @@
-Birds::Application.routes.draw do
+Uzflora::Application.routes.draw do
   ActiveAdmin.routes(self)
 
   devise_for :users,
@@ -46,7 +46,6 @@ Birds::Application.routes.draw do
   get 'switch_locale' => 'application#switch_locale'
 
   resource :pages, path: '', only: [] do
-    get :approve
     get 'qollab-quvvatlash', to: 'pages#donation', as: :donation
   end
 
@@ -54,8 +53,6 @@ Birds::Application.routes.draw do
     get :index
     post :change_subscription
   end
-
-  resources :species, only: [:show]
 
   # Rasm orqali o'simlik aniqlash (POST, AJAX) — faqat shu manzil GET
   # bilan TO'G'RIDAN-TO'G'RI ochilsa (havola ulashilgan, sahifa yangilangan
@@ -81,18 +78,6 @@ Birds::Application.routes.draw do
     end
   end
 
-  resources :map, only: [:index]
-
-  resources :birds, except: [:index] do
-    member do
-      get 'edit_date' => 'birds#edit_date'
-      get 'edit_map' => 'birds#edit_map'
-      get 'edit_species' => 'birds#edit_species'
-      get 'publish' => 'birds#publish'
-      post 'approve' => 'birds#approve'
-    end
-  end
-
   resources :plant_sightings, except: [:index] do
     collection do
       get 'pending' => 'plant_sightings#pending'
@@ -112,15 +97,7 @@ Birds::Application.routes.draw do
   post 'plant_sightings_search' => 'plant_sightings#search_plant'
   get 'plant_sightings_autocomplete' => 'plant_sightings#autocomplete', as: :plant_sightings_autocomplete
 
-  resources :comments, only: [:create, :destroy]
-
   resources :plant_sighting_comments, only: [:create, :destroy]
-
-  resource :search, path: '', only: [] do
-    get 'search' => 'search#index'
-    post 'search' => 'search#search'
-    post 'main_species' => 'search#search_main_species'
-  end
 
   get 'become/:id', to: 'admin#become'
 

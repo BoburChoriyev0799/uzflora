@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 #
 # Foydalanuvchilar yuklagan o'simlik kuzatuvlari (rasm + joylashuv + sana).
-# Bird jadvaliga o'xshash naqsh: Plant — katalog, PlantSighting — kuzatuv.
+# Plant — katalog, PlantSighting — kuzatuv.
 #
 class CreatePlantSightings < ActiveRecord::Migration[7.1]
   def change
     create_table :plant_sightings do |t|
       t.references :user, null: false, foreign_key: true
       t.references :plant, null: true, foreign_key: true
-      # Kuzatuvni tasdiqlovchi mutaxassis — Bird'dagi expert_id bilan bir xil
-      # naqsh. Hozircha ishlatilmaydi (moderatsiya interfeysi keyingi
-      # bosqichda quriladi), lekin "Katta yil" ball tizimi buni talab qiladi.
+      # Kuzatuvni tasdiqlovchi mutaxassis. Hozircha ishlatilmaydi (moderatsiya
+      # interfeysi keyingi bosqichda quriladi), lekin "Katta yil" ball tizimi
+      # buni talab qiladi.
       t.references :expert, null: true, foreign_key: { to_table: :users }
 
       t.string :photo

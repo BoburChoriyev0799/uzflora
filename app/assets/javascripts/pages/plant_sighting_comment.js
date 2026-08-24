@@ -34,7 +34,7 @@ $(function() {
                                 "<a href='#' class='delete-plant-sighting-comment-lnk' data-id='" + response.id + "'></a>" +
                             "</div>" +
                         "</div>";
-                    $this.closest('.bird-photo-comments').find('.comments-container').append($(comment_html));
+                    $this.closest('.sighting-comments').find('.comments-container').append($(comment_html));
                 }
             }
         );

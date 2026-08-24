@@ -244,7 +244,12 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
-  config.omniauth :facebook, ENV['FACEBOOK_BIRDS_KEY'], ENV['FACEBOOK_BIRDS_SECRET']
+  # Yangi FACEBOOK_UZFLORA_ nomi birinchi, topilmasa eski FACEBOOK_BIRDS_
+  # nomiga qaytadi — Render'da yangi o'zgaruvchi qo'shilmaguncha kirish
+  # (Facebook orqali) uzilmaydi.
+  config.omniauth :facebook,
+                   ENV['FACEBOOK_UZFLORA_KEY'] || ENV['FACEBOOK_BIRDS_KEY'],
+                   ENV['FACEBOOK_UZFLORA_SECRET'] || ENV['FACEBOOK_BIRDS_SECRET']
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

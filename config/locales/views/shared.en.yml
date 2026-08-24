@@ -10,8 +10,7 @@ en:
       title: Menu
       plants: Plants
       bg: Big Year
-      birders: Users
-      approve: Approve
+      users_link: Users
       moderate_plants: "For approval"
       exit: Exit
       sign-up: Register
