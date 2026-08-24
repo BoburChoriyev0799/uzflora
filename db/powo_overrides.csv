@@ -83,3 +83,56 @@ species_sci,accepted_name,accepted_authors,accepted_family,accepted_genus,accept
 "Hulthemosa guzarica Juz.",,,,,,,"× Hulthemosa guzarica Juz.","TAXALLUS: bazada duragay belgisi ""×"" tushib qolgan — WCVP'da bu duragay turkum (× Hulthemosa). Nom WCVP'da TOPILADI, lekin WCVP holati Unplaced — qabul qilingan nomga zanjir yo'q, shuning uchun accepted_* baribir BO'SH qoladi (bu KUTILGAN, xato emas), faqat wcvp_matched_name/wcvp_status to'ldiriladi.",2026-08-24
 "Komarovia angiosperma Korovin",,,,,,,"Komarovia anisoptera Korovin","TAXALLUS: Komarovia WCVP'da BIR TURLI turkum — faqat K. anisoptera bor. Bazadagi ""angiosperma"" o'sha nomning buzilgan shakli. Ruscha nomi ""комаровия неравносемянная"" (teng bo'lmagan urug'li) qabul qilingan nom Komaroviopsis anisosperma ekanini tasdiqlaydi.",2026-08-24
 "Phlomoides eriolarynx (Pazij & Vved.) Adylov, Kamelin & Makhm.",,,,,,,"Eremostachys eriolarynx Pazij & Vved.","TAXALLUS: bu kombinatsiyaning bazionimi. WCVP'da Eremostachys — Phlomoides'ning sinonimi, lekin bu tur hali qayta joylashtirilmagan (Unplaced), shuning uchun qabul qilingan nom bo'sh qoladi. Taxallus faqat kelib chiqishni hujjatlashtirish uchun — kelajakda WCVP yangilanganda avtomatik hal bo'ladi.",2026-08-24
+Atriplex micrantha C.A. Mey.,,,,,,,Atriplex micrantha Ledeb.,"TAXALLUS: omonim, qabul qilingan mualliflik varianti tanlandi: C.A. Mey. o'rniga Ledeb.",2026-08-24
+Beckmannia eruciformis (L.) Host.,,,,,,,Beckmannia eruciformis (L.) Host,"TAXALLUS: omonim, qabul qilingan mualliflik varianti tanlandi (nuqta farqi bilan yozilgan boshqa yozuv WCVP'da Illegitimate).",2026-08-24
+Bromus japonicus Thung.,,,,,,,Bromus japonicus Houtt.,"TAXALLUS: omonim, qabul qilingan mualliflik varianti tanlandi: Thung. (Illegitimate) o'rniga Houtt. (Accepted).",2026-08-24
+Draba stenocarpa Hook. f. & Thoms.,,,,,,,Draba stenocarpa Hook.f. & Thomson,"TAXALLUS: omonim, qabul qilingan mualliflik varianti tanlandi (muallif to'liqroq yozilgan shakli).",2026-08-24
+Hedysarum montanum B. Fedtsch.,,,,,,,Hedysarum montanum (B.Fedtsch.) B.Fedtsch.,"TAXALLUS: omonim, qabul qilingan mualliflik varianti tanlandi (bazionim qavs ichida qo'shilgan).",2026-08-24
+Lepidium coronopifolium Spreng.,,,,,,,Lepidium coronopifolium Fisch.,"TAXALLUS: omonim, qabul qilingan mualliflik varianti tanlandi: Spreng. (Invalid) o'rniga Fisch. (Accepted).",2026-08-24
+Lycopus exaltatus L.,,,,,,,Lycopus exaltatus L.f.,"TAXALLUS: omonim, qabul qilingan mualliflik varianti tanlandi: L. (Misapplied) o'rniga L.f. (Accepted).",2026-08-24
+Myosotis sparsiflora Pohl,,,,,,,Myosotis sparsiflora J.C.Mikan ex Pohl,"TAXALLUS: omonim, qabul qilingan mualliflik varianti tanlandi (muallif to'liqroq yozilgan shakli).",2026-08-24
+Onobrychis arenaria (Kit. ex Willd.) DC.,,,,,,,Onobrychis arenaria (Kit.) DC.,"TAXALLUS: omonim, qabul qilingan mualliflik varianti tanlandi (bazionim muallifi qisqaroq yozilgan).",2026-08-24
+Ranunculus laetus Wall. ex Hook. f. & J.W. Thomson,,,,,,,Ranunculus laetus Wall. ex D.Don,"TAXALLUS: omonim, qabul qilingan mualliflik varianti tanlandi: Hook. f. & J.W. Thomson (Illegitimate) o'rniga D.Don (Illegitimate, lekin accepted_plant_name_id zanjiri orqali qabul qilingan turga olib boradi).",2026-08-24
+Veronica biloba L.,,,,,,,Veronica biloba Schreb. ex L.,"TAXALLUS: omonim, qabul qilingan mualliflik varianti tanlandi (muallif to'liqroq yozilgan shakli).",2026-08-24
+Polygonum arenarium Waldst. & Kitag.,,,,,,,Polygonum arenarium Waldst. & Kit.,"TAXALLUS: omonim, qabul qilingan mualliflik varianti tanlandi (muallif qisqartmasi imlo varianti).",2026-08-24
+Potamogeton trichoides Cham. & Schliecht.,,,,,,,Potamogeton trichoides Cham. & Schltdl.,"TAXALLUS: omonim, qabul qilingan mualliflik varianti tanlandi (muallif qisqartmasi imlo varianti: Schliecht. → Schltdl.).",2026-08-24
+Vicia angustifolia Reichard,,,,,,,Vicia angustifolia L.,"TAXALLUS: omonim, qabul qilingan mualliflik varianti tanlandi: Reichard (Illegitimate) o'rniga L. (Synonym, qabul qilingan turga zanjir bilan).",2026-08-24
+Aeluropus litoralis (Gouan.) Parl.,,,,,,,Aeluropus littoralis (Gouan) Parl.,TAXALLUS: bazadagi imlo xatosi: litoralis → littoralis.,2026-08-24
+Ailantus altissima (Mill.) Swingle,,,,,,,Ailanthus altissima (Mill.) Swingle,TAXALLUS: bazadagi imlo xatosi: turkum nomi Ailantus → Ailanthus.,2026-08-24
+Alisma plantago-aguatica L.,,,,,,,Alisma plantago-aquatica L.,TAXALLUS: bazadagi imlo xatosi: aguatica → aquatica.,2026-08-24
+Allium hymenorrhizum Ledeb.,,,,,,,Allium hymenorhizum Ledeb.,TAXALLUS: bazadagi imlo xatosi: hymenorrhizum → hymenorhizum.,2026-08-24
+Ammodendron karelini Fisch. & C.A. Mey.,,,,,,,Ammodendron karelinii Fisch. & C.A.Mey. ex Ledeb.,TAXALLUS: bazadagi imlo xatosi: karelini → karelinii (muallif ham WCVP'da to'liqroq).,2026-08-24
+Anaphalis roseo-alba Krasch.,,,,,,,Anaphalis roseoalba Krasch.,"TAXALLUS: bazadagi imlo xatosi: chiziqcha (roseo-alba) WCVP'da yo'q, birlashtirilgan yoziladi — roseoalba.",2026-08-24
+Brachyactis ciliatum (Ledeb.) Ledeb.,,,,,,,Symphyotrichum ciliatum (Ledeb.) G.L.Nesom,"TAXALLUS: TURKUM O'ZGARGAN: Brachyactis WCVP'da Symphyotrichum'ning sinonimi — omonim emas, turkum nomi eskirgan.",2026-08-24
+Brassica juncea (L.) Czern.,,,,,,,Brassica × juncea (L.) Czern.,"TAXALLUS: WCVP'da bu duragay kelib chiqishi (B. rapa × B. nigra) tufayli NOTOTUR sifatida qayd etilgan — ""Brassica × juncea"" (genus va epitet orasida ko'rinmas ""×"" belgisi bilan). Bazada bu belgi yo'q, shuning uchun aniq nom bosqichida topilmagan/omonim chiqqan edi. wcvp_name'ga ""×"" belgisi qo'shilgach avtomatik topildi.",2026-08-24
+Calamagrostis epigeios (L.) Roth,,,,,,,Calamagrostis epigejos (L.) Roth,TAXALLUS: bazadagi imlo xatosi: epigeios → epigejos.,2026-08-24
+Cnicus benidictus L.,,,,,,,Cnicus benedictus L.,TAXALLUS: bazadagi imlo xatosi: benidictus → benedictus.,2026-08-24
+Cousinia pseudoaffinis Kult.,,,,,,,Cousinia pseudaffinis Kult.,TAXALLUS: bazadagi imlo xatosi: pseudoaffinis → pseudaffinis.,2026-08-24
+Danthonia forsskalii (Vahl) R. Br,,,,,,,Centropodia forskaolii (Vahl) Cope,"TAXALLUS: TURKUM O'ZGARGAN: Danthonia forsskalii WCVP'da Centropodia forskaolii sifatida qabul qilingan — omonim emas, turkum va epitet imlosi eskirgan.",2026-08-24
+Epilobium tetragonium L.,,,,,,,Epilobium tetragonum L.,TAXALLUS: bazadagi imlo xatosi: tetragonium → tetragonum.,2026-08-24
+Erodium oxyrrhynchum M. Bieb.,,,,,,,Erodium oxyrhinchum M.Bieb.,TAXALLUS: bazadagi imlo xatosi: oxyrrhynchum → oxyrhinchum.,2026-08-24
+Erysimum hieracifolium L.,,,,,,,Erysimum hieraciifolium L.,TAXALLUS: bazadagi imlo xatosi: hieracifolium → hieraciifolium.,2026-08-24
+Euphorbia szowitsii Fisch. & C.A. Mey.,,,,,,,Euphorbia szovitsii Fisch. & C.A.Mey.,TAXALLUS: bazadagi imlo xatosi: szowitsii → szovitsii.,2026-08-24
+Galium verticellatum Danthoine ex Lam.,,,,,,,Galium verticillatum Danthoine ex Lam.,TAXALLUS: bazadagi imlo xatosi: verticellatum → verticillatum.,2026-08-24
+Geum allepicum Jacq.,,,,,,,Geum aleppicum Jacq.,TAXALLUS: bazadagi imlo xatosi: allepicum → aleppicum.,2026-08-24
+Gnaphalium luteo-album L.,,,,,,,Gnaphalium luteoalbum L.,"TAXALLUS: bazadagi imlo xatosi: chiziqcha (luteo-album) WCVP'da yo'q, birlashtirilgan yoziladi — luteoalbum.",2026-08-24
+Heteracia szovitzii Fisch. & C.A.Mey.,,,,,,,Heteracia szovitsii Fisch. & C.A.Mey.,TAXALLUS: bazadagi imlo xatosi: szovitzii → szovitsii.,2026-08-24
+Iris halophyla Pallas,,,,,,,Iris halophila Pall.,TAXALLUS: bazadagi imlo xatosi: halophyla → halophila (muallif ham qisqartma shaklda).,2026-08-24
+Juncus gerardii Loisel.,,,,,,,Juncus gerardi Loisel.,TAXALLUS: bazadagi imlo xatosi: gerardii → gerardi.,2026-08-24
+Lepidolopha komarovii C. Winkl.,,,,,,,Lepidolopha komarowii C.Winkl.,TAXALLUS: bazadagi imlo xatosi: komarovii → komarowii.,2026-08-24
+Limonium gmelinii (Willd.) Kuntze,,,,,,,Limonium gmelini (Willd.) Kuntze,TAXALLUS: bazadagi imlo xatosi: gmelinii → gmelini.,2026-08-24
+Onopordum acantum L.,,,,,,,Onopordum acanthium L.,TAXALLUS: bazadagi imlo xatosi: acantum → acanthium.,2026-08-24
+Persicaria amphybia (L.) S.F. Gray,,,,,,,Persicaria amphibia (L.) Delarbre,TAXALLUS: bazadagi imlo xatosi: amphybia → amphibia (qabul qilingan muallif ham boshqacha — Delarbre).,2026-08-24
+Populus afganica (Aitch. & Hemsl.) Schneid.,,,,,,,Populus afghanica (Aitch. & Hemsl.) C.K.Schneid.,TAXALLUS: bazadagi imlo xatosi: afganica → afghanica (muallif ham WCVP'da to'liqroq).,2026-08-24
+Potentilla soongarica Bunge,,,,,,,Potentilla soongorica Bunge,TAXALLUS: bazadagi imlo xatosi: soongarica → soongorica.,2026-08-24
+Pyrethrum parthenifolium Willd.,,,,,,,Tanacetum partheniifolium (Willd.) Sch.Bip.,"TAXALLUS: TURKUM O'ZGARGAN: Pyrethrum parthenifolium WCVP'da Tanacetum partheniifolium sifatida qabul qilingan — omonim emas, turkum eskirgan va epitet imlosi ham farqli (parthenifolium → partheniifolium).",2026-08-24
+Salsola androssovii Litv.,,,,,,,Turania androssowii (Litv.) Akhani,"TAXALLUS: TURKUM O'ZGARGAN: Salsola androssovii WCVP'da Turania androssowii sifatida qabul qilingan — omonim emas, turkum eskirgan va epitet imlosi ham farqli (androssovii → androssowii).",2026-08-24
+Salvia nemoroza L.,,,,,,,Salvia nemorosa L.,TAXALLUS: bazadagi imlo xatosi: nemoroza → nemorosa.,2026-08-24
+Senecio noanus Rupr.,,,,,,,Senecio noeanus Rupr.,TAXALLUS: bazadagi imlo xatosi: noanus → noeanus.,2026-08-24
+Siegesbeckia orientalis L.,,,,,,,Sigesbeckia orientalis L.,TAXALLUS: bazadagi imlo xatosi: turkum nomi Siegesbeckia → Sigesbeckia.,2026-08-24
+Smelovskia calycina (Steph. ex Willd.) C.A. Mey.,,,,,,,Smelowskia calycina (Stephan) C.A.Mey.,TAXALLUS: bazadagi imlo xatosi: turkum nomi Smelovskia → Smelowskia (bazionim muallifi ham to'liq yozilgan — Stephan).,2026-08-24
+Verbascum agrimonifolium (K. Koch) Hub.-Mor.,,,,,,,Verbascum agrimoniifolium (K.Koch) Hub.-Mor.,TAXALLUS: bazadagi imlo xatosi: agrimonifolium → agrimoniifolium.,2026-08-24
+Zizyphus jujuba Mill.,,,,,,,Ziziphus jujuba Mill.,TAXALLUS: bazadagi imlo xatosi: turkum nomi Zizyphus → Ziziphus.,2026-08-24
+Haplophyllum popovii Korovin,,,,,,,,"QAROR QILINGAN (2026-08-24): bazadagi nom O'ZGARMASIN — bu hali ishlanmagan qator EMAS. Sabab: WCVP'da ikkala nomzod ham Unplaced holatida, qabul qilingan turga zanjir yo'q. Avtomatik hal qilib bo'lmaydi.",2026-08-24
+Medicago tianschanica Vassilcz.,,,,,,,,"QAROR QILINGAN (2026-08-24): bazadagi nom O'ZGARMASIN — bu hali ishlanmagan qator EMAS. Sabab: WCVP nomzodlari (Medicago × varia, M. lessingii) ishonchli emas — taxmin qilishdan ko'ra bazadagi nom qoldirildi.",2026-08-24
+Myosotis caespitosa Schultz,,,,,,,,"QAROR QILINGAN (2026-08-24): bazadagi nom O'ZGARMASIN — bu hali ishlanmagan qator EMAS. Sabab: WCVP nomzodlari (M. laxa, M. debilis, M. diminuta) orasida aniq javob yo'q — bazadagi nom qoldirildi.",2026-08-24

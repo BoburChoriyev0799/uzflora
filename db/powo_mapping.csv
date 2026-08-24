@@ -81,7 +81,7 @@ Aegopodium alpestre Ledeb.,Aegopodium alpestre Ledeb.,Accepted,Aegopodium alpest
 Aegopodium kashmiricum (R.R. Stewart ex Dunn) Pimenov,Aegopodium kashmiricum (R.R.Stewart ex Dunn) Pimenov,Accepted,Aegopodium kashmiricum,(R.R.Stewart ex Dunn) Pimenov,Apiaceae,Aegopodium,Species,969437-1,exact_full
 Aegopodium tadshikorum Schischk.,Aegopodium tadshikorum Schischk.,Accepted,Aegopodium tadshikorum,Schischk.,Apiaceae,Aegopodium,Species,837331-1,exact_full
 Aeluropus intermedius Regel,Aeluropus intermedius Regel,Synonym,Aeluropus littoralis,(Gouan) Parl.,Poaceae,Aeluropus,Species,1180129-2,exact_full
-Aeluropus litoralis (Gouan.) Parl.,,,,,,,,,canon_ambiguous
+Aeluropus litoralis (Gouan.) Parl.,Aeluropus littoralis (Gouan) Parl.,Accepted,Aeluropus littoralis,(Gouan) Parl.,Poaceae,Aeluropus,Species,1180129-2,manual_alias
 Aeluropus repens (Desf.) Parl.,Aeluropus repens (Desf.) Parl.,Synonym,Aeluropus lagopoides,(L.) Thwaites,Poaceae,Aeluropus,Species,384722-1,exact_full
 Aethionema carneum (Banks & Soland.) B. Fedtsch.,Aethionema carneum (Banks & Sol.) B.Fedtsch.,Accepted,Aethionema carneum,(Banks & Sol.) B.Fedtsch.,Brassicaceae,Aethionema,Species,277172-1,exact_name_unique
 Agrimonia asiatica Juz.,Agrimonia asiatica Juz.,Synonym,Agrimonia eupatoria subsp. asiatica,(Juz.) Skalický,Rosaceae,Agrimonia,Subspecies,77251250-1,exact_full
@@ -122,7 +122,7 @@ Agrostis hissarica Roshev.,Agrostis hissarica Roshev.,Synonym,Polypogon hissaric
 Agrostis stolonifera L.,Agrostis stolonifera L.,Accepted,Agrostis stolonifera,L.,Poaceae,Agrostis,Species,386353-1,name_multi_author_ok
 Agrostis transcaspica Litv.,Agrostis transcaspica Litv.,Synonym,Agrostis stolonifera,L.,Poaceae,Agrostis,Species,386353-1,exact_full
 Agrostis turkestanica Drobow,Agrostis turkestanica Drobow,Synonym,Agrostis vinealis,Schreb.,Poaceae,Agrostis,Species,386503-1,exact_full
-Ailantus altissima (Mill.) Swingle,,,,,,,,,canon_ambiguous
+Ailantus altissima (Mill.) Swingle,Ailanthus altissima (Mill.) Swingle,Accepted,Ailanthus altissima,(Mill.) Swingle,Simaroubaceae,Ailanthus,Species,813521-1,manual_alias
 Ajuga turkestanica (Regel) Briq.,Ajuga turkestanica (Regel) Briq.,Accepted,Ajuga turkestanica,(Regel) Briq.,Lamiaceae,Ajuga,Species,444689-1,exact_full
 Alcea baldshuanica (Bornm.) Iljin,Alcea baldshuanica (Bornm.) Iljin,Accepted,Alcea baldshuanica,(Bornm.) Iljin,Malvaceae,Alcea,Species,558649-1,exact_full
 Alcea litvinovii (Iljin) Iljin,Alcea litwinowii (Iljin) Iljin,Accepted,Alcea litwinowii,(Iljin) Iljin,Malvaceae,Alcea,Species,558690-1,canon_exact
@@ -144,7 +144,7 @@ Alhagi persarum Boiss. & Buhse,Alhagi persarum Boiss. & Buhse,Synonym,Alhagi pse
 Alhagi pseudalhagi (M. Bieb.) Desv.,Alhagi pseudalhagi (M.Bieb.) Desv. ex Wangerin,Accepted,Alhagi pseudalhagi,(M.Bieb.) Desv. ex Wangerin,Fabaceae,Alhagi,Species,77221624-1,exact_name_unique
 Alisma gramineum Gmelin,Alisma gramineum Lej.,Accepted,Alisma gramineum,Lej.,Alismataceae,Alisma,Species,77097302-1,exact_name_unique
 Alisma lanceolatum With.,Alisma lanceolatum With.,Accepted,Alisma lanceolatum,With.,Alismataceae,Alisma,Species,1047073-2,exact_full
-Alisma plantago-aguatica L.,,,,,,,,,canon_ambiguous
+Alisma plantago-aguatica L.,Alisma plantago-aquatica L.,Accepted,Alisma plantago-aquatica,L.,Alismataceae,Alisma,Species,30019518-2,manual_alias
 Alliaria petiolata (M. Bieb.) Cavara & Grande,Alliaria petiolata (M.Bieb.) Cavara & Grande,Accepted,Alliaria petiolata,(M.Bieb.) Cavara & Grande,Brassicaceae,Alliaria,Species,1176324-2,exact_full
 Allium adylovii Tojibaev & R.M. Fritsch ined.,,,,,,,,,not_found
 Allium aflatunense B. Fedtsch.,Allium aflatunense B.Fedtsch.,Accepted,Allium aflatunense,B.Fedtsch.,Amaryllidaceae,Allium,Species,527536-1,exact_full
@@ -205,7 +205,7 @@ Allium habibi F.O. Khass.,Allium habibii F.O.Khass.,Accepted,Allium habibii,F.O.
 Allium haneltii F. O. Khass. & R. M. Fritsch,Allium haneltii F.O.Khass. & R.M.Fritsch,Accepted,Allium haneltii,F.O.Khass. & R.M.Fritsch,Amaryllidaceae,Allium,Species,1002906-1,exact_full
 Allium hexaceras Vved.,Allium hexaceras Vved.,Accepted,Allium hexaceras,Vved.,Amaryllidaceae,Allium,Species,528152-1,exact_full
 Allium hissaricum Vved.,Allium hissaricum Vved.,Accepted,Allium hissaricum,Vved.,Amaryllidaceae,Allium,Species,528162-1,exact_full
-Allium hymenorrhizum Ledeb.,,,,,,,,,canon_ambiguous
+Allium hymenorrhizum Ledeb.,Allium hymenorhizum Ledeb.,Accepted,Allium hymenorhizum,Ledeb.,Amaryllidaceae,Allium,Species,528178-1,manual_alias
 Allium inconspicuum Vved.,Allium inconspicuum Vved.,Accepted,Allium inconspicuum,Vved.,Amaryllidaceae,Allium,Species,528191-1,exact_full
 Allium incrustatum Vved.,Allium incrustatum Vved.,Accepted,Allium incrustatum,Vved.,Amaryllidaceae,Allium,Species,528192-1,exact_full
 Allium isakulii R.M. Fritsch & F.O. Khass.,Allium isakulii R.M.Fritsch & F.O.Khass.,Accepted,Allium isakulii,R.M.Fritsch & F.O.Khass.,Amaryllidaceae,Allium,Species,1016281-1,exact_full
@@ -322,7 +322,7 @@ Ammannia auriculata Willd.,Ammannia auriculata Willd.,Accepted,Ammannia auricula
 Ammannia baccifera L.,Ammannia baccifera L.,Accepted,Ammannia baccifera,L.,Lythraceae,Ammannia,Species,552663-1,name_multi_author_ok
 Ammodendron conollyi Bunge ex Boiss.,Ammodendron conollyi Bunge ex Boiss.,Synonym,Sophora conollyi,(Bunge ex Boiss.) M.Liao & Bo Xu bis,Fabaceae,Sophora,Species,77327367-1,exact_full
 Ammodendron eichwaldi Ledeb.,Ammodendron eichwaldii Ledeb. & C.A.Mey.,Accepted,Ammodendron eichwaldii,Ledeb. & C.A.Mey.,Fabaceae,Ammodendron,Species,473731-1,canon_exact
-Ammodendron karelini Fisch. & C.A. Mey.,,,,,,,,,canon_ambiguous
+Ammodendron karelini Fisch. & C.A. Mey.,Ammodendron karelinii Fisch. & C.A.Mey. ex Ledeb.,Accepted,Ammodendron karelinii,Fisch. & C.A.Mey. ex Ledeb.,Fabaceae,Ammodendron,Species,473733-1,manual_alias
 Ammodendron lehmanni Bunge ex Boiss.,Ammodendron lehmannii Bunge ex Boiss.,Synonym,Ammodendron bifolium,(Pall.) Yakovlev,Fabaceae,Ammodendron,Species,473728-1,canon_exact
 Ammothamnus lehmanni Bunge,Ammothamnus lehmannii Bunge,Synonym,Sophora lehmannii,(Bunge) Yakovlev,Fabaceae,Sophora,Species,518873-1,canon_exact
 Amoria bonannii (C. Persl.) Roskov,Amoria bonannii (C.Presl) Roskov,Synonym,Trifolium fragiferum var. fragiferum,"",Fabaceae,Trifolium,Variety,77194541-1,exact_name_unique
@@ -349,7 +349,7 @@ Anabasis turkestanica Korovin ex Iljin,Anabasis turkestanica Korovin ex Iljin,Ac
 Anagallis arvensis L.,Anagallis arvensis L.,Synonym,Lysimachia arvensis,(L.) U.Manns & Anderb.,Primulaceae,Lysimachia,Species,77100386-1,exact_full
 Anagallis foemina Mill.,Anagallis foemina Mill.,Synonym,Lysimachia foemina,(Mill.) U.Manns & Anderb.,Primulaceae,Lysimachia,Species,77100397-1,exact_full
 Anaphalis racemifera Franch.,Anaphalis racemifera Franch.,Accepted,Anaphalis racemifera,Franch.,Asteraceae,Anaphalis,Species,176470-1,exact_full
-Anaphalis roseo-alba Krasch.,,,,,,,,,canon_ambiguous
+Anaphalis roseo-alba Krasch.,Anaphalis roseoalba Krasch.,Accepted,Anaphalis roseoalba,Krasch.,Asteraceae,Anaphalis,Species,176472-1,manual_alias
 Anaphalis serawschanica (C. Winkl.) B. Fedtsch.,Anaphalis sarawschanica (C.Winkl.) B.Fedtsch.,Accepted,Anaphalis sarawschanica,(C.Winkl.) B.Fedtsch.,Asteraceae,Anaphalis,Species,176475-1,canon_fuzzy1
 Anaphalis velutina Krasch.,Anaphalis velutina Krasch.,Accepted,Anaphalis velutina,Krasch.,Asteraceae,Anaphalis,Species,176510-1,exact_full
 Anchusa italica Retz.,Anchusa italica Retz.,Synonym,Anchusa azurea var. azurea,"",Boraginaceae,Anchusa,Variety,77227975-1,exact_full
@@ -820,7 +820,7 @@ Atriplex dimorphostegia Kar. & Kir.,Atriplex dimorphostegia Kar. & Kir.,Accepted
 Atriplex flabellum Bunge,Atriplex flabellum Bunge ex Boiss.,Accepted,Atriplex flabellum,Bunge ex Boiss.,Amaranthaceae,Atriplex,Species,163797-1,exact_name_unique
 Atriplex fominii Iljin,Atriplex fominii Iljin,Accepted,Atriplex fominii,Iljin,Amaranthaceae,Atriplex,Species,163806-1,exact_full
 Atriplex hastata L.,Atriplex hastata L.,Synonym,Atriplex prostrata subsp. calotheca,(Rafn) M.A.Gust.,Amaranthaceae,Atriplex,Subspecies,876076-1,exact_full
-Atriplex micrantha C.A. Mey.,,,,,,,,,name_ambiguous
+Atriplex micrantha C.A. Mey.,Atriplex micrantha Ledeb.,Accepted,Atriplex micrantha,Ledeb.,Amaranthaceae,Atriplex,Species,60448164-2,manual_alias
 Atriplex moneta Bunge ex Boiss.,Atriplex moneta Bunge ex Boiss.,Accepted,Atriplex moneta,Bunge ex Boiss.,Amaranthaceae,Atriplex,Species,163979-1,exact_full
 Atriplex ornata Iljin,Atriplex ornata Iljin,Accepted,Atriplex ornata,Iljin,Amaranthaceae,Atriplex,Species,164027-1,exact_full
 Atriplex patula L.,Atriplex patula L.,Accepted,Atriplex patula,L.,Amaranthaceae,Atriplex,Species,26419-2,exact_full
@@ -856,7 +856,7 @@ Batrachium divaricatum (Schrank) Wimm.,Batrachium divaricatum (Schrank) Wimm.,Sy
 Batrachium pachycaulum Nevski,Batrachium pachycaulon Nevski,Synonym,Ranunculus pachycaulon,(Nevski) Luferov,Ranunculaceae,Ranunculus,Species,1005553-1,canon_exact
 Batrachium rionii (Lagger) Nyman,Batrachium rionii (Lagger) Nyman,Synonym,Ranunculus rionii,Lagger,Ranunculaceae,Ranunculus,Species,713700-1,exact_full
 Batrachium trichophyllum (Chaix) Bosch,Batrachium trichophyllum (Chaix) Bosch,Synonym,Ranunculus trichophyllus,Chaix,Ranunculaceae,Ranunculus,Species,30048831-2,exact_full
-Beckmannia eruciformis (L.) Host.,,,,,,,,,name_ambiguous
+Beckmannia eruciformis (L.) Host.,Beckmannia eruciformis (L.) Host,Accepted,Beckmannia eruciformis,(L.) Host,Poaceae,Beckmannia,Species,30141328-2,manual_alias
 Bellevalia atroviolacea Regel,Bellevalia atroviolacea Regel,Synonym,Bellevalia turkestanica,Franch.,Asparagaceae,Bellevalia,Species,531875-1,exact_full
 Bellevalia saviczii Woronow,Bellevalia saviczii Woronow,Accepted,Bellevalia saviczii,Woronow,Asparagaceae,Bellevalia,Species,531859-1,exact_full
 Bellis perennis L.,Bellis perennis L.,Accepted,Bellis perennis,L.,Asteraceae,Bellis,Species,184409-1,exact_full
@@ -894,19 +894,19 @@ Botriochloa caucasica (Trin.) C.E. Hubb.,Bothriochloa caucasica (Trin.) C.E.Hubb
 Botriochloa ischaemum (L.) H. Keng,Bothriochloa ischaemum (L.) Keng,Accepted,Bothriochloa ischaemum,(L.) Keng,Poaceae,Bothriochloa,Species,1191417-2,canon_exact
 Botrychium lunaria (L.) Sw.,Botrychium lunaria (L.) Sw.,Accepted,Botrychium lunaria,(L.) Sw.,Ophioglossaceae,Botrychium,Species,30021929-2,exact_full
 Brachiaria eruciformis (Sm.) Griseb.,Brachiaria eruciformis (Sm.) Griseb.,Synonym,Moorochloa eruciformis,(Sm.) Veldkamp,Poaceae,Moorochloa,Species,77065028-1,exact_full
-Brachyactis ciliatum (Ledeb.) Ledeb.,,,,,,,,,canon_ambiguous
+Brachyactis ciliatum (Ledeb.) Ledeb.,Symphyotrichum ciliatum (Ledeb.) G.L.Nesom,Accepted,Symphyotrichum ciliatum,(Ledeb.) G.L.Nesom,Asteraceae,Symphyotrichum,Species,981785-1,manual_alias
 Brachycodonia fastigiata (Duf. ex A. DC.) Fed.,Brachycodonia fastigiatus (Dufour ex Schult.) Fed.,Synonym,Campanula fastigiata,Dufour ex Schult.,Campanulaceae,Campanula,Species,140296-1,canon_exact
 Brachypodium pinnatum (L.) Beauv.,Brachypodium pinnatum (L.) P.Beauv.,Accepted,Brachypodium pinnatum,(L.) P.Beauv.,Poaceae,Brachypodium,Species,393166-1,exact_name_unique
 Brachypodium sylvaticum (Huds.) Beauv.,Brachypodium sylvaticum (Huds.) P.Beauv.,Accepted,Brachypodium sylvaticum,(Huds.) P.Beauv.,Poaceae,Brachypodium,Species,393196-1,exact_name_unique
 Brachyrhamphus popovii (Krash.) Kamelin,Brachyramphus popovii (Krasch.) Kamelin,Synonym,Lagoseriopsis popovii,(Krasch.) Kirp.,Asteraceae,Lagoseriopsis,Species,228505-1,canon_exact
 Brassica campestris L.,Brassica campestris L.,Synonym,Brassica rapa,L.,Brassicaceae,Brassica,Species,279485-1,exact_full
 Brassica elongata Ehrh.,Brassica elongata Ehrh.,Synonym,Guenthera elongata,(Ehrh.) Besser,Brassicaceae,Guenthera,Species,284532-1,exact_full
-Brassica juncea (L.) Czern.,,,,,,,,,canon_ambiguous
+Brassica juncea (L.) Czern.,Brassica × juncea (L.) Czern.,Synonym,× Brassarda juncea,(L.) Su Liu & Z.H.Feng,Brassicaceae,Brassarda,Species,77354001-1,manual_alias
 Bromopsis fedtschenkoi (Tzvelev) Czerep.,Bromopsis fedtschenkoi (Tzvelev) Czerep.,Synonym,Bromus ramosus,Huds.,Poaceae,Bromus,Species,394052-1,exact_full
 Bromus danthoniae Trin. ex C.A. Mey.,Bromus danthoniae Trin.,Accepted,Bromus danthoniae,Trin.,Poaceae,Bromus,Species,393659-1,exact_name_unique
 Bromus gracillimus Bunge,Bromus gracillimus Bunge,Accepted,Bromus gracillimus,Bunge,Poaceae,Bromus,Species,928058-1,exact_full
 Bromus inermis Leyss.,Bromus inermis Leyss.,Accepted,Bromus inermis,Leyss.,Poaceae,Bromus,Species,393784-1,name_multi_author_ok
-Bromus japonicus Thung.,,,,,,,,,name_ambiguous
+Bromus japonicus Thung.,Bromus japonicus Houtt.,Accepted,Bromus japonicus,Houtt.,Poaceae,Bromus,Species,60459493-2,manual_alias
 Bromus lanceolatus Roth (B. macrostachys Desf.),Bromus lanceolatus Roth,Accepted,Bromus lanceolatus,Roth,Poaceae,Bromus,Species,393818-1,exact_name_unique
 Bromus oxyodon Schrenk,Bromus oxyodon Schrenk,Accepted,Bromus oxyodon,Schrenk,Poaceae,Bromus,Species,393944-1,exact_full
 Bromus paulsenii Hack.,Bromus paulsenii Hack.,Accepted,Bromus paulsenii,Hack.,Poaceae,Bromus,Species,393965-1,exact_full
@@ -945,7 +945,7 @@ Caccinia macranthera var. glauca (Savi) Govaerts,Caccinia macranthera var. glauc
 Calamagrostis alaica Litv.,Calamagrostis alajica Litv.,Accepted,Calamagrostis alajica,Litv.,Poaceae,Calamagrostis,Species,394274-1,canon_exact
 Calamagrostis compacta (Munro ex Hook. f.) Hack.,Calamagrostis compacta (Munro ex Duthie) Hack.,Synonym,Calamagrostis holciformis,Jaub. & Spach,Poaceae,Calamagrostis,Species,394519-1,exact_name_unique
 Calamagrostis dubia Bunge,Calamagrostis dubia Bunge,Synonym,Calamagrostis pseudophragmites,(Haller f.) Koeler,Poaceae,Calamagrostis,Species,394755-1,name_multi_author_ok
-Calamagrostis epigeios (L.) Roth,,,,,,,,,canon_ambiguous
+Calamagrostis epigeios (L.) Roth,Calamagrostis epigejos (L.) Roth,Accepted,Calamagrostis epigejos,(L.) Roth,Poaceae,Calamagrostis,Species,394433-1,manual_alias
 Calamagrostis holciformis Jaub. & Spach,Calamagrostis holciformis Jaub. & Spach,Accepted,Calamagrostis holciformis,Jaub. & Spach,Poaceae,Calamagrostis,Species,394519-1,exact_full
 Calamagrostis laguroides Regel,Calamagrostis laguroides Regel,Synonym,Calamagrostis anthoxanthoides,(Munro ex Hook.f.) Regel,Poaceae,Calamagrostis,Species,394298-1,exact_full
 Calamagrostis macrolepis Litv.,Calamagrostis macrolepis Litv.,Accepted,Calamagrostis macrolepis,Litv.,Poaceae,Calamagrostis,Species,394624-1,exact_full
@@ -1232,7 +1232,7 @@ Climacoptera turcomanica (Litv.) Botsch.,Climacoptera turcomanica (Litv.) Botsch
 Clinopodium integerrimum Boriss.,Clinopodium integerrimum Boriss.,Accepted,Clinopodium integerrimum,Boriss.,Lamiaceae,Clinopodium,Species,445803-1,exact_full
 Clypeola aspera (Grauer) Turrill,Clypeola aspera (Weber) Turrill,Accepted,Clypeola aspera,(Weber) Turrill,Brassicaceae,Clypeola,Species,281316-1,exact_name_unique
 Clypeola jonthlaspi L.,Clypeola jonthlaspi L.,Accepted,Clypeola jonthlaspi,L.,Brassicaceae,Clypeola,Species,281341-1,exact_full
-Cnicus benidictus L.,,,,,,,,,canon_ambiguous
+Cnicus benidictus L.,Cnicus benedictus L.,Synonym,Centaurea benedicta,(L.) L.,Asteraceae,Centaurea,Species,190024-1,manual_alias
 "Codonopsis bactriana F.O. Khass.,U.H. Kodyrov & A. Myrz.","Codonopsis bactriana F.O.Khass., U.Kodyrov & A.Myrz.",Accepted,Codonopsis bactriana,"F.O.Khass., U.Kodyrov & A.Myrz.",Campanulaceae,Codonopsis,Species,77197087-1,exact_name_unique
 Codonopsis clematidea (Schrenk) C.B. Clarke,Codonopsis clematidea (Schrenk) C.B.Clarke,Accepted,Codonopsis clematidea,(Schrenk) C.B.Clarke,Campanulaceae,Codonopsis,Species,141783-1,exact_full
 Colchicum kesselringii Regel,Colchicum kesselringii Regel,Accepted,Colchicum kesselringii,Regel,Colchicaceae,Colchicum,Species,60454025-2,exact_full
@@ -1413,7 +1413,7 @@ Cousinia praestans Tscherneva & Vved.,Cousinia praestans Tschern. & Vved.,Accept
 Cousinia prolifera Jaub. & Spach,Cousinia prolifera Jaub. & Spach,Accepted,Cousinia prolifera,Jaub. & Spach,Asteraceae,Cousinia,Species,199214-1,exact_full
 Cousinia proxima Juz.,Cousinia proxima Juz.,Accepted,Cousinia proxima,Juz.,Asteraceae,Cousinia,Species,199215-1,exact_full
 Cousinia psammophila Kult.,Cousinia psammophila Kult.,Accepted,Cousinia psammophila,Kult.,Asteraceae,Cousinia,Species,199216-1,exact_full
-Cousinia pseudoaffinis Kult.,,,,,,,,,canon_ambiguous
+Cousinia pseudoaffinis Kult.,Cousinia pseudaffinis Kult.,Accepted,Cousinia pseudaffinis,Kult.,Asteraceae,Cousinia,Species,199219-1,manual_alias
 Cousinia pseudodshisakensis Tscherneva & Vved.,Cousinia pseudodshizakensis Tschern. & Vved.,Accepted,Cousinia pseudodshizakensis,Tschern. & Vved.,Asteraceae,Cousinia,Species,199222-1,canon_exact
 Cousinia pseudolanata Popov ex Tscherneva,Cousinia pseudolanata Popov ex Tscherneva,Accepted,Cousinia pseudolanata,Popov ex Tscherneva,Asteraceae,Cousinia,Species,199223-1,exact_full
 Cousinia pseudomollis C. Winkl.,Cousinia pseudomollis C.Winkl.,Accepted,Cousinia pseudomollis,C.Winkl.,Asteraceae,Cousinia,Species,199224-1,exact_full
@@ -1552,7 +1552,7 @@ Cystopteris fragilis (L.) Bernh.,Cystopteris fragilis (L.) Bernh.,Accepted,Cysto
 Dactylis glomerata L.,Dactylis glomerata L.,Accepted,Dactylis glomerata,L.,Poaceae,Dactylis,Species,397309-1,exact_full
 Dactylorhiza salina (Turcz. ex Lindl.) Soó,Dactylorhiza salina (Turcz. ex Lindl.) Soó,Accepted,Dactylorhiza salina,(Turcz. ex Lindl.) Soó,Orchidaceae,Dactylorhiza,Species,626669-1,exact_full
 Dactylorhiza umbrosa (Kar. & Kir.) Nevski,Dactylorhiza umbrosa (Kar. & Kir.) Nevski,Synonym,Dactylorhiza incarnata subsp. cilicica,(Klinge) H.Sund.,Orchidaceae,Dactylorhiza,Subspecies,887395-1,exact_full
-Danthonia forsskalii (Vahl) R. Br,,,,,,,,,canon_ambiguous
+Danthonia forsskalii (Vahl) R. Br,Centropodia forskaolii (Vahl) Cope,Accepted,Centropodia forskaolii,(Vahl) Cope,Poaceae,Centropodia,Species,912212-1,manual_alias
 Datisca cannabina L.,Datisca cannabina L.,Accepted,Datisca cannabina,L.,Datiscaceae,Datisca,Species,316093-1,exact_full
 Datura stramonium L.,Datura stramonium L.,Accepted,Datura stramonium,L.,Solanaceae,Datura,Species,314738-2,exact_full
 Daucus carota L.,Daucus carota L.,Accepted,Daucus carota,L.,Apiaceae,Daucus,Species,841063-1,exact_full
@@ -1632,7 +1632,7 @@ Draba lipskyi Tolm.,Draba lipskyi Tolm.,Accepted,Draba lipskyi,Tolm.,Brassicacea
 Draba melanopus Kom.,Draba melanopus Kom.,Accepted,Draba melanopus,Kom.,Brassicaceae,Draba,Species,282817-1,exact_full
 Draba nemorosa L.,Draba nemorosa L.,Accepted,Draba nemorosa,L.,Brassicaceae,Draba,Species,83715-2,name_multi_author_ok
 Draba nuda (Bél.) Al-Shehbaz & M.A. Koch,Draba nuda (Bél.) Al-Shehbaz & M.Koch,Accepted,Draba nuda,(Bél.) Al-Shehbaz & M.Koch,Brassicaceae,Draba,Species,70027917-1,exact_name_unique
-Draba stenocarpa Hook. f. & Thoms.,,,,,,,,,name_ambiguous
+Draba stenocarpa Hook. f. & Thoms.,Draba stenocarpa Hook.f. & Thomson,Accepted,Draba stenocarpa,Hook.f. & Thomson,Brassicaceae,Draba,Species,283097-1,manual_alias
 Draba talassica Pohle,Draba talassica Pohle,Accepted,Draba talassica,Pohle,Brassicaceae,Draba,Species,283125-1,exact_full
 Draba tibetica Hook f. & Thoms.,Draba tibetica Hook.f. & Thomson,Accepted,Draba tibetica,Hook.f. & Thomson,Brassicaceae,Draba,Species,283133-1,exact_name_unique
 Draba vvedenskyi Kovalevsk.,Draba vvedenskyi Kovalevsk.,Accepted,Draba vvedenskyi,Kovalevsk.,Brassicaceae,Draba,Species,283185-1,exact_full
@@ -1762,7 +1762,7 @@ Epilobium nervosum Boiss.,Epilobium nervosum Boiss. & Buhse,Synonym,Epilobium ro
 Epilobium palustre L.,Epilobium palustre L.,Accepted,Epilobium palustre,L.,Onagraceae,Epilobium,Species,612155-1,name_multi_author_ok
 Epilobium parviflorum Schreb.,Epilobium parviflorum Schreb.,Accepted,Epilobium parviflorum,Schreb.,Onagraceae,Epilobium,Species,612163-1,name_multi_author_ok
 Epilobium subnivale Popov ex Pavlov,Epilobium subnivale Popov ex Pavlov,Synonym,Epilobium laxum,Royle,Onagraceae,Epilobium,Species,611997-1,exact_full
-Epilobium tetragonium L.,,,,,,,,,canon_ambiguous
+Epilobium tetragonium L.,Epilobium tetragonum L.,Accepted,Epilobium tetragonum,L.,Onagraceae,Epilobium,Species,612378-1,manual_alias
 Epilobium tianschanicum Pavlov,Epilobium tianschanicum Pavlov,Accepted,Epilobium tianschanicum,Pavlov,Onagraceae,Epilobium,Species,612388-1,exact_full
 Epilobium turkestanicum Pazij & Vved.,Epilobium turkestanicum Pazij & Vved.,Accepted,Epilobium turkestanicum,Pazij & Vved.,Onagraceae,Epilobium,Species,612410-1,exact_full
 Epilobium velutinum Nevski,Epilobium velutinum Nevski,Illegitimate,Epilobium hirsutum,L.,Onagraceae,Epilobium,Species,611919-1,exact_full
@@ -1847,7 +1847,7 @@ Erodium ciconium (Jusl.) L'Her.,Erodium ciconium (L.) L'Hér.,Accepted,Erodium c
 Erodium cicutarium (L.) L'Her.,Erodium cicutarium (L.) L'Hér.,Accepted,Erodium cicutarium,(L.) L'Hér.,Geraniaceae,Erodium,Species,372219-1,exact_name_unique
 Erodium hoefftianum C. A. Mey.,Erodium hoefftianum C.A.Mey.,Accepted,Erodium hoefftianum,C.A.Mey.,Geraniaceae,Erodium,Species,372296-1,exact_full
 Erodium litvinovii Woronow,Erodium litwinowii Woronow,Accepted,Erodium litwinowii,Woronow,Geraniaceae,Erodium,Species,77221741-1,canon_exact
-Erodium oxyrrhynchum M. Bieb.,,,,,,,,,canon_ambiguous
+Erodium oxyrrhynchum M. Bieb.,Erodium oxyrhinchum M.Bieb.,Accepted,Erodium oxyrhinchum,M.Bieb.,Geraniaceae,Erodium,Species,372375-1,manual_alias
 Erophila minima C.A. Mey.,Erophila minima C.A.Mey.,Synonym,Draba minima,(C.A.Mey.) Steud.,Brassicaceae,Draba,Species,282825-1,exact_full
 Erophila verna (L.) Besser,Erophila verna (L.) DC.,Synonym,Draba verna,L.,Brassicaceae,Draba,Species,283173-1,exact_name_unique
 Erophila verna ssp. praecox (Stev.) Walters,Erophila verna subsp. praecox (Steven) Walters,Synonym,Draba praecox,Steven,Brassicaceae,Draba,Species,282963-1,exact_name_unique
@@ -1861,7 +1861,7 @@ Erysimum andrzejowskianum Bess. ex DC.,Erysimum andrzejowskianum DC.,Accepted,Er
 Erysimum cyaneum Popov,Erysimum cyaneum Popov,Accepted,Erysimum cyaneum,Popov,Brassicaceae,Erysimum,Species,283749-1,exact_full
 Erysimum czernjajevii N. Busch,Erysimum czernjajevii N.Busch,Accepted,Erysimum czernjajevii,N.Busch,Brassicaceae,Erysimum,Species,283751-1,exact_full
 Erysimum gypsaceum Botsch. & Vved.,Erysimum gypsaceum Botch. & Vved.,Accepted,Erysimum gypsaceum,Botch. & Vved.,Brassicaceae,Erysimum,Species,978244-1,exact_name_unique
-Erysimum hieracifolium L.,,,,,,,,,canon_ambiguous
+Erysimum hieracifolium L.,Erysimum hieraciifolium L.,Synonym,Erysimum odoratum,Ehrh.,Brassicaceae,Erysimum,Species,284035-1,manual_alias
 Erysimum kamelinii D.A. German,Erysimum kamelinii D.A.German,Accepted,Erysimum kamelinii,D.A.German,Brassicaceae,Erysimum,Species,77119381-1,exact_full
 Erysimum marschallianum Andrz.,Erysimum marschallianum Andrz. ex DC.,Accepted,Erysimum marschallianum,Andrz. ex DC.,Brassicaceae,Erysimum,Species,283976-1,exact_name_unique
 Erysimum nabijevii Adylov,Erysimum nabievii Adylov,Accepted,Erysimum nabievii,Adylov,Brassicaceae,Erysimum,Species,284007-1,canon_exact
@@ -1912,7 +1912,7 @@ Euphorbia sewerzowii Herder ex Prokh.,Euphorbia sewerzowii (Prokh.) Pavlov,Accep
 Euphorbia sogdiana Popov,Euphorbia sogdiana Popov,Accepted,Euphorbia sogdiana,Popov,Euphorbiaceae,Euphorbia,Species,348300-1,exact_full
 Euphorbia sororia Schrenk,Euphorbia sororia Schrenk,Accepted,Euphorbia sororia,Schrenk,Euphorbiaceae,Euphorbia,Species,348311-1,exact_full
 Euphorbia spinidens Prokh.,Euphorbia spinidens Bornm. ex Prokh.,Accepted,Euphorbia spinidens,Bornm. ex Prokh.,Euphorbiaceae,Euphorbia,Species,348328-1,exact_name_unique
-Euphorbia szowitsii Fisch. & C.A. Mey.,,,,,,,,,canon_ambiguous
+Euphorbia szowitsii Fisch. & C.A. Mey.,Euphorbia szovitsii Fisch. & C.A.Mey.,Accepted,Euphorbia szovitsii,Fisch. & C.A.Mey.,Euphorbiaceae,Euphorbia,Species,348424-1,manual_alias
 Euphorbia talastavica Prokh.,Euphorbia talastavica (Prokh.) Prokh.,Accepted,Euphorbia talastavica,(Prokh.) Prokh.,Euphorbiaceae,Euphorbia,Species,348431-1,exact_name_unique
 Euphorbia transoxana Prokh.,Euphorbia transoxana (Prokh.) Prokh.,Accepted,Euphorbia transoxana,(Prokh.) Prokh.,Euphorbiaceae,Euphorbia,Species,348542-1,exact_name_unique
 Euphorbia triodonta Prokh.,Euphorbia triodonta (Prokh.) Prokh.,Accepted,Euphorbia triodonta,(Prokh.) Prokh.,Euphorbiaceae,Euphorbia,Species,348573-1,exact_name_unique
@@ -2145,7 +2145,7 @@ Galium tricornutum Dandy,Galium tricornutum Dandy,Accepted,Galium tricornutum,Da
 Galium turkestanicum Pobed.,Galium turkestanicum Pobed.,Accepted,Galium turkestanicum,Pobed.,Rubiaceae,Galium,Species,750785-1,exact_full
 Galium uliginosum L.,Galium uliginosum L.,Accepted,Galium uliginosum,L.,Rubiaceae,Galium,Species,750789-1,name_multi_author_ok
 Galium vassilczenkoi Pobed.,Galium vassilczenkoi Pobed.,Accepted,Galium vassilczenkoi,Pobed.,Rubiaceae,Galium,Species,750817-1,exact_full
-Galium verticellatum Danthoine ex Lam.,,,,,,,,,canon_ambiguous
+Galium verticellatum Danthoine ex Lam.,Galium verticillatum Danthoine ex Lam.,Accepted,Galium verticillatum,Danthoine ex Lam.,Rubiaceae,Galium,Species,750827-1,manual_alias
 Galium verum L.,Galium verum L.,Accepted,Galium verum,L.,Rubiaceae,Galium,Species,750829-1,exact_full
 Gamanthus commixtus Bunge,Gamanthus commixtus Bunge,Synonym,Halimocnemis commixtus,(Bunge) Akhani,Amaranthaceae,Halimocnemis,Species,77089191-1,exact_full
 Gamanthus ferganicus Iljin,Gamanthus ferganicus Iljin,Synonym,Halimocnemis ferganica,(Iljin) Akhani ex Sennikov,Amaranthaceae,Halimocnemis,Species,77331127-1,exact_full
@@ -2178,7 +2178,7 @@ Geranium schrenkianum Trautv. ex A.K. Becker,Geranium schrenkianum Trautv. ex A.
 Geranium sibiricum L.,Geranium sibiricum L.,Accepted,Geranium sibiricum,L.,Geraniaceae,Geranium,Species,322496-2,exact_full
 Geranium transversale (Kar. & Kir.) Vved.,Geranium transversale (Kar. & Kir.) Vved. ex Pavlov,Synonym,Geranium linearilobum,DC.,Geraniaceae,Geranium,Species,373255-1,exact_name_unique
 Gerbera kokanica Regel & Schmelh.,Gerbera kokanica Regel & Schmalh.,Synonym,Oreoseris kokanica,(Regel & Schmalh.) J.Wen & W.Zheng,Asteraceae,Oreoseris,Species,77176443-1,exact_name_unique
-Geum allepicum Jacq.,,,,,,,,,canon_ambiguous
+Geum allepicum Jacq.,Geum aleppicum Jacq.,Accepted,Geum aleppicum,Jacq.,Rosaceae,Geum,Species,30094401-2,manual_alias
 Geum rivale L.,Geum rivale L.,Accepted,Geum rivale,L.,Rosaceae,Geum,Species,725355-1,exact_full
 Geum urbanum L.,Geum urbanum L.,Accepted,Geum urbanum,L.,Rosaceae,Geum,Species,725399-1,exact_full
 Girgensohnia bungeana Sukhor.,Girgensohnia bungeana Sukhor.,Accepted,Girgensohnia bungeana,Sukhor.,Amaranthaceae,Girgensohnia,Species,77086961-1,exact_full
@@ -2198,7 +2198,7 @@ Glycyrrhiza bucharica Regel,Glycyrrhiza bucharica Regel,Accepted,Glycyrrhiza buc
 Glycyrrhiza glabra L.,Glycyrrhiza glabra L.,Accepted,Glycyrrhiza glabra,L.,Fabaceae,Glycyrrhiza,Species,496941-1,exact_full
 Glycyrrhiza triphylla Fisch. & C.A. Mey. (G. erythrocarpa (Vass.) M.N. Abdull.),Glycyrrhiza triphylla Fisch. & C.A.Mey.,Accepted,Glycyrrhiza triphylla,Fisch. & C.A.Mey.,Fabaceae,Glycyrrhiza,Species,496972-1,exact_name_unique
 Glycyrrhiza uralensis Fisch. ex DC.,Glycyrrhiza uralensis Fisch. ex DC.,Accepted,Glycyrrhiza uralensis,Fisch. ex DC.,Fabaceae,Glycyrrhiza,Species,496974-1,exact_full
-Gnaphalium luteo-album L.,,,,,,,,,canon_ambiguous
+Gnaphalium luteo-album L.,Gnaphalium luteoalbum L.,Synonym,Pseudognaphalium luteoalbum,(L.) Hilliard & B.L.Burtt,Asteraceae,Pseudognaphalium,Species,909623-1,manual_alias
 Gnaphalium supinum L.,Gnaphalium supinum L.,Synonym,Omalotheca supina,(L.) DC.,Asteraceae,Omalotheca,Species,235192-1,name_multi_author_ok
 Goldbachia laevigata (M. Bieb.) DC.,Goldbachia laevigata DC.,Accepted,Goldbachia laevigata,DC.,Brassicaceae,Goldbachia,Species,284506-1,exact_name_unique
 Goldbachia pendula Botsch.,Goldbachia pendula Botsch.,Accepted,Goldbachia pendula,Botsch.,Brassicaceae,Goldbachia,Species,284510-1,exact_full
@@ -2271,7 +2271,7 @@ Haplophyllum griffithianum Boiss.,Haplophyllum griffithianum Boiss.,Accepted,Hap
 Haplophyllum latifolium Kar. & Kir.,Haplophyllum latifolium Kar. & Kir.,Accepted,Haplophyllum latifolium,Kar. & Kir.,Rutaceae,Haplophyllum,Species,771298-1,name_multi_author_ok
 Haplophyllum obtusifolium Ledeb.,Haplophyllum obtusifolium (Ledeb. ex Eichw.) Ledeb.,Accepted,Haplophyllum obtusifolium,(Ledeb. ex Eichw.) Ledeb.,Rutaceae,Haplophyllum,Species,771307-1,exact_name_unique
 Haplophyllum pedicellatum Bunge,Haplophyllum pedicellatum Bunge ex Boiss.,Accepted,Haplophyllum pedicellatum,Bunge ex Boiss.,Rutaceae,Haplophyllum,Species,771309-1,exact_name_unique
-Haplophyllum popovii Korovin,,,,,,,,,name_ambiguous
+Haplophyllum popovii Korovin,,,,,,,,,manual_override
 Haplophyllum ramosissimum (Paulsen) Vved.,Haplophyllum ramosissimum (Paulsen) Vved.,Accepted,Haplophyllum ramosissimum,(Paulsen) Vved.,Rutaceae,Haplophyllum,Species,773889-1,exact_full
 Haplophyllum robustum Bunge,Haplophyllum robustum Bunge,Accepted,Haplophyllum robustum,Bunge,Rutaceae,Haplophyllum,Species,771321-1,exact_full
 Haplophyllum versicolor Fisch. & C.A. Mey.,Haplophyllum versicolor Fisch. & C.A.Mey.,Accepted,Haplophyllum versicolor,Fisch. & C.A.Mey.,Rutaceae,Haplophyllum,Species,771340-1,exact_full
@@ -2297,7 +2297,7 @@ Hedysarum macrocarpum Korotkova ex Kovalevsk.,Hedysarum macrocarpum Korotkova ex
 Hedysarum magnificum Kudrjasch.,Hedysarum magnificum Kudr.,Accepted,Hedysarum magnificum,Kudr.,Fabaceae,Hedysarum,Species,977199-1,exact_name_unique
 Hedysarum mindshilkense Bajtenov,Hedysarum mindshilkense Bajtenov,Accepted,Hedysarum mindshilkense,Bajtenov,Fabaceae,Hedysarum,Species,497896-1,exact_full
 Hedysarum mogianicum (B. Fedtsch.) B. Fedtsch.,Hedysarum mogianicum (B.Fedtsch.) B.Fedtsch.,Accepted,Hedysarum mogianicum,(B.Fedtsch.) B.Fedtsch.,Fabaceae,Hedysarum,Species,497900-1,exact_full
-Hedysarum montanum B. Fedtsch.,,,,,,,,,name_ambiguous
+Hedysarum montanum B. Fedtsch.,Hedysarum montanum (B.Fedtsch.) B.Fedtsch.,Illegitimate,Hedysarum issykkulense,Nikitina,Fabaceae,Hedysarum,Species,497799-1,manual_alias
 Hedysarum nuratense Popov,Hedysarum nuratense Popov,Accepted,Hedysarum nuratense,Popov,Fabaceae,Hedysarum,Species,497929-1,exact_full
 Hedysarum olgae B. Fedtsch.,Hedysarum olgae B.Fedtsch.,Accepted,Hedysarum olgae,B.Fedtsch.,Fabaceae,Hedysarum,Species,497938-1,name_multi_author_ok
 Hedysarum plumosum Boiss. & Hausskn.,Hedysarum plumosum Boiss. & Hausskn.,Accepted,Hedysarum plumosum,Boiss. & Hausskn.,Fabaceae,Hedysarum,Species,497990-1,exact_full
@@ -2338,7 +2338,7 @@ Herniaria glabra L.,Herniaria glabra L.,Accepted,Herniaria glabra,L.,Caryophylla
 Herniaria hirsuta L.,Herniaria hirsuta L.,Accepted,Herniaria hirsuta,L.,Caryophyllaceae,Herniaria,Species,434804-1,name_multi_author_ok
 Hesperis sibirica L.,Hesperis sibirica L.,Accepted,Hesperis sibirica,L.,Brassicaceae,Hesperis,Species,324658-2,name_multi_author_ok
 Heteracia epapposa (Regel & Schmalh.) Popov,Heteracia epapposa (Regel & Schmalh.) Popov,Accepted,Heteracia epapposa,(Regel & Schmalh.) Popov,Asteraceae,Heteracia,Species,77181363-1,exact_full
-Heteracia szovitzii Fisch. & C.A.Mey.,,,,,,,,,canon_ambiguous
+Heteracia szovitzii Fisch. & C.A.Mey.,Heteracia szovitsii Fisch. & C.A.Mey.,Accepted,Heteracia szovitsii,Fisch. & C.A.Mey.,Asteraceae,Heteracia,Species,213895-1,manual_alias
 Heteranthelium piliferum (Banks & Soland.) Hochst.,Heteranthelium piliferum (Banks & Sol.) Hochst.,Accepted,Heteranthelium piliferum,(Banks & Sol.) Hochst.,Poaceae,Heteranthelium,Species,404744-1,exact_name_unique
 Heterocaryum laevigatum (Kar. & Kir.) A. DC.,Heterocaryum laevigatum (Kar. & Kir.) A.DC.,Synonym,Suchtelenia laevigata,(Kar. & Kir.) Sennikov,Boraginaceae,Suchtelenia,Species,77331144-1,exact_full
 Heterocaryum macrocarpum Zakirov,Heterocaryum macrocarpum Zakirov,Synonym,Suchtelenia macrocarpa,(Zakirov) Sennikov,Boraginaceae,Suchtelenia,Species,77331145-1,exact_full
@@ -2425,7 +2425,7 @@ Iris bucharica Foster,Iris bucharica Foster,Accepted,Iris bucharica,Foster,Irida
 Iris capnoides (Vved.) T. Hall & Seisums,Iris capnoides (Vved.) T.Hall & Seisums,Accepted,Iris capnoides,(Vved.) T.Hall & Seisums,Iridaceae,Iris,Species,77115529-1,exact_full
 Iris falcifolia Bunge,Iris falcifolia Bunge,Accepted,Iris falcifolia,Bunge,Iridaceae,Iris,Species,928051-1,exact_full
 Iris fedtschenkoi F.O. Khass. & Rakhimova,Iris fedtschenkoi F.O.Khass. & Rakhimova,Illegitimate,Iris albomarginata,R.C.Foster,Iridaceae,Iris,Species,438340-1,exact_full
-Iris halophyla Pallas,,,,,,,,,canon_ambiguous
+Iris halophyla Pallas,Iris halophila Pall.,Accepted,Iris halophila,Pall.,Iridaceae,Iris,Species,438680-1,manual_alias
 Iris hippolyti (Vved.) Kamelin ex Takht.,Iris hippolyti (Vved.) Kamelin,Accepted,Iris hippolyti,(Vved.) Kamelin,Iridaceae,Iris,Species,908994-1,exact_name_unique
 Iris inconspicua (Vved.) T. Hall & Seisums,Iris inconspicua (Vved.) T.Hall & Seisums,Accepted,Iris inconspicua,(Vved.) T.Hall & Seisums,Iridaceae,Iris,Species,77115530-1,exact_full
 Iris khassanovii Tojibaev & Turginov,Iris khassanovii Tojibaev & Turginov,Accepted,Iris khassanovii,Tojibaev & Turginov,Iridaceae,Iris,Species,77137285-1,exact_full
@@ -2482,7 +2482,7 @@ Juncellus serotinus (Rottb.) Clarke,Juncellus serotinus (Rottb.) C.B.Clarke,Syno
 Juncus articulatus L.,Juncus articulatus L.,Accepted,Juncus articulatus,L.,Juncaceae,Juncus,Species,442698-1,exact_full
 Juncus bufonius L.,Juncus bufonius L.,Accepted,Juncus bufonius,L.,Juncaceae,Juncus,Species,30079279-2,exact_full
 Juncus compressus Jacq.,Juncus compressus Jacq.,Accepted,Juncus compressus,Jacq.,Juncaceae,Juncus,Species,442830-1,name_multi_author_ok
-Juncus gerardii Loisel.,,,,,,,,,canon_ambiguous
+Juncus gerardii Loisel.,Juncus gerardi Loisel.,Accepted,Juncus gerardi,Loisel.,Juncaceae,Juncus,Species,30116907-2,manual_alias
 Juncus heptapotamicus V. Krecz. & Gontsch.,Juncus heptopotamicus V.I.Krecz. & Gontsch.,Accepted,Juncus heptopotamicus,V.I.Krecz. & Gontsch.,Juncaceae,Juncus,Species,443041-1,canon_fuzzy1
 Juncus hybridus Brot.,Juncus hybridus Brot.,Accepted,Juncus hybridus,Brot.,Juncaceae,Juncus,Species,443056-1,exact_full
 Juncus inflexus L.,Juncus inflexus L.,Accepted,Juncus inflexus,L.,Juncaceae,Juncus,Species,443065-1,exact_full
@@ -2667,7 +2667,7 @@ Lepidium botschantzevianum Al-Shehbaz,Lepidium botschantsevianum Al-Shehbaz,Acce
 Lepidium cardiophyllum (N. Pavl.) Al-Shehbaz,Lepidium cardiophyllum (Pavlov) Al-Shehbaz,Accepted,Lepidium cardiophyllum,(Pavlov) Al-Shehbaz,Brassicaceae,Lepidium,Species,20005407-1,exact_name_unique
 Lepidium cartilagineum (J. Mayer) Thell.,Lepidium cartilagineum (J.Mayer) Thell.,Accepted,Lepidium cartilagineum,(J.Mayer) Thell.,Brassicaceae,Lepidium,Species,286098-1,exact_full
 Lepidium chalepense L.,Lepidium chalepense L.,Accepted,Lepidium chalepense,L.,Brassicaceae,Lepidium,Species,286101-1,exact_full
-Lepidium coronopifolium Spreng.,,,,,,,,,name_ambiguous
+Lepidium coronopifolium Spreng.,Lepidium coronopifolium Fisch.,Accepted,Lepidium coronopifolium,Fisch.,Brassicaceae,Lepidium,Species,286115-1,manual_alias
 Lepidium curvinervium (Botsch. & Vved.) Al-Shehbaz & Mummenhoff,Lepidium curvinervium (Botsch. & Vved.) Al-Shehbaz & Mumm.,Accepted,Lepidium curvinervium,(Botsch. & Vved.) Al-Shehbaz & Mumm.,Brassicaceae,Lepidium,Species,77112417-1,exact_name_unique
 Lepidium draba L.,Lepidium draba L.,Accepted,Lepidium draba,L.,Brassicaceae,Lepidium,Species,286156-1,exact_full
 Lepidium ferganense Korsh.,Lepidium ferganense Korsh.,Accepted,Lepidium ferganense,Korsh.,Brassicaceae,Lepidium,Species,286176-1,exact_full
@@ -2686,7 +2686,7 @@ Lepidium subcordatum Botsch. & Vved.,Lepidium subcordatum Botsch. & Vved.,Accept
 Lepidium tianschanicum (Botsch. & Vved.) Al-Shehbaz,Lepidium tianschanicum (Botsch. & Vved.) Al-Shehbaz,Accepted,Lepidium tianschanicum,(Botsch. & Vved.) Al-Shehbaz,Brassicaceae,Lepidium,Species,20005423-1,exact_full
 Lepidium uzbekistanicum Al-Shehbaz,Lepidium uzbekistanicum Al-Shehbaz,Accepted,Lepidium uzbekistanicum,Al-Shehbaz,Brassicaceae,Lepidium,Species,20012608-1,exact_full
 Lepidolopha fedtschenkoana Knorring,Lepidolopha fedtschenkoana Knorring,Accepted,Lepidolopha fedtschenkoana,Knorring,Asteraceae,Lepidolopha,Species,229705-1,exact_full
-Lepidolopha komarovii C. Winkl.,,,,,,,,,canon_ambiguous
+Lepidolopha komarovii C. Winkl.,Lepidolopha komarowii C.Winkl.,Accepted,Lepidolopha komarowii,C.Winkl.,Asteraceae,Lepidolopha,Species,229707-1,manual_alias
 Lepidolopha nuratavica Krasch.,Lepidolopha nuratavica Krasch.,Accepted,Lepidolopha nuratavica,Krasch.,Asteraceae,Lepidolopha,Species,229709-1,exact_full
 Lepidolopsis turkestanica (Regel & Schmalh.) Poljakov,Lepidolopsis turkestanica (Regel & Schmalh.) Poljakov,Accepted,Lepidolopsis turkestanica,(Regel & Schmalh.) Poljakov,Asteraceae,Lepidolopsis,Species,229721-1,exact_full
 Lepidotheca aurea (L.) Kovalevsk.,Lepidotheca aurea (Loefl.) Kovalevsk.,Synonym,Matricaria aurea,(Loefl.) Sch.Bip.,Asteraceae,Matricaria,Species,231828-1,exact_name_unique
@@ -2705,7 +2705,7 @@ Ligularia macrophylla (Ledeb.) DC.,Ligularia macrophylla (Ledeb.) DC.,Accepted,L
 Ligularia talassica Pojark.,Ligularia talassica Pojark.,Accepted,Ligularia talassica,Pojark.,Asteraceae,Ligularia,Species,230867-1,exact_full
 Ligularia thomsonii (C.B. Clarke) Pojark.,Ligularia thomsonii (C.B.Clarke) Pojark.,Synonym,Vickifunkia thomsonii,"(C.B.Clarke) C.Ren, L.Wang, I.D.Illar. & Q.E.Yang",Asteraceae,Vickifunkia,Species,77213381-1,exact_full
 Limonium ferganense IIkonn.-Gal.,Limonium ferganense Ikonn.-Gal.,Accepted,Limonium ferganense,Ikonn.-Gal.,Plumbaginaceae,Limonium,Species,686771-1,exact_name_unique
-Limonium gmelinii (Willd.) Kuntze,,,,,,,,,canon_ambiguous
+Limonium gmelinii (Willd.) Kuntze,Limonium gmelini (Willd.) Kuntze,Accepted,Limonium gmelini,(Willd.) Kuntze,Plumbaginaceae,Limonium,Species,686792-1,manual_alias
 Limonium komarovii Ikonn.-Gal. ex Lincz.,Limonium komarovii Ikonn.-Gal. ex Lincz. & Czukav.,Synonym,Limonium ferganense,Ikonn.-Gal.,Plumbaginaceae,Limonium,Species,686771-1,exact_name_unique
 Limonium lessingianum Lincz.,Limonium lessingianum Lincz.,Synonym,Limonium suffruticosum,(L.) Kuntze,Plumbaginaceae,Limonium,Species,686993-1,exact_full
 Limonium otolepis (Schrenk) Kuntze,Limonium otolepis (Schrenk) Kuntze,Accepted,Limonium otolepis,(Schrenk) Kuntze,Plumbaginaceae,Limonium,Species,686902-1,exact_full
@@ -2780,7 +2780,7 @@ Lycium depressum Stocks,Lycium depressum Stocks,Accepted,Lycium depressum,Stocks
 Lycium ruthenicum Murray,Lycium ruthenicum Murray,Accepted,Lycium ruthenicum,Murray,Solanaceae,Lycium,Species,816609-1,exact_full
 Lycopsis orientalis L.,Lycopsis orientalis L.,Synonym,Anchusa ovata,Lehm.,Boraginaceae,Anchusa,Species,113319-1,name_multi_author_ok
 Lycopus europeanus L.,Lycopus europaeus L.,Accepted,Lycopus europaeus,L.,Lamiaceae,Lycopus,Species,449641-1,manual_alias
-Lycopus exaltatus L.,,,,,,,,,name_ambiguous
+Lycopus exaltatus L.,Lycopus exaltatus L.f.,Accepted,Lycopus exaltatus,L.f.,Lamiaceae,Lycopus,Species,449644-1,manual_alias
 Lysimachia dubia Sol.,Lysimachia dubia Aiton,Accepted,Lysimachia dubia,Aiton,Primulaceae,Lysimachia,Species,701102-1,distribution_resolved
 Lysimachia vulgaris L.,Lysimachia vulgaris L.,Accepted,Lysimachia vulgaris,L.,Primulaceae,Lysimachia,Species,701414-1,name_multi_author_ok
 Lythrum hyssopifolia L.,Lythrum hyssopifolia L.,Accepted,Lythrum hyssopifolia,L.,Lythraceae,Lythrum,Species,147982-2,exact_full
@@ -2831,7 +2831,7 @@ Medicago orbicularis (L.) Bartal.,Medicago orbicularis (L.) Bartal.,Accepted,Med
 Medicago radiata L.,Medicago radiata L.,Accepted,Medicago radiata,L.,Fabaceae,Medicago,Species,506382-1,exact_full
 Medicago rigidula (L.) All.,Medicago rigidula (L.) All.,Accepted,Medicago rigidula,(L.) All.,Fabaceae,Medicago,Species,20011853-1,exact_full
 Medicago sativa L.,Medicago sativa L.,Accepted,Medicago sativa,L.,Fabaceae,Medicago,Species,30234961-2,exact_full
-Medicago tianschanica Vassilcz.,,,,,,,,,canon_ambiguous
+Medicago tianschanica Vassilcz.,,,,,,,,,manual_override
 Medicago transoxana Vassilcz.,Medicago transoxana Vassilcz.,Synonym,Medicago sativa subsp. sativa,"",Fabaceae,Medicago,Subspecies,77190497-1,exact_full
 Megacarpaea gigantea Regel,Megacarpaea gigantea Regel,Accepted,Megacarpaea gigantea,Regel,Brassicaceae,Megacarpaea,Species,287001-1,exact_full
 Megacarpaea megalocarpa (Fisch.) Schischk. ex B. Fedtsch.,Megacarpaea megalocarpa (Fisch. ex DC.) Schischk. ex B.Fedtsch.,Accepted,Megacarpaea megalocarpa,(Fisch. ex DC.) Schischk. ex B.Fedtsch.,Brassicaceae,Megacarpaea,Species,287006-1,exact_name_unique
@@ -2887,11 +2887,11 @@ Muehlenbergia hüégelii Trin.,Muhlenbergia huegelii Trin.,Accepted,Muhlenbergia
 Muscari bucharicum Regel,Muscari bucharicum Regel,Synonym,Muscari neglectum,Guss. ex Ten. & Sangiov.,Asparagaceae,Muscari,Species,60460275-2,exact_full
 Myosotis alpestris F.W. Schmidt,Myosotis alpestris F.W.Schmidt,Accepted,Myosotis alpestris,F.W.Schmidt,Boraginaceae,Myosotis,Species,118892-1,exact_full
 Myosotis asiatica (Vesterg.) Schischk. & Serg.,Myosotis asiatica (Vestergr.) Schischk. & Serg.,Accepted,Myosotis asiatica,(Vestergr.) Schischk. & Serg.,Boraginaceae,Myosotis,Species,118917-1,exact_name_unique
-Myosotis caespitosa Schultz,,,,,,,,,canon_ambiguous
+Myosotis caespitosa Schultz,,,,,,,,,manual_override
 Myosotis imitata Serg.,Myosotis imitata Serg.,Accepted,Myosotis imitata,Serg.,Boraginaceae,Myosotis,Species,119055-1,exact_full
 Myosotis micrantha Pall. & Lehm.,Myosotis micrantha Pall. ex Lehm.,Synonym,Arnebia decumbens subsp. decumbens,"",Boraginaceae,Arnebia,Subspecies,77228219-1,distribution_resolved
 Myosotis refracta Boiss.,Myosotis refracta Boiss.,Accepted,Myosotis refracta,Boiss.,Boraginaceae,Myosotis,Species,119211-1,exact_full
-Myosotis sparsiflora Pohl,,,,,,,,,name_ambiguous
+Myosotis sparsiflora Pohl,Myosotis sparsiflora J.C.Mikan ex Pohl,Accepted,Myosotis sparsiflora,J.C.Mikan ex Pohl,Boraginaceae,Myosotis,Species,119250-1,manual_alias
 Myosotis sylvatica Hoffm.,Myosotis sylvatica Ehrh. ex Hoffm.,Accepted,Myosotis sylvatica,Ehrh. ex Hoffm.,Boraginaceae,Myosotis,Species,119282-1,exact_name_unique
 Myriactis wallichii Less.,Myriactis wallichii Less.,Accepted,Myriactis wallichii,Less.,Asteraceae,Myriactis,Species,234021-1,exact_full
 Myricaria bracteata Royle,Myricaria bracteata Royle,Accepted,Myricaria bracteata,Royle,Tamaricaceae,Myricaria,Species,827964-1,exact_full
@@ -2960,7 +2960,7 @@ Oligochaeta vvedenskyi (Popov) Soják,Oligochaeta vvedenskyi (Popov) Soják,Syno
 "Olimarabidopsis pumila (Steph.) Al-Shehbaz, O'Kane & Price","Olimarabidopsis pumila (Stephan) Al-Shehbaz, O'Kane & R.A.Price",Accepted,Olimarabidopsis pumila,"(Stephan) Al-Shehbaz, O'Kane & R.A.Price",Brassicaceae,Olimarabidopsis,Species,1009840-1,exact_name_unique
 "Olimarabidopsis umbrosa (Botsch. & Vved.) Al-Shehbaz, O'Kane & Price","Olimarabidopsis umbrosa (Botsch. & Vved.) Al-Shehbaz, O'Kane & R.A.Price",Accepted,Olimarabidopsis umbrosa,"(Botsch. & Vved.) Al-Shehbaz, O'Kane & R.A.Price",Brassicaceae,Olimarabidopsis,Species,1009842-1,exact_name_unique
 Onobrychis amoena Popov,Onobrychis amoena Popov & Vved.,Accepted,Onobrychis amoena,Popov & Vved.,Fabaceae,Onobrychis,Species,509836-1,exact_name_unique
-Onobrychis arenaria (Kit. ex Willd.) DC.,,,,,,,,,name_ambiguous
+Onobrychis arenaria (Kit. ex Willd.) DC.,Onobrychis arenaria (Kit.) DC.,Accepted,Onobrychis arenaria,(Kit.) DC.,Fabaceae,Onobrychis,Species,509840-1,manual_alias
 Onobrychis baldshuanica Širj.,Onobrychis baldzuanica Širj.,Accepted,Onobrychis baldzuanica,Širj.,Fabaceae,Onobrychis,Species,509853-1,canon_exact
 Onobrychis chorassanica Bunge,Onobrychis chorassanica Bunge ex Boiss.,Accepted,Onobrychis chorassanica,Bunge ex Boiss.,Fabaceae,Onobrychis,Species,509892-1,exact_name_unique
 Onobrychis cornuta (L.) Desv.,Onobrychis cornuta (L.) Desv.,Accepted,Onobrychis cornuta,(L.) Desv.,Fabaceae,Onobrychis,Species,509899-1,exact_full
@@ -2974,7 +2974,7 @@ Onobrychis seravschanica B. Fedtsch.,Onobrychis saravschanica B.Fedtsch.,Accepte
 Onobrychis tavernierifolia Stocks ex Boiss.,Onobrychis tavernierifolia Stocks ex Boiss.,Accepted,Onobrychis tavernierifolia,Stocks ex Boiss.,Fabaceae,Onobrychis,Species,510145-1,exact_full
 Ononis antiquorum L.,Ononis antiquorum L.,Synonym,Ononis spinosa subsp. antiquorum,(L.) Arcang.,Fabaceae,Ononis,Subspecies,77251042-1,exact_full
 Ononis arvensis L.,Ononis arvensis L.,Accepted,Ononis arvensis,L.,Fabaceae,Ononis,Species,510213-1,exact_full
-Onopordum acantum L.,,,,,,,,,canon_ambiguous
+Onopordum acantum L.,Onopordum acanthium L.,Accepted,Onopordum acanthium,L.,Asteraceae,Onopordum,Species,235234-1,manual_alias
 Onopordum leptolepis DC.,Onopordum leptolepis DC.,Accepted,Onopordum leptolepis,DC.,Asteraceae,Onopordum,Species,235316-1,exact_full
 Onosma albicaulis Popov,Onosma albicaulis Popov,Accepted,Onosma albicaulis,Popov,Boraginaceae,Onosma,Species,119520-1,exact_full
 Onosma atrocyanea Franch.,Onosma atrocyanea Franch.,Accepted,Onosma atrocyanea,Franch.,Boraginaceae,Onosma,Species,119542-1,exact_full
@@ -3146,7 +3146,7 @@ Perovskia angustifolia Kudrjasch.,Perovskia angustifolia Kudr.,Synonym,Salvia ka
 Perovskia botschantzevii Kovalevsk. & Koczk.,Perovskia botschantzevii Kovalevsk. & Kochk.,Synonym,Salvia pobedimovae,J.G.González,Lamiaceae,Salvia,Species,77161665-1,exact_name_unique
 Perovskia kudrjaschevii Gorschk. & Pjataeva,Perovskia kudrjaschevii Gorschk. & Pjataeva,Synonym,Salvia kudrjaschevii,(Gorschk. & Pjataeva) Sytsma,Lamiaceae,Salvia,Species,77161664-1,exact_full
 Perovskia scrophulariefolia Bunge,Perovskia scrophulariifolia Bunge,Synonym,Salvia scrophulariifolia,(Bunge) B.T.Drew,Lamiaceae,Salvia,Species,77161666-1,canon_fuzzy1
-Persicaria amphybia (L.) S.F. Gray,,,,,,,,,canon_ambiguous
+Persicaria amphybia (L.) S.F. Gray,Persicaria amphibia (L.) Delarbre,Accepted,Persicaria amphibia,(L.) Delarbre,Polygonaceae,Persicaria,Species,30193627-2,manual_alias
 Persicaria hydropiper (L.) Spach,Persicaria hydropiper (L.) Delarbre,Accepted,Persicaria hydropiper,(L.) Delarbre,Polygonaceae,Persicaria,Species,77069479-1,exact_name_unique
 Persicaria lapathifolia (L.) S.F. Gray,Persicaria lapathifolia (L.) Delarbre,Accepted,Persicaria lapathifolia,(L.) Delarbre,Polygonaceae,Persicaria,Species,77069480-1,exact_name_unique
 Persicaria maculata (Rafin.) A. & D. Löve,Persicaria maculata (Sibth.) Gray,Synonym,Persicaria lapathifolia,(L.) Delarbre,Polygonaceae,Persicaria,Species,77069480-1,distribution_resolved
@@ -3316,7 +3316,7 @@ Polygonatum roseum (Ledeb.) Kunth,Polygonatum roseum (Ledeb.) Kunth,Accepted,Pol
 Polygonatum severtzovii Regel,Polygonatum sewerzowii Regel,Accepted,Polygonatum sewerzowii,Regel,Asparagaceae,Polygonatum,Species,540225-1,canon_fuzzy1
 Polygonum acerosum Ledeb. ex Meisn.,Polygonum acerosum Ledeb. ex Meisn.,Accepted,Polygonum acerosum,Ledeb. ex Meisn.,Polygonaceae,Polygonum,Species,695295-1,exact_full
 Polygonum acetosum M. Bieb.,Polygonum acetosum M.Bieb.,Accepted,Polygonum acetosum,M.Bieb.,Polygonaceae,Polygonum,Species,695298-1,exact_full
-Polygonum arenarium Waldst. & Kitag.,,,,,,,,,name_ambiguous
+Polygonum arenarium Waldst. & Kitag.,Polygonum arenarium Waldst. & Kit.,Accepted,Polygonum arenarium,Waldst. & Kit.,Polygonaceae,Polygonum,Species,695381-1,manual_alias
 Polygonum argyrocoleum Steud. ex G. Kunze,Polygonum argyrocoleon Steud. ex Kunze,Accepted,Polygonum argyrocoleon,Steud. ex Kunze,Polygonaceae,Polygonum,Species,695387-1,canon_exact
 Polygonum aviculare L.,Polygonum aviculare L.,Accepted,Polygonum aviculare,L.,Polygonaceae,Polygonum,Species,695422-1,exact_full
 Polygonum biaristatum Aitch. & Hemsl.,Polygonum biaristatum Aitch. & Hemsl.,Accepted,Polygonum biaristatum,Aitch. & Hemsl.,Polygonaceae,Polygonum,Species,695455-1,exact_full
@@ -3347,7 +3347,7 @@ Polypogon semiverticillatus (Forssk.) Hyl.,Polypogon semiverticillatus (Forssk.)
 Polystichum aculeatum (L.) Roth ex Mert.,Polystichum aculeatum (L.) Roth,Accepted,Polystichum aculeatum,(L.) Roth,Polypodiaceae,Polystichum,Species,17413440-1,exact_name_unique
 Polystichum lonchitis (L.) Roth,Polystichum lonchitis (L.) Roth,Accepted,Polystichum lonchitis,(L.) Roth,Polypodiaceae,Polystichum,Species,17414110-1,exact_full
 Polytaxis lehmannii Bunge,Polytaxis lehmannii Bunge,Synonym,Saussurea lehmannii,"(Bunge) N.Garcia, Herrando & Susanna",Asteraceae,Saussurea,Species,77213346-1,exact_full
-Populus afganica (Aitch. & Hemsl.) Schneid.,,,,,,,,,canon_ambiguous
+Populus afganica (Aitch. & Hemsl.) Schneid.,Populus afghanica (Aitch. & Hemsl.) C.K.Schneid.,Synonym,Populus nigra subsp. nigra,"",Salicaceae,Populus,Subspecies,77231383-1,manual_alias
 Populus alba L.,Populus alba L.,Accepted,Populus alba,L.,Salicaceae,Populus,Species,776573-1,exact_full
 Populus euphratica Oliv.,Populus euphratica Olivier,Accepted,Populus euphratica,Olivier,Salicaceae,Populus,Species,776672-1,exact_name_unique
 Populus laurifolia Ledeb.,Populus laurifolia Ledeb.,Accepted,Populus laurifolia,Ledeb.,Salicaceae,Populus,Species,776748-1,exact_full
@@ -3365,7 +3365,7 @@ Potamogeton nodosus Poir.,Potamogeton nodosus Poir.,Accepted,Potamogeton nodosus
 Potamogeton pectinatus L.,Potamogeton pectinatus L.,Synonym,Stuckenia pectinata,(L.) Börner,Potamogetonaceae,Stuckenia,Species,77099639-1,exact_full
 Potamogeton perfoliatus L.,Potamogeton perfoliatus L.,Accepted,Potamogeton perfoliatus,L.,Potamogetonaceae,Potamogeton,Species,208899-2,exact_full
 Potamogeton pusillus L.,Potamogeton pusillus L.,Accepted,Potamogeton pusillus,L.,Potamogetonaceae,Potamogeton,Species,208919-2,exact_full
-Potamogeton trichoides Cham. & Schliecht.,,,,,,,,,name_ambiguous
+Potamogeton trichoides Cham. & Schliecht.,Potamogeton trichoides Cham. & Schltdl.,Accepted,Potamogeton trichoides,Cham. & Schltdl.,Potamogetonaceae,Potamogeton,Species,603452-1,manual_alias
 Potentilla asiae-mediae Ovcz. & Koczk.,Potentilla asiae-mediae Ovcz. & Kochk.,Accepted,Potentilla asiae-mediae,Ovcz. & Kochk.,Rosaceae,Potentilla,Species,727679-1,exact_name_unique
 Potentilla asiatica (Th. Wolf) Juz.,Potentilla asiatica (Th.Wolf) Juz.,Accepted,Potentilla asiatica,(Th.Wolf) Juz.,Rosaceae,Potentilla,Species,727680-1,exact_full
 Potentilla butkovii Botsch.,Potentilla butkovii Botsch.,Accepted,Potentilla butkovii,Botsch.,Rosaceae,Potentilla,Species,727801-1,exact_full
@@ -3385,7 +3385,7 @@ Potentilla orientalis Juz.,Potentilla orientalis Juz.,Invalid,Sibbaldianthe orie
 Potentilla pamiroalaica Juz.,Potentilla pamiroalaica Juz.,Accepted,Potentilla pamiroalaica,Juz.,Rosaceae,Potentilla,Species,728658-1,exact_full
 Potentilla pedata Willd. ex Hornem.,Potentilla pedata Willd. ex Hornem.,Accepted,Potentilla pedata,Willd. ex Hornem.,Rosaceae,Potentilla,Species,927620-1,name_multi_author_ok
 Potentilla reptans L.,Potentilla reptans L.,Accepted,Potentilla reptans,L.,Rosaceae,Potentilla,Species,324739-2,name_multi_author_ok
-Potentilla soongarica Bunge,,,,,,,,,canon_ambiguous
+Potentilla soongarica Bunge,Potentilla soongorica Bunge,Accepted,Potentilla soongorica,Bunge,Rosaceae,Potentilla,Species,728999-1,manual_alias
 Potentilla supina L.,Potentilla supina L.,Accepted,Potentilla supina,L.,Rosaceae,Potentilla,Species,729071-1,name_multi_author_ok
 Potentilla tephroleuca Th. Wolf,Potentilla tephroleuca Th.Wolf,Accepted,Potentilla tephroleuca,Th.Wolf,Rosaceae,Potentilla,Species,729103-1,exact_full
 Potentilla tephrosericea Juz.,Potentilla tephroserica Juz.,Accepted,Potentilla tephroserica,Juz.,Rosaceae,Potentilla,Species,729104-1,canon_fuzzy1
@@ -3468,7 +3468,7 @@ Pycreus korshinskyi (Meinsh.) V. Krecz.,Pycreus korshinskyi (Meinsh.) V.I.Krecz.
 Pyrethrum galae Popov,Pyrethrum galae Popov,Synonym,Tanacetum galae,(Popov) Nevski,Asteraceae,Tanacetum,Species,252327-1,exact_full
 Pyrethrum karelinii Krasch.,Pyrethrum karelinii Krasch.,Synonym,Tanacetum richterioides,(C.Winkl.) K.Bremer & Humphries,Asteraceae,Tanacetum,Species,975100-1,exact_full
 Pyrethrum leontopodium (C. Winkl.) Tzvelev,Pyrethrum leontopodium (C.Winkl.) Tzvelev,Synonym,Richteria leontopodium,C.Winkl.,Asteraceae,Richteria,Species,241476-1,exact_full
-Pyrethrum parthenifolium Willd.,,,,,,,,,canon_ambiguous
+Pyrethrum parthenifolium Willd.,Tanacetum partheniifolium (Willd.) Sch.Bip.,Accepted,Tanacetum partheniifolium,(Willd.) Sch.Bip.,Asteraceae,Tanacetum,Species,252459-1,manual_alias
 Pyrethrum pyrethroides (Kar. & Kir.) B. Fedtsch. ex Krasch.,Pyrethrum pyrethroides (Kar. & Kir.) B.Fedtsch. ex Krasch.,Synonym,Richteria pyrethroides,Kar. & Kir.,Asteraceae,Richteria,Species,241477-1,exact_full
 Pyrola rotundifolia L.,Pyrola rotundifolia L.,Accepted,Pyrola rotundifolia,L.,Ericaceae,Pyrola,Species,331846-1,exact_full
 Pyrus asiae-mediae Popov,Pyrus asiae-mediae (Popov) Maleev,Accepted,Pyrus asiae-mediae,(Popov) Maleev,Rosaceae,Pyrus,Species,730696-1,exact_name_unique
@@ -3486,7 +3486,7 @@ Ranunculus chaffanjonii Danguy ex Finet & Gagnep.,Ranunculus chaffanjonii Danguy
 Ranunculus chinensis Bunge,Ranunculus chinensis Bunge,Synonym,Ranunculus cantoniensis,DC.,Ranunculaceae,Ranunculus,Species,712402-1,exact_full
 Ranunculus convexiusculus Kovalevsk.,Ranunculus convexiusculus Kovalevsk.,Accepted,Ranunculus convexiusculus,Kovalevsk.,Ranunculaceae,Ranunculus,Species,712515-1,exact_full
 Ranunculus komarovii Freyn,Ranunculus komarowii Freyn,Accepted,Ranunculus komarowii,Freyn,Ranunculaceae,Ranunculus,Species,713020-1,canon_exact
-Ranunculus laetus Wall. ex Hook. f. & J.W. Thomson,,,,,,,,,name_ambiguous
+Ranunculus laetus Wall. ex Hook. f. & J.W. Thomson,Ranunculus laetus Wall. ex D.Don,Illegitimate,Ranunculus distans,D.Don,Ranunculaceae,Ranunculus,Species,712611-1,manual_alias
 Ranunculus linearilobus Bunge,Ranunculus linearilobus Bunge,Accepted,Ranunculus linearilobus,Bunge,Ranunculaceae,Ranunculus,Species,713101-1,exact_full
 Ranunculus lomatocarpus Fisch. & C.A. Mey.,Ranunculus lomatocarpus Fisch. & C.A.Mey.,Synonym,Ranunculus cornutus var. cornutus,"",Ranunculaceae,Ranunculus,Variety,77225906-1,exact_full
 Ranunculus longilobus Ovcz.,Ranunculus longilobus Ovcz.,Illegitimate,Ranunculus baranovianus,Schegol. & A.V.Grebenjuk,Ranunculaceae,Ranunculus,Species,77331097-1,name_multi_author_ok
@@ -3660,7 +3660,7 @@ Salix songarica Anderss.,Salix songarica Andersson,Accepted,Salix songarica,Ande
 Salix tianschanica Regel,Salix tianschanica Regel,Accepted,Salix tianschanica,Regel,Salicaceae,Salix,Species,779022-1,exact_full
 Salix turanica Nas.,Salix turanica Nasarow,Accepted,Salix turanica,Nasarow,Salicaceae,Salix,Species,779075-1,exact_name_unique
 Salix wilhelmsiana M. Bieb.,Salix wilhelmsiana M.Bieb.,Accepted,Salix wilhelmsiana,M.Bieb.,Salicaceae,Salix,Species,779201-1,exact_full
-Salsola androssovii Litv.,,,,,,,,,canon_ambiguous
+Salsola androssovii Litv.,Turania androssowii (Litv.) Akhani,Accepted,Turania androssowii,(Litv.) Akhani,Amaranthaceae,Turania,Species,77089118-1,manual_alias
 Salsola angusta Botsch.,Salsola angusta Botsch.,Accepted,Salsola angusta,Botsch.,Amaranthaceae,Salsola,Species,166646-1,exact_full
 Salsola aperta Paulsen,Salsola aperta Paulsen,Synonym,Turania aperta,(Paulsen) Akhani,Amaranthaceae,Turania,Species,77089117-1,exact_full
 Salsola arbuscula Pall.,Salsola arbuscula Pall.,Synonym,Xylosalsola arbuscula,(Pall.) Tzvelev,Amaranthaceae,Xylosalsola,Species,972539-1,exact_full
@@ -3703,7 +3703,7 @@ Salvia korolkovii Regel & Schmalh.,Salvia korolkovii Regel & Schmalh.,Accepted,S
 Salvia lilacinocaerulea Nevski,Salvia lilacinocoerulea Nevski,Accepted,Salvia lilacinocoerulea,Nevski,Lamiaceae,Salvia,Species,456571-1,canon_exact
 Salvia macrosiphon Boiss.,Salvia macrosiphon Boiss.,Accepted,Salvia macrosiphon,Boiss.,Lamiaceae,Salvia,Species,456633-1,exact_full
 Salvia margaritae Botsch.,Salvia margaritae Botsch.,Accepted,Salvia margaritae,Botsch.,Lamiaceae,Salvia,Species,77176654-1,exact_full
-Salvia nemoroza L.,,,,,,,,,canon_ambiguous
+Salvia nemoroza L.,Salvia nemorosa L.,Accepted,Salvia nemorosa,L.,Lamiaceae,Salvia,Species,456774-1,manual_alias
 Salvia sarawschanica Regel & Schmalh.,Salvia sarawschanica Regel & Schmalh.,Accepted,Salvia sarawschanica,Regel & Schmalh.,Lamiaceae,Salvia,Species,77176771-1,exact_full
 Salvia sclarea L.,Salvia sclarea L.,Accepted,Salvia sclarea,L.,Lamiaceae,Salvia,Species,457210-1,exact_full
 Salvia spinosa L.,Salvia spinosa L.,Accepted,Salvia spinosa,L.,Lamiaceae,Salvia,Species,457293-1,name_multi_author_ok
@@ -3860,7 +3860,7 @@ Semenovia pimpinelloides (Nevski) Manden.,Semenovia pimpinellioides (Nevski) Man
 Senecio dubius Ledeb.,Senecio dubius Ledeb.,Illegitimate,Senecio dubitabilis,C.Jeffrey & Y.L.Chen,Asteraceae,Senecio,Species,907702-1,name_multi_author_ok
 Senecio franchetii C. Winkl.,Senecio franchetii C.Winkl.,Accepted,Senecio franchetii,C.Winkl.,Asteraceae,Senecio,Species,245187-1,exact_full
 Senecio jacobaea L.,Senecio jacobaea L.,Synonym,Jacobaea vulgaris,Gaertn.,Asteraceae,Jacobaea,Species,226649-1,name_multi_author_ok
-Senecio noanus Rupr.,,,,,,,,,canon_ambiguous
+Senecio noanus Rupr.,Senecio noeanus Rupr.,Synonym,Senecio glaucus subsp. coronopifolius,(Maire) C.Alexander,Asteraceae,Senecio,Subspecies,878279-1,manual_alias
 Senecio olgae Regel & Schmalh.,Senecio olgae Regel & Schmalh.,Accepted,Senecio olgae,Regel & Schmalh.,Asteraceae,Senecio,Species,246627-1,exact_full
 Senecio racemulifer Pavlov,Senecio racemulifer Pavlov,Synonym,Jacobaea racemulifera,(Pavlov) C.Ren & Q.E.Yang,Asteraceae,Jacobaea,Species,77220992-1,exact_full
 Senecio renardii C. Winkl.,Senecio renardii C.Winkl.,Synonym,Jacobaea renardii,(C.Winkl.) B.Nord.,Asteraceae,Jacobaea,Species,60443619-2,exact_full
@@ -3899,7 +3899,7 @@ Setaria viridis (L.) Beauv.,Setaria viridis (L.) P.Beauv.,Accepted,Setaria virid
 Shibateranthis longistipitata (Regel) Nakai,Shibateranthis longistipitata (Regel) Nakai,Synonym,Eranthis longistipitata,Regel,Ranunculaceae,Eranthis,Species,711193-1,exact_full
 Sibbaldia tetrandra Bunge,Sibbaldia tetrandra Bunge,Synonym,Potentilla tetrandra,(Bunge) Hook.f.,Rosaceae,Potentilla,Species,729112-1,exact_full
 Sideritis montana L.,Sideritis montana L.,Accepted,Sideritis montana,L.,Lamiaceae,Sideritis,Species,459012-1,exact_full
-Siegesbeckia orientalis L.,,,,,,,,,canon_ambiguous
+Siegesbeckia orientalis L.,Sigesbeckia orientalis L.,Accepted,Sigesbeckia orientalis,L.,Asteraceae,Sigesbeckia,Species,249084-1,manual_alias
 Silene adenopetala Raikova,Silene adenopetala Raikova,Accepted,Silene adenopetala,Raikova,Caryophyllaceae,Silene,Species,156741-1,exact_full
 Silene bobrovii Schischk.,Silene bobrovii Schischk.,Accepted,Silene bobrovii,Schischk.,Caryophyllaceae,Silene,Species,156940-1,exact_full
 Silene brahuica Boiss.,Silene brahuica Boiss.,Accepted,Silene brahuica,Boiss.,Caryophyllaceae,Silene,Species,156968-1,exact_full
@@ -3956,7 +3956,7 @@ Sisymbrium septulatum DC.,Sisymbrium septulatum DC.,Accepted,Sisymbrium septulat
 Sisymbrium subspinescens Bunge,Sisymbrium subspinescens Bunge,Accepted,Sisymbrium subspinescens,Bunge,Brassicaceae,Sisymbrium,Species,289775-1,exact_full
 Sium medium Fisch. & C.A. Mey.,Sium medium Fisch. & C.A.Mey.,Accepted,Sium medium,Fisch. & C.A.Mey.,Apiaceae,Sium,Species,849022-1,exact_full
 Sium sisaroideum DC.,Sium sisaroideum DC.,Synonym,Sium sisarum,L.,Apiaceae,Sium,Species,849059-1,exact_full
-Smelovskia calycina (Steph. ex Willd.) C.A. Mey.,,,,,,,,,canon_ambiguous
+Smelovskia calycina (Steph. ex Willd.) C.A. Mey.,Smelowskia calycina (Stephan ex Willd.) C.A.Mey.,Accepted,Smelowskia calycina,(Stephan ex Willd.) C.A.Mey.,Brassicaceae,Smelowskia,Species,289880-1,manual_alias
 Smelowskia annua Rupr.,Smelowskia annua Rupr.,Accepted,Smelowskia annua,Rupr.,Brassicaceae,Smelowskia,Species,289873-1,exact_full
 Smelowskia micrantha (Botsch. & Vved.) Al-Shehbaz & Warwick,Smelowskia micrantha (Botsch. & Vved.) Al-Shehbaz & Warwick,Accepted,Smelowskia micrantha,(Botsch. & Vved.) Al-Shehbaz & Warwick,Brassicaceae,Smelowskia,Species,60444736-2,exact_full
 Smelowskia sisymbrioides (Regel & Herder) Lipsky ex Paulsen,Smelowskia sisymbrioides (Regel & Herder) Paulsen,Accepted,Smelowskia sisymbrioides,(Regel & Herder) Paulsen,Brassicaceae,Smelowskia,Species,289901-1,exact_name_unique
@@ -4304,7 +4304,7 @@ Valerianella uncinata (M. Bieb.) Dufr.,Valerianella uncinata (M.Bieb.) Dufr.,Syn
 Valerianella vvedenskyi Lincz.,Valerianella vvedenskyi Lincz.,Synonym,Valeriana szovitsiana,(Fisch. & C.A.Mey.) Christenh. & Byng,Caprifoliaceae,Valeriana,Species,77185703-1,exact_full
 Vallisneria spiralis L.,Vallisneria spiralis L.,Accepted,Vallisneria spiralis,L.,Hydrocharitaceae,Vallisneria,Species,431996-1,exact_full
 Velezia rigida L.,Velezia rigida L.,Synonym,Dianthus nudiflorus,Griff.,Caryophyllaceae,Dianthus,Species,153658-1,exact_full
-Verbascum agrimonifolium (K. Koch) Hub.-Mor.,,,,,,,,,canon_ambiguous
+Verbascum agrimonifolium (K. Koch) Hub.-Mor.,Verbascum agrimoniifolium (K.Koch) Hub.-Mor.,Accepted,Verbascum agrimoniifolium,(K.Koch) Hub.-Mor.,Scrophulariaceae,Verbascum,Species,810698-1,manual_alias
 Verbascum blattaria L.,Verbascum blattaria L.,Accepted,Verbascum blattaria,L.,Scrophulariaceae,Verbascum,Species,810828-1,exact_full
 Verbascum erianthum Benth. ex DC.,Verbascum erianthum Benth.,Accepted,Verbascum erianthum,Benth.,Scrophulariaceae,Verbascum,Species,811059-1,exact_name_unique
 Verbascum songaricum Schrenk,Verbascum songaricum Schrenk ex Fisch. & C.A.Mey.,Accepted,Verbascum songaricum,Schrenk ex Fisch. & C.A.Mey.,Scrophulariaceae,Verbascum,Species,770139-1,exact_name_unique
@@ -4315,7 +4315,7 @@ Veronica anagalloides Guss.,Veronica anagalloides Guss.,Accepted,Veronica anagal
 Veronica arguteserrata Regel & Schmalh.,Veronica argute-serrata Regel & Schmalh.,Accepted,Veronica argute-serrata,Regel & Schmalh.,Plantaginaceae,Veronica,Species,811645-1,canon_exact
 Veronica arvensis L.,Veronica arvensis L.,Accepted,Veronica arvensis,L.,Plantaginaceae,Veronica,Species,811649-1,exact_full
 Veronica beccabunga L.,Veronica beccabunga L.,Accepted,Veronica beccabunga,L.,Plantaginaceae,Veronica,Species,811680-1,exact_full
-Veronica biloba L.,,,,,,,,,name_ambiguous
+Veronica biloba L.,Veronica biloba Schreb. ex L.,Accepted,Veronica biloba,Schreb. ex L.,Plantaginaceae,Veronica,Species,286904-2,manual_alias
 Veronica bucharica B. Fedtsch.,Veronica bucharica B.Fedtsch.,Accepted,Veronica bucharica,B.Fedtsch.,Plantaginaceae,Veronica,Species,811737-1,exact_full
 Veronica campylopoda Boiss.,Veronica campylopoda Boiss.,Accepted,Veronica campylopoda,Boiss.,Plantaginaceae,Veronica,Species,811755-1,exact_full
 Veronica capillipes Nevski,Veronica capillipes Nevski,Accepted,Veronica capillipes,Nevski,Plantaginaceae,Veronica,Species,811767-1,exact_full
@@ -4338,7 +4338,7 @@ Veronica verna L.,Veronica verna L.,Accepted,Veronica verna,L.,Plantaginaceae,Ve
 Vexibia alopecuroides (L.) Yakovlev,Vexibia alopecuroides (L.) Yakovlev,Synonym,Sophora alopecuroides,L.,Fabaceae,Sophora,Species,518788-1,exact_full
 Vexibia pachycarpa (C.A. Mey.) Yakovlev,Vexibia pachycarpa (Schrenk ex C.A.Mey.) W.A.Weber,Synonym,Sophora pachycarpa,Schrenk ex C.A.Mey.,Fabaceae,Sophora,Species,518906-1,exact_name_unique
 Vicatia atrosanguinea (Kar. & Kir.) P.K. Mukh. & Pimenov,Vicatia atrosanguinea (Kar. & Kir.) P.K.Mukh. & Pimenov,Accepted,Vicatia atrosanguinea,(Kar. & Kir.) P.K.Mukh. & Pimenov,Apiaceae,Vicatia,Species,963303-1,exact_full
-Vicia angustifolia Reichard,,,,,,,,,name_ambiguous
+Vicia angustifolia Reichard,Vicia angustifolia L.,Synonym,Vicia sativa subsp. nigra,Ehrh.,Fabaceae,Vicia,Subspecies,60467411-2,manual_alias
 Vicia cinerea M. Bieb.,Vicia cinerea M.Bieb.,Synonym,Vicia monantha subsp. monantha,"",Fabaceae,Vicia,Subspecies,77208451-1,exact_full
 Vicia cracca L.,Vicia cracca L.,Accepted,Vicia cracca,L.,Fabaceae,Vicia,Species,30263827-2,exact_full
 Vicia ervilia (L.) Willd.,Vicia ervilia (L.) Willd.,Accepted,Vicia ervilia,(L.) Willd.,Fabaceae,Vicia,Species,524727-1,exact_full
@@ -4405,7 +4405,7 @@ Ziziphora pedicellata Pazij & Vved.,Ziziphora pedicellata Pazij & Vved.,Accepted
 Ziziphora persica Bunge,Ziziphora persica Bunge,Accepted,Ziziphora persica,Bunge,Lamiaceae,Ziziphora,Species,462011-1,exact_full
 Ziziphora suffruticosa Pazij & Vved.,Ziziphora suffruticosa Pazij & Vved.,Accepted,Ziziphora suffruticosa,Pazij & Vved.,Lamiaceae,Ziziphora,Species,462028-1,exact_full
 Ziziphora tenuior L.,Ziziphora tenuior L.,Accepted,Ziziphora tenuior,L.,Lamiaceae,Ziziphora,Species,462033-1,exact_full
-Zizyphus jujuba Mill.,,,,,,,,,canon_ambiguous
+Zizyphus jujuba Mill.,Ziziphus jujuba Mill.,Accepted,Ziziphus jujuba,Mill.,Rhamnaceae,Ziziphus,Species,719213-1,manual_alias
 Zoegea baldshuanica C. Winkl.,Zoegea baldschuanica C.Winkl.,Synonym,Zoegea crinita,Boiss.,Asteraceae,Zoegea,Species,261381-1,canon_exact
 Zosima korovinii Pimenov,Zosima korovinii Pimenov,Accepted,Zosima korovinii,Pimenov,Apiaceae,Zosima,Species,850064-1,exact_full
 Zosima orientalis Hoffm.,Zosima orientalis Hoffm.,Illegitimate,Zosima absinthiifolia,(Vent.) Link,Apiaceae,Zosima,Species,850054-1,exact_full
