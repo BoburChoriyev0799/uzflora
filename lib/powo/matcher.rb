@@ -27,6 +27,13 @@ module Powo
   module Matcher
     WCVP_PATH = Rails.root.join('db', 'external', 'wcvp_names.csv')
 
+    # Ixtiyoriy: WCVP arxivining o'zida keladigan tarqalish fayli (TDWG
+    # hududlar bo'yicha, "|" ajratgichli). Faqat omonimlarni O'zbekistonda
+    # tarqalishi orqali hal qilish uchun ishlatiladi (`resolve_ambiguous_
+    # entries!`) — fayl yo'q bo'lsa, shu bosqich jim o'tkazib yuboriladi
+    # (WCVP_PATH kabi majburiy emas).
+    WCVP_DISTRIBUTION_PATH = Rails.root.join('db', 'external', 'wcvp_distribution.csv')
+
     # WCVP har doim "ssp." emas "subsp." ishlatadi (tekshirib ko'rilgan) —
     # bazamizda "ssp." uchrasa shu tarzda bir xillashtiriladi. `var.`, `f.`,
     # `subvar.` uchun sinonimi yo'q, o'zgarishsiz qoladi.
@@ -547,6 +554,158 @@ module Powo
       }.uniq.first(3)
     end
 
+    # --- Omonimlarni (name_ambiguous/canon_ambiguous) qo'shimcha hal qilish -
+    #
+    # Omonim — nomzodlar bir nechta WCVP yozuviga mos kelib, muallif/oila
+    # orqali ham ajratib bo'lmagan holat. Ikkita QO'SHIMCHA (ixtiyoriy)
+    # qoida bilan ba'zilarini xavfsiz hal qilamiz, `results` massivini
+    # JOYIDA (in-place) o'zgartirib:
+    #
+    #   A) BIR XIL NISHON qoidasi (`:ambiguous_same_target`) — nomzodlarning
+    #      HAMMASI (qaysi biri tanlanishidan qat'i nazar) bitta xil
+    #      accepted yozuvga olib borsa, aslida noaniqlik YO'Q. Bu qoida
+    #      NOL XAVFLI — nomzodlar soniga cheklov yo'q.
+    #
+    #   B) TARQALISH qoidasi (`:distribution_resolved`) — nomzodlar
+    #      soni <= MAX_AMBIGUOUS_CANDIDATES_FOR_DISTRIBUTION bo'lganda,
+    #      har birining accepted turi WCVP_DISTRIBUTION_PATH faylida
+    #      O'ZBEKISTONDA (`area_code_l3 == "UZB"`, faqat shu daraja —
+    #      Markaziy Osiyoning qolgan 4 davlati HISOBGA OLINMAYDI, chunki
+    #      qo'shni davlat dalili O'zbekiston florasi ro'yxati uchun juda
+    #      zaif) qayd etilganmi tekshiriladi. FAQAT AYNAN BITTA nomzod
+    #      UZB'da uchrasa — o'sha tanlanadi. `location_doubtful=1` bo'lgan
+    #      qatorlar HISOBGA OLINMAYDI (shubhali). `introduced=1` HISOBGA
+    #      OLINADI (o'simlik baribir bor), lekin natijada
+    #      `:distribution_introduced_only` bilan alohida belgilanadi —
+    #      Bobur bunday holatlarni bir marta ko'zdan kechirishi uchun.
+    #
+    #      DIQQAT: "boshqa nomzodda tarqalish topilmadi" — bu ko'pincha
+    #      o'sha nomzod umuman tarqalish ma'lumotiga ega emas DEGANI EMAS
+    #      (masalan Shimoliy Amerika yoki Yevropada keng tarqalgan tur
+    #      bo'lishi mumkin, faqat O'ZBEKISTONDA yo'q) — biz FAQAT UZB
+    #      ustunini tekshiramiz, dunyo bo'yicha emas. Shu sabab bu yerda
+    #      "malumot yo'q" emas, "UZB'da yo'q" deb yozilishi kerak.
+    MAX_AMBIGUOUS_CANDIDATES_FOR_DISTRIBUTION = 5
+    AMBIGUOUS_MATCH_TYPES = %i[name_ambiguous canon_ambiguous].freeze
+
+    def resolve_ambiguous_entries!(results, records_by_id, log: ->(_msg) {})
+      ambiguous = results.select { |r| AMBIGUOUS_MATCH_TYPES.include?(r[:match_type]) }
+      return if ambiguous.empty?
+
+      ambiguous.each do |r|
+        r[:candidate_ids] = (r[:match_type] == :name_ambiguous ? r[:candidates] : r[:canon_candidates]).to_a.uniq
+      end
+
+      all_ids = ambiguous.flat_map { |r| r[:candidate_ids] }.uniq.to_set
+      log.call("Omonimlarni qo'shimcha hal qilish: #{ambiguous.size} guruh, #{all_ids.size} noyob nomzod...")
+      fetch_wcvp_rows_by_id(all_ids, records_by_id)
+      5.times do
+        missing = records_by_id.values
+                                .select { |r| r[:accepted_id] && !records_by_id.key?(r[:accepted_id]) }
+                                .map { |r| r[:accepted_id] }.uniq
+        break if missing.empty?
+
+        fetch_wcvp_rows_by_id(missing.to_set, records_by_id)
+      end
+
+      final_for = {}
+      ambiguous.each do |r|
+        r[:candidate_ids].each do |cid|
+          next if final_for.key?(cid)
+
+          _outcome, final = resolve_outcome(records_by_id[cid], records_by_id)
+          final_for[cid] = final
+        end
+      end
+
+      resolve_ambiguous_same_target!(ambiguous, records_by_id, final_for)
+      resolve_ambiguous_by_distribution!(ambiguous, records_by_id, final_for, log: log)
+    end
+
+    def resolve_ambiguous_same_target!(ambiguous, records_by_id, final_for)
+      same_target_count = 0
+      ambiguous.each do |r|
+        next unless AMBIGUOUS_MATCH_TYPES.include?(r[:match_type])
+
+        finals = r[:candidate_ids].map { |cid| final_for[cid] }
+        next if finals.any?(&:nil?)
+
+        distinct_final_ids = finals.map { |f| f[:id] }.uniq
+        next unless distinct_final_ids.size == 1
+
+        representative_id = r[:candidate_ids].find { |cid| records_by_id[cid][:status] == 'Accepted' } || r[:candidate_ids].first
+        r[:match_type] = :ambiguous_same_target
+        r[:chosen_row] = records_by_id[representative_id]
+        r[:final] = finals.first
+        r[:outcome] = :ambiguous_same_target
+        same_target_count += 1
+      end
+      same_target_count
+    end
+
+    def resolve_ambiguous_by_distribution!(ambiguous, records_by_id, final_for, log: ->(_msg) {})
+      remaining = ambiguous.select { |r| AMBIGUOUS_MATCH_TYPES.include?(r[:match_type]) }
+      remaining = remaining.select { |r| r[:candidate_ids].size <= MAX_AMBIGUOUS_CANDIDATES_FOR_DISTRIBUTION }
+      return if remaining.empty?
+
+      unless File.exist?(WCVP_DISTRIBUTION_PATH)
+        log.call("  OGOHLANTIRISH: #{WCVP_DISTRIBUTION_PATH} topilmadi — tarqalish orqali hal qilish o'tkazib yuborildi.")
+        return
+      end
+
+      needed_final_ids = remaining.flat_map { |r| r[:candidate_ids].map { |cid| final_for[cid]&.fetch(:id, nil) } }.compact.to_set
+      log.call("  wcvp_distribution.csv o'qilmoqda (#{needed_final_ids.size} ta accepted id, faqat UZB)...")
+
+      uzb_rows_by_id = {}
+      File.open(WCVP_DISTRIBUTION_PATH, 'r:UTF-8') do |io|
+        header = io.readline.chomp.split('|', -1).each_with_index.to_h
+        io.each_line do |line|
+          fields = line.chomp.split('|', -1)
+          next unless fields[header['area_code_l3']] == 'UZB'
+
+          id = fields[header['plant_name_id']].to_i
+          next unless needed_final_ids.include?(id)
+
+          (uzb_rows_by_id[id] ||= []) << {
+            introduced: fields[header['introduced']] == '1',
+            doubtful: fields[header['location_doubtful']] == '1'
+          }
+        end
+      end
+
+      resolved_count = 0
+      remaining.each do |r|
+        candidate_infos = r[:candidate_ids].map do |cid|
+          final = final_for[cid]
+          uzb_rows = final ? (uzb_rows_by_id[final[:id]] || []).reject { |x| x[:doubtful] } : []
+          row = records_by_id[cid]
+          {
+            cid: cid, final: final, uzb_present: uzb_rows.any?,
+            introduced_only: uzb_rows.any? && uzb_rows.all? { |x| x[:introduced] },
+            # Hisobot/CSV quruvchilari (masalan tmp/powo_tarqalish.csv)
+            # uchun — `records_by_id` `run()`ga lokal, tashqaridan
+            # ko'rinmaydi, shuning uchun nomzodning o'z nomi/muallifi/
+            # holati shu yerda saqlab qo'yiladi.
+            candidate_name: row && "#{row[:taxon_name]} #{row[:taxon_authors]}".strip,
+            candidate_status: row && row[:status]
+          }
+        end
+
+        uzb_hits = candidate_infos.select { |info| info[:uzb_present] }
+        next unless uzb_hits.size == 1
+
+        winner = uzb_hits.first
+        r[:match_type] = :distribution_resolved
+        r[:chosen_row] = records_by_id[winner[:cid]]
+        r[:final] = winner[:final]
+        r[:outcome] = :distribution_resolved
+        r[:distribution_introduced_only] = winner[:introduced_only]
+        r[:distribution_rejected_candidates] = candidate_infos.reject { |info| info[:cid] == winner[:cid] }
+        resolved_count += 1
+      end
+      log.call("  Tarqalish orqali hal qilindi: #{resolved_count} ta")
+    end
+
     # --- To'liq quvur ------------------------------------------------------
     #
     # Bazadagi Plant yozuvlaridan boshlab, tasniflangan natijalar
@@ -623,6 +782,9 @@ module Powo
 
       log.call('Kanonik kalit orqali qayta urinish...')
       canon_retry!(stage1_not_found, log: log)
+
+      log.call("Omonimlarni qo'shimcha (bir xil nishon / tarqalish) hal qilish...")
+      resolve_ambiguous_entries!(results, records_by_id, log: log)
 
       results
     end

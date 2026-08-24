@@ -133,6 +133,12 @@ namespace :plants do
           when :defective_resolved
             "WCVP holati: #{r[:chosen_row][:status]} (nomenklatura nuqsoni), lekin 'accepted_plant_name_id' " \
             "orqali qabul qilingan nomga zanjir topildi — o'tkazish TAVSIYA ETILADI"
+          when :ambiguous_same_target
+            "Omonim edi, lekin BARCHA nomzodlar bir xil accepted turga borgani aniqlandi — noaniqlik yo'q, TAVSIYA ETILADI"
+          when :distribution_resolved
+            introduced_note = r[:distribution_introduced_only] ? " [FAQAT introduced — Bobur ko'zdan kechirsin]" : ''
+            "Omonim edi, lekin FAQAT bitta nomzod O'zbekistonda (WCVP tarqalish ma'lumoti) uchraydi — " \
+            "o'tkazish TAVSIYA ETILADI#{introduced_note}"
           when :canon_recovered then "IMLO farqi tufayli avvalgi bosqichda topilmagan edi — kanonik kalit orqali TIKLANDI (#{r[:match_type]}), nom TAVSIYA ETILADI"
           when :unresolved then "Sinonim, lekin 'accepted' yozuv topilmadi/aniqlanmadi — qo'lda tekshirilsin"
           when :chain_loop then "WCVP holati: #{r[:chosen_row][:status]}, lekin accepted_plant_name_id zanjirida HALQA topildi — qo'lda tekshirilsin"

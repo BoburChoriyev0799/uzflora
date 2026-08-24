@@ -28,7 +28,11 @@
 #   exact_full, exact_name_unique, name_multi_author_ok, canon_exact,
 #   canon_fuzzy1, manual_override (db/powo_overrides.csv orqali qo'lda
 #   tuzatilgan — accepted_name bo'sh bo'lishi ham mumkin, "hali qaror
-#   qilinmagan" degani, o'sha holda bo'sh yoziladi)
+#   qilinmagan" degani, o'sha holda bo'sh yoziladi),
+#   ambiguous_same_target (omonim nomzodlarning HAMMASI bir xil accepted
+#   turga borgan — nol xavfli), distribution_resolved (omonim nomzodlar
+#   orasida FAQAT BITTASI O'zbekistonda (WCVP tarqalish ma'lumoti bo'yicha)
+#   uchraydi — ko'rish: lib/powo/matcher.rb#resolve_ambiguous_entries!)
 # Qolganlari (name_ambiguous, canon_ambiguous, not_found,
 # name_multi_family_ok) uchun ustunlar BO'SH qoladi — keyinroq qo'lda
 # ko'rib chiqiladi.
@@ -43,7 +47,10 @@
 require 'csv'
 
 MAPPING_PATH = Rails.root.join('db', 'powo_mapping.csv')
-POWO_SAFE_MATCH_TYPES = %w[exact_full exact_name_unique name_multi_author_ok canon_exact canon_fuzzy1 manual_override].freeze
+POWO_SAFE_MATCH_TYPES = %w[
+  exact_full exact_name_unique name_multi_author_ok canon_exact canon_fuzzy1
+  manual_override ambiguous_same_target distribution_resolved
+].freeze
 POWO_APPLY_COLUMNS = %i[
   wcvp_matched_name wcvp_status accepted_name accepted_authors
   accepted_family accepted_genus accepted_rank powo_id powo_match_type
