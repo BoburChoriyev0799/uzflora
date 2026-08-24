@@ -33,7 +33,30 @@ class PlantsController < ApplicationController
       return
     end
 
-    @plants = Plant.all.order(:species_sci)
+    # Rasmi bor (tasdiqlangan kuzatuvi bor) o'simliklar birinchi
+    # sahifalarda chiqsin — sayt "tirik"ligini darhol ko'rsatadi. Bitta
+    # EXISTS subso'rov bilan (JOIN/GROUP BY EMAS — Kaminari `count`
+    # bilan chalkashib, sahifalashni buzardi) `plants` jadvalining o'zida
+    # hisoblanadi: har qatorga TO'G'RIDAN-TO'G'RI bog'liq (correlated),
+    # natijada qo'shimcha qator ko'paymaydi, N+1 ham yo'q. ENG BIRINCHI
+    # `.order()` sifatida qo'shiladi — shu bilan u ustuvor (primary) saralash
+    # kaliti bo'ladi, pastda qo'shiladigan `.search` ichidagi qo'shimcha
+    # `.order()`lar esa (agar chaqirilsa) shundan KEYIN qo'shiladi va
+    # `species_sci`ning o'zi UNIQUE bo'lgani uchun amalda hech narsani
+    # o'zgartirmaydi — "guruh ichida hozirgi alifbo tartibi saqlansin"
+    # talabi shu bilan avtomatik bajariladi.
+    has_approved_photo_sql = <<~SQL.squish
+      EXISTS (
+        SELECT 1 FROM plant_sightings
+        WHERE plant_sightings.plant_id = plants.id
+          AND plant_sightings.status = 'approved'
+          AND plant_sightings.published = TRUE
+      )
+    SQL
+
+    @plants = Plant.all
+                    .order(Arel.sql("(#{has_approved_photo_sql}) DESC"))
+                    .order(:species_sci)
     @plants = @plants.search(params[:q]) if params[:q].present?
     @plants = @plants.by_family(params[:family]) if params[:family].present?
     @plants = @plants.red_listed if params[:red_book].present?
