@@ -1,16 +1,31 @@
-# Render.com Blueprint — web service + PostgreSQL, ikkalasi ham bepul (free) plan.
+# Render.com Blueprint — web service + PostgreSQL.
 # Hujjat: https://render.com/docs/blueprint-spec
+#
+# PLAN QIYMATLARI HAQIQIY (dashboard bilan tekshirilgan) bo'lishi SHART —
+# aks holda kimdir kelajakda blueprint'ni qayta sinxronlasa (Render
+# Dashboard → Blueprint → "Sync"), Render shu yerdagi qiymatni HAQIQIY deb
+# hisoblab, PULLIK xizmatni shu qiymatga (masalan xato ravishda "free"ga)
+# TUSHIRIB yuborishi mumkin — bu prodda vaqtinchalik to'xtash yoki
+# performance yo'qotishga olib kelishi mumkin.
+#   - web (uzflora): Render dashboardida TASDIQLANGAN — "Standard" (1 CPU
+#     / 2 GB RAM), 2026-08-24 holatiga ko'ra.
+#   - database (uzflora-db): dashboardda TO'G'RIDAN-TO'G'RI TEKSHIRILMADI
+#     (Claude'da Render dashboard/API'ga kirish yo'q) — pastdagi
+#     "basic-256mb" FAQAT ehtiyotkor TAXMIN (eng kichik PULLIK Postgres
+#     darajasi, Render blueprint hujjatidagi nomlash bo'yicha). Sync
+#     qilishdan OLDIN Render Dashboard → uzflora-db → "Info" bo'limidan
+#     haqiqiy planni tekshirib, kerak bo'lsa shu qiymatni to'g'irlang.
 databases:
   - name: uzflora-db
     databaseName: uzflora_production
     user: uzflora
-    plan: free
+    plan: basic-256mb # TASDIQLANMAGAN — yuqoridagi izohga qarang
 
 services:
   - type: web
     name: uzflora
     runtime: ruby
-    plan: free
+    plan: standard
     buildCommand: "./bin/render-build.sh"
     startCommand: "bundle exec puma -C config/puma.rb"
     envVars:
@@ -30,12 +45,17 @@ services:
       - key: RACK_ENV
         value: production
 
-      # Bepul plan bor-yo'g'i 512 MB RAM beradi. 2 ta Puma worker (cluster
-      # rejimi) — har biri to'liq alohida Rails processi (ActiveAdmin,
-      # Devise, CarrierWave va h.k. bilan ~150-250 MB'dan boshlab) — rasm
-      # yuklanmasdan turib ham xotiraning katta qismini band qilib,
-      # avatar/rasm yuklashda OOM (502)ga olib kelgan edi. 0 — bitta
-      # process, faqat thread'lar orqali parallellik (config/puma.rb).
+      # Endi (Standard, 1 CPU / 2 GB) xotira ko'proq, lekin qiymat ATAYLAB
+      # 0'ligicha qoldirilgan: bu limit dastlab bepul (512 MB) planda 2 ta
+      # Puma worker (cluster rejimi) — har biri to'liq alohida Rails
+      # processi (ActiveAdmin, Devise, CarrierWave va h.k. bilan ~150-250 MB
+      # dan boshlab) — rasm yuklanmasdan turib ham xotiraning katta qismini
+      # band qilib, avatar/rasm yuklashda OOM (502)ga olib kelgani sababli
+      # kiritilgan edi. Faqat 1 CPU bo'lgani uchun bir nechta worker HAQIQIY
+      # parallellik bermaydi (bitta yadro ular orasida navbat bilan
+      # almashadi) — WEB_CONCURRENCY>0 qilish shu sababdan foyda bermasdan
+      # xotirani behuda ko'paytirar edi. 0 — bitta process, faqat thread'lar
+      # orqali parallellik (config/puma.rb).
       - key: WEB_CONCURRENCY
         value: 0
 
@@ -51,7 +71,11 @@ services:
       # ImageMagick (mini_magick) katta rasmni qayta ishlashda cheksiz
       # xotira band qilishi mumkin edi. Bu chegaralar oshib ketsa,
       # ImageMagick diskka (tmp) o'tadi — sekinroq, lekin process
-      # o'lmaydi. 512 MB umumiy xotiraning yarmidan kamini beramiz.
+      # o'lmaydi. Qiymatlar ESKI bepul (512 MB) planga mo'ljallab
+      # tanlangan (umumiy xotiraning yarmidan kamini beramiz) — endi
+      # Standard (2 GB) planda ancha bo'sh joy bor, lekin qiymatlar
+      # ATAYLAB o'zgartirilmagan: bular rasm yuklashda haqiqiy OOM
+      # muammosini yechgan edi, keraksiz risk qilinmaydi.
       - key: MAGICK_MEMORY_LIMIT
         value: 128MiB
       - key: MAGICK_MAP_LIMIT
