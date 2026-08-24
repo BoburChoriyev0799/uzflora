@@ -104,6 +104,15 @@ module Powo
 
       name_tokens = [ tokens[0] ]
       i = 1
+      # Nothogenus duragay belgisi ("× Hulthemosa ...") — "×" o'zi genus
+      # EMAS, undan keyingi (bosh harfli) so'z chinakam genus, shu sababli
+      # ham majburiy NOMga kiritiladi (aks holda pastdagi umumiy tsikl
+      # bosh harfli so'zda darhol to'xtab, butun genus "muallif" qismiga
+      # tushib qolardi).
+      if tokens[0] == '×' && tokens.size > 1
+        name_tokens << tokens[1]
+        i = 2
+      end
       while i < tokens.size
         tok = tokens[i]
         break unless tok =~ /\A[a-z]/ || tok == '×'
@@ -704,6 +713,108 @@ module Powo
         resolved_count += 1
       end
       log.call("  Tarqalish orqali hal qilindi: #{resolved_count} ta")
+    end
+
+    # --- Qo'lda TAXALLUS'larni (db/powo_overrides.csv'dagi wcvp_name) hal qilish -
+    #
+    # `wcvp_name` — "bazadagi bu species_sci aslida WCVP'da ANA U nom bilan
+    # yozilgan" degani (masalan bazada turkum nomi xato terilgan: "Erysimim"
+    # → WCVP'da "Erysimum"). `accepted_name` USTUNIDAN FARQLI ravishda, bu
+    # yerda qo'lda faqat NOM ko'rsatiladi — qabul qilingan nom/muallif/
+    # oila/turkum/rank/powo_id/wcvp_status HAMMASI avtomatik, WCVP faylida
+    # `wcvp_name`ni qidirib, `resolve_outcome` zanjiri orqali hisoblanadi
+    # (xuddi bazadagi ODATIY nom kabi — faqat qidiruv kaliti boshqa).
+    #
+    # Bu ro'yxat odatda juda kichik (bir nechta o'nlab taxallus) bo'lgani
+    # uchun ALOHIDA, arzon WCVP o'qishda amalga oshiriladi (asosiy
+    # `run()` quvuriga aralashtirilmaydi — u faqat bazadagi species_sci
+    # nomlarini qidiradi, taxalluslarni EMAS).
+    #
+    # Qaytadi: { wcvp_name => { status: :resolved/:ambiguous/:not_found,
+    #   chosen_row:, final:, options: [...] } }
+    #   :resolved  — WCVP'da AYNAN bitta yozuv topildi (chosen_row bor).
+    #                `final` baribir nil bo'lishi mumkin (masalan holat
+    #                Unplaced/Misapplied bo'lib, "accepted"ga zanjir
+    #                yo'q) — bu holda wcvp_matched_name/wcvp_status
+    #                to'ldiriladi, lekin accepted_* BO'SH qoladi (kutilgan
+    #                holat, masalan Hulthemosa guzarica).
+    #   :ambiguous — nom bir nechta WCVP yozuviga mos keldi, muallif ham
+    #                ajrata olmadi — chaqiruvchi OGOHLANTIRISH chiqarib,
+    #                yozuvni hal qilinmagan holda qoldirishi kerak.
+    #   :not_found — WCVP'da bunday nom umuman yo'q.
+    def resolve_wcvp_name_aliases(wcvp_names, log: ->(_msg) {})
+      return {} if wcvp_names.empty?
+
+      entries = wcvp_names.uniq.map { |raw|
+        cleaned = basic_clean(fix_cyrillic_homoglyphs(raw))
+        raw_name, raw_author = split_scientific_name(cleaned)
+        {
+          wcvp_name: raw,
+          norm_name: normalize_name_for_match(raw_name),
+          norm_author: normalize_author_for_match(raw_author)
+        }
+      }
+      query_names = entries.map { |e| e[:norm_name] }.to_set
+
+      log.call("Taxallus (wcvp_name) uchun WCVP faylini alohida qidirish (#{entries.size} ta nom)...")
+      name_index = Hash.new { |h, k| h[k] = [] }
+      records_by_id = {}
+      File.open(WCVP_PATH, 'r:UTF-8') do |io|
+        col = read_wcvp_header(io)
+        io.each_line do |line|
+          fields = line.chomp.split('|', -1)
+          taxon_name = fields[col['taxon_name']]
+          next if taxon_name.blank?
+
+          norm = normalize_name_for_match(taxon_name)
+          next unless query_names.include?(norm)
+
+          record = wcvp_row_to_record(fields, col)
+          name_index[norm] << record[:id]
+          records_by_id[record[:id]] = record
+        end
+      end
+
+      chain_follow_statuses = ([ 'Synonym' ] + RESOLVABLE_DEFECTIVE_STATUSES).freeze
+      5.times do
+        missing = records_by_id.values
+                                .select { |r| chain_follow_statuses.include?(r[:status]) && r[:accepted_id] && !records_by_id.key?(r[:accepted_id]) }
+                                .map { |r| r[:accepted_id] }.uniq
+        break if missing.empty?
+
+        fetch_wcvp_rows_by_id(missing.to_set, records_by_id)
+      end
+
+      entries.each_with_object({}) do |e, out|
+        candidates = name_index[e[:norm_name]] || []
+
+        if candidates.empty?
+          out[e[:wcvp_name]] = { status: :not_found }
+          next
+        end
+
+        chosen_id =
+          if candidates.size == 1
+            candidates.first
+          else
+            author_matches = candidates.select { |id| normalize_author_for_match(records_by_id[id][:taxon_authors]) == e[:norm_author] }
+            author_matches.size == 1 ? author_matches.first : nil
+          end
+
+        if chosen_id.nil?
+          out[e[:wcvp_name]] = {
+            status: :ambiguous,
+            options: candidates.first(5).map { |id|
+              r = records_by_id[id]
+              "#{r[:taxon_name]} #{r[:taxon_authors]} [#{r[:status]}, oila=#{r[:family]}]"
+            }
+          }
+        else
+          row = records_by_id[chosen_id]
+          _outcome, final = resolve_outcome(row, records_by_id)
+          out[e[:wcvp_name]] = { status: :resolved, chosen_row: row, final: final }
+        end
+      end
     end
 
     # --- To'liq quvur ------------------------------------------------------

@@ -10,34 +10,69 @@
 #
 # QANDAY ISHLAYDI: `plants:powo_export_mapping` avval WCVP bilan solishtirib
 # natija hisoblaydi, KEYIN shu faylni o'qiydi va species_sci bo'yicha mos
-# kelgan qatorni USTIDAN YOZADI (accepted_name/accepted_authors/
-# accepted_family/accepted_genus/accepted_rank/powo_id — shu qatordagi
-# qiymatlar bilan, `powo_match_type` esa "manual_override" bo'lib
-# belgilanadi). `wcvp_status` ustuniga tegilmaydi — u WCVP'dan qanday
-# hisoblangan bo'lsa, shundayligicha qoladi (sahifadagi "Sinonimi"/
-# "Bazadagi imlo" yorlig'i shunga qarab chiqadi).
+# kelgan qatorni USTIDAN YOZADI. Har qator UCH holatdan biriga to'g'ri
+# keladi (ustuvorlik tartibida):
+#
+#   1) accepted_name TO'LDIRILGAN — TO'G'RIDAN-TO'G'RI QO'LDA TUZATISH.
+#      accepted_name/accepted_authors/accepted_family/accepted_genus/
+#      accepted_rank/powo_id — shu qatordagi qiymatlar bilan USTIDAN
+#      yoziladi, `powo_match_type` "manual_override" bo'ladi.
+#
+#   2) accepted_name BO'SH, lekin wcvp_name TO'LDIRILGAN — TAXALLUS (alias).
+#      Ma'nosi: "bazadagi bu species_sci aslida WCVP'da ANA U nom bilan
+#      yozilgan" (masalan bazada turkum nomi xato terilgan: "Erysimim" →
+#      WCVP'da "Erysimum"). Matcher WCVP'da AYNAN shu nomni (wcvp_name)
+#      qidiradi va ODATDAGIDEK yechadi — qabul qilingan nom, muallif,
+#      oila, turkum, powo_id, wcvp_status HAMMASI AVTOMATIK hisoblanadi,
+#      qo'lda yozish shart emas. `powo_match_type` "manual_alias" bo'ladi.
+#      Agar wcvp_name WCVP'da topilmasa yoki bir nechta yozuvga mos kelib
+#      muallif orqali ham ajratib bo'lmasa — export vaqtida OGOHLANTIRISH
+#      chiqadi va qator TEGILMAY, avvalgi (asosiy quvurdan kelgan) holatida
+#      qoladi (jim o'tkazib yuborilmaydi).
+#
+#   3) accepted_name HAM, wcvp_name HAM BO'SH — "hali qaror qilinmagan,
+#      kutib turibdi" (masalan Taraxacum pseudoalpinum'ga qarang): shunda
+#      powo_match_type baribir "manual_override" bo'ladi (WCVP'ning o'z,
+#      ehtimol noto'g'ri, avtomatik xulosasi ustidan YOZILADI — bo'sh
+#      bilan), lekin accepted_* bazaga bo'sh yoziladi, ya'ni "POWO'siz"
+#      holatda qoladi, qaror qilingunga qadar hech narsa ko'rsatilmaydi.
+#
+# `wcvp_status` ustuniga TO'G'RIDAN-TO'G'RI TUZATISH (1-holat)da tegilmaydi
+# — u WCVP'dan qanday hisoblangan bo'lsa, shundayligicha qoladi. TAXALLUS
+# (2-holat)da esa wcvp_status ham AVTOMATIK, wcvp_name qidiruvidan keladi.
 #
 # QANDAY TO'LDIRILADI (Excel'da): har qator — bitta Plant yozuvi uchun
 # qo'lda tekshirilgan qaror.
 #   species_sci      — KALIT: bazadagi (uzflora_plants_v8.csv dagi) species_sci
 #                       bilan HARFMA-HARF bir xil bo'lishi shart
 #   accepted_name    — to'g'ri deb topilgan qabul qilingan nom, MUALLIFSIZ
-#   accepted_authors — muallif qismi alohida
+#                       (1-holat uchun; taxallus/kutish uchun BO'SH qoldiring)
+#   accepted_authors — muallif qismi alohida (1-holat uchun)
 #   accepted_family, accepted_genus, accepted_rank (Species/Subspecies/Variety...)
-#   powo_id          — POWO taxon ID (bilmasangiz bo'sh qoldiring)
+#                       (1-holat uchun)
+#   powo_id          — POWO taxon ID (1-holat uchun, bilmasangiz bo'sh qoldiring)
+#   wcvp_name        — TAXALLUS: bazadagi nomning WCVP'dagi to'g'ri yozilishi
+#                       (nom + muallif birga, masalan "Erysimum babataghi
+#                       Korsh."). Faqat accepted_name BO'SH bo'lganda ishlaydi.
 #   izoh             — NEGA qo'lda belgilangan (keyingi safar ochib
 #                       o'qigan kishi uchun tushunarli bo'lsin)
 #   sana             — qo'shilgan/oxirgi tahrirlangan sana (YYYY-MM-DD)
-#
-# accepted_name USTUNI BO'SH qoldirilsa — bu "hali qaror qilinmagan, kutib
-# turibdi" degani (masalan Taraxacum pseudoalpinum'ga qarang): shunda
-# powo_match_type baribir "manual_override" bo'ladi (WCVP'ning o'z, ehtimol
-# noto'g'ri, avtomatik xulosasi ustidan YOZILADI — bo'sh bilan), lekin
-# accepted_* bazaga bo'sh yoziladi, ya'ni "POWO'siz" holatda qoladi, qaror
-# qilingunga qadar hech narsa ko'rsatilmaydi.
-species_sci,accepted_name,accepted_authors,accepted_family,accepted_genus,accepted_rank,powo_id,izoh,sana
-"Setaria lutescens (Weig.) F.T. Hubb.",Setaria pumila,(Poir.) Roem. & Schult.,Poaceae,Setaria,Species,421764-1,"WCVP zanjiri Cenchrus americanus (marvarid tariq) ga olib boradi, lekin bu sariq tulkiquyruq (sarg'ish qo'noq). Panicum glaucum L. tipifikatsiyasi marvarid tariq bo'lib chiqqani sababli Illegitimate deb belgilangan — nomenklatura zanjiri to'g'ri, lekin natija mahalliy flora nazarda tutgan o'simlik emas.",2026-08-23
-"Taraxacum pseudoalpinum Schischk. ex Orazova",,,,,,,"SHUBHALI: WCVP zanjiri Taraxacum maracandicum'ga olib boradi (Invalid holati orqali), lekin Bobur hali qaror qilmagan. Ataylab BO'SH qoldirilgan — qaror qilingunga qadar POWO'siz holatda qoladi.",2026-08-23
-"Koeleria cristata (L.) Pers.",,,,,,,"SHUBHALI: distribution_resolved qoidasi Rostraria cristata'ni (O'rta yer dengizi bir yillik o'ti) tanladi, chunki UZB tarqalishida faqat shu topildi. Lekin Markaziy Osiyo va rus floralarida ""Koeleria cristata"" odatda Koeleria macrantha (ko'p yillik dasht o'ti) ma'nosida qo'llanadi — keng tarqalgan noto'g'ri qo'llash bo'lishi mumkin. POWO'da ikkala nom ham alohida mavjud. Ataylab BO'SH qoldirilgan — qaror qilingunga qadar POWO'siz holatda qoladi.",2026-08-24
-"Myosotis micrantha Pall. & Lehm.",,,,,,,"SHUBHALI: distribution_resolved qoidasi Arnebia decumbens subsp. decumbens'ni tanladi (mualliflik bo'yicha to'g'ri), lekin ""Myosotis micrantha"" nomi ostida odatda Myosotis stricta (unutmagul) tushuniladi — ikki xil o'simlik. Ataylab BO'SH qoldirilgan — qaror qilingunga qadar POWO'siz holatda qoladi.",2026-08-24
-"Paracaryum glochidiatum (Bunge) Riedl.",,,,,,,"SHUBHALI: distribution_resolved qoidasi Microparacaryum intermedium f. intermedium'ni tanladi — turkum o'zgarishi kutilgan edi, lekin epitet ham glochidiatum → intermedium bo'lib o'zgargan, tekshirilishi kerak. Ataylab BO'SH qoldirilgan — qaror qilingunga qadar POWO'siz holatda qoladi.",2026-08-24
+species_sci,accepted_name,accepted_authors,accepted_family,accepted_genus,accepted_rank,powo_id,wcvp_name,izoh,sana
+"Setaria lutescens (Weig.) F.T. Hubb.",Setaria pumila,(Poir.) Roem. & Schult.,Poaceae,Setaria,Species,421764-1,,"WCVP zanjiri Cenchrus americanus (marvarid tariq) ga olib boradi, lekin bu sariq tulkiquyruq (sarg'ish qo'noq). Panicum glaucum L. tipifikatsiyasi marvarid tariq bo'lib chiqqani sababli Illegitimate deb belgilangan — nomenklatura zanjiri to'g'ri, lekin natija mahalliy flora nazarda tutgan o'simlik emas.",2026-08-23
+"Taraxacum pseudoalpinum Schischk. ex Orazova",,,,,,,,"SHUBHALI: WCVP zanjiri Taraxacum maracandicum'ga olib boradi (Invalid holati orqali), lekin Bobur hali qaror qilmagan. Ataylab BO'SH qoldirilgan — qaror qilingunga qadar POWO'siz holatda qoladi.",2026-08-23
+"Koeleria cristata (L.) Pers.",,,,,,,,"SHUBHALI: distribution_resolved qoidasi Rostraria cristata'ni (O'rta yer dengizi bir yillik o'ti) tanladi, chunki UZB tarqalishida faqat shu topildi. Lekin Markaziy Osiyo va rus floralarida ""Koeleria cristata"" odatda Koeleria macrantha (ko'p yillik dasht o'ti) ma'nosida qo'llanadi — keng tarqalgan noto'g'ri qo'llash bo'lishi mumkin. POWO'da ikkala nom ham alohida mavjud. Ataylab BO'SH qoldirilgan — qaror qilingunga qadar POWO'siz holatda qoladi.",2026-08-24
+"Myosotis micrantha Pall. & Lehm.",,,,,,,,"SHUBHALI: distribution_resolved qoidasi Arnebia decumbens subsp. decumbens'ni tanladi (mualliflik bo'yicha to'g'ri), lekin ""Myosotis micrantha"" nomi ostida odatda Myosotis stricta (unutmagul) tushuniladi — ikki xil o'simlik. Ataylab BO'SH qoldirilgan — qaror qilingunga qadar POWO'siz holatda qoladi.",2026-08-24
+"Paracaryum glochidiatum (Bunge) Riedl.",,,,,,,,"SHUBHALI: distribution_resolved qoidasi Microparacaryum intermedium f. intermedium'ni tanladi — turkum o'zgarishi kutilgan edi, lekin epitet ham glochidiatum → intermedium bo'lib o'zgargan, tekshirilishi kerak. Ataylab BO'SH qoldirilgan — qaror qilingunga qadar POWO'siz holatda qoladi.",2026-08-24
+"Erysimim babataghi Korsh.",,,,,,,"Erysimum babataghi Korsh.","TAXALLUS: bazada turkum nomi xato terilgan — ""Erysimim"" (kerak: ""Erysimum""). Boshqa hamma narsa bir xil, WCVP'da bu imlo bilan qidirilsa avtomatik topiladi.",2026-08-24
+"Petatistes spurius (Retz.) Reichend.",,,,,,,"Petasites spurius (Retz.) Rchb.","TAXALLUS: turkum nomi buzilgan — ""Petatistes"" (kerak: ""Petasites""), muallif qisqartmasi ham bazada to'liqroq yozilgan (""Reichend."" → WCVP'da ""Rchb."").",2026-08-24
+"Lycopus europeanus L.",,,,,,,"Lycopus europaeus L.","TAXALLUS: epitet imlo xatosi — ""europeanus"" (kerak: ""europaeus"").",2026-08-24
+"Jurinea kuramensis Iljin",,,,,,,"Jurinea kuraminensis Iljin","TAXALLUS: epitet imlo xatosi — ""kuramensis"" (kerak: ""kuraminensis"", Kurama tog' tizmasidan).",2026-08-24
+"Jurinea pjataevae Iljin",,,,,,,"Jurinea pjatajeviae Iljin","TAXALLUS: epitet imlo xatosi — ""pjataevae"" (kerak: ""pjatajeviae"").",2026-08-24
+"Tragopogon kraschennikovii S.A. Nikitin",,,,,,,"Tragopogon krascheninnikovii S.A.Nikitin","TAXALLUS: epitet imlo xatosi — ""kraschennikovii"" (kerak: ""krascheninnikovii"", Krasheninnikov familiyasidan).",2026-08-24
+"Trichanthemis glabrifolia Novopokr.",,,,,,,"Trichanthemis glabriflora Novopokr. & Sidorenko","TAXALLUS: epitet xato — ""glabrifolia"" (""silliq bargli"") o'rniga WCVP'da ""glabriflora"" (""silliq gulli""); bazadagi o'zbekcha nomi ""tuksiz gulli"" aynan gulni nazarda tutadi, bu WCVP epitetini tasdiqlaydi. Muallif ham WCVP'da to'liqroq (Novopokr. & Sidorenko).",2026-08-24
+"Allium x tokaliense Kamelin & Levichev",,,,,,,"Allium × tokalense Kamelin & Levichev","TAXALLUS: epitet imlo xatosi — ""tokaliense"" (kerak: ""tokalense""); bazadagi ""x"" duragay belgisi WCVP'dagi ""×"" bilan bir xil deb hisoblanadi.",2026-08-24
+"Gagea x turanica Levichev",,,,,,,"Gagea turanica Levichev","TAXALLUS: bazada duragay belgisi ""x"" xato qo'shilgan — WCVP'da bu ODDIY tur (duragay emas), faqat ""Gagea turanica Levichev"".",2026-08-24
+"Colutea jarmolenkoi Shap.",,,,,,,"Colutea jamnolenkoi Shap.","TAXALLUS: epitet imlo xatosi — ""jarmolenkoi"" (kerak: ""jamnolenkoi"").",2026-08-24
+"Hulthemosa guzarica Juz.",,,,,,,"× Hulthemosa guzarica Juz.","TAXALLUS: bazada duragay belgisi ""×"" tushib qolgan — WCVP'da bu duragay turkum (× Hulthemosa). Nom WCVP'da TOPILADI, lekin WCVP holati Unplaced — qabul qilingan nomga zanjir yo'q, shuning uchun accepted_* baribir BO'SH qoladi (bu KUTILGAN, xato emas), faqat wcvp_matched_name/wcvp_status to'ldiriladi.",2026-08-24
+"Komarovia angiosperma Korovin",,,,,,,"Komarovia anisoptera Korovin","TAXALLUS: Komarovia WCVP'da BIR TURLI turkum — faqat K. anisoptera bor. Bazadagi ""angiosperma"" o'sha nomning buzilgan shakli. Ruscha nomi ""комаровия неравносемянная"" (teng bo'lmagan urug'li) qabul qilingan nom Komaroviopsis anisosperma ekanini tasdiqlaydi.",2026-08-24
+"Phlomoides eriolarynx (Pazij & Vved.) Adylov, Kamelin & Makhm.",,,,,,,"Eremostachys eriolarynx Pazij & Vved.","TAXALLUS: bu kombinatsiyaning bazionimi. WCVP'da Eremostachys — Phlomoides'ning sinonimi, lekin bu tur hali qayta joylashtirilmagan (Unplaced), shuning uchun qabul qilingan nom bo'sh qoladi. Taxallus faqat kelib chiqishni hujjatlashtirish uchun — kelajakda WCVP yangilanganda avtomatik hal bo'ladi.",2026-08-24
