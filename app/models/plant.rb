@@ -47,13 +47,21 @@ class Plant < ApplicationRecord
   }
 
   # --- Ko'rsatiladigan nom ---
-  # Saytda o'simlik nomini chiroyli chiqarish uchun.
-  # O'zbekcha nom bo'lsa o'sha, bo'lmasa ilmiy nom.
+  # Saytda o'simlik nomini chiroyli chiqarish uchun. Tarjima (uz/ru)
+  # bo'lsa o'sha, bo'lmasa ESKI species_sci EMAS, balki `display_sci_name`
+  # (POWO moslashtirilgan bo'lsa — joriy qabul qilingan ilmiy nom) —
+  # aks holda POWO orqali qayta nomlangan, lekin hali tarjimasi yo'q
+  # o'simlik (masalan GBIF/WCVP orqali qo'shilgan yangi turlar) sahifada
+  # ESKIRGAN nom bilan chiqib qolardi.
+  def display_name_uz
+    species_uz.presence || display_sci_name
+  end
+
   def display_name(locale = :uz)
     case locale.to_sym
-    when :uz then species_uz.presence || species_sci
-    when :ru then species_ru.presence || species_sci
-    else species_sci
+    when :uz then display_name_uz
+    when :ru then species_ru.presence || display_sci_name
+    else display_sci_name
     end
   end
 

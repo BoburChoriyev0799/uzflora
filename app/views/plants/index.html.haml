@@ -436,7 +436,9 @@
                     .plant-placeholder 🌿
                 .plant-card-body
                   = link_to plant_path(plant), class: 'plant-card-link' do
-                    .plant-card-name-uz= plant.display_name(I18n.locale)
+                    - localized_name = plant.display_name(I18n.locale)
+                    - if localized_name != plant.display_sci_name
+                      .plant-card-name-uz= localized_name
                     .plant-card-name-sci= plant.display_sci_name
                     - if (alt_sci = plant_duplicate_alt_name(plant, @duplicate_accepted_names))
                       .plant-card-alt-sci= "= #{alt_sci}"
