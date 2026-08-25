@@ -23,6 +23,22 @@ MAPPING_HEADERS = %w[
   accepted_family accepted_genus accepted_rank powo_id powo_match_type
 ].freeze
 
+# PPG I ni saqlaymiz: WCVP paporotniklarni Polypodiaceae/Aspleniaceae s.l.
+# ichiga lumping qiladi (Christenhusz & Chase 2014) — bu zamonaviy PPG I
+# (2016) tasnifiga zid. Agar WCVP bergan accepted_family shu ro'yxatdagi
+# qiymatlardan biri bo'lsa VA bazadagi mavjud family_lat undan (katta-
+# kichik harf/bo'shliqni hisobga olmasdan) farq qilsa VA family_lat bo'sh
+# bo'lmasa — accepted_family O'RNIGA bazadagi family_lat yoziladi. FAQAT
+# accepted_family'ga tegishli — accepted_name/accepted_genus/
+# accepted_authors/powo_id O'ZGARMAYDI (aynan shu nom WCVP'da shu id bilan
+# tasdiqlangan, faqat oila tasnifi qaysi tizimga amal qilishimiz haqidagi
+# masala).
+WCVP_KENG_PAPOROTNIK_OILALARI = %w[Polypodiaceae Aspleniaceae].freeze
+
+def bare_family_for_compare(value)
+  Powo::Matcher.bare_family(value).to_s.strip.downcase
+end
+
 OVERRIDES_PATH = Rails.root.join('db', 'powo_overrides.csv')
 OVERRIDE_VALUE_COLUMNS = %w[accepted_name accepted_authors accepted_family accepted_genus powo_id].freeze
 
@@ -129,13 +145,23 @@ namespace :plants do
     rows = results.map { |r|
       matched = r[:chosen_row]
       final = r[:final]
+      wcvp_family = final&.fetch(:family, nil)
+      db_family = r[:csv_family]
+      accepted_family =
+        if WCVP_KENG_PAPOROTNIK_OILALARI.include?(wcvp_family.to_s) &&
+           db_family.present? &&
+           bare_family_for_compare(db_family) != bare_family_for_compare(wcvp_family)
+          db_family
+        else
+          wcvp_family
+        end
       {
         'species_sci' => r[:species_sci],
         'wcvp_matched_name' => matched ? "#{matched[:taxon_name]} #{matched[:taxon_authors]}".strip : nil,
         'wcvp_status' => matched&.fetch(:status, nil),
         'accepted_name' => final&.fetch(:taxon_name, nil),
         'accepted_authors' => final&.fetch(:taxon_authors, nil),
-        'accepted_family' => final&.fetch(:family, nil),
+        'accepted_family' => accepted_family,
         'accepted_genus' => final&.fetch(:genus, nil),
         'accepted_rank' => final&.fetch(:rank, nil),
         'powo_id' => final&.fetch(:powo_id, nil),

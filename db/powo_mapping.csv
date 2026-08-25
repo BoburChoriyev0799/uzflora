@@ -1548,7 +1548,7 @@ Cyperus longus L.,Cyperus longus L.,Accepted,Cyperus longus,L.,Cyperaceae,Cyperu
 Cyperus rotundus L.,Cyperus rotundus L.,Accepted,Cyperus rotundus,L.,Cyperaceae,Cyperus,Species,305797-1,exact_full
 Cyperus tenuispica Spreng.,Cyperus tenuispica Steud.,Accepted,Cyperus tenuispica,Steud.,Cyperaceae,Cyperus,Species,306131-1,exact_name_unique
 Cysticorydalis fedtschenkoana (Regel) Fedde ex Ikonn.,Cysticorydalis fedtschenkoana (Regel) Fedde,Synonym,Corydalis fedtschenkoana,Regel,Papaveraceae,Corydalis,Species,672217-1,exact_name_unique
-Cystopteris fragilis (L.) Bernh.,Cystopteris fragilis (L.) Bernh.,Accepted,Cystopteris fragilis,(L.) Bernh.,Aspleniaceae,Cystopteris,Species,30013429-2,exact_full
+Cystopteris fragilis (L.) Bernh.,Cystopteris fragilis (L.) Bernh.,Accepted,Cystopteris fragilis,(L.) Bernh.,"Cystopteridaceae (Woodsiaceae, Athyriaceae)",Cystopteris,Species,30013429-2,exact_full
 Dactylis glomerata L.,Dactylis glomerata L.,Accepted,Dactylis glomerata,L.,Poaceae,Dactylis,Species,397309-1,exact_full
 Dactylorhiza salina (Turcz. ex Lindl.) Soó,Dactylorhiza salina (Turcz. ex Lindl.) Soó,Accepted,Dactylorhiza salina,(Turcz. ex Lindl.) Soó,Orchidaceae,Dactylorhiza,Species,626669-1,exact_full
 Dactylorhiza umbrosa (Kar. & Kir.) Nevski,Dactylorhiza umbrosa (Kar. & Kir.) Nevski,Synonym,Dactylorhiza incarnata subsp. cilicica,(Klinge) H.Sund.,Orchidaceae,Dactylorhiza,Subspecies,887395-1,exact_full
@@ -1653,9 +1653,9 @@ Dracocephalum scrobiculatum Regel,Dracocephalum scrobiculatum Regel,Accepted,Dra
 Dracocephalum spinulosum Popov,Dracocephalum spinulosum Popov,Accepted,Dracocephalum spinulosum,Popov,Lamiaceae,Dracocephalum,Species,446527-1,exact_full
 Dracocephalum stamineum Kar. & Kir.,Dracocephalum stamineum Kar. & Kir.,Accepted,Dracocephalum stamineum,Kar. & Kir.,Lamiaceae,Dracocephalum,Species,446529-1,exact_full
 Drepanocaryum sewerzowii (Regel) Regel,Drepanocaryum sewerzowii (Regel) Pojark.,Accepted,Drepanocaryum sewerzowii,(Regel) Pojark.,Lamiaceae,Drepanocaryum,Species,446556-1,exact_name_unique
-Dryopteris filix-mas (L.) Schott,Dryopteris filix-mas (L.) Schott,Accepted,Dryopteris filix-mas,(L.) Schott,Polypodiaceae,Dryopteris,Species,30345915-2,exact_full
-Dryopteris komarovii Kossinsky,Dryopteris komarovii Kossinsky,Accepted,Dryopteris komarovii,Kossinsky,Polypodiaceae,Dryopteris,Species,17326560-1,exact_full
-Dryopteris thelypteris (L.) A. Gray,Dryopteris thelypteris (L.) A.Gray,Synonym,Thelypteris palustris,Schott,Aspleniaceae,Thelypteris,Species,17226930-1,exact_full
+Dryopteris filix-mas (L.) Schott,Dryopteris filix-mas (L.) Schott,Accepted,Dryopteris filix-mas,(L.) Schott,Dryopteridaceae,Dryopteris,Species,30345915-2,exact_full
+Dryopteris komarovii Kossinsky,Dryopteris komarovii Kossinsky,Accepted,Dryopteris komarovii,Kossinsky,Dryopteridaceae,Dryopteris,Species,17326560-1,exact_full
+Dryopteris thelypteris (L.) A. Gray,Dryopteris thelypteris (L.) A.Gray,Synonym,Thelypteris palustris,Schott,Dryopteridaceae,Thelypteris,Species,17226930-1,exact_full
 Duchesnea indica (Andr.) Focke,Duchesnea indica (Andrews) Teschem.,Synonym,Potentilla indica,(Andrews) Th.Wolf,Rosaceae,Potentilla,Species,728289-1,exact_name_unique
 Echinaria capitata (L.) Desf.,Echinaria capitata (L.) Desf.,Accepted,Echinaria capitata,(L.) Desf.,Poaceae,Echinaria,Species,399644-1,exact_full
 Echinochloa crus-galli (L.) Beauv.,Echinochloa crus-galli (L.) P.Beauv.,Accepted,Echinochloa crus-galli,(L.) P.Beauv.,Poaceae,Echinochloa,Species,399660-1,exact_name_unique
@@ -3344,8 +3344,8 @@ Polypogon fugax Nees ex Steud.,Polypogon fugax Nees ex Steud.,Accepted,Polypogon
 Polypogon maritimus Willd.,Polypogon maritimus Willd.,Accepted,Polypogon maritimus,Willd.,Poaceae,Polypogon,Species,418702-1,exact_full
 Polypogon monspeliensis (L.) Desf.,Polypogon monspeliensis (L.) Desf.,Accepted,Polypogon monspeliensis,(L.) Desf.,Poaceae,Polypogon,Species,1048074-2,exact_full
 Polypogon semiverticillatus (Forssk.) Hyl.,Polypogon semiverticillatus (Forssk.) Hyl.,Synonym,Polypogon viridis,(Gouan) Breistr.,Poaceae,Polypogon,Species,418741-1,exact_full
-Polystichum aculeatum (L.) Roth ex Mert.,Polystichum aculeatum (L.) Roth,Accepted,Polystichum aculeatum,(L.) Roth,Polypodiaceae,Polystichum,Species,17413440-1,exact_name_unique
-Polystichum lonchitis (L.) Roth,Polystichum lonchitis (L.) Roth,Accepted,Polystichum lonchitis,(L.) Roth,Polypodiaceae,Polystichum,Species,17414110-1,exact_full
+Polystichum aculeatum (L.) Roth ex Mert.,Polystichum aculeatum (L.) Roth,Accepted,Polystichum aculeatum,(L.) Roth,Dryopteridaceae,Polystichum,Species,17413440-1,exact_name_unique
+Polystichum lonchitis (L.) Roth,Polystichum lonchitis (L.) Roth,Accepted,Polystichum lonchitis,(L.) Roth,Dryopteridaceae,Polystichum,Species,17414110-1,exact_full
 Polytaxis lehmannii Bunge,Polytaxis lehmannii Bunge,Synonym,Saussurea lehmannii,"(Bunge) N.Garcia, Herrando & Susanna",Asteraceae,Saussurea,Species,77213346-1,exact_full
 Populus afganica (Aitch. & Hemsl.) Schneid.,Populus afghanica (Aitch. & Hemsl.) C.K.Schneid.,Synonym,Populus nigra subsp. nigra,"",Salicaceae,Populus,Subspecies,77231383-1,manual_alias
 Populus alba L.,Populus alba L.,Accepted,Populus alba,L.,Salicaceae,Populus,Species,776573-1,exact_full
