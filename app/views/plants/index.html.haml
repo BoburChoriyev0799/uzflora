@@ -434,7 +434,7 @@
                         = image_tag sighting.photo.small.url, class: "plant-card-photo-img #{'active' if i.zero?}"
                   - else
                     .plant-placeholder 🌿
-                - card = plant_card_group_info(plant, @group_members_by_accepted_name, I18n.locale)
+                - card = plant_card_group_info(plant, @group_display_info[plant.id], I18n.locale)
                 .plant-card-body
                   = link_to plant_path(plant), class: 'plant-card-link' do
                     - if card[:localized_name] != card[:sci_name]

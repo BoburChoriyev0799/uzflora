@@ -10,31 +10,67 @@ class Plant < ApplicationRecord
   validates :species_sci, presence: true
 
   # --- Qidiruv (scope'lar) ---
-  # Qizil kitobdagi o'simliklar:  Plant.red_listed
+  # Qizil kitobdagi o'simliklar (shu YOZUVNING o'zi):  Plant.red_listed
   scope :red_listed, -> { where(red_book: true) }
+
+  # Qizil kitobdagi o'simliklar GURUH darajasida: shu yozuvning o'zi
+  # YOKI accepted_name bo'yicha bir xil guruhdagi biror a'zosi Qizil
+  # kitobda bo'lsa (`group_red_book`, `plants:mark_primary` tomonidan
+  # oldindan hisoblab qo'yilgan — ko'rish: shu ustunning izohi
+  # `db/migrate/*_add_group_red_book_to_plants.rb`da). Ro'yxat sahifasida
+  # (`PlantsController#index`) FAQAT primary yozuvlar ko'rinadi, shuning
+  # uchun Qizil kitob filtri ham GURUH darajasida ishlashi shart — aks
+  # holda yashiringan (primary_record=false) Qizil kitob turi filtrga
+  # umuman tushmay qolardi.
+  scope :group_red_listed, -> { where(group_red_book: true) }
 
   # Oila bo'yicha filtr:  Plant.by_family("Asteraceae")
   scope :by_family, ->(fam) { where(family_lat: fam) }
 
-  # Nom bo'yicha qidiruv (ilmiy, ruscha yoki o'zbekcha):
-  #   Plant.search("lola")
-  # Nom BOSHIDAN mos kelganlar (masalan "Rosa..." so'rovi "lola" so'ziga
-  # emas, "Rosa"ga) natijalar ro'yxatida yuqorida chiqadi — autocomplete
-  # uchun muhim, foydalanuvchi odatda so'z boshini yozadi.
-  # POWO/WCVP moslashtirilgandan keyin foydalanuvchi eski nomni ham
-  # (species_sci/genus_lat), qabul qilingan yangi nomni ham
-  # (accepted_name/accepted_genus) yozishi mumkin — ikkalasi ham bir xil
-  # natijaga olib kelishi kerak.
+  # Qidiruv qamrab oladigan ustunlar — BITTA "birlashtirilgan matn"ga
+  # COALESCE bilan qo'shiladi (NULL'lar bo'sh satrga aylanadi, aks holda
+  # Postgres'da NULL || '...' = NULL bo'lib, butun qatorni "topilmadi"
+  # qilib qo'yardi). `accepted_authors` ATAYLAB qo'shilgan: sahifada
+  # ko'rsatiladigan to'liq ilmiy nom (`display_sci_name`) = accepted_name +
+  # accepted_authors, lekin ular BAZADA ikkita alohida ustunda — shu
+  # ustun bo'lmasa foydalanuvchi ekrandagi nomni ("Colchicum robustum
+  # (Bunge) Stef.") nusxalab qidirsa 0 natija chiqardi.
+  SEARCH_COLUMNS = %w[
+    species_sci accepted_name accepted_authors species_uz species_ru
+    genus_lat accepted_genus
+  ].freeze
+  SEARCH_TEXT_SQL = SEARCH_COLUMNS.map { |c| "COALESCE(#{c}, '')" }.join(" || ' ' || ").freeze
+
+  # Nom bo'yicha qidiruv (ilmiy — mualliflari bilan ham, ruscha yoki
+  # o'zbekcha): Plant.search("Colchicum robustum (Bunge) Stef.")
+  #
+  # So'rov SO'ZLARGA (token) ajratiladi va HAR BIR so'z (AND mantiqi bilan)
+  # yuqoridagi SEARCH_COLUMNS'ning BIRLASHTIRILGAN matnida qidiriladi.
+  # Qavslar bo'sh joyga almashtiriladi ("(Bunge)" -> "Bunge") — foydalanuvchi
+  # sahifada ko'rsatilgan to'liq nomni ("Colchicum robustum (Bunge) Stef.")
+  # xuddi shundayligicha nusxalab qidirishi mumkin bo'lishi uchun. Har bir
+  # so'z ALOHIDA ustunda emas, BITTA birlashtirilgan matnda qidirilgani
+  # uchun so'zlar turli ustunlarga (masalan nom bitta, muallif boshqasida)
+  # bo'linib ketgan bo'lsa ham barchasi topiladi — "Merendera robusta
+  # Bunge" (eski nom + muallif, ikkalasi species_sci'ning o'zida) ham,
+  # "robustum Stef" (aralash, bir-biriga bog'liq bo'lmagan bo'laklar) ham.
+  #
+  # Nom BOSHIDAN mos kelganlar tepada chiqadi — autocomplete uchun muhim
+  # (foydalanuvchi odatda so'z boshini yozadi).
+  #
+  # Bo'sh/faqat bo'shliqli so'rovda — filtrsiz, hammasi qaytadi.
   scope :search, lambda { |q|
-    raw = q.to_s.strip.downcase
-    term = "%#{raw}%"
-    prefix = "#{raw}%"
-    where(
-      'LOWER(species_sci) LIKE :t OR LOWER(species_ru) LIKE :t OR ' \
-      'LOWER(species_uz) LIKE :t OR LOWER(genus_lat) LIKE :t OR ' \
-      'LOWER(accepted_name) LIKE :t OR LOWER(accepted_genus) LIKE :t',
-      t: term
-    ).order(
+    cleaned = q.to_s.tr('()', ' ').squish
+    tokens = cleaned.downcase.split(' ')
+    next all if tokens.empty?
+
+    relation = all
+    tokens.each do |token|
+      relation = relation.where("LOWER(#{SEARCH_TEXT_SQL}) LIKE ?", "%#{sanitize_sql_like(token)}%")
+    end
+
+    prefix = "#{sanitize_sql_like(cleaned.downcase)}%"
+    relation.order(
       Arel.sql(
         sanitize_sql_array(
           ['CASE WHEN LOWER(species_sci) LIKE :p OR LOWER(species_ru) LIKE :p OR ' \
@@ -45,6 +81,38 @@ class Plant < ApplicationRecord
       )
     ).order(:species_sci)
   }
+
+  # `search`ni PLANTS ro'yxati (`PlantsController#index`) uchun "guruh
+  # darajasida" ishlatadi: BUTUN jadval bo'yicha (`primary_record`dan
+  # qat'i nazar) mos kelganlarni topadi, so'ng natijani ularning PRIMARY
+  # vakillariga "ko'chiradi" — aks holda masalan "Merendera hissarica"
+  # (o'zi primary emas) qidirilsa hech narsa topilmas edi, chunki uning
+  # primary'si ("Merendera robusta") bu matnga mos kelmaydi.
+  #
+  # BITTA SQL so'rovi ichida ikkita quyi-so'rov sifatida qo'llaniladi
+  # (`to_sql` — Ruby massividagi ID'larni katta IN ro'yxatiga aylantirib
+  # o'tirmasdan). Xavfsizlik: `matched_sql` to'g'ridan-to'g'ri
+  # foydalanuvchi kiritmasi EMAS — `search` allaqachon `sanitize_sql_like`/
+  # bog'langan parametrlar orqali xavfsiz SQL hosil qiladi, `.to_sql` esa
+  # shu (allaqachon qochirilgan/tirnoqlangan) YAKUNIY satrni qaytaradi;
+  # `query`ning o'zi bu satrga TO'G'RIDAN-TO'G'RI HECH QACHON kirmaydi —
+  # shuning uchun bu yerda in'ektsiya xavfi yo'q. (`sanitize_sql_array`
+  # ATAYLAB ishlatilmagan: `matched_sql` o'z ichida LIKE naqshlaridan "%"
+  # belgilarini olib yuradi, `sanitize_sql_array`ning bog'lanmagan-massiv
+  # bosqichi esa satrni printf-uslubida ("%" operatori) qayta talqin qilib,
+  # `ArgumentError` bilan yiqilar edi — tekshirib ko'rilgan.)
+  def self.group_search(query)
+    # `.reorder(nil)`: `search` o'zining saralashini (prefiks moslik +
+    # species_sci) qo'shadi, lekin bu yerda faqat ID TO'PLAMI (a'zolik
+    # tekshiruvi, `IN (...)`) kerak — saralashning o'zi ortiqcha (natija
+    # tartibiga ta'sir qilmaydi) va bekorga hisoblash xarajati qo'shardi.
+    matched_sql = search(query).reorder(nil).select(:id).to_sql
+    where(
+      "plants.id IN (#{matched_sql}) OR plants.accepted_name IN (" \
+      "SELECT p2.accepted_name FROM plants p2 " \
+      "WHERE p2.id IN (#{matched_sql}) AND p2.accepted_name IS NOT NULL)"
+    )
+  end
 
   # --- Ko'rsatiladigan nom ---
   # Saytda o'simlik nomini chiroyli chiqarish uchun. Tarjima (uz/ru)

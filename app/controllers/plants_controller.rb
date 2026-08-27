@@ -45,12 +45,26 @@ class PlantsController < ApplicationController
     # `species_sci`ning o'zi UNIQUE bo'lgani uchun amalda hech narsani
     # o'zgartirmaydi — "guruh ichida hozirgi alifbo tartibi saqlansin"
     # talabi shu bilan avtomatik bajariladi.
+    #
+    # GURUHGA OID: "rasmli" hisobiga shu yozuvning O'ZI ham, uning ORQASIDA
+    # haqiqatan YASHIRINGAN (`primary_record = FALSE`) guruh a'zolari ham
+    # kiradi — BOSHQA primary'ga ega a'zolar (masalan `db/duplikat_
+    # istisnolar.csv` orqali istisno qilingan Malus sieversii) KIRMAYDI,
+    # ular allaqachon o'zining kartochkasida, o'z rasmi bilan ko'rinadi —
+    # aks holda BIR XIL rasm ikki xil kartochkada chiqib qolardi.
     has_approved_photo_sql = <<~SQL.squish
       EXISTS (
-        SELECT 1 FROM plant_sightings
-        WHERE plant_sightings.plant_id = plants.id
-          AND plant_sightings.status = 'approved'
-          AND plant_sightings.published = TRUE
+        SELECT 1 FROM plant_sightings ps
+        WHERE ps.status = 'approved' AND ps.published = TRUE
+          AND (
+            ps.plant_id = plants.id
+            OR ps.plant_id IN (
+              SELECT p2.id FROM plants p2
+              WHERE p2.accepted_name = plants.accepted_name
+                AND plants.accepted_name IS NOT NULL
+                AND p2.primary_record = FALSE
+            )
+          )
       )
     SQL
 
@@ -61,53 +75,83 @@ class PlantsController < ApplicationController
     # ko'rsatiladi — qolganlari bazada, o'z sahifasida qoladi (ko'rish:
     # `plants:mark_primary` rake task, `Plant#primary_record`). Shu
     # kartochkada guruhning BARCHA a'zolari haqidagi ma'lumot (o'zbekcha
-    # nomlari, sinonimlari, Qizil kitob holati) birlashtirilib ko'rsatiladi
-    # (pastga qarang, `@group_members_by_accepted_name`).
+    # nomlari, sinonimlari, rasmlari) birlashtirilib ko'rsatiladi (pastga
+    # qarang, `@group_members_by_accepted_name`/`@group_display_info`).
     @plants = Plant.where(primary_record: true)
                     .order(Arel.sql("(#{has_approved_photo_sql}) DESC"))
                     .order(:species_sci)
-    @plants = @plants.search(params[:q]) if params[:q].present?
+    @plants = @plants.merge(Plant.group_search(params[:q])) if params[:q].present?
     @plants = @plants.by_family(params[:family]) if params[:family].present?
-    @plants = @plants.red_listed if params[:red_book].present?
+    # Qizil kitob filtri GURUH darajasida: `group_red_book` (`plants:
+    # mark_primary` tomonidan oldindan hisoblab qo'yilgan — shu yozuvning
+    # o'zi YOKI accepted_name guruhidagi BIROR a'zosi Qizil kitobda
+    # bo'lsa true) — aks holda yashiringan Qizil kitob turi filtrga
+    # umuman tushmay qolardi.
+    @plants = @plants.group_red_listed if params[:red_book].present?
     @plants = @plants.page(params[:page]).per(PLANTS_PER_PAGE)
 
     @families = Plant.where.not(family_lat: nil).distinct.order(:family_lat).pluck(:family_lat)
 
-    # Kartochkalarda placeholder o'rniga tasdiqlangan rasm(lar)ni
-    # ko'rsatish uchun — BITTA query bilan (N+1 emas!) joriy sahifadagi
-    # (24 ta) o'simlikka tegishli barcha tasdiqlangan kuzatuvlarni olib,
-    # plant_id bo'yicha Ruby'da guruhlaymiz (@sightings_by_plant[id]).
-    # plants/show'даgi bilan bir xil siyosat: faqat .published.approved.
-    plant_ids = @plants.map(&:id)
-    @sightings_by_plant = PlantSighting.published.approved
-                                        .where(plant_id: plant_ids)
-                                        .order(created_at: :desc)
-                                        .group_by(&:plant_id)
-
     # Joriy sahifadagi (primary) kartochkalar orqasidagi TO'LIQ guruhni
     # (accepted_name bo'yicha bir xil BARCHA yozuvlar, primary_record
     # qiymatidan qat'i nazar) yuklab olamiz — o'zbekcha nom(lar), sinonim
-    # ro'yxati va Qizil kitob holatini birlashtirib ko'rsatish uchun
-    # (ko'rish: PlantsHelper#plant_card_group_info). BITTA qo'shimcha
-    # so'rov (N+1 emas) — yuqoridagi @sightings_by_plant bilan bir xil
-    # naqsh.
-    #
-    # DIQQAT (`primary_record`ni ham yuklaymiz): `db/duplikat_istisnolar.csv`
-    # orqali bitta guruhda BIR NECHTA primary=true yozuv qolishi mumkin
-    # (masalan Malus domestica/sieversii/niedzwetzkyana — hammasi primary).
-    # Bunday holda har biri O'ZINING alohida kartochkasi — birortasi
-    # boshqasining "yashirilgan sinonimi" EMAS. Shu sabab
-    # `plant_card_group_info` FAQAT primary_record=false a'zolarni
-    # (haqiqatan ro'yxatda yashiringan, shu kartochkada vakillik qilinishi
-    # kerak bo'lganlarni) qo'shib hisoblaydi.
+    # ro'yxati va rasmlarni birlashtirib ko'rsatish uchun. BITTA qo'shimcha
+    # so'rov (N+1 emas).
     accepted_names = @plants.map(&:accepted_name).select(&:present?).uniq
     @group_members_by_accepted_name = if accepted_names.any?
                                          Plant.where(accepted_name: accepted_names)
-                                              .select(:id, :species_sci, :species_uz, :species_ru, :accepted_name, :red_book, :primary_record)
+                                              .select(:id, :species_sci, :species_uz, :species_ru, :accepted_name, :primary_record)
                                               .group_by(&:accepted_name)
                                        else
                                          {}
                                        end
+
+    # Har bir primary kartochka uchun "effektiv a'zolar"ni (sci nom,
+    # kartochka mantig'i va rasm qidiruvi UCHUNGI YAGONA manba) oldindan
+    # hisoblab qo'yamiz — ko'rish: PlantsHelper#plant_card_group_info
+    # (xuddi shu logikani ishlatadi, lekin qayta HISOBLAMAYDI, faqat shu
+    # yerda tayyorlangan natijani o'qiydi).
+    #
+    # DIQQAT: BOSHQA primary'ga ega a'zo (istisno) HECH QACHON bu ro'yxatga
+    # kirmaydi — accepted_name bu holda kartochkalarni farqlamaydi, shuning
+    # uchun "birlashtirish" UMUMAN qo'llanilmaydi (sarlavha ham shu
+    # yozuvning O'Z, xom nomi bo'ladi). ESLATMA: nazariy jihatdan bitta
+    # guruhda HAM bir nechta primary (istisno), HAM haqiqatan yashiringan
+    # (primary_record=false) a'zo bo'lsa, o'sha yashiringan a'zo hech
+    # qaysi primary kartochkaga qo'shilmay qoladi — bu HOZIRGI ma'lumotlar
+    # bilan (faqat Malus'da 2 ta istisno, 0 ta yashiringan a'zo) yuz
+    # bermaydi, lekin kelajakda db/duplikat_istisnolar.csv kengaytirilsa
+    # e'tiborga olinishi kerak.
+    @group_display_info = {}
+    @plants.each do |plant|
+      all_members = plant.accepted_name.present? ? (@group_members_by_accepted_name[plant.accepted_name] || [ plant ]) : [ plant ]
+      other_primary_exists = all_members.any? { |m| m.id != plant.id && m.primary_record? }
+
+      @group_display_info[plant.id] =
+        if other_primary_exists
+          { sci_name: plant.species_sci, members: [ plant ] }
+        else
+          { sci_name: plant.display_sci_name, members: [ plant ] + all_members.reject { |m| m.id == plant.id } }
+        end
+    end
+
+    # Kartochkalarda placeholder o'rniga tasdiqlangan rasm(lar)ni
+    # ko'rsatish uchun — BITTA query bilan (N+1 emas!) joriy sahifadagi
+    # o'simliklarga VA ularning (yuqoridagi) effektiv guruh a'zolariga
+    # tegishli barcha tasdiqlangan kuzatuvlarni olib, ORIGINAL plant_id
+    # bo'yicha guruhlaymiz, so'ng har PRIMARY uchun o'zi + a'zolarining
+    # rasmlarini birlashtirib, `@sightings_by_plant[primary.id]`ga
+    # yig'amiz — shu bilan view'ning o'zi o'zgarishsiz qoladi (u faqat
+    # `@sightings_by_plant[plant.id]`ni o'qiydi).
+    all_relevant_ids = @group_display_info.values.flat_map { |info| info[:members].map(&:id) }.uniq
+    sightings_by_raw_plant_id = PlantSighting.published.approved
+                                              .where(plant_id: all_relevant_ids)
+                                              .order(created_at: :desc)
+                                              .group_by(&:plant_id)
+    @sightings_by_plant = @group_display_info.transform_values { |info|
+      info[:members].flat_map { |m| sightings_by_raw_plant_id[m.id] || [] }
+                     .sort_by { |s| -s.created_at.to_i }
+    }
   end
 
   def show
@@ -134,21 +178,25 @@ class PlantsController < ApplicationController
       end
     end
 
-    # Shu o'simlikka bog'langan, faqat tasdiqlangan va nashr qilingan
-    # kuzatuvlar (rasmlar) — index'даgi mehmon galereyasi bilan bir xil
-    # naqsh (.published.approved). Egasi ham, mehmon ham faqat
-    # tasdiqlanganlarini ko'radi — izchil siyosat (kutilayotgan/rad
-    # etilganlar bu yerda ko'rsatilmaydi). includes(:user) — N+1'ning
-    # oldini olish uchun (har rasm ostida muallif ismi ko'rsatiladi).
-    # `param_name: :sightings_page` — bu sahifada hozircha boshqa
-    # sahifalanadigan ro'yxat yo'q, lekin standart `:page` nomini
-    # ATAYLAB ishlatmaymiz: profiles#show'da xuddi shu xato (umumiy
-    # `:page` bir nechta ro'yxat orasida to'qnashib, sahifalash
-    # ishlamay qolgan edi) shu yerda takrorlanmasligi uchun.
-    @sightings = @plant.plant_sightings.published.approved
-                        .includes(:user)
-                        .order(created_at: :desc)
-                        .page(params[:sightings_page]).per(SIGHTINGS_PER_PAGE)
+    # Shu o'simlikka VA (agar u primary bo'lsa) uning ORQASIDA haqiqatan
+    # yashiringan (`@group_siblings`) guruh a'zolariga bog'langan, faqat
+    # tasdiqlangan va nashr qilingan kuzatuvlar (rasmlar) — index'даgi
+    # mehmon galereyasi bilan bir xil siyosat (.published.approved).
+    # Egasi ham, mehmon ham faqat tasdiqlanganlarini ko'radi (kutilayotgan/
+    # rad etilganlar bu yerda ko'rsatilmaydi). `includes(:user, :plant)` —
+    # N+1'ning oldini olish uchun (har rasm ostida muallif ismi, guruh
+    # a'zosidan kelgan rasm ostida esa "X sifatida" izohi ko'rsatiladi —
+    # ko'rish: views/plants/show.html.haml). `param_name: :sightings_page`
+    # — bu sahifada hozircha boshqa sahifalanadigan ro'yxat yo'q, lekin
+    # standart `:page` nomini ATAYLAB ishlatmaymiz: profiles#show'da xuddi
+    # shu xato (umumiy `:page` bir nechta ro'yxat orasida to'qnashib,
+    # sahifalash ishlamay qolgan edi) shu yerda takrorlanmasligi uchun.
+    sighting_plant_ids = [ @plant.id ] + Array(@group_siblings).map(&:id)
+    @sightings = PlantSighting.published.approved
+                               .where(plant_id: sighting_plant_ids)
+                               .includes(:user, :plant)
+                               .order(created_at: :desc)
+                               .page(params[:sightings_page]).per(SIGHTINGS_PER_PAGE)
   end
 
   # AJAX (plants#index'даgi "Rasm orqali o'simlik aniqlash" bo'limi):

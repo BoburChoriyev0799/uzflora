@@ -56,6 +56,7 @@ uz:
       photos_title: "Foydalanuvchilar rasmlari"
       photos_empty: "Bu o'simlik uchun hali rasm qo'shilmagan."
       photo_by: "Muallif:"
+      photo_submitted_as: "%{name} sifatida"
     welcome:
       title: "uzflora.uz — O'zbekiston florasi platformasi"
       subtitle: >-

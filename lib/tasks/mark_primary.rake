@@ -76,6 +76,22 @@ namespace :plants do
     single_groups = groups.select { |_, members| members.size == 1 }
     multi_groups = groups.reject { |_, members| members.size == 1 }
 
+    # --- group_red_book: "guruhning BIROR a'zosi Qizil kitobda bo'lsa,
+    # BARCHASI (jumladan yashiringan a'zolar orqasidagi primary) Qizil
+    # kitob filtriga tushsin". `red_book`ning O'ZIGA tegilmaydi — bu
+    # FAQAT filtrlash uchun hisoblab chiqilgan qo'shimcha ustun. Bu yerda
+    # ATAYLAB `groups` (single + multi, HAMMASI) ishlatiladi, "effective
+    # members" (istisnolarni hisobga oluvchi, faqat ko'rinish uchun
+    # ishlatiladigan) mantiqqa BOG'LIQ EMAS — Qizil kitob filtri
+    # taksonomik guruhning O'ZIGA tegishli haqiqat, ko'rinish qoidalariga
+    # emas.
+    desired_group_red_book = {}
+    no_accepted.each { |p| desired_group_red_book[p.id] = p.red_book? }
+    groups.each do |_, members|
+      any_red = members.any?(&:red_book?)
+      members.each { |m| desired_group_red_book[m.id] = any_red }
+    end
+
     single_groups.each_value { |members| desired[members.first.id] = true }
 
     multi_groups.each do |accepted_name, members|
@@ -113,6 +129,9 @@ namespace :plants do
     to_true = desired.select { |id, v| v == true && !current_by_id[id].primary_record }.keys
     to_false = desired.select { |id, v| v == false && current_by_id[id].primary_record }.keys
 
+    group_red_book_to_true = desired_group_red_book.select { |id, v| v == true && !current_by_id[id].group_red_book }.keys
+    group_red_book_to_false = desired_group_red_book.select { |id, v| v == false && current_by_id[id].group_red_book }.keys
+
     puts "\n#{'=' * 60}"
     puts "Guruhlar (accepted_name bo'yicha, bittadan ko'p a'zoli): #{multi_groups.size}"
     puts "Shu guruhlardagi jami yozuvlar: #{multi_groups.values.sum(&:size)}"
@@ -122,10 +141,17 @@ namespace :plants do
     puts "Yakunda primary_record=false bo'ladigan jami: #{desired.count { |_, v| v == false }}"
     puts "Yakunda primary_record=true bo'ladigan jami: #{desired.count { |_, v| v == true }}"
 
+    puts "\nO'zgaradi: group_red_book FALSE -> TRUE: #{group_red_book_to_true.size}"
+    puts "O'zgaradi: group_red_book TRUE -> FALSE: #{group_red_book_to_false.size}"
+    puts "Yakunda group_red_book=true bo'ladigan jami: #{desired_group_red_book.count { |_, v| v == true }}"
+    puts "  (shundan red_book=true bo'lgan haqiqiy soni: #{all_plants.count(&:red_book?)})"
+
     if apply
       ActiveRecord::Base.transaction do
         Plant.where(id: to_false).update_all(primary_record: false) if to_false.any?
         Plant.where(id: to_true).update_all(primary_record: true) if to_true.any?
+        Plant.where(id: group_red_book_to_false).update_all(group_red_book: false) if group_red_book_to_false.any?
+        Plant.where(id: group_red_book_to_true).update_all(group_red_book: true) if group_red_book_to_true.any?
       end
       puts "\nBajarildi."
     else

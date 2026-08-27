@@ -55,47 +55,34 @@ module PlantsHelper
     rows.select { |_, value| value.present? }
   end
 
-  # plants#index kartochkasi uchun BARCHA guruh ma'lumotini BIR JOYDA
-  # hisoblaydi (sci nom, lokalizatsiya nomi, sinonim qatori, Qizil kitob) —
-  # `@group_members_by_accepted_name`dan (controller'da BITTA so'rov bilan
-  # oldindan yuklangan) oladi, qo'shimcha so'rov YUBORMAYDI.
+  # plants#index kartochkasi uchun ko'rsatish ma'lumotini tayyorlaydi
+  # (sci nom, lokalizatsiya nomi, sinonim qatori) — `group_info`
+  # (`PlantsController#index`da `@group_display_info[plant.id]` sifatida
+  # BITTA so'rov bilan oldindan hisoblab qo'yilgan: `{ sci_name:, members: }`
+  # — `members` ODDIY birlashtirish holida [o'zi + haqiqatan yashiringan
+  # a'zolar], ISTISNO holida (`db/duplikat_istisnolar.csv`) esa [o'zi]
+  # xolos, `sci_name` esa mos ravishda `display_sci_name` yoki xom
+  # `species_sci`) — bu yerda qo'shimcha so'rov YUBORILMAYDI, na
+  # branching mantig'i takrorlanadi.
   #
-  # IKKI XIL holat bor:
-  #   1) ODDIY BIRLASHTIRISH — shu accepted_name'ga ega yagona primary
-  #      shu yozuv o'zi. Unda haqiqatan YASHIRINGAN (primary_record=false)
-  #      a'zolar shu kartochkaga qo'shib ko'rsatiladi (o'zbekcha nomlari,
-  #      sinonim ro'yxati), sarlavha sifatida QABUL QILINGAN nom
-  #      (`display_sci_name`) ishlatiladi.
-  #   2) ISTISNO (`db/duplikat_istisnolar.csv`) — bir xil accepted_name'ga
-  #      ega BOSHQA primary=true yozuv HAM bor (masalan Malus domestica/
-  #      sieversii/niedzwetzkyana — hammasi primary). Bunda accepted_name
-  #      bu kartochkani BOSHQALARIDAN farqlamaydi, shuning uchun
-  #      "birlashtirish" UMUMAN qo'llanilmaydi — kartochka O'ZINING
-  #      xom (species_sci/species_uz) nomi bilan, hech qanday sinonim
-  #      qatorisiz, mustaqil ko'rsatiladi.
-  def plant_card_group_info(plant, group_members_by_accepted_name, locale)
+  # Qizil kitob nishoni ATAYLAB `group_red_book` ustunidan (butun
+  # accepted_name guruhi bo'yicha oldindan hisoblangan) olinadi, `members`
+  # ro'yxatidan EMAS — ISTISNO holida ham (masalan Malus domestica)
+  # guruhning boshqa a'zosi Qizil kitobda bo'lsa shu nishon ko'rinadi;
+  # bu ataylab shunday (filtr ham xuddi shu ustun bo'yicha ishlaydi,
+  # ikkalasi mos kelishi kerak).
+  def plant_card_group_info(plant, group_info, locale)
     field = locale.to_sym == :ru ? :species_ru : :species_uz
-    all_members = plant.accepted_name.present? ? (group_members_by_accepted_name[plant.accepted_name] || [ plant ]) : [ plant ]
-    other_primary_exists = all_members.any? { |m| m.id != plant.id && m.primary_record? }
+    members = group_info[:members]
+    sci_name = group_info[:sci_name]
+    names = members.map { |m| m.public_send(field) }.filter_map(&:presence).uniq
 
-    if other_primary_exists
-      {
-        sci_name: plant.species_sci,
-        localized_name: plant.public_send(field).presence || plant.species_sci,
-        synonyms_text: nil,
-        red_book: plant.red_book?
-      }
-    else
-      members = [ plant ] + all_members.reject { |m| m.id == plant.id }
-      sci_name = plant.display_sci_name
-      names = members.map { |m| m.public_send(field) }.filter_map(&:presence).uniq
-      {
-        sci_name: sci_name,
-        localized_name: (names.any? ? names.join(', ') : sci_name),
-        synonyms_text: (members.size > 1 ? "= #{members.map(&:species_sci).join(', ')}" : nil),
-        red_book: members.any?(&:red_book?)
-      }
-    end
+    {
+      sci_name: sci_name,
+      localized_name: (names.any? ? names.join(', ') : sci_name),
+      synonyms_text: (members.size > 1 ? "= #{members.map(&:species_sci).join(', ')}" : nil),
+      red_book: plant.group_red_book?
+    }
   end
 
   # plants/show'даgi primary BO'LMAGAN yozuv sahifasi tepasidagi eslatma —

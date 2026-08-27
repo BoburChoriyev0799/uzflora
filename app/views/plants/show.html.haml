@@ -142,6 +142,13 @@
     .plant-photo-author a {
       color: #1e5620;
     }
+    /* Guruh a'zosidan (POWO orqali shu turga birlashtirilgan boshqa
+       yozuvdan) kelgan rasm ostidagi izoh — qaysi nom ostida kiritilgani.
+       Boshqa meta qatorlar bilan bir xil kichik, xira uslub. */
+    .plant-photo-submitted-as {
+      font-style: italic;
+      color: #888;
+    }
     .plant-photos-empty {
       color: #888;
       font-style: italic;
@@ -309,6 +316,8 @@
                   %p.plant-photo-author
                     = I18n.t('.photo_by', scope: plant_scope)
                     = link_to sighting.user.full_name, profile_path(sighting.user)
+                  - if sighting.plant_id != @plant.id
+                    %p.plant-photo-submitted-as= t('photo_submitted_as', scope: plant_scope, name: sighting.plant.species_sci)
           - if @sightings.total_pages > 1
             .plant-photos-pagination
               = paginate @sightings, param_name: :sightings_page
