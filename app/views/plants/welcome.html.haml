@@ -249,8 +249,14 @@
 
     .row.mtop30
       .col-md-9.col-sm-12
-        - if @recent_sightings.present?
-          .welcome-gallery-row{data: {sightings: @recent_sightings.map { |s| { photo: s.photo.display.url, name: (s.plant.present? ? s.plant.display_name(I18n.locale) : nil) } }.to_json}}
+        -# Rasm maydoni bo'sh yoki hali tayyor bo'lmagan (fon jarayoni
+        -# tugallanmagan) kuzatuvni bu yerda chetlab o'tamiz. `.url` o'zi
+        -# bo'sh uploaderda xato bermay `nil` qaytaradi (server yiqilmaydi),
+        -# lekin shu `nil` mijoz tomonida (karusel JS) siniq rasm sifatida
+        -# ko'rinardi — shuning uchun bu yerda oldindan chetlab o'tiladi.
+        - recent_sightings_with_photo = @recent_sightings.select { |s| s[:photo].present? && s.photo_status_ready? }
+        - if recent_sightings_with_photo.present?
+          .welcome-gallery-row{data: {sightings: recent_sightings_with_photo.map { |s| { photo: s.photo.display.url, name: (s.plant.present? ? s.plant.display_name(I18n.locale) : nil) } }.to_json}}
             - 5.times do |i|
               .welcome-gallery-cell{id: "welcome-cell-#{i}"}
                 %img.welcome-gallery-img

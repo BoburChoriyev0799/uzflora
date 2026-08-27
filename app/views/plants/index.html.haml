@@ -427,7 +427,16 @@
             .col-sm-6.col-md-3.plants-grid-col
               .plant-card
                 = link_to plant_path(plant) do
-                  - plant_sightings = @sightings_by_plant[plant.id]
+                  -# Rasm maydoni bo'sh yoki hali tayyor bo'lmagan (fon
+                  -# jarayoni tugallanmagan) kuzatuvni bu yerda chetlab
+                  -# o'tamiz — `.photo.small.url` bo'sh CarrierWave
+                  -# uploaderда chaqirilsa xato beradi. GURUHDAN rasm
+                  -# olinishi (`@sightings_by_plant`, ko'rish:
+                  -# PlantsController#index) bu ehtimolni oshiradi —
+                  -# guruh a'zolaridan BIRORTASI ham nuqsonli (rasmsiz)
+                  -# tasdiqlangan kuzatuvga ega bo'lsa, HIMOYASIZ holda
+                  -# BUTUN ro'yxat sahifasi yiqilardi.
+                  - plant_sightings = (@sightings_by_plant[plant.id] || []).select { |s| s[:photo].present? && s.photo_status_ready? }
                   - if plant_sightings.present?
                     .plant-card-photo
                       - plant_sightings.first(5).each_with_index do |sighting, i|
