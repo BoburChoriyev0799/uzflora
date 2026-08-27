@@ -43,6 +43,22 @@
       border-radius: 10px;
       margin-bottom: 12px;
     }
+    /* Primary BO'LMAGAN (POWO orqali boshqa turga birlashtirilgan)
+       yozuv sahifasidagi eslatma — .plant-info-block bilan bir xil
+       yashil palitra, lekin OGOHLANTIRISH emas, shunchaki INFORMATIV
+       bo'lgani uchun to'liq blok emas, ingichka chiziqli banner. */
+    .plant-merged-notice {
+      background: #DCEBC8;
+      border: 1px solid #046A38;
+      border-radius: 6px;
+      padding: 10px 14px;
+      margin-bottom: 16px;
+      color: #223318;
+    }
+    .plant-merged-notice a {
+      color: #046A38;
+      font-weight: 700;
+    }
     .plant-taxonomy-table {
       width: 100%;
       table-layout: fixed;
@@ -176,6 +192,9 @@
       = link_to I18n.t('.back_to_list', scope: plant_scope), plants_path, class: 'btn btn-default mbtm20'
 
       .col.col-md-8.col-sm-12
+        - if @primary_sibling.present?
+          .plant-merged-notice= plant_merged_notice(@plant, @primary_sibling, plant_scope)
+
         - if @plant.red_book?
           .plant-red-book-badge= I18n.t('.red_book_badge', scope: plant_scope)
 
@@ -200,6 +219,13 @@
                     %td.plant-lbl= I18n.t(".taxon_#{label_key}", scope: plant_scope)
                     %td
                       %i= lat
+
+        - if @group_siblings.present?
+          .plant-info-block
+            .plant-info-block-head= I18n.t('.other_names_title', scope: plant_scope)
+            .plant-info-block-body
+              - @group_siblings.each do |sibling|
+                %p= link_to sibling.display_name_uz, plant_path(sibling)
 
         - life_form_text = @plant.life_form_localized(I18n.locale)
         - if life_form_text.present?

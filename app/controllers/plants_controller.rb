@@ -54,7 +54,16 @@ class PlantsController < ApplicationController
       )
     SQL
 
-    @plants = Plant.all
+    # POWO/WCVP taksonomik birlashtirish natijasida bir nechta eski tur
+    # bitta accepted_name'ga tenglashtirilgan bo'lishi mumkin (masalan
+    # Merendera robusta va Merendera hissarica — ikkalasi ham Colchicum
+    # robustum). Ro'yxatda har guruhdan FAQAT bitta ("primary") kartochka
+    # ko'rsatiladi — qolganlari bazada, o'z sahifasida qoladi (ko'rish:
+    # `plants:mark_primary` rake task, `Plant#primary_record`). Shu
+    # kartochkada guruhning BARCHA a'zolari haqidagi ma'lumot (o'zbekcha
+    # nomlari, sinonimlari, Qizil kitob holati) birlashtirilib ko'rsatiladi
+    # (pastga qarang, `@group_members_by_accepted_name`).
+    @plants = Plant.where(primary_record: true)
                     .order(Arel.sql("(#{has_approved_photo_sql}) DESC"))
                     .order(:species_sci)
     @plants = @plants.search(params[:q]) if params[:q].present?
@@ -75,34 +84,55 @@ class PlantsController < ApplicationController
                                         .order(created_at: :desc)
                                         .group_by(&:plant_id)
 
-    # POWO/WCVP taksonomik birlashtirish natijasida bir nechta eski tur
-    # bitta accepted_name'ga tenglashtirilgan bo'lishi mumkin (masalan
-    # Elaeagnus angustifolia/orientalis/oxycarpa/turcomanica — to'rttasi
-    # ham endi bitta qabul qilingan turga tegishli). Shunday holatda
-    # kartochkalarda bir xil ilmiy nom bir necha marta chiqib, foydalanuvchi
-    # ularni farqlay olmaydi — buni "= eski nom" qatori bilan ko'rsatamiz
-    # (ko'rish: plant_duplicate_alt_name helperi).
+    # Joriy sahifadagi (primary) kartochkalar orqasidagi TO'LIQ guruhni
+    # (accepted_name bo'yicha bir xil BARCHA yozuvlar, primary_record
+    # qiymatidan qat'i nazar) yuklab olamiz — o'zbekcha nom(lar), sinonim
+    # ro'yxati va Qizil kitob holatini birlashtirib ko'rsatish uchun
+    # (ko'rish: PlantsHelper#plant_card_group_info). BITTA qo'shimcha
+    # so'rov (N+1 emas) — yuqoridagi @sightings_by_plant bilan bir xil
+    # naqsh.
     #
-    # Sanoq JORIY SAHIFADAGI emas, BUTUN jadval bo'yicha olinishi shart —
-    # aks holda 5 a'zoli guruhning 2 tasi shu sahifada, qolgani keyingi
-    # sahifada bo'lsa, noto'g'ri "yagona" (dublikat emas) ko'rinib qolardi.
-    # BITTA qo'shimcha so'rov (N+1 emas) — yuqoridagi @sightings_by_plant
-    # bilan bir xil naqsh.
+    # DIQQAT (`primary_record`ni ham yuklaymiz): `db/duplikat_istisnolar.csv`
+    # orqali bitta guruhda BIR NECHTA primary=true yozuv qolishi mumkin
+    # (masalan Malus domestica/sieversii/niedzwetzkyana — hammasi primary).
+    # Bunday holda har biri O'ZINING alohida kartochkasi — birortasi
+    # boshqasining "yashirilgan sinonimi" EMAS. Shu sabab
+    # `plant_card_group_info` FAQAT primary_record=false a'zolarni
+    # (haqiqatan ro'yxatda yashiringan, shu kartochkada vakillik qilinishi
+    # kerak bo'lganlarni) qo'shib hisoblaydi.
     accepted_names = @plants.map(&:accepted_name).select(&:present?).uniq
-    @duplicate_accepted_names = if accepted_names.any?
-                                   Plant.where(accepted_name: accepted_names)
-                                        .group(:accepted_name)
-                                        .count
-                                        .select { |_, count| count > 1 }
-                                        .keys
-                                        .to_set
-                                 else
-                                   Set.new
-                                 end
+    @group_members_by_accepted_name = if accepted_names.any?
+                                         Plant.where(accepted_name: accepted_names)
+                                              .select(:id, :species_sci, :species_uz, :species_ru, :accepted_name, :red_book, :primary_record)
+                                              .group_by(&:accepted_name)
+                                       else
+                                         {}
+                                       end
   end
 
   def show
     @plant = Plant.find(params[:id])
+
+    # POWO taksonomik birlashtiruvi: shu yozuv bilan bir xil accepted_name'ga
+    # ega, HAQIQATAN yashiringan (primary_record=false) BOSHQA yozuvlar —
+    # ular "Bazada boshqa nomlar ostida" bo'limida ko'rsatiladi. Bir xil
+    # accepted_name'ga ega, lekin O'ZI HAM primary=true bo'lgan yozuv
+    # (masalan `db/duplikat_istisnolar.csv` orqali istisno qilingan)
+    # BU YERGA KIRMAYDI — u allaqachon o'zining kartochkasida ko'rinadi.
+    #
+    # Primary BO'LMAGAN yozuv sahifasida esa (@plant.primary_record ==
+    # false) aksincha — qaysi primary sahifaga o'tish kerakligi
+    # ko'rsatiladi (ko'rish: PlantsHelper#plant_merged_notice,
+    # views/plants/show.html.haml).
+    if @plant.accepted_name.present?
+      if @plant.primary_record?
+        @group_siblings = Plant.where(accepted_name: @plant.accepted_name, primary_record: false)
+                                .where.not(id: @plant.id)
+                                .order(:species_sci)
+      else
+        @primary_sibling = Plant.where(accepted_name: @plant.accepted_name, primary_record: true).order(:id).first
+      end
+    end
 
     # Shu o'simlikka bog'langan, faqat tasdiqlangan va nashr qilingan
     # kuzatuvlar (rasmlar) — index'даgi mehmon galereyasi bilan bir xil

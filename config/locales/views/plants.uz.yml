@@ -25,6 +25,9 @@ uz:
     show:
       back_to_list: "← O'simliklar ro'yxatiga qaytish"
       red_book_badge: Qizil kitobda
+      merged_notice_html: "POWO taksonomiyasi bo'yicha bu tur — %{name}. %{link}"
+      merged_notice_link_text: "Asosiy sahifani ko'rish"
+      other_names_title: "Bazada boshqa nomlar ostida"
       name_uz: "O'zbekcha nomi:"
       name_lat: "Lotincha nomi:"
       name_ru: "Ruscha nomi:"

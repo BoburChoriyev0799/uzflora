@@ -159,6 +159,17 @@ namespace :plants do
       else
         puts "\nYozadigan hech narsa yo'q — hammasi allaqachon bir xil."
       end
+
+      # accepted_name o'zgargan bo'lishi mumkin (yangi guruhlar paydo
+      # bo'lishi/eskilari tarqalishi mumkin) — shuning uchun `primary_record`
+      # har APPLY=true'dan keyin AVTOMATIK qayta hisoblanadi. Faqat
+      # haqiqiy yozish paytida (dry-run'da chaqirilmaydi, aks holda
+      # "hech narsa yozilmadi" degan xabar ostida baribir boshqa task
+      # ishga tushib chalkashtirardi).
+      puts "\n#{'=' * 60}"
+      puts "primary_record qayta hisoblanmoqda (plants:mark_primary)..."
+      Rake::Task['plants:mark_primary'].reenable
+      Rake::Task['plants:mark_primary'].invoke
     else
       puts "\nBu DRY RUN edi — hech narsa o'zgarmadi. Haqiqiy yozish uchun: rails plants:powo_apply APPLY=true"
     end

@@ -25,6 +25,9 @@ en:
     show:
       back_to_list: "← Back to plants list"
       red_book_badge: Red Book species
+      merged_notice_html: "Under the POWO taxonomy, this species is — %{name}. %{link}"
+      merged_notice_link_text: "Go to the main page"
+      other_names_title: "Listed in the database under other names"
       name_lat: "Latin name:"
       name_ru: "Russian name:"
       name_local: "Local name:"

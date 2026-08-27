@@ -101,13 +101,13 @@
       font-size: 13px;
       margin-bottom: 4px;
     }
-    /* POWO taksonomik birlashtirish natijasida bir nechta eski tur
-       bitta accepted_name'ga tenglashtirilgan bo'lishi mumkin — shunday
-       holatda kartochkalar bir xil ilmiy nom bilan chiqib, foydalanuvchi
-       ularni farqlay olmaydi. Shu qatorda o'sha yozuvning O'Z eski nomi
-       "= ..." bilan ko'rsatiladi (faqat haqiqatan dublikat bo'lganda —
-       ko'rish: PlantsHelper#plant_duplicate_alt_name). .plant-card-family
-       bilan bir xil kulrang (#999), bir pog'ona kichikroq shrift — yangi
+    /* POWO taksonomik birlashtirish natijasida bir nechta eski tur bitta
+       accepted_name'ga tenglashtirilgan bo'lishi mumkin (Plant#primary_
+       record — faqat BITTASI ro'yxatda ko'rinadi). Shu qatorda guruhning
+       BARCHA a'zolarining eski (species_sci) nomlari "= A, B, ..." bilan
+       ko'rsatiladi (faqat guruhda haqiqatan 2+ a'zo bo'lganda — ko'rish:
+       PlantsHelper#plant_card_group_info). .plant-card-family bilan
+       bir xil kulrang (#999), bir pog'ona kichikroq shrift — yangi
        rang/blok qo'shilmagan. */
     .plant-card-alt-sci {
       font-style: italic;
@@ -434,17 +434,17 @@
                         = image_tag sighting.photo.small.url, class: "plant-card-photo-img #{'active' if i.zero?}"
                   - else
                     .plant-placeholder 🌿
+                - card = plant_card_group_info(plant, @group_members_by_accepted_name, I18n.locale)
                 .plant-card-body
                   = link_to plant_path(plant), class: 'plant-card-link' do
-                    - localized_name = plant.display_name(I18n.locale)
-                    - if localized_name != plant.display_sci_name
-                      .plant-card-name-uz= localized_name
-                    .plant-card-name-sci= plant.display_sci_name
-                    - if (alt_sci = plant_duplicate_alt_name(plant, @duplicate_accepted_names))
-                      .plant-card-alt-sci= "= #{alt_sci}"
+                    - if card[:localized_name] != card[:sci_name]
+                      .plant-card-name-uz= card[:localized_name]
+                    .plant-card-name-sci= card[:sci_name]
+                    - if card[:synonyms_text]
+                      .plant-card-alt-sci= card[:synonyms_text]
                   - if plant.display_family_lat.present?
                     .plant-card-family= plant.display_family_lat
-                  - if plant.red_book?
+                  - if card[:red_book]
                     .plant-red-book-badge= I18n.t('.red_book_badge', scope: plants_scope)
 
         .row.acenter

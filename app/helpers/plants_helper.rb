@@ -55,19 +55,62 @@ module PlantsHelper
     rows.select { |_, value| value.present? }
   end
 
-  # plants#index kartochkasida "= eski nom" qatori uchun: shu yozuvning
-  # eski nomi (species_sci) — FAQAT accepted_name @duplicate_accepted_names
-  # to'plamida bo'lsa (ya'ni butun jadval bo'yicha 2+ Plant yozuviga
-  # tegishli) VA plant.alt_name mavjud bo'lsa (ya'ni bu YOZUVNING o'zi
-  # qayta nomlangan). Guruhning "asl" a'zosi uchun (masalan Calligonum
-  # aphyllum guruhida species_sci allaqachon accepted_name bilan bir xil
-  # bo'lgan yozuv) alt_name nil bo'ladi va qator chiqmaydi — o'zining
-  # nomini o'ziga qaytarib ko'rsatish keraksiz bo'lardi, chunki yuqorida
-  # ko'rsatilgan ilmiy nom bilan farqi yo'q.
-  def plant_duplicate_alt_name(plant, duplicate_accepted_names)
-    return nil unless plant.accepted_name.present? && duplicate_accepted_names.include?(plant.accepted_name)
+  # plants#index kartochkasi uchun BARCHA guruh ma'lumotini BIR JOYDA
+  # hisoblaydi (sci nom, lokalizatsiya nomi, sinonim qatori, Qizil kitob) —
+  # `@group_members_by_accepted_name`dan (controller'da BITTA so'rov bilan
+  # oldindan yuklangan) oladi, qo'shimcha so'rov YUBORMAYDI.
+  #
+  # IKKI XIL holat bor:
+  #   1) ODDIY BIRLASHTIRISH — shu accepted_name'ga ega yagona primary
+  #      shu yozuv o'zi. Unda haqiqatan YASHIRINGAN (primary_record=false)
+  #      a'zolar shu kartochkaga qo'shib ko'rsatiladi (o'zbekcha nomlari,
+  #      sinonim ro'yxati), sarlavha sifatida QABUL QILINGAN nom
+  #      (`display_sci_name`) ishlatiladi.
+  #   2) ISTISNO (`db/duplikat_istisnolar.csv`) — bir xil accepted_name'ga
+  #      ega BOSHQA primary=true yozuv HAM bor (masalan Malus domestica/
+  #      sieversii/niedzwetzkyana — hammasi primary). Bunda accepted_name
+  #      bu kartochkani BOSHQALARIDAN farqlamaydi, shuning uchun
+  #      "birlashtirish" UMUMAN qo'llanilmaydi — kartochka O'ZINING
+  #      xom (species_sci/species_uz) nomi bilan, hech qanday sinonim
+  #      qatorisiz, mustaqil ko'rsatiladi.
+  def plant_card_group_info(plant, group_members_by_accepted_name, locale)
+    field = locale.to_sym == :ru ? :species_ru : :species_uz
+    all_members = plant.accepted_name.present? ? (group_members_by_accepted_name[plant.accepted_name] || [ plant ]) : [ plant ]
+    other_primary_exists = all_members.any? { |m| m.id != plant.id && m.primary_record? }
 
-    plant.alt_name
+    if other_primary_exists
+      {
+        sci_name: plant.species_sci,
+        localized_name: plant.public_send(field).presence || plant.species_sci,
+        synonyms_text: nil,
+        red_book: plant.red_book?
+      }
+    else
+      members = [ plant ] + all_members.reject { |m| m.id == plant.id }
+      sci_name = plant.display_sci_name
+      names = members.map { |m| m.public_send(field) }.filter_map(&:presence).uniq
+      {
+        sci_name: sci_name,
+        localized_name: (names.any? ? names.join(', ') : sci_name),
+        synonyms_text: (members.size > 1 ? "= #{members.map(&:species_sci).join(', ')}" : nil),
+        red_book: members.any?(&:red_book?)
+      }
+    end
+  end
+
+  # plants/show'даgi primary BO'LMAGAN yozuv sahifasi tepasidagi eslatma —
+  # "POWO bo'yicha bu tur — <qabul qilingan nom>. <asosiy sahifaga havola>".
+  # Alohida metodga chiqarilgan ikkita sabab: (1) ko'p qatorli `t(...)`
+  # chaqiruvini to'g'ridan-to'g'ri HAML'ga yozish qator davomiyligi
+  # (indent) qoidalariga tez-tez qoqilib `ActionView::Template::Error`
+  # beradi; (2) `_html` qo'shimchali kalit (avtomatik html_safe) FAQAT
+  # `t`/`translate` VIEW HELPERI orqali ishlaydi — xom `I18n.t` chaqirilsa
+  # natija HTML sifatida ESKEP qilinib chiqadi (`&lt;strong&gt;` va h.k.).
+  def plant_merged_notice(plant, primary_sibling, scope)
+    t(
+      'merged_notice_html', scope: scope, name: content_tag(:strong, plant.display_sci_name),
+      link: link_to(t('merged_notice_link_text', scope: scope), plant_path(primary_sibling))
+    )
   end
 
   # Tashqi manba tugmalarida ko'rsatiladigan rasmiy logo fayllari
