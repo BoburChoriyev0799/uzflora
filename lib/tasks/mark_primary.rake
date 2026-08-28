@@ -38,15 +38,6 @@ EXCEPTIONS_PATH = Rails.root.join('db', 'duplikat_istisnolar.csv')
 # qoladi — `group_red_book` ustuni orqali filtrga baribir tushadi, faqat
 # ALOHIDA kartochka bo'lib ajralmaydi; ro'yxat rasmiy Qizil kitob
 # yangilanganda qayta ko'rib chiqiladi).
-#
-# BITTA aniq istisno: "Petilium eduardii (Regel) Vved." — bu joriy
-# db/uzflora_plants_v8.csv'da UMUMAN yo'q (eski, endi noto'g'ri
-# hisoblangan "Petilium" turkumi bilan yozilgan, o'sha CSV versiyasidan
-# qolgan dublikat qator) — TO'G'RI/joriy nomi "Fritillaria eduardii
-# (Regel) Vved." allaqachon bazada bor va red_book=true — bu yerda
-# ikkinchi "haqiqiy" Qizil kitob turi emas, shunchaki eskirgan dublikat,
-# shuning uchun majburiy primary qilinmaydi.
-RED_BOOK_FORCE_PRIMARY_EXCLUDED_SCI = [ 'Petilium eduardii (Regel) Vved.' ].freeze
 
 # "To'ldirilgan maydonlar" hisobi uchun — faqat foydalanuvchiga ko'rinadigan
 # tavsif maydonlari (taksonomiya ustunlari BU YERDA emas: guruh a'zolari
@@ -132,21 +123,20 @@ namespace :plants do
 
     # --- Qizil kitob majburiy primary: FAQAT guruhda 2+ MUSTAQIL Qizil
     # kitob a'zosi bo'lgan holatda (yuqoridagi izohga qarang) — o'sha
-    # a'zolarning HAMMASI (yagona istisnodan tashqari) majburan
-    # primary=true qilinadi, guruhning "asosiy" (WCVP-Accepted/eng ko'p
-    # ma'lumotli) a'zosi sifatida tanlanmagan bo'lsa ham. Natijada
-    # guruhda bir nechta primary=true yozuv qolishi MUMKIN (xuddi
-    # `db/duplikat_istisnolar.csv` istisnolari kabi) — bu ATAYLAB
-    # shunday, ko'rinish mantig'i (PlantsHelper#plant_card_group_info)
-    # buni allaqachon to'g'ri boshqaradi (har biri o'zining xom nomi
-    # bilan, sinonim qatorisiz, mustaqil kartochka).
+    # a'zolarning HAMMASI majburan primary=true qilinadi, guruhning
+    # "asosiy" (WCVP-Accepted/eng ko'p ma'lumotli) a'zosi sifatida
+    # tanlanmagan bo'lsa ham. Natijada guruhda bir nechta primary=true
+    # yozuv qolishi MUMKIN (xuddi `db/duplikat_istisnolar.csv`
+    # istisnolari kabi) — bu ATAYLAB shunday, ko'rinish mantig'i
+    # (PlantsHelper#plant_card_group_info) buni allaqachon to'g'ri
+    # boshqaradi (har biri o'zining xom nomi bilan, sinonim qatorisiz,
+    # mustaqil kartochka).
     red_book_forced_ids = []
     groups.each do |_, members|
       red_book_members = members.select(&:red_book?)
       next unless red_book_members.size > 1
 
       red_book_members.each do |p|
-        next if RED_BOOK_FORCE_PRIMARY_EXCLUDED_SCI.include?(p.species_sci)
         next unless desired[p.id] == false
 
         desired[p.id] = true
