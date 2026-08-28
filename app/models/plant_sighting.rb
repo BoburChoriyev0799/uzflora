@@ -54,6 +54,31 @@ class PlantSighting < ApplicationRecord
                on: :update,
                if: -> { saved_change_to_status? && approved? }
 
+  # `plants.group_has_photo` — ro'yxatdagi "rasmli o'simliklar oldinda"
+  # tartibi endi shu OLDINDAN HISOBLANGAN ustundan foydalanadi (avval
+  # PlantsController#index'da har so'rovda 4000+ qatorning HAMMASI uchun
+  # qayta hisoblanadigan korrelyatsiyalangan EXISTS subquery edi —
+  # production'da /plants sahifasini yiqitgan asosiy sabab). Status,
+  # nashr holati yoki BIRIKTIRILGAN TUR o'zgarganda (yoki kuzatuv
+  # o'chirilganda) — shu o'simlik VA uning butun accepted_name guruhi
+  # uchun qayta hisoblanadi (`Plant.refresh_group_has_photo!` — FAQAT shu
+  # guruh, odatda 1-5 qator, butun `plants` jadvali emas). Tur QAYTA
+  # biriktirilganda (`saved_change_to_plant_id?`) ESKI o'simlik/guruh ham
+  # qayta hisoblanishi SHART — aks holda o'sha eski guruh "rasmli" bo'lib
+  # noto'g'ri qolib ketardi.
+  #
+  # DIQQAT: ikkita ALOHIDA metod nomi ATAYLAB ishlatiladi (bir xil nom
+  # emas) — Rails'ning `after_commit` chaqiruv ro'yxati BIR XIL filtr
+  # (metod) nomiga ega ikkita e'lonni chalkashtirib, birinchisining
+  # shartini (`if:`) ikkinchisi bilan ALMASHTIRIB qo'yishi tasdiqlangan
+  # (tekshirib ko'rilgan: shu sababli avval CREATE'dagi chaqiruv umuman
+  # ishlamay, faqat DESTROY'dagi keyingi tranzaksiyagacha "kechikkan"
+  # holda ishlagan edi).
+  after_commit :refresh_group_has_photo_for_plant!,
+               on: [ :create, :update ],
+               if: -> { saved_change_to_status? || saved_change_to_published? || saved_change_to_plant_id? }
+  after_commit :refresh_group_has_photo_after_destroy!, on: :destroy
+
   # Moderatsiya holati. Rails enum'ning o'zi .pending/.approved/.rejected
   # scope'larini va pending?/approved?/rejected? metodlarini avtomatik
   # yaratadi — buni qo'lda alohida yozish shart emas. Yangi yozuv har doim
@@ -223,5 +248,18 @@ class PlantSighting < ApplicationRecord
 
   def notify_followers_of_approval
     NotifyFollowersJob.perform_later(id)
+  end
+
+  # `plant_id`ning o'zi qayta biriktirilgan bo'lsa (`saved_change_to_
+  # plant_id?`), ESKI o'simlikni ham qo'shamiz — aks holda uning guruhi
+  # "rasmli" bo'lib xato qolib ketardi (endi bu kuzatuv o'sha yerda emas).
+  def refresh_group_has_photo_for_plant!
+    plant_ids = [ plant_id ]
+    plant_ids << plant_id_before_last_save if saved_change_to_plant_id?
+    plant_ids.compact.uniq.each { |id| Plant.refresh_group_has_photo!(id) }
+  end
+
+  def refresh_group_has_photo_after_destroy!
+    Plant.refresh_group_has_photo!(plant_id) if plant_id.present?
   end
 end

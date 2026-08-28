@@ -89,29 +89,61 @@ class Plant < ApplicationRecord
   # (o'zi primary emas) qidirilsa hech narsa topilmas edi, chunki uning
   # primary'si ("Merendera robusta") bu matnga mos kelmaydi.
   #
-  # BITTA SQL so'rovi ichida ikkita quyi-so'rov sifatida qo'llaniladi
-  # (`to_sql` — Ruby massividagi ID'larni katta IN ro'yxatiga aylantirib
-  # o'tirmasdan). Xavfsizlik: `matched_sql` to'g'ridan-to'g'ri
-  # foydalanuvchi kiritmasi EMAS — `search` allaqachon `sanitize_sql_like`/
-  # bog'langan parametrlar orqali xavfsiz SQL hosil qiladi, `.to_sql` esa
-  # shu (allaqachon qochirilgan/tirnoqlangan) YAKUNIY satrni qaytaradi;
-  # `query`ning o'zi bu satrga TO'G'RIDAN-TO'G'RI HECH QACHON kirmaydi —
-  # shuning uchun bu yerda in'ektsiya xavfi yo'q. (`sanitize_sql_array`
-  # ATAYLAB ishlatilmagan: `matched_sql` o'z ichida LIKE naqshlaridan "%"
-  # belgilarini olib yuradi, `sanitize_sql_array`ning bog'lanmagan-massiv
-  # bosqichi esa satrni printf-uslubida ("%" operatori) qayta talqin qilib,
-  # `ArgumentError` bilan yiqilar edi — tekshirib ko'rilgan.)
+  # `WITH matched AS (...)` (CTE) orqali og'ir ILIKE qidiruvi BIR MARTA
+  # hisoblanadi (2026-08-29gacha `matched.to_sql` ikki marta — mos
+  # kelgan ID'lar UCHUN HAM, ularning accepted_name'lari UCHUN HAM —
+  # qo'yilgan edi, ya'ni butun jadval bo'yicha COALESCE+ILIKE IKKI MARTA
+  # skanerlanardi; EXPLAIN ANALYZE'da har biri alohida Seq Scan sifatida
+  # ko'rinar edi). Xavfsizlik: CTE ichidagi SQL `search` orqali
+  # `sanitize_sql_like`/bog'langan parametrlar bilan hosil qilingan —
+  # foydalanuvchi matni bu yerga TO'G'RIDAN-TO'G'RI kirmaydi.
   def self.group_search(query)
     # `.reorder(nil)`: `search` o'zining saralashini (prefiks moslik +
     # species_sci) qo'shadi, lekin bu yerda faqat ID TO'PLAMI (a'zolik
     # tekshiruvi, `IN (...)`) kerak — saralashning o'zi ortiqcha (natija
     # tartibiga ta'sir qilmaydi) va bekorga hisoblash xarajati qo'shardi.
-    matched_sql = search(query).reorder(nil).select(:id).to_sql
-    where(
-      "plants.id IN (#{matched_sql}) OR plants.accepted_name IN (" \
+    matched = search(query).reorder(nil).select(:id)
+    with(matched: matched).where(
+      "plants.id IN (SELECT id FROM matched) OR plants.accepted_name IN (" \
       "SELECT p2.accepted_name FROM plants p2 " \
-      "WHERE p2.id IN (#{matched_sql}) AND p2.accepted_name IS NOT NULL)"
+      "WHERE p2.id IN (SELECT id FROM matched) AND p2.accepted_name IS NOT NULL)"
     )
+  end
+
+  # `group_has_photo` ustunini (ro'yxatda "rasmli o'simliklar oldinda"
+  # tartibi shundan foydalanadi — ko'rish: `PlantsController#index`) shu
+  # BIR yozuv va uning BUTUN accepted_name guruhi uchun QAYTA hisoblab,
+  # FAQAT haqiqatan o'zgargan qatorlarni yozadi. `PlantSighting`dagi
+  # after_commit callback shuni chaqiradi (kuzatuv tasdiqlanganda/rad
+  # etilganda/nashrdan olinganda/turi qayta biriktirilganda) — BUTUN
+  # `plants` jadvali emas, faqat shu bitta guruh (odatda 1-5 qator)
+  # qayta hisoblanadi.
+  #
+  # Semantika PlantsController#index'даgi eski korrelyatsiyalangan EXISTS
+  # bilan BIR XIL: "shu yozuvning o'zida YOKI accepted_name guruhidagi
+  # BIRON primary_record=false (haqiqatan yashiringan) a'zosida
+  # tasdiqlangan+nashr qilingan kuzatuv bo'lsa" — true. Boshqa primary'ga
+  # ega a'zolar (istisnolar, masalan Malus sieversii) HISOBGA OLINMAYDI —
+  # ular allaqachon o'z rasmi bilan mustaqil ko'rinadi, bir xil rasm ikki
+  # kartochkada chiqib qolmasligi uchun.
+  def self.refresh_group_has_photo!(plant_id)
+    return if plant_id.blank?
+
+    anchor = find_by(id: plant_id)
+    return unless anchor
+
+    group_ids = anchor.accepted_name.present? ? where(accepted_name: anchor.accepted_name).pluck(:id) : [ anchor.id ]
+    members = where(id: group_ids).select(:id, :primary_record, :group_has_photo).index_by(&:id)
+
+    has_photo_ids = PlantSighting.where(status: 'approved', published: true)
+                                  .where(plant_id: group_ids)
+                                  .distinct.pluck(:plant_id).to_set
+
+    members.each_value do |m|
+      new_value = has_photo_ids.include?(m.id) ||
+                  members.values.any? { |sibling| !sibling.primary_record? && has_photo_ids.include?(sibling.id) }
+      where(id: m.id).update_all(group_has_photo: new_value) unless m.group_has_photo == new_value
+    end
   end
 
   # --- Ko'rsatiladigan nom ---

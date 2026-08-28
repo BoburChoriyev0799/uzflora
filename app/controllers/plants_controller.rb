@@ -34,51 +34,31 @@ class PlantsController < ApplicationController
     end
 
     # Rasmi bor (tasdiqlangan kuzatuvi bor) o'simliklar birinchi
-    # sahifalarda chiqsin — sayt "tirik"ligini darhol ko'rsatadi. Bitta
-    # EXISTS subso'rov bilan (JOIN/GROUP BY EMAS — Kaminari `count`
-    # bilan chalkashib, sahifalashni buzardi) `plants` jadvalining o'zida
-    # hisoblanadi: har qatorga TO'G'RIDAN-TO'G'RI bog'liq (correlated),
-    # natijada qo'shimcha qator ko'paymaydi, N+1 ham yo'q. ENG BIRINCHI
-    # `.order()` sifatida qo'shiladi — shu bilan u ustuvor (primary) saralash
-    # kaliti bo'ladi, pastda qo'shiladigan `.search` ichidagi qo'shimcha
-    # `.order()`lar esa (agar chaqirilsa) shundan KEYIN qo'shiladi va
-    # `species_sci`ning o'zi UNIQUE bo'lgani uchun amalda hech narsani
-    # o'zgartirmaydi — "guruh ichida hozirgi alifbo tartibi saqlansin"
-    # talabi shu bilan avtomatik bajariladi.
+    # sahifalarda chiqsin — sayt "tirik"ligini darhol ko'rsatadi.
     #
-    # GURUHGA OID: "rasmli" hisobiga shu yozuvning O'ZI ham, uning ORQASIDA
-    # haqiqatan YASHIRINGAN (`primary_record = FALSE`) guruh a'zolari ham
-    # kiradi — BOSHQA primary'ga ega a'zolar (masalan `db/duplikat_
-    # istisnolar.csv` orqali istisno qilingan Malus sieversii) KIRMAYDI,
-    # ular allaqachon o'zining kartochkasida, o'z rasmi bilan ko'rinadi —
-    # aks holda BIR XIL rasm ikki xil kartochkada chiqib qolardi.
-    has_approved_photo_sql = <<~SQL.squish
-      EXISTS (
-        SELECT 1 FROM plant_sightings ps
-        WHERE ps.status = 'approved' AND ps.published = TRUE
-          AND (
-            ps.plant_id = plants.id
-            OR ps.plant_id IN (
-              SELECT p2.id FROM plants p2
-              WHERE p2.accepted_name = plants.accepted_name
-                AND plants.accepted_name IS NOT NULL
-                AND p2.primary_record = FALSE
-            )
-          )
-      )
-    SQL
-
+    # 2026-08-29gacha bu yerda korrelyatsiyalangan EXISTS subquery bor
+    # edi (ORDER BY ichida, HAR safar so'ralganda) — sahifalashdan OLDIN
+    # `primary_record=true` bo'lgan BARCHA (~4400) qatorning har biri
+    # uchun ALOHIDA baholanardi (EXPLAIN ANALYZE: ~1.4 soniya, Render'ning
+    # 256MB Postgres'ida butun saytni yiqitgan asosiy sabab). Endi
+    # OLDINDAN HISOBLANGAN `group_has_photo` ustunidan (indekslangan —
+    # ko'rish: `[primary_record, group_has_photo]`) foydalanamiz — oddiy
+    # ustun bo'yicha ORDER BY, subquery yo'q. Ustun `plants:mark_primary`
+    # (to'liq qayta hisoblash) va `PlantSighting`dagi `after_commit`
+    # callback (kuzatuv o'zgarganda — FAQAT tegishli guruh, butun jadval
+    # emas) orqali yangilanadi (ko'rish: `Plant.refresh_group_has_photo!`).
+    #
     # POWO/WCVP taksonomik birlashtirish natijasida bir nechta eski tur
     # bitta accepted_name'ga tenglashtirilgan bo'lishi mumkin (masalan
     # Merendera robusta va Merendera hissarica — ikkalasi ham Colchicum
     # robustum). Ro'yxatda har guruhdan FAQAT bitta ("primary") kartochka
     # ko'rsatiladi — qolganlari bazada, o'z sahifasida qoladi (ko'rish:
-    # `plants:mark_primary` rake task, `Plant#primary_record`). Shu
-    # kartochkada guruhning BARCHA a'zolari haqidagi ma'lumot (o'zbekcha
-    # nomlari, sinonimlari, rasmlari) birlashtirilib ko'rsatiladi (pastga
-    # qarang, `@group_members_by_accepted_name`/`@group_display_info`).
+    # `Plant#primary_record`). Shu kartochkada guruhning BARCHA a'zolari
+    # haqidagi ma'lumot (o'zbekcha nomlari, sinonimlari, rasmlari)
+    # birlashtirilib ko'rsatiladi (pastga qarang,
+    # `@group_members_by_accepted_name`/`@group_display_info`).
     @plants = Plant.where(primary_record: true)
-                    .order(Arel.sql("(#{has_approved_photo_sql}) DESC"))
+                    .order(group_has_photo: :desc)
                     .order(:species_sci)
     @plants = @plants.merge(Plant.group_search(params[:q])) if params[:q].present?
     @plants = @plants.by_family(params[:family]) if params[:family].present?

@@ -144,6 +144,29 @@ namespace :plants do
       end
     end
 
+    # --- group_has_photo: "shu yozuvning o'zida YOKI accepted_name
+    # guruhidagi biror HAQIQATAN YASHIRINGAN (yangi primary_record=false)
+    # a'zosida tasdiqlangan+nashr qilingan kuzatuv bo'lsa" — ro'yxatdagi
+    # "rasmli o'simliklar oldinda" tartibi endi shu OLDINDAN HISOBLANGAN
+    # ustundan foydalanadi (ko'rish: `PlantsController#index`). Kundalik
+    # (bitta kuzatuv o'zgarganda) yangilanish `Plant.refresh_group_has_
+    # photo!` orqali (`PlantSighting`dagi callback chaqiradi) — bu yerda
+    # esa TO'LIQ qayta hisoblash (masalan POWO guruhlari o'zgarganda).
+    # Yuqorida hisoblangan `desired` (YANGI primary_record maqsadi)
+    # ishlatiladi, joriy bazadagi eski qiymat EMAS — shu bir xil
+    # yugurishda ikkalasi ham izchil bo'lishi uchun.
+    has_photo_ids = PlantSighting.published.approved.distinct.pluck(:plant_id).to_set
+    puts "\nTasdiqlangan+nashr qilingan kuzatuvi bor o'simliklar: #{has_photo_ids.size}"
+
+    desired_group_has_photo = {}
+    no_accepted.each { |p| desired_group_has_photo[p.id] = has_photo_ids.include?(p.id) }
+    groups.each do |_, members|
+      members.each do |m|
+        desired_group_has_photo[m.id] = has_photo_ids.include?(m.id) ||
+          members.any? { |sibling| !desired[sibling.id] && has_photo_ids.include?(sibling.id) }
+      end
+    end
+
     # --- Istisnolar: doim primary_record = true, guruhdagi boshqa
     # tanlovga QARAMASDAN. Guruhda shu tufayli bir nechta primary=true
     # yozuv qolishi MUMKIN (masalan Malus domestica ham, Malus sieversii
@@ -169,6 +192,9 @@ namespace :plants do
     group_red_book_to_true = desired_group_red_book.select { |id, v| v == true && !current_by_id[id].group_red_book }.keys
     group_red_book_to_false = desired_group_red_book.select { |id, v| v == false && current_by_id[id].group_red_book }.keys
 
+    group_has_photo_to_true = desired_group_has_photo.select { |id, v| v == true && !current_by_id[id].group_has_photo }.keys
+    group_has_photo_to_false = desired_group_has_photo.select { |id, v| v == false && current_by_id[id].group_has_photo }.keys
+
     puts "\n#{'=' * 60}"
     puts "Guruhlar (accepted_name bo'yicha, bittadan ko'p a'zoli): #{multi_groups.size}"
     puts "Shu guruhlardagi jami yozuvlar: #{multi_groups.values.sum(&:size)}"
@@ -184,12 +210,18 @@ namespace :plants do
     puts "Yakunda group_red_book=true bo'ladigan jami: #{desired_group_red_book.count { |_, v| v == true }}"
     puts "  (shundan red_book=true bo'lgan haqiqiy soni: #{all_plants.count(&:red_book?)})"
 
+    puts "\nO'zgaradi: group_has_photo FALSE -> TRUE: #{group_has_photo_to_true.size}"
+    puts "O'zgaradi: group_has_photo TRUE -> FALSE: #{group_has_photo_to_false.size}"
+    puts "Yakunda group_has_photo=true bo'ladigan jami: #{desired_group_has_photo.count { |_, v| v == true }}"
+
     if apply
       ActiveRecord::Base.transaction do
         Plant.where(id: to_false).update_all(primary_record: false) if to_false.any?
         Plant.where(id: to_true).update_all(primary_record: true) if to_true.any?
         Plant.where(id: group_red_book_to_false).update_all(group_red_book: false) if group_red_book_to_false.any?
         Plant.where(id: group_red_book_to_true).update_all(group_red_book: true) if group_red_book_to_true.any?
+        Plant.where(id: group_has_photo_to_false).update_all(group_has_photo: false) if group_has_photo_to_false.any?
+        Plant.where(id: group_has_photo_to_true).update_all(group_has_photo: true) if group_has_photo_to_true.any?
       end
       puts "\nBajarildi."
     else

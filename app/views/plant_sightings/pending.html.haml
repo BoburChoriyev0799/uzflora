@@ -11,6 +11,28 @@
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 20px;
+      /* overflow-x kerak emasligini kafolatlaydi — grid ustunlari
+         minmax(0, 1fr) bo'lgani uchun konteynerdan tashqariga
+         "toshib" ketolmaydi, ichidagi kontent esa quyidagi
+         min-width:0 orqali cheklanadi. */
+      overflow-x: hidden;
+    }
+    /* MUHIM: `.moderation-list` `.row` klassini ham olib yuradi
+       (Bootstrap 3'ning clearfix'i uchun), Bootstrap esa HAR bir
+       `.row` uchun `:before`/`:after` psevdo-elementlarini
+       `content: " "; display: table;` bilan beradi. CSS Grid
+       spetsifikatsiyasiga ko'ra, `content` qiymati bor va
+       `display: none` bo'lmagan psevdo-elementlar GRID A'ZOSI
+       sifatida HISOBLANADI — ya'ni bu ikkala "bo'sh" psevdo-element
+       birinchi va oxirgi katakni egallab, haqiqiy kartochkalarni
+       2-ustundan boshlab surib yuborardi (production'da ko'rilgan
+       "birinchi katak bo'sh" nuqsonining ANIQ sababi shu — konteyner
+       ICHIDA ortiqcha HAML elementi YO'Q edi, muammo psevdo-element
+       edi). Shu ikkalasini butunlay o'chiramiz. */
+    .moderation-list:before,
+    .moderation-list:after {
+      content: none;
+      display: none;
     }
     @media (max-width: 1199px) {
       .moderation-list {
@@ -22,6 +44,11 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
+    @media (max-width: 599px) {
+      .moderation-list {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
     .moderation-card {
       background: #fff;
       border: 1px solid #dfe9d0;
@@ -30,6 +57,13 @@
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      /* Grid/flex a'zolarining standart min-width'i "auto" (kontent
+         o'lchamiga qarab) — uzun so'z/manzil/nom katakni kengaytirib,
+         butun sahifada gorizontal scroll paydo qilishi mumkin edi
+         (telefonda "Rad etish" tugmasi kesilib qolgan nuqson — shu
+         sababdan). 0 qilib qo'yish katakni konteyner kengligiga
+         cheklaydi, ichidagi matn esa o'ralib (wrap) ko'rinadi. */
+      min-width: 0;
     }
     /* Rasm maydoni bir xil nisbatda (4:3) kesiladi — turli o'lchamdagi
        rasmlar kartochka balandligini buzmasin. Rasm hali tayyor
@@ -55,10 +89,12 @@
       display: flex;
       flex-direction: column;
       flex: 1 1 auto;
+      min-width: 0;
     }
     .moderation-meta {
       margin-bottom: 6px;
       font-size: 14px;
+      overflow-wrap: break-word;
     }
     .moderation-meta .lbl {
       font-weight: 600;
@@ -75,12 +111,20 @@
        tugmalar barcha kartochkalarda bir xil balandlikda turadi. */
     .moderation-actions {
       display: flex;
+      flex-wrap: wrap;
       gap: 10px;
       margin-top: auto;
       padding-top: 12px;
     }
+    /* `flex: 1 1 auto` (0 emas) — tugmalar "Tasdiqlash"/"Rad etish"
+       matni sig'masa (tor kartochka), 0 asosli flex ularni matn
+       kesilguncha toraytirar edi (telefonda "Rad etish" kesilib
+       qolgan nuqson shu). `min-width` bilan bittasi bo'lmasa,
+       ikkalasi ENG KAMIDA 100px'gacha, kerak bo'lsa `flex-wrap`
+       tufayli navbatdagi qatorga tushadi. */
     .moderation-actions .btn {
-      flex: 1;
+      flex: 1 1 auto;
+      min-width: 100px;
     }
     .moderation-actions .btn[disabled] {
       opacity: .5;
@@ -98,9 +142,12 @@
     .moderation-plant-autocomplete {
       display: block;
       width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
     }
     .moderation-plant-actions {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       gap: 8px;
       margin-top: 6px;
