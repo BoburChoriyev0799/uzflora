@@ -25,6 +25,29 @@ require 'set'
 
 EXCEPTIONS_PATH = Rails.root.join('db', 'duplikat_istisnolar.csv')
 
+# Qizil kitob — huquqiy hujjat: agar BITTA guruhda (accepted_name)
+# IKKITA (yoki undan ko'p) MUSTAQIL Qizil kitob turi tasodifan
+# birlashtirilgan bo'lsa (masalan Tulipa ingens VA Tulipa tubergeniana
+# — ikkalasi ham Qizil kitobda, lekin POWO ularni bitta "Tulipa
+# ingens"ga tenglashtirgan), ikkalasi ham o'z alohida kartochkasida
+# ko'rinishi SHART — birortasini yashirib qo'yib bo'lmaydi (2026-08-28,
+# Bobur bilan kelishilgan: 314 talik rasmiy ro'yxat DOIMIY hisoblanadi,
+# faqat shu — "guruhda 2+ Qizil kitob a'zosi" — holatigagina tegishli;
+# guruhda BITTA Qizil kitob a'zosi, BOSHQASI Qizil kitob BO'LMAGAN bo'lsa
+# — bu yerga KIRMAYDI, o'sha guruh o'zgarishsiz, birlashgan holicha
+# qoladi — `group_red_book` ustuni orqali filtrga baribir tushadi, faqat
+# ALOHIDA kartochka bo'lib ajralmaydi; ro'yxat rasmiy Qizil kitob
+# yangilanganda qayta ko'rib chiqiladi).
+#
+# BITTA aniq istisno: "Petilium eduardii (Regel) Vved." — bu joriy
+# db/uzflora_plants_v8.csv'da UMUMAN yo'q (eski, endi noto'g'ri
+# hisoblangan "Petilium" turkumi bilan yozilgan, o'sha CSV versiyasidan
+# qolgan dublikat qator) — TO'G'RI/joriy nomi "Fritillaria eduardii
+# (Regel) Vved." allaqachon bazada bor va red_book=true — bu yerda
+# ikkinchi "haqiqiy" Qizil kitob turi emas, shunchaki eskirgan dublikat,
+# shuning uchun majburiy primary qilinmaydi.
+RED_BOOK_FORCE_PRIMARY_EXCLUDED_SCI = [ 'Petilium eduardii (Regel) Vved.' ].freeze
+
 # "To'ldirilgan maydonlar" hisobi uchun — faqat foydalanuvchiga ko'rinadigan
 # tavsif maydonlari (taksonomiya ustunlari BU YERDA emas: guruh a'zolari
 # deyarli har doim bir xil oila/turkumga tegishli bo'lgani uchun ular
@@ -107,6 +130,30 @@ namespace :plants do
       members.each { |m| desired[m.id] = (m.id == primary.id) }
     end
 
+    # --- Qizil kitob majburiy primary: FAQAT guruhda 2+ MUSTAQIL Qizil
+    # kitob a'zosi bo'lgan holatda (yuqoridagi izohga qarang) — o'sha
+    # a'zolarning HAMMASI (yagona istisnodan tashqari) majburan
+    # primary=true qilinadi, guruhning "asosiy" (WCVP-Accepted/eng ko'p
+    # ma'lumotli) a'zosi sifatida tanlanmagan bo'lsa ham. Natijada
+    # guruhda bir nechta primary=true yozuv qolishi MUMKIN (xuddi
+    # `db/duplikat_istisnolar.csv` istisnolari kabi) — bu ATAYLAB
+    # shunday, ko'rinish mantig'i (PlantsHelper#plant_card_group_info)
+    # buni allaqachon to'g'ri boshqaradi (har biri o'zining xom nomi
+    # bilan, sinonim qatorisiz, mustaqil kartochka).
+    red_book_forced_ids = []
+    groups.each do |_, members|
+      red_book_members = members.select(&:red_book?)
+      next unless red_book_members.size > 1
+
+      red_book_members.each do |p|
+        next if RED_BOOK_FORCE_PRIMARY_EXCLUDED_SCI.include?(p.species_sci)
+        next unless desired[p.id] == false
+
+        desired[p.id] = true
+        red_book_forced_ids << p.id
+      end
+    end
+
     # --- Istisnolar: doim primary_record = true, guruhdagi boshqa
     # tanlovga QARAMASDAN. Guruhda shu tufayli bir nechta primary=true
     # yozuv qolishi MUMKIN (masalan Malus domestica ham, Malus sieversii
@@ -135,6 +182,7 @@ namespace :plants do
     puts "\n#{'=' * 60}"
     puts "Guruhlar (accepted_name bo'yicha, bittadan ko'p a'zoli): #{multi_groups.size}"
     puts "Shu guruhlardagi jami yozuvlar: #{multi_groups.values.sum(&:size)}"
+    puts "Qizil kitob sababli majburan primary=true qilingan: #{red_book_forced_ids.size}"
     puts "Istisno sifatida majburan primary=true qilingan: #{exception_ids.size}"
     puts "\nO'zgaradi: primary_record TRUE -> FALSE: #{to_false.size}"
     puts "O'zgaradi: primary_record FALSE -> TRUE: #{to_true.size}"

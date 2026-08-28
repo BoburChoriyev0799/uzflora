@@ -1,25 +1,60 @@
 %style
   :plain
+    /* CSS Grid — oldingi flex-wrap'da qatorlar orasida ustunlar
+       tekislanmasdi (har flex qatori o'z ichida mustaqil joylashadi,
+       yuqoridagi qatorning ustun chegaralariga bog'liq emas). Grid'da
+       esa ustun soni ANIQ belgilangani uchun har qator bir xil
+       chegaralarga tekislanadi, kartochka balandligi har xil bo'lsa ham
+       (`align-items: stretch` — standart qiymat — har qatorni o'zaro
+       teng balandlikka cho'zadi). */
     .moderation-list {
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 20px;
+    }
+    @media (max-width: 1199px) {
+      .moderation-list {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+    @media (max-width: 899px) {
+      .moderation-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
     }
     .moderation-card {
       background: #fff;
       border: 1px solid #dfe9d0;
       border-radius: 8px;
       box-shadow: 0 2px 12px rgba(0,0,0,.06);
-      width: 100%;
-      max-width: 320px;
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    /* Rasm maydoni bir xil nisbatda (4:3) kesiladi — turli o'lchamdagi
+       rasmlar kartochka balandligini buzmasin. Rasm hali tayyor
+       bo'lmagan/xato holatida (plant_sighting_photo_tag matn/status
+       qaytaradi, img emas) ham konteyner o'lchami o'zgarmasligi uchun
+       nisbat KARTOCHKA (rasm emas) darajasida belgilanadi. */
+    .moderation-card-photo {
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      background: #eee;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .moderation-card-photo img {
       width: 100%;
+      height: 100%;
+      object-fit: cover;
       display: block;
     }
     .moderation-card-body {
       padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 auto;
     }
     .moderation-meta {
       margin-bottom: 6px;
@@ -34,10 +69,15 @@
       color: #555;
       margin-bottom: 10px;
     }
+    /* `margin-top: auto` — .moderation-card-body flex-column bo'lgani
+       uchun bu qatorni HAR DOIM kartochka TAGIGA yopishtiradi, undan
+       yuqoridagi matn (izoh, manzil va h.k.) uzunligidan qat'i nazar —
+       tugmalar barcha kartochkalarda bir xil balandlikda turadi. */
     .moderation-actions {
       display: flex;
       gap: 10px;
-      margin-top: 12px;
+      margin-top: auto;
+      padding-top: 12px;
     }
     .moderation-actions .btn {
       flex: 1;
@@ -165,12 +205,6 @@
     .moderation-identify-results .sighting-identify-profile-link {
       font-size: 11px;
     }
-    @media (max-width: 480px) {
-      .moderation-card {
-        max-width: 100%;
-      }
-    }
-
 .bg-btm-container
   .container.content
     - pending_scope = 'plant_sightings.pending'
