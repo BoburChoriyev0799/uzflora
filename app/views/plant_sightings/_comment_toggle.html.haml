@@ -1,0 +1,6 @@
+- target_id = "sighting-comments-#{plant_sighting.id}"
+%a.sighting-comment-toggle{href: '#', data: {target: target_id}}
+  %span.sighting-comment-icon 💬
+  %span.sighting-comment-count{data: {plant_sighting_id: plant_sighting.id}}= plant_sighting.comments_count
+.sighting-comments-block{id: target_id, style: 'display:none;', data: {plant_sighting_id: plant_sighting.id}}
+  = render 'plant_sightings/comments', plant_sighting: plant_sighting

@@ -15,7 +15,7 @@ class ProfilesController < ApplicationController
                                               .distinct.pluck(:plant_id).to_set
 
     #TODO: separate pagination of sightings and comments
-    sightings = PlantSighting.includes(:plant).published.by_user(@user.id)
+    sightings = PlantSighting.includes(:plant, plant_sighting_comments: :user).published.by_user(@user.id)
     # Egasi hammasini (kutilmoqda/tasdiqlangan/rad etilgan) status belgisi
     # bilan ko'radi. Ekspert boshqa birovning profilida rad etilganlarini
     # ham ko'radi (u ko'rish huquqiga ega — plant_sighting#show bilan bir
@@ -26,7 +26,7 @@ class ProfilesController < ApplicationController
       sightings = current_user.try(:expert?) ? sightings.where(status: %w[approved rejected]) : sightings.approved
     end
     @sightings = sightings.order(created_at: :desc).page(params[:page_sightings]).per(18)
-    @drafts = PlantSighting.includes(:plant).unpublished.by_user(@user.id).order(created_at: :desc)
+    @drafts = PlantSighting.includes(:plant, plant_sighting_comments: :user).unpublished.by_user(@user.id).order(created_at: :desc)
     @comments = PlantSightingComment.where(user_id: @user.id).order(created_at: :desc).page(params[:page_comments]).per(15)
 
     # `.to_a` bilan darhol yuklanadi — shu bilan `.size` (son, tab

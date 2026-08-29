@@ -1,0 +1,23 @@
+- show_scope = 'plant_sightings.show'
+.row.sighting-comments
+  %h4= I18n.t('.comments', scope: show_scope)
+  .row.comments-container
+    - plant_sighting.plant_sighting_comments.ordered.each do |comment|
+      - next if comment.user.blank?
+      = render 'plant_sightings/comment', comment: comment
+
+  .row.add-comment-form-container
+    .row.add-comment-form
+      - if current_user
+        = form_for :comment, url: plant_sighting_comments_path, html: { class: 'form-add-plant-sighting-comment', data: { plant_sighting_id: plant_sighting.id } } do |form|
+          = form.text_area :text, class: 'form-control w80 sm-width-max comment-text', maxlength: 100, placeholder: I18n.t('.comment_placeholder', scope: show_scope)
+          %span.comment-char-count 0/100
+          = form.submit I18n.t('.add_comment', scope: show_scope), class: 'btn btn-success fright sm-center sm-mtop10 add-plant-sighting-comment-btn'
+      - else
+        %p
+          = I18n.t('.only_users', scope: show_scope)
+          %br
+            = link_to I18n.t('.sign_up', scope: show_scope), new_user_registration_path
+            = I18n.t('.or', scope: show_scope)
+            = succeed '.' do
+              = link_to I18n.t('.sign_in', scope: show_scope), new_user_session_path, class: 'lnk-success'

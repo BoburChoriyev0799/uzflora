@@ -174,7 +174,7 @@ class PlantsController < ApplicationController
     sighting_plant_ids = [ @plant.id ] + Array(@group_siblings).map(&:id)
     @sightings = PlantSighting.published.approved
                                .where(plant_id: sighting_plant_ids)
-                               .includes(:user, :plant)
+                               .includes(:user, :plant, plant_sighting_comments: :user)
                                .order(created_at: :desc)
                                .page(params[:sightings_page]).per(SIGHTINGS_PER_PAGE)
   end

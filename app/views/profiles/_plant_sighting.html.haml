@@ -19,3 +19,4 @@
     -if @user.current?(current_user)
       =link_to '', '#', class: 'delete_user_plant_sighting', data: {id: plant_sighting.id}, title: "#{I18n.t('profile.photo.delete')}"
       =link_to '', edit_plant_plant_sighting_path(plant_sighting), class: 'edit_user_bird', data: {id: plant_sighting.id}, title: "#{I18n.t('profile.photo.edit')}"
+    = render 'plant_sightings/comment_toggle', plant_sighting: plant_sighting

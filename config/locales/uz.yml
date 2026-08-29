@@ -56,6 +56,11 @@ uz:
         longitude: "Uzunlik"
         address: "Manzil"
         note: "Izoh"
+      plant_sighting_comment:
+        text: "Sharh"
+      identification:
+        plant: "O'simlik"
+        plant_id: "O'simlik"
       user:
         reset_password_token: "Havola"
       donation:
