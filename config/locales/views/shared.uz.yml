@@ -22,3 +22,11 @@ uz:
       new_year: "Yangi yil muborak! Hurmat bilan, Uzflora.uz jamoasi"
       uzflora_birth_day: "2026-yil 14-iyul - uzflora.uzning tug'ilgan kuni!"
       slogan: "Uzflora.uz — keling, O'zbekiston o'simliklarini birga o'rganamiz!"
+    live_stats:
+      users_count: Foydalanuvchilar
+      big_year_count: "Katta yilda ishtirok etayotganlar"
+      experts_count: Ekspertlar
+      photos_count: "Yuklangan rasmlar"
+      approved_species_count: "Tasdiqlangan turlar"
+      pending_count: "Tasdiqlanishini kutayotganlar"
+      research_grade_count: "Ilmiy tadqiqotlar uchun"

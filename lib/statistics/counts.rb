@@ -27,6 +27,25 @@ module Statistics
             .distinct
         list.sort_by { |p| p.species_sci.to_s }
       end
+
+      # Ekspertlar ro'yxati (bosh sahifadagi statistika panelidan o'tiladi) —
+      # har biri aniqlagan (tasdiqlangan, noyob) tur soni bilan. `User#expert?`
+      # bilan bir xil mantiq (is_expert YOKI is_admin). BITTA so'rov —
+      # N+1 yo'q.
+      def experts_with_species_count
+        sql = "SELECT u.*, COALESCE(sp.species_count, 0) species_count
+               FROM users u
+               LEFT JOIN (
+                   SELECT ps.user_id, COUNT(DISTINCT ps.plant_id) AS species_count
+                   FROM plant_sightings ps
+                   WHERE ps.status = 'approved' AND ps.plant_id IS NOT NULL
+                   GROUP BY ps.user_id
+                   ) sp ON sp.user_id = u.id
+               WHERE u.is_expert = true OR u.is_admin = true
+               ORDER BY u.last_name, u.first_name, u.created_at"
+
+        User.find_by_sql(sql)
+      end
     end
 
   end

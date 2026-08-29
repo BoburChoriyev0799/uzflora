@@ -22,3 +22,11 @@ en:
       new_year: 'Happy New Year! Your Uzflora.uz team'
       uzflora_birth_day: "July 14, 2026 - uzflora.uz's birthday!"
       slogan: 'Uzflora.uz — let’s explore the flora of Uzbekistan together!'
+    live_stats:
+      users_count: Users
+      big_year_count: "Big Year participants"
+      experts_count: Experts
+      photos_count: "Photos uploaded"
+      approved_species_count: "Confirmed species"
+      pending_count: "Awaiting confirmation"
+      research_grade_count: "Research grade"

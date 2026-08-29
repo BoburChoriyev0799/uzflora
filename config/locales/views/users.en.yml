@@ -12,3 +12,7 @@ en:
       revoke_expert: Revoke expert status
       make_expert_confirm: "Make %{name} an expert?"
       revoke_expert_confirm: "Revoke expert status from %{name}?"
+    experts:
+      title: Experts
+      species_count: "Species identified:"
+      empty: No experts yet.

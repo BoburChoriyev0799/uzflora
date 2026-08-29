@@ -1,0 +1,109 @@
+- stats = Statistics::Live.snapshot
+- live_scope = 'shared.live_stats'
+%style
+  :plain
+    /* Bootstrap 3'ning `.row` clearfix psevdo-elementlari (`:before`/
+       `:after`) CSS Grid ichida bo'sh grid a'zosiga aylanib, birinchi
+       katakni surib yuboradi (xuddi pending.html.haml'даgi
+       `.moderation-list` bilan bir xil nuqson) — shu sabab o'chirilgan. */
+    .live-stats-grid.row:before,
+    .live-stats-grid.row:after {
+      content: none;
+      display: none;
+    }
+    .live-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 14px;
+      margin: 24px 0;
+    }
+    @media (max-width: 1199px) {
+      .live-stats-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+    @media (max-width: 899px) {
+      .live-stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    .live-stat-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 16px 10px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #eaf6ec 0%, #f7fbf1 100%);
+      border: 1px solid #e2ecd9;
+      box-shadow: 0 2px 10px rgba(0,0,0,.05);
+      min-width: 0;
+      text-decoration: none !important;
+      transition: box-shadow .15s ease-in-out, transform .1s ease-in-out;
+    }
+    a.live-stat-card:hover,
+    a.live-stat-card:focus {
+      box-shadow: 0 4px 16px rgba(0,0,0,.12);
+      transform: translateY(-1px);
+    }
+    .live-stat-card.accent {
+      background: linear-gradient(135deg, #fbeef0 0%, #fdf7f8 100%);
+      border-color: #f0d9dd;
+    }
+    .live-stat-number {
+      font-size: 26px;
+      font-weight: 800;
+      color: #1e5620;
+      line-height: 1.15;
+    }
+    .live-stat-card.accent .live-stat-number {
+      color: #800020;
+    }
+    .live-stat-label {
+      font-size: 12px;
+      color: #55605a;
+      margin-top: 4px;
+      overflow-wrap: break-word;
+    }
+    @media (max-width: 599px) {
+      .live-stat-number {
+        font-size: 21px;
+      }
+      .live-stat-label {
+        font-size: 11px;
+      }
+      .live-stat-card {
+        padding: 12px 6px;
+      }
+    }
+
+.row.live-stats-grid
+  = link_to users_path, class: 'live-stat-card' do
+    .live-stat-number= stats[:users_count]
+    .live-stat-label= I18n.t('users_count', scope: live_scope)
+
+  = link_to big_year_path, class: 'live-stat-card accent' do
+    .live-stat-number= stats[:big_year_count]
+    .live-stat-label= I18n.t('big_year_count', scope: live_scope)
+
+  = link_to experts_users_path, class: 'live-stat-card' do
+    .live-stat-number= stats[:experts_count]
+    .live-stat-label= I18n.t('experts_count', scope: live_scope)
+
+  .live-stat-card
+    .live-stat-number= stats[:photos_count]
+    .live-stat-label= I18n.t('photos_count', scope: live_scope)
+
+  .live-stat-card
+    .live-stat-number= stats[:approved_species_count]
+    .live-stat-label= I18n.t('approved_species_count', scope: live_scope)
+
+  = link_to pending_plant_sightings_path, class: 'live-stat-card accent' do
+    .live-stat-number= stats[:pending_count]
+    .live-stat-label= I18n.t('pending_count', scope: live_scope)
+
+  - if stats[:research_grade_count].positive?
+    .live-stat-card
+      .live-stat-number= stats[:research_grade_count]
+      .live-stat-label= I18n.t('research_grade_count', scope: live_scope)

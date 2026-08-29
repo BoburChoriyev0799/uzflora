@@ -419,6 +419,8 @@
             - if params[:q].present? || params[:family].present? || params[:red_book].present?
               = link_to I18n.t('.clear', scope: plants_scope), plants_path, class: 'btn btn-default'
 
+        = render 'shared/live_stats'
+
         %p.mbtm20
           = I18n.t('.total', scope: plants_scope, count: @plants.total_count)
 

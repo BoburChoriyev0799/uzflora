@@ -10,6 +10,7 @@ Uzflora::Application.routes.draw do
 
   devise_scope :user do
     get 'users', to: 'users#index'
+    get 'users/experts', to: 'users#experts', as: :experts_users
     post 'users/:id/toggle_expert', to: 'users#toggle_expert', as: :toggle_expert_user
     post 'users/:id/follow', to: 'users#follow', as: :follow_user
     delete 'users/:id/unfollow', to: 'users#unfollow', as: :unfollow_user

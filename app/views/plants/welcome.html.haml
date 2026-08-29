@@ -271,6 +271,8 @@
         = link_to I18n.t('.sign_in', scope: w), new_user_session_path, class: 'btn welcome-btn-signin btn-lg btn-block mbtm10'
         = link_to I18n.t('.sign_up', scope: w), new_user_registration_path, class: 'btn welcome-btn-signup btn-lg btn-block'
 
+    = render 'shared/live_stats'
+
     .row.mtop20
       .welcome-support-card
         .welcome-support-text

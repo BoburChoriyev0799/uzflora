@@ -1,0 +1,18 @@
+.bg-btm-container
+  .container.content
+    - experts_scope = 'users.experts'
+    .row.users-container.mtop20
+      .row.users-text.mbtm20
+        %h4= I18n.t('title', scope: experts_scope)
+
+      - if @experts.empty?
+        %p= I18n.t('empty', scope: experts_scope)
+      - else
+        .row
+          - @experts.each do |expert|
+            .row.user-block
+              .col-md-1.user-left-blck
+                = image_tag expert.avatar.thumb.url, class: 'img-circle', align: 'right'
+              .col-md-3.user-right-blck
+                = link_to expert.full_name, profile_path(expert.id)
+                %p= "#{I18n.t('species_count', scope: experts_scope)} #{expert['species_count'] || 0}"

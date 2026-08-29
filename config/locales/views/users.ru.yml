@@ -12,3 +12,7 @@ ru:
       revoke_expert: Отозвать статус эксперта
       make_expert_confirm: "Назначить %{name} экспертом?"
       revoke_expert_confirm: "Отозвать статус эксперта у %{name}?"
+    experts:
+      title: Эксперты
+      species_count: "Определено видов:"
+      empty: Пока нет экспертов.

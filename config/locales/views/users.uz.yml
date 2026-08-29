@@ -12,3 +12,7 @@ uz:
       revoke_expert: Ekspertlikni bekor qilish
       make_expert_confirm: "%{name} ni ekspert qilasizmi?"
       revoke_expert_confirm: "%{name} ni ekspertlikdan bekor qilasizmi?"
+    experts:
+      title: Ekspertlar
+      species_count: "Aniqlagan turlari:"
+      empty: Hozircha ekspertlar yo'q.

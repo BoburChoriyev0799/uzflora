@@ -20,6 +20,12 @@ class UsersController < Devise::RegistrationsController
     @big_year_users_count = Statistics::BigYear.users_count
   end
 
+  # Bosh sahifadagi jonli statistika panelidagi "Ekspertlar" kartochkasi
+  # shu yerga o'tadi (ko'rish: Statistics::Live, shared/_live_stats).
+  def experts
+    @experts = Statistics::Counts.experts_with_species_count
+  end
+
   # Faqat admin (require_admin!) — boshqa foydalanuvchining ekspert
   # holatini yoqadi/o'chiradi. Admin'ning o'ziga (is_admin) tegmaydi,
   # faqat is_expert ustunini almashtiradi.
