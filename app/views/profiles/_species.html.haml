@@ -4,3 +4,5 @@
       %li
         =link_to plant_path(plant) do
           %em= plant.display_sci_name
+        - if @research_grade_plant_ids.include?(plant.id)
+          %span.research-grade-badge-sm{title: I18n.t('research_grade_badge', scope: 'identifications')} 🔬

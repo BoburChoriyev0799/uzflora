@@ -2520,6 +2520,27 @@ a.delete-comment-lnk:hover {
 .plant-sighting-header .status-badge {
   align-self: flex-start;
 }
+// Jamoaviy aniqlash orqali "ilmiy tadqiqotlar uchun" deb belgilangan
+// kuzatuvlar uchun — plant_sightings/show.html.haml'даgi
+// `.research-grade-badge` bilan bir xil rang/uslub (ko'k, Qizil kitob
+// nishonidan farqlanadi), profil kartochkasiga moslashtirilgan o'lchamda.
+.plant-sighting-header .research-grade-badge {
+  align-self: flex-start;
+  display: inline-block;
+  background: #0b5394;
+  color: #fff;
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 8px;
+  margin-top: 2px;
+}
+// Profil "Aniqlagan turlari" ro'yxatida (_species.html.haml) — ixcham
+// emoji belgi, ro'yxat qatorini buzmasin deb badge o'rniga shu ishlatiladi.
+.research-grade-badge-sm {
+  margin-left: 4px;
+  font-size: 13px;
+  cursor: help;
+}
 
 .profile-sighting-meta {
   font-size: 11px;

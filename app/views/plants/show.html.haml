@@ -43,6 +43,18 @@
       border-radius: 10px;
       margin-bottom: 12px;
     }
+    /* Jamoaviy aniqlash orqali "ilmiy tadqiqotlar uchun" belgilangan
+       kuzatuvlar — Qizil kitob nishoni bilan bir xil uslub, lekin ko'k
+       rangda (ikkalasi shu sahifada aralashib qolmasin). */
+    .plant-photo-research-grade {
+      display: inline-block;
+      background: #0b5394;
+      color: #fff;
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 8px;
+      margin-bottom: 4px;
+    }
     /* Primary BO'LMAGAN (POWO orqali boshqa turga birlashtirilgan)
        yozuv sahifasidagi eslatma — .plant-info-block bilan bir xil
        yashil palitra, lekin OGOHLANTIRISH emas, shunchaki INFORMATIV
@@ -309,6 +321,8 @@
                 = link_to plant_sighting_path(sighting) do
                   = plant_sighting_photo_tag(sighting, :small, class: 'plant-photo-img')
                 .plant-photo-meta
+                  - if sighting.research_grade?
+                    .plant-photo-research-grade= I18n.t('research_grade_badge', scope: 'identifications')
                   - if sighting.timestamp.present?
                     %p.plant-photo-date= date_format(sighting.timestamp)
                   - if sighting.address_valid?

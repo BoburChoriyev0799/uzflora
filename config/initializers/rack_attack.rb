@@ -49,6 +49,20 @@ class Rack::Attack
     req.ip if is_plants_identify || is_sighting_identify
   end
 
+  # Jamoaviy aniqlash — tur taklif qilish (IdentificationsController#create).
+  # Login talab qilinadi (controller darajasida), lekin skript orqali
+  # spam/soxta ovoz yig'ishning oldini olish uchun IP bo'yicha ham
+  # cheklanadi.
+  throttle('identifications/ip', limit: 20, period: 60) do |req|
+    req.ip if req.post? && req.path.match?(%r{\A/plant_sightings/\d+/identifications\z})
+  end
+
+  # Kuzatuvlarga izoh yozish (PlantSightingCommentsController#create) —
+  # xuddi shu sababdan (spam) IP bo'yicha cheklanadi.
+  throttle('comments/ip', limit: 20, period: 60) do |req|
+    req.ip if req.post? && req.path == '/plant_sighting_comments'
+  end
+
   # "Loyihani qo'llab-quvvatlash" formasi mehmonlarga ham ochiq (login
   # shart emas), shuning uchun spam/bazani to'ldirish xavfi bor — bir IP
   # soatiga 10 tadan ortiq Donation yozuvi yubora olmaydi.

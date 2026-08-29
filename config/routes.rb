@@ -92,7 +92,13 @@ Uzflora::Application.routes.draw do
       post 'assign_plant' => 'plant_sightings#assign_plant'
       post 'identify' => 'plant_sightings#identify'
     end
+    # Jamoaviy aniqlash (community identification) — `identify` (yuqorida,
+    # PlantNet AI-aniqlash)dan ATAYLAB ALOHIDA nom/controller: ikkalasi
+    # butunlay boshqa-boshqa narsa (biri bir martalik AI taxmin, ikkinchisi
+    # foydalanuvchilar orasidagi ovoz berish).
+    resources :identifications, only: [:create]
   end
+  resources :identifications, only: [:destroy]
 
   post 'plant_sightings_search' => 'plant_sightings#search_plant'
   get 'plant_sightings_autocomplete' => 'plant_sightings#autocomplete', as: :plant_sightings_autocomplete

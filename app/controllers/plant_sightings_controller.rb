@@ -14,7 +14,7 @@ class PlantSightingsController < ApplicationController
   # ko'rsatiladi.
   def pending
     @plant_sightings = PlantSighting.published.pending
-                                     .includes(:plant, :user, :identified_by)
+                                     .includes(:plant, :user, :identified_by, identifications: [:user, :plant])
                                      .order(created_at: :asc)
   end
 
@@ -149,6 +149,7 @@ class PlantSightingsController < ApplicationController
     @plant_sighting = PlantSighting.find(params[:id])
 
     if @plant_sighting.update(plant_sighting_params)
+      propose_owner_identification!(@plant_sighting)
       redirect_to action: next_edit_action(@plant_sighting), id: @plant_sighting.id
     else
       redirect_to action: :edit_date, id: @plant_sighting.id, alert: @plant_sighting.errors.full_messages.to_sentence
@@ -158,6 +159,7 @@ class PlantSightingsController < ApplicationController
   def publish
     @plant_sighting = PlantSighting.find(params[:id])
     @plant_sighting.update(plant_sighting_params)
+    propose_owner_identification!(@plant_sighting)
     redirect_to plant_sighting_path(@plant_sighting)
   end
 
@@ -233,6 +235,16 @@ class PlantSightingsController < ApplicationController
       :note,
       :plant_id
     )
+  end
+
+  # Egasi wizard orqali (edit_plant bosqichida) tur tanlaganda — bu
+  # jamoaviy aniqlashning "1-taklifi" hisoblanadi (ko'rish:
+  # PlantSighting#propose_identification!). Tur hali tanlanmagan bo'lsa
+  # (unknown kuzatuv) hech narsa qilinmaydi.
+  def propose_owner_identification!(sighting)
+    return if sighting.plant.blank?
+
+    sighting.propose_identification!(sighting.user, sighting.plant)
   end
 
   def next_edit_action(sighting)

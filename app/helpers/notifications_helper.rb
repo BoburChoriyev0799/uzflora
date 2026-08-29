@@ -10,8 +10,14 @@ module NotificationsHelper
 
   def notification_text(notification)
     plant_name = notification.plant_sighting&.plant&.display_name(I18n.locale) || I18n.t('unknown_plant', scope: 'profile.photo')
-    I18n.t(
-      'new_sighting_html',
+    # DIQQAT: bare `I18n.t` EMAS — `t` (ActionView'ning TranslationHelper'i)
+    # ishlatiladi. `_html` bilan tugaydigan kalitlar uchun FAQAT shu helper
+    # natijani `html_safe` deb belgilaydi (bare `I18n.t` bunday qilmaydi —
+    # tekshirib ko'rilgan: natija oddiy satr bo'lib qoladi, HAML `=` esa
+    # uni QAYTA escape qilib, `<strong>`/havola teglari matn sifatida
+    # ko'rinib qolardi).
+    t(
+      "#{notification.notification_type}_html",
       scope: 'notifications',
       actor: content_tag(:strong, notification.actor.full_name),
       plant: content_tag(:em, plant_name)

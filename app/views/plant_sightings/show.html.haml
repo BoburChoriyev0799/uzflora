@@ -25,6 +25,126 @@
         max-height: 45vh;
       }
     }
+    /* JAMOAVIY ANIQLASH — belgi Qizil kitob nishoni (.plant-red-book-badge,
+       plants/index.html.haml) bilan bir xil uslub, lekin ko'k rangda
+       (ikkalasi bir sahifada uchrasa aralashib ketmasin). */
+    .research-grade-badge {
+      display: inline-block;
+      background: #0b5394;
+      color: #fff;
+      font-size: 12px;
+      padding: 3px 9px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    .identifications-widget {
+      margin-top: 10px;
+      padding: 14px 16px;
+      background: #f7faf3;
+      border: 1px solid #e2ecd9;
+      border-radius: 8px;
+    }
+    .identification-progress {
+      margin-bottom: 12px;
+    }
+    .identification-progress-bar {
+      display: flex;
+      gap: 4px;
+    }
+    .identification-progress-segment {
+      flex: 1 1 auto;
+      height: 8px;
+      border-radius: 4px;
+      background: #dfe9d0;
+    }
+    .identification-progress-segment.filled {
+      background: #4a9c4a;
+    }
+    .identification-progress-text {
+      margin: 6px 0 0;
+      font-size: 13px;
+      color: #555;
+    }
+    .identification-progress-expert {
+      display: inline-block;
+      font-weight: 600;
+      color: #1e5620;
+      font-size: 13px;
+    }
+    .identification-list {
+      margin-bottom: 14px;
+    }
+    .identification-empty {
+      color: #888;
+      font-style: italic;
+      font-size: 13px;
+    }
+    .identification-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid #e9efe0;
+    }
+    .identification-row:last-child {
+      border-bottom: none;
+    }
+    .identification-avatar {
+      width: 34px;
+      height: 34px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .identification-body {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+    .identification-name {
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .identification-plant {
+      margin: 0;
+      font-style: italic;
+      color: #555;
+      font-size: 13px;
+    }
+    .identification-withdraw-lnk,
+    .identification-delete-lnk {
+      flex-shrink: 0;
+      font-size: 12px;
+      color: #a94442;
+    }
+    .identification-propose-form {
+      border-top: 1px solid #e2ecd9;
+      padding-top: 12px;
+    }
+    .identification-propose-label {
+      display: block;
+      font-weight: 600;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+    .identification-propose {
+      display: block;
+      max-width: 100%;
+    }
+    .identification-propose-btn {
+      margin-top: 8px;
+    }
+    .identification-propose-btn[disabled] {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+    .identification-guest-note {
+      font-size: 13px;
+      color: #555;
+      border-top: 1px solid #e2ecd9;
+      padding-top: 12px;
+      margin: 0;
+    }
 .bg-btm-container
   .container.content
     - show_scope = 'plant_sightings.show'
@@ -78,6 +198,8 @@
             %a.link.sighting-map-toggle{href: '#', data: {lat: @plant_sighting.latitude, lng: @plant_sighting.longitude}}
               = @plant_sighting.address_string
           #sighting_map_canvas{style: 'display:none; width:100%; height:300px; margin-top:10px;'}
+
+        = render 'identifications', plant_sighting: @plant_sighting
 
     .row
       .col.col-md-8.col-sm-12.col-xs-12

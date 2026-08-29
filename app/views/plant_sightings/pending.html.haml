@@ -252,6 +252,27 @@
     .moderation-identify-results .sighting-identify-profile-link {
       font-size: 11px;
     }
+    /* Jamoaviy aniqlash vidjeti — moderatsiya kartochkasi ichida ixcham
+       ko'rinishda (asosiy uslub plant_sightings/show.html.haml'da,
+       .identifications-widget/.identification-*). Bu yerda faqat
+       o'lcham/bo'shliqlar torайtiriladi, ranglar o'zgarmaydi. */
+    .moderation-card .identifications-widget {
+      margin-top: 10px;
+      padding: 10px 12px;
+      font-size: 12px;
+    }
+    .moderation-card .identification-progress-text,
+    .moderation-card .identification-plant,
+    .moderation-card .identification-guest-note {
+      font-size: 11px;
+    }
+    .moderation-card .identification-avatar {
+      width: 26px;
+      height: 26px;
+    }
+    .moderation-card .identification-propose-label {
+      font-size: 12px;
+    }
 .bg-btm-container
   .container.content
     - pending_scope = 'plant_sightings.pending'
@@ -292,6 +313,8 @@
                   %p.text-muted.moderation-identify-not-ready= I18n.t('not_ready', scope: 'plant_sightings.edit.identify.errors')
                 .moderation-identify-status{data: {id: sighting.id}, style: 'display:none;'}= I18n.t('loading', scope: 'plant_sightings.edit.identify')
                 .moderation-identify-results{data: {id: sighting.id, error_generic: I18n.t('generic', scope: 'plants.index.identify.errors')}}
+
+              = render 'identifications', plant_sighting: sighting, compact: true
 
               %p.moderation-meta
                 %span.lbl= I18n.t('.author', scope: pending_scope)

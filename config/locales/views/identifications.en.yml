@@ -1,0 +1,19 @@
+en:
+  identifications:
+    research_grade_badge: "Research grade"
+    expert_confirmed: "Confirmed by an expert"
+    confirmed_full: "Confirmed (3/3)"
+    need_more:
+      one: "%{count} more agreement needed to confirm"
+      other: "%{count} more agreements needed to confirm"
+      zero: "Confirming..."
+    propose_label: "Suggest a species"
+    plant_name_placeholder: "Type a plant name..."
+    not_found: "Nothing found"
+    propose_button: "Suggest"
+    withdraw: "Withdraw"
+    guest_note_html: "%{link} to suggest a species."
+    sign_in: "Sign in"
+    plant_not_found: "That plant could not be found"
+    forbidden: "You are not allowed to do this"
+    empty: "No one has suggested a species yet"

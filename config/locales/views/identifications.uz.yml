@@ -1,0 +1,19 @@
+uz:
+  identifications:
+    research_grade_badge: "Ilmiy tadqiqotlar uchun"
+    expert_confirmed: "Ekspert tasdiqlagan"
+    confirmed_full: "Tasdiqlangan (3/3)"
+    need_more:
+      one: "Tasdiqlanishi uchun yana %{count} ta kelishuv kerak"
+      other: "Tasdiqlanishi uchun yana %{count} ta kelishuv kerak"
+      zero: "Tasdiqlanmoqda..."
+    propose_label: "Tur taklif qilish"
+    plant_name_placeholder: "O'simlik nomini yozing..."
+    not_found: "Hech narsa topilmadi"
+    propose_button: "Taklif qilish"
+    withdraw: "Qaytarib olish"
+    guest_note_html: "Taklif berish uchun %{link}."
+    sign_in: "tizimga kiring"
+    plant_not_found: "Bunday o'simlik topilmadi"
+    forbidden: "Bu amalni bajarish uchun ruxsat yo'q"
+    empty: "Hali hech kim tur taklif qilmagan"

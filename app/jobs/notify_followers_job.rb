@@ -43,10 +43,12 @@ class NotifyFollowersJob < ApplicationJob
       }
     end
 
-    # Unikal indeks (recipient_id+plant_sighting_id) orqali — job
-    # ikkinchi marta ishga tushsa ham (masalan Solid Queue qayta urinishi)
+    # Unikal indeks (recipient_id+plant_sighting_id+notification_type) orqali —
+    # job ikkinchi marta ishga tushsa ham (masalan Solid Queue qayta urinishi)
     # dublikat yozuv yaratilmaydi, mavjud qatorlar jim o'tkazib yuboriladi.
-    Notification.insert_all(rows, unique_by: :index_notifications_on_recipient_id_and_plant_sighting_id)
+    # Indeks nomi db/migrate/*_widen_notification_uniqueness.rb'da kengaytirilgan
+    # (endi comment/identification turlari ham shu jadvalni qayta ishlatadi).
+    Notification.insert_all(rows, unique_by: :index_notifications_on_recipient_sighting_type)
 
     follower_ids.each { |recipient_id| User.clear_unread_notifications_cache!(recipient_id) }
   end

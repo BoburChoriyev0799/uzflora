@@ -8,6 +8,11 @@ class ProfilesController < ApplicationController
     @big_year_species_count = Statistics::BigYear.user_approved_count(@user.id, Time.zone.now.year)
     @big_year_rating = Statistics::BigYear.user_ranking(@user.id, Time.zone.now.year)
     @species = Statistics::Counts.user_plants(@user.id)
+    # "Ilmiy tadqiqotlar uchun" belgisini turlar ro'yxatida (_species
+    # partial) ko'rsatish uchun — bitta indekslangan so'rov (research_grade
+    # ustuni indekslangan, ko'rish: migratsiya), N+1 emas.
+    @research_grade_plant_ids = PlantSighting.where(user_id: @user.id, research_grade: true)
+                                              .distinct.pluck(:plant_id).to_set
 
     #TODO: separate pagination of sightings and comments
     sightings = PlantSighting.includes(:plant).published.by_user(@user.id)

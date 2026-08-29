@@ -5,5 +5,7 @@ uz:
     view_all: Hammasini ko'rish
     empty: Hozircha xabar yo'q.
     new_sighting_html: "%{actor} yangi o'simlik joyladi: %{plant}"
+    new_comment_html: "%{actor} sizning kuzatuvingizga izoh qoldirdi: %{plant}"
+    new_identification_html: "%{actor} sizning kuzatuvingizga tur taklif qildi: %{plant}"
     mark_all_as_read: Hammasini o'qilgan deb belgilash
     time_ago: "%{time} oldin"

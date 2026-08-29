@@ -74,6 +74,18 @@
       return;
     }
 
+    // Jamoaviy aniqlash — "Tur taklif qilish" vidjeti (bir sahifada bir
+    // nechta vidjet bo'lishi mumkin — kuzatuv sahifasida bitta, moderatsiya
+    // navbatida har kartada bittadan). plant_sighting_identifications.js
+    // "Taklif qilish" tugmasi bosilganda shu hidden maydondagi qiymatni
+    // yuboradi.
+    var $widget = $wrap.closest('.identifications-widget');
+    if ($widget.length) {
+      $widget.find('.identification-plant-id').val(id);
+      $widget.find('.identification-propose-btn').prop('disabled', false);
+      return;
+    }
+
     // Boshqa sahifalar (masalan o'simliklar ro'yxati qidiruvi): tanlash
     // bilanoq mavjud qidiruv formasi (GET) yuboriladi — data-auto-submit
     // belgilangan bo'lsagina.

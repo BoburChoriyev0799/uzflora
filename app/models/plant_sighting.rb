@@ -16,6 +16,7 @@ class PlantSighting < ApplicationRecord
   belongs_to :identified_by, class_name: 'User', optional: true
 
   has_many :plant_sighting_comments, dependent: :destroy
+  has_many :identifications, dependent: :destroy
   has_many :notifications, dependent: :destroy
 
   mount_uploader :photo, PlantSightingUploader
@@ -202,6 +203,69 @@ class PlantSighting < ApplicationRecord
     update!(status: :rejected, expert: expert, reviewed_at: Time.zone.now, moderation_note: note)
   end
 
+  # Jamoaviy aniqlash uchun kerak bo'ladigan jami "kelishuv" soni (3 ta
+  # yakka g'olib tur -> avtomatik tasdiqlanadi).
+  MIN_TEAM_AGREEMENT = 3
+
+  # Yagona kirish nuqtasi: foydalanuvchi (egasi, birinchi taklif sifatida,
+  # yoki istalgan boshqa tizimga kirgan foydalanuvchi) tur taklif qiladi
+  # yoki avvalgi taklifini o'zgartiradi (unique index — bitta foydalanuvchi,
+  # bitta kuzatuv uchun BITTA qator, ko'rish: db/migrate/*_create_identifications.rb).
+  # `assign_plant` (ekspert tezkor biriktiruvi) ham shu metodni chaqiradi —
+  # ikkala yo'l (yangi "Tur taklif qilish" vidjeti va eski tezkor biriktirish)
+  # bir xil kelishuv/tasdiqlash mantig'idan o'tsin.
+  def propose_identification!(user, plant)
+    return if plant.nil?
+
+    identification = identifications.find_or_initialize_by(user: user)
+    identification.plant = plant
+    identification.withdrawn_at = nil
+    identification.save!
+    recompute_identifications!
+    notify_owner_of_identification!(user)
+    identification
+  end
+
+  # Egasi o'z taklifini qaytarib oladi (o'chirilmaydi — tarix saqlanadi,
+  # `withdrawn_at` orqali "faol emas" deb belgilanadi).
+  def withdraw_identification!(identification)
+    identification.update!(withdrawn_at: Time.zone.now)
+    recompute_identifications!
+  end
+
+  # Ekspert/admin boshqa birovning taklifini butunlay o'chiradi
+  # (moderatsiya amali — o'zining taklifini "qaytarib olish"dan farqli).
+  def destroy_identification!(identification)
+    identification.destroy!
+    recompute_identifications!
+  end
+
+  # Har bir taklif (qo'shilgan/o'zgartirilgan/qaytarib olingan/o'chirilgan)dan
+  # KEYIN chaqiriladi — hisoblagichlarni yangilaydi va QOIDALARGA muvofiq
+  # kerak bo'lsa avtomatik tasdiqlaydi/pasaytiradi:
+  #  - Ekspert taklifi (istalgan sondagi ovoz bilan) HAMMASIDAN USTUN —
+  #    bir nechta ekspert kelishmasa, ENG SO'NGGI (updated_at) ekspert
+  #    taklifi g'olib.
+  #  - Ekspert hech qachon aralashmagan bo'lsa (expert_id bo'sh) — jamoa
+  #    ovozi: 3+ TA YAKKA g'olib tur bo'lsa avtomatik tasdiqlanadi.
+  #  - Ekspert BIR MARTA bo'lsa ham aralashgan (expert_id to'ldirilgan)
+  #    kuzatuvga jamoa ovozi endi TA'SIR QILMAYDI (na tasdiqlaydi, na
+  #    pasaytiradi) — ekspert xulosasi doim ustun (eski qo'lda tasdiqlash
+  #    navbatidagi "Tasdiqlash" tugmasi ham xuddi shu `expert_id`ni
+  #    to'ldiradi, shuning uchun bu himoya o'sha eski oqim bilan ham
+  #    ishlaydi, uni o'zgartirmaydi).
+  def recompute_identifications!
+    actives = identifications.active.includes(:user).to_a
+    self.identifications_count = actives.size
+
+    expert_votes = actives.select(&:expert_vote?)
+    if expert_votes.any?
+      apply_expert_identification!(expert_votes.max_by(&:updated_at), actives)
+    else
+      apply_team_identification!(actives)
+    end
+  end
+
   # ProcessSightingImageJob shu metodni chaqiradi (fon jarayonida).
   # `photo_cache_name` orqali hali R2'ga yuklanmagan keshlangan faylni
   # qayta tiklaydi (`photo_cache=` — CarrierWave), keyin haqiqiy tarmoq
@@ -228,11 +292,11 @@ class PlantSighting < ApplicationRecord
   # Ransack 4+ xavfsizlik uchun ochiq ustunlarni talab qiladi — admin
   # paneldagi filter/qidiruv shu ro'yxatga tayanadi.
   def self.ransackable_attributes(_auth_object = nil)
-    %w[id status published timestamp created_at region]
+    %w[id status published timestamp created_at region research_grade]
   end
 
   def self.ransackable_associations(_auth_object = nil)
-    %w[user plant expert identified_by]
+    %w[user plant expert identified_by identifications]
   end
 
   private
@@ -261,5 +325,92 @@ class PlantSighting < ApplicationRecord
 
   def refresh_group_has_photo_after_destroy!
     Plant.refresh_group_has_photo!(plant_id) if plant_id.present?
+  end
+
+  # `identification` — ekspertlardan ENG SO'NGGI (updated_at) o'zgartirgani
+  # g'olib (bir nechta ekspert kelishmasa ham, "oxirgi so'z" ustun bo'ladi).
+  def apply_expert_identification!(identification, actives)
+    self.agreement_count = actives.count { |i| i.plant_id == identification.plant_id }
+
+    return persist_identification_counters! if research_grade? &&
+                                                 plant_id == identification.plant_id &&
+                                                 expert_id == identification.user_id
+
+    if approved?
+      update!(
+        plant_id: identification.plant_id,
+        expert: identification.user,
+        identified_by: identification.user,
+        research_grade: true,
+        research_graded_at: research_graded_at || Time.zone.now,
+        reviewed_at: Time.zone.now
+      )
+    else
+      self.plant_id = identification.plant_id
+      approve!(identification.user)
+      update!(identified_by: identification.user, research_grade: true, research_graded_at: Time.zone.now)
+    end
+  end
+
+  # Ekspert HECH QACHON aralashmagan (expert_id bo'sh) kuzatuvlargagina
+  # tegadi — ko'rish: `recompute_identifications!`даgi izoh.
+  def apply_team_identification!(actives)
+    if actives.empty?
+      self.agreement_count = 0
+      return persist_identification_counters!
+    end
+
+    votes = actives.group_by(&:plant_id).transform_values(&:size)
+    max_votes = votes.values.max
+    winners = votes.select { |_, count| count == max_votes }.keys
+    self.agreement_count = max_votes
+
+    return demote_team_identification_if_needed! if expert_id.present?
+
+    if winners.size == 1 && max_votes >= MIN_TEAM_AGREEMENT
+      winning_plant_id = winners.first
+      return persist_identification_counters! if research_grade? && plant_id == winning_plant_id
+
+      if approved?
+        update!(plant_id: winning_plant_id, research_grade: true, research_graded_at: research_graded_at || Time.zone.now)
+      else
+        self.plant_id = winning_plant_id
+        approve!(nil)
+        update!(research_grade: true, research_graded_at: Time.zone.now)
+      end
+    else
+      demote_team_identification_if_needed!
+    end
+  end
+
+  # Kelishuv buzilsa (ovoz tortib olinishi bilan 3 tadan pastga tushdi
+  # yoki teng bo'lib qoldi) — FAQAT jamoa orqali (ekspertsiz) erishilgan
+  # research_grade bekor qilinadi, kuzatuv qayta ko'rib chiqish (pending)
+  # holatiga qaytadi. Ekspert tomonidan tasdiqlangan (`expert_id` bor)
+  # kuzatuvlarga bu yerda HECH QACHON tegilmaydi.
+  def demote_team_identification_if_needed!
+    if research_grade? && expert_id.blank?
+      update!(status: :pending, research_grade: false, research_graded_at: nil)
+    else
+      persist_identification_counters!
+    end
+  end
+
+  def persist_identification_counters!
+    update_columns(identifications_count: identifications_count, agreement_count: agreement_count)
+  end
+
+  # Egasi o'ziga o'zi bildirishnoma olmasin (masalan o'z kuzatuvining
+  # birinchi taklifini yaratganda). `Notification.upsert_for!` (ko'rish:
+  # app/models/notification.rb) — takroriy taklif/izohlarda BITTA qatorni
+  # yangilaydi, cheksiz qator yig'ilib ketmaydi (mavjud minimalistik
+  # bildirishnoma tizimi bilan bir xil uslub).
+  def notify_owner_of_identification!(proposer)
+    return if proposer.id == user_id
+
+    Notification.upsert_for!(
+      recipient_id: user_id, plant_sighting_id: id,
+      notification_type: 'new_identification', actor_id: proposer.id
+    )
   end
 end

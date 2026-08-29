@@ -1,0 +1,49 @@
+- id_scope = 'identifications'
+- compact ||= false
+- active_identifications = plant_sighting.identifications.active.includes(:user, :plant).order(:created_at)
+.identifications-widget{id: "identifications-#{plant_sighting.id}", class: ('compact' if compact), data: {plant_sighting_id: plant_sighting.id, create_url: plant_sighting_identifications_path(plant_sighting)}}
+  - if plant_sighting.research_grade?
+    .research-grade-badge= I18n.t('research_grade_badge', scope: id_scope)
+
+  .identification-progress
+    - if plant_sighting.research_grade? && plant_sighting.expert_id.present?
+      .identification-progress-expert= I18n.t('expert_confirmed', scope: id_scope)
+    - else
+      .identification-progress-bar
+        - 3.times do |i|
+          %span.identification-progress-segment{class: ('filled' if i < [plant_sighting.agreement_count, 3].min)}
+      %p.identification-progress-text
+        - if plant_sighting.research_grade?
+          = I18n.t('confirmed_full', scope: id_scope)
+        - else
+          = I18n.t('need_more', scope: id_scope, count: [3 - plant_sighting.agreement_count, 0].max)
+
+  .identification-list
+    - if active_identifications.empty?
+      %p.identification-empty= I18n.t('empty', scope: id_scope)
+    - active_identifications.each do |identification|
+      .identification-row{id: "identification-#{identification.id}"}
+        = image_tag identification.user.avatar.thumb.url, class: 'identification-avatar img-circle'
+        .identification-body
+          %p.identification-name
+            = link_to identification.user.full_name, profile_path(identification.user)
+            - if identification.expert_vote?
+              .identification-expert-tag= render 'shared/expert_icon', size: 16
+          %p.identification-plant= identification.plant.display_name(I18n.locale)
+        - if identification.owner?(current_user)
+          %a.identification-withdraw-lnk{href: '#', data: {id: identification.id}}= I18n.t('withdraw', scope: id_scope)
+        - elsif current_user.try(:expert?)
+          %a.identification-delete-lnk{href: '#', data: {id: identification.id}, title: I18n.t('withdraw', scope: id_scope)} ×
+
+  - if current_user
+    .identification-propose-form
+      %label.identification-propose-label{for: "identification_query_#{plant_sighting.id}"}= I18n.t('propose_label', scope: id_scope)
+      .plant-autocomplete.identification-propose{data: {url: plant_sightings_autocomplete_path, not_found: I18n.t('not_found', scope: id_scope)}}
+        = text_field_tag "identification_query_#{plant_sighting.id}", nil, id: "identification_query_#{plant_sighting.id}", class: 'form-control plant-autocomplete-input', autocomplete: 'off', placeholder: I18n.t('plant_name_placeholder', scope: id_scope)
+        %ul.plant-autocomplete-list
+      = hidden_field_tag "identification_plant_id_#{plant_sighting.id}", nil, class: 'identification-plant-id'
+      %button.btn.btn-success.btn-sm.identification-propose-btn{data: {id: plant_sighting.id}, type: 'button', disabled: true}
+        = I18n.t('propose_button', scope: id_scope)
+  - else
+    %p.identification-guest-note
+      = t('guest_note_html', scope: id_scope, link: link_to(I18n.t('sign_in', scope: id_scope), new_user_session_path))

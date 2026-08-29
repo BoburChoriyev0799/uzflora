@@ -6,6 +6,8 @@
       -if @user.current?(current_user) || current_user.try(:expert?)
         .status-badge
           = plant_sighting_status_badge(plant_sighting)
+      -if plant_sighting.research_grade?
+        .research-grade-badge= I18n.t('research_grade_badge', scope: 'identifications')
   .body
     =link_to plant_sighting_path(plant_sighting), class: 'profile-sighting-photo' do
       = plant_sighting_photo_tag(plant_sighting, :small)

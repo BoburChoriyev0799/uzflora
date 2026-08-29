@@ -5,5 +5,7 @@ ru:
     view_all: Смотреть все
     empty: Пока нет уведомлений.
     new_sighting_html: "%{actor}: новое наблюдение — %{plant}"
+    new_comment_html: "%{actor} оставил(а) комментарий к вашему наблюдению: %{plant}"
+    new_identification_html: "%{actor} предложил(а) вид для вашего наблюдения: %{plant}"
     mark_all_as_read: Отметить все как прочитанные
     time_ago: "%{time} назад"

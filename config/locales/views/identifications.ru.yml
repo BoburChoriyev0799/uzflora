@@ -1,0 +1,21 @@
+ru:
+  identifications:
+    research_grade_badge: "Для научных исследований"
+    expert_confirmed: "Подтверждено экспертом"
+    confirmed_full: "Подтверждено (3/3)"
+    need_more:
+      one: "Нужно ещё %{count} совпадение для подтверждения"
+      few: "Нужно ещё %{count} совпадения для подтверждения"
+      many: "Нужно ещё %{count} совпадений для подтверждения"
+      other: "Нужно ещё %{count} совпадений для подтверждения"
+      zero: "Подтверждается..."
+    propose_label: "Предложить вид"
+    plant_name_placeholder: "Введите название растения..."
+    not_found: "Ничего не найдено"
+    propose_button: "Предложить"
+    withdraw: "Отозвать"
+    guest_note_html: "Чтобы предложить вид, %{link}."
+    sign_in: "войдите в систему"
+    plant_not_found: "Такое растение не найдено"
+    forbidden: "Нет прав для этого действия"
+    empty: "Пока никто не предложил вид"

@@ -5,5 +5,7 @@ en:
     view_all: View all
     empty: No notifications yet.
     new_sighting_html: "%{actor} added a new plant: %{plant}"
+    new_comment_html: "%{actor} commented on your sighting: %{plant}"
+    new_identification_html: "%{actor} suggested a species for your sighting: %{plant}"
     mark_all_as_read: Mark all as read
     time_ago: "%{time} ago"
