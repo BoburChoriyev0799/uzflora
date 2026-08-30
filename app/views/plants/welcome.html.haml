@@ -271,8 +271,6 @@
         = link_to I18n.t('.sign_in', scope: w), new_user_session_path, class: 'btn welcome-btn-signin btn-lg btn-block mbtm10'
         = link_to I18n.t('.sign_up', scope: w), new_user_registration_path, class: 'btn welcome-btn-signup btn-lg btn-block'
 
-    = render 'shared/live_stats'
-
     .row.mtop20
       .welcome-support-card
         .welcome-support-text
@@ -283,3 +281,5 @@
     .row
       %h4.welcome-map-title.acenter= I18n.t('.map_title', scope: w)
       #welcome_map_canvas{data: {points: @map_sightings.map { |s| { lat: s.latitude, lng: s.longitude, name: s.plant.present? ? s.plant.display_name(I18n.locale) : nil } }.to_json}}
+
+    = render 'shared/live_stats'

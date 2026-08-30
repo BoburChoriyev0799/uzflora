@@ -19,6 +19,74 @@ $(function() {
         $('#' + $(this).data('target')).slideToggle(150);
     });
 
+    // Ro'yxatlardagi (profil, o'simlik sahifasi) 💬 tugmasi — tor
+    // kartochka ichida EMAS, umumiy MODAL oynada ochiladi
+    // (plant_sightings/_comment_modal.html.haml). Kartochka ichidagi
+    // yashirin `.sighting-comment-modal-content` DOM tuguni modal ichiga
+    // KO'CHIRILADI (klonlanmaydi — shunda ID takrorlanmaydi va mavjud
+    // izoh qo'shish/o'chirish delegatsiyasi o'zgarishsiz ishlayveradi),
+    // yopilganda esa aynan o'sha joyiga qaytariladi (bo'sh <span> belgi
+    // orqali eslab qolinadi).
+    function openSightingCommentModal($trigger) {
+        var $content = $('#' + $trigger.data('target'));
+        if (!$content.length) {
+            return;
+        }
+
+        var $modal = $('#sighting-comment-modal');
+        var $placeholder = $('<span style="display:none"></span>').insertAfter($content);
+        $content.data('sightingModalPlaceholder', $placeholder);
+
+        $modal.find('.sighting-comment-modal-slot').append($content.show());
+        $modal.data('activeContent', $content);
+
+        $modal.css('display', 'flex');
+        $('body').css('overflow', 'hidden');
+        $content.find('.comment-text').first().trigger('focus');
+    }
+
+    function closeSightingCommentModal() {
+        var $modal = $('#sighting-comment-modal');
+        var $content = $modal.data('activeContent');
+
+        if ($content && $content.length) {
+            var $placeholder = $content.data('sightingModalPlaceholder');
+            $content.hide();
+            if ($placeholder && $placeholder.length) {
+                $content.insertBefore($placeholder);
+                $placeholder.remove();
+            }
+        }
+
+        $modal.hide();
+        $modal.removeData('activeContent');
+        $('body').css('overflow', '');
+    }
+
+    $(document).on('click', '.sighting-comment-modal-trigger', function(event) {
+        event.preventDefault();
+        openSightingCommentModal($(this));
+    });
+
+    $(document).on('click', '.sighting-comment-modal-close', function(event) {
+        event.preventDefault();
+        closeSightingCommentModal();
+    });
+
+    // Fonga bosilsa yopiladi — faqat overlayning O'ZIGA bosilganda
+    // (ichidagi qutiga bosish yopmasin).
+    $(document).on('click', '.sighting-comment-modal-overlay', function(event) {
+        if (event.target === this) {
+            closeSightingCommentModal();
+        }
+    });
+
+    $(document).on('keydown', function(event) {
+        if (event.key === 'Escape' && $('#sighting-comment-modal').is(':visible')) {
+            closeSightingCommentModal();
+        }
+    });
+
     // Jonli hisoblagich ("87/100").
     $(document).on('input', '.comment-text', function() {
         var $textarea = $(this);

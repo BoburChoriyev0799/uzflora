@@ -61,6 +61,7 @@ en:
       sign_up: "Sign up"
       sign_in: "log in"
       or: "or"
+      modal_close: "Close"
     status:
       pending: "Pending"
       approved: "Approved"

@@ -61,6 +61,7 @@ uz:
       sign_up: "Ro'yxatdan o'ting"
       sign_in: "tizimga kiring"
       or: "yoki"
+      modal_close: "Yopish"
     status:
       pending: "Kutilmoqda"
       approved: "Tasdiqlangan"

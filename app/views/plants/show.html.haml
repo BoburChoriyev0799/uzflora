@@ -55,20 +55,30 @@
       border-radius: 8px;
       margin-bottom: 4px;
     }
-    .plant-photo-card .sighting-comment-toggle {
+    /* 💬 tugmasi — bosilganda izoh tor kartochka ICHIDA emas, umumiy
+       MODAL oynada ochiladi (plant_sightings/_comment_modal_trigger.html.haml
+       + _comment_modal.html.haml, bir marta shu sahifada render qilinadi). */
+    .plant-photo-card .sighting-comment-modal-trigger {
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      font-size: 11px;
-      color: #4a6b3a;
-      text-decoration: none !important;
       margin-top: 2px;
-    }
-    .plant-photo-card .sighting-comment-icon {
-      font-size: 13px;
-    }
-    .plant-photo-card .sighting-comments-block {
+      padding: 0;
+      border: none;
+      background: none;
+      color: #4a6b3a;
       font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .plant-photo-card .sighting-comment-modal-trigger:hover,
+    .plant-photo-card .sighting-comment-modal-trigger:focus {
+      color: #046A38;
+    }
+    .plant-photo-card .sighting-comment-modal-trigger .sighting-action-icon {
+      width: 13px;
+      height: 13px;
+      pointer-events: none;
     }
     /* Primary BO'LMAGAN (POWO orqali boshqa turga birlashtirilgan)
        yozuv sahifasidagi eslatma — .plant-info-block bilan bir xil
@@ -219,6 +229,8 @@
       object-fit: contain;
     }
 
+= render 'plant_sightings/comment_modal'
+
 .bg-btm-container
   .container.content
     - plant_scope = 'plants.show'
@@ -347,7 +359,7 @@
                     = link_to sighting.user.full_name, profile_path(sighting.user)
                   - if sighting.plant_id != @plant.id
                     %p.plant-photo-submitted-as= t('photo_submitted_as', scope: plant_scope, name: sighting.plant.species_sci)
-                  = render 'plant_sightings/comment_toggle', plant_sighting: sighting
+                  = render 'plant_sightings/comment_modal_trigger', plant_sighting: sighting
           - if @sightings.total_pages > 1
             .plant-photos-pagination
               = paginate @sightings, param_name: :sightings_page

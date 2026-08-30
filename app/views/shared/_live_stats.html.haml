@@ -13,18 +13,42 @@
     }
     .live-stats-grid {
       display: grid;
-      grid-template-columns: repeat(6, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 14px;
       margin: 24px 0;
+    }
+    /* 7 ta kartochka 4 ustunga 4+3 bo'lib chiroyli taqsimlanadi, lekin
+       3 va 2 ustunda (7 soni ularga teng bo'linmagani uchun) oxirgi
+       qatorda BITTA yolg'iz kartochka qolib ketardi. Shu uch qoida
+       aynan shu holatni ushlaydi (":last-child" + ustunlar soniga mos
+       ":nth-child(Nn+1)" — ya'ni "oxirgi qatorda yagona qolgan element")
+       va uni butun qator eniga cho'zadi — natijada u tasodifiy chalkash
+       emas, ATAYLAB kengaytirilgan yakuniy kartochkaga o'xshaydi.
+       Kartochkalar soni (research_grade_count > 0 bo'lsa 7, aks holda 6)
+       o'zgarsa ham qoida ishlayveradi. */
+    .live-stats-grid > .live-stat-card:last-child:nth-child(4n+1) {
+      grid-column: 1 / -1;
     }
     @media (max-width: 1199px) {
       .live-stats-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
       }
+      .live-stats-grid > .live-stat-card:last-child:nth-child(4n+1) {
+        grid-column: auto;
+      }
+      .live-stats-grid > .live-stat-card:last-child:nth-child(3n+1) {
+        grid-column: 1 / -1;
+      }
     }
     @media (max-width: 899px) {
       .live-stats-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .live-stats-grid > .live-stat-card:last-child:nth-child(3n+1) {
+        grid-column: auto;
+      }
+      .live-stats-grid > .live-stat-card:last-child:nth-child(2n+1) {
+        grid-column: 1 / -1;
       }
     }
     .live-stat-card {

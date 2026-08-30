@@ -61,6 +61,7 @@ ru:
       sign_up: "Зарегистрируйтесь"
       sign_in: "войдите"
       or: "или"
+      modal_close: "Закрыть"
     status:
       pending: "На рассмотрении"
       approved: "Подтверждено"

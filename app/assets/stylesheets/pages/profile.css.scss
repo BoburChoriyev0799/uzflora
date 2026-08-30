@@ -183,37 +183,13 @@
     }
   }
 
-  .profile-birds-block, .profile-drafts-block {
-    a.delete_user_bird, a.delete_user_plant_sighting {
-      position:absolute;
-      display: block;
-      left:76%;
-      top:33%;
-      width: 24px;
-      height: 19px;
-      background:asset-data-url('share/edit/delete_icon.png') no-repeat;
-      opacity: 0.8;
-      cursor:pointer;
-    }
-    a.delete_user_bird:hover, a.delete_user_plant_sighting:hover {
-      background:asset-data-url('share/edit/delete_icon_hover.png') no-repeat;
-      opacity: 1;
-    }
-
-    a.edit_user_bird {
-      position:absolute;
-      display: block;
-      left:76%;
-      top:87.5%;
-      width: 24px;
-      height: 19px;
-      background:asset-data-url('share/edit/edit-pen.png') no-repeat;
-      opacity: 0.8;
-      cursor:pointer;
-    }
-    a.edit_user_bird:hover {
-      background:asset-data-url('share/edit/edit-pen-hover.png') no-repeat;
-      opacity: 1;
-    }
-  }
+  // Suratlar/qoralamalar kartochkasidagi tahrirlash/o'chirish tugmalari —
+  // avval shu yerda rasm USTIGA position:absolute bilan qo'yilardi (eski
+  // PNG belgilar), bu "Ilmiy tadqiqotlar uchun" belgisi bilan ustma-ust
+  // tushib xunuk ko'rinardi. Endi kartochka PASTIDA, oddiy flex qatorda,
+  // inline SVG bilan — uslub profiles/show.html.haml'даgi
+  // `.sighting-action-btn` qoidalarida (kartochka soniga qarab
+  // takrorlanmasin deb sahifaning o'zida, `_plant_sighting.html.haml`
+  // partial'da emas). Class nomlari (`delete_user_plant_sighting`,
+  // `edit_user_bird`) JS bilan moslik uchun saqlangan.
 }

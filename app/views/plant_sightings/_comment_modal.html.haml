@@ -1,0 +1,128 @@
+%style
+  :plain
+    /* Ro'yxatlarda (profil, o'simlik sahifasi) izoh bloki tor kartochka
+       ICHIDA emas, shu umumiy MODAL oynada ochiladi — kuzatuv sahifasida
+       (plant_sightings/show) esa avvalgidek inline qoladi, bu partial
+       u yerda ishlatilmaydi. */
+    .sighting-comment-modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,.6);
+      z-index: 1050;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .sighting-comment-modal-box {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-width: 600px;
+      max-height: 88vh;
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0,0,0,.3);
+    }
+    .sighting-comment-modal-close {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(255,255,255,.9);
+      color: #223318;
+      cursor: pointer;
+      box-shadow: 0 1px 4px rgba(0,0,0,.2);
+    }
+    .sighting-comment-modal-close:hover,
+    .sighting-comment-modal-close:focus {
+      background: #fff;
+      color: #046A38;
+    }
+    .sighting-comment-modal-close svg {
+      width: 16px;
+      height: 16px;
+    }
+    .sighting-comment-modal-slot {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      overflow-y: auto;
+    }
+    .sighting-comment-modal-photo {
+      flex-shrink: 0;
+      display: flex;
+      justify-content: center;
+      background: #eee;
+      max-height: 40vh;
+    }
+    .sighting-comment-modal-photo img {
+      max-width: 100%;
+      max-height: 40vh;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+    }
+    .sighting-comment-modal-info {
+      flex-shrink: 0;
+      padding: 12px 16px 0;
+    }
+    .sighting-comment-modal-plant {
+      margin: 0;
+      font-weight: 700;
+      color: #223318;
+    }
+    .sighting-comment-modal-date {
+      margin: 2px 0 0;
+      font-size: 12px;
+      color: #888;
+    }
+    .sighting-comment-modal-comments {
+      padding: 8px 16px 16px;
+    }
+    /* `.comment-char-count`ning bazaviy uslubi odatda kuzatuv sahifasining
+       (plant_sightings/show.html.haml) o'z %style blokida beriladi — bu
+       modal esa BOSHQA sahifalarda (profil, o'simlik) ham ishlatilgani
+       uchun shu yerda mustaqil belgilanadi. */
+    .sighting-comment-modal-comments .comment-char-count {
+      display: inline-block;
+      font-size: 12px;
+      color: #888;
+      margin: 4px 10px 0 0;
+    }
+    @media (max-width: 600px) {
+      .sighting-comment-modal-overlay {
+        padding: 0;
+      }
+      .sighting-comment-modal-box {
+        width: 92%;
+        max-height: 92vh;
+        margin: 0 auto;
+      }
+      .sighting-comment-modal-photo {
+        max-height: 32vh;
+      }
+      .sighting-comment-modal-photo img {
+        max-height: 32vh;
+      }
+    }
+
+#sighting-comment-modal.sighting-comment-modal-overlay
+  .sighting-comment-modal-box
+    %button.sighting-comment-modal-close{type: 'button', 'aria-label' => I18n.t('modal_close', scope: 'plant_sightings.show')}
+      %svg{xmlns: 'http://www.w3.org/2000/svg', viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width' => '2', 'stroke-linecap' => 'round', 'stroke-linejoin' => 'round'}
+        %line{x1: '18', y1: '6', x2: '6', y2: '18'}
+        %line{x1: '6', y1: '6', x2: '18', y2: '18'}
+    .sighting-comment-modal-slot
