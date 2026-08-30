@@ -8,7 +8,10 @@
 .sighting-comment-modal-content{id: target_id, style: 'display:none;'}
   - if plant_sighting[:photo].present?
     .sighting-comment-modal-photo
-      = plant_sighting_photo_tag(plant_sighting, :original, class: 'sighting-comment-modal-img')
+      -# `:medium` — kesilmagan (object-fit:contain bilan to'liq ko'rinishi
+      -# uchun), lekin `:original`dan (1600px) ancha yengil (1000px) —
+      -# modal ochilganda R2'dan keraksiz katta fayl yuklanmasin deb.
+      = plant_sighting_photo_tag(plant_sighting, :medium, class: 'sighting-comment-modal-img')
   .sighting-comment-modal-info
     %p.sighting-comment-modal-plant
       - if plant_sighting.plant.present?

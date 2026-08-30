@@ -13,6 +13,18 @@ class PlantSightingUploader < BaseUploader
   process resize_to_limit: [MAX_SOURCE_DIMENSION, MAX_SOURCE_DIMENSION]
   process :quality => 90
 
+  # Izohlar MODALIDA (plant_sightings/_comment_modal_trigger.html.haml)
+  # ko'rsatiladigan variant — standart (1600px) versiyaning o'zi emas,
+  # undan ancha yengili: modal `object-fit: contain` bilan rasmni TO'LIQ
+  # (kesmasdan) ko'rsatishi kerak, shuning uchun `:display` kabi
+  # `resize_to_fill` (KESADI) emas, `resize_to_limit` (faqat kichraytiradi,
+  # nisbatni saqlaydi) ishlatiladi — xuddi standart versiya kabi, faqat
+  # kichikroq chegarada (1000px, sifat ham birozgina pasaytirilgan).
+  version :medium do
+    process resize_to_limit: [1000, 1000]
+    process :quality => 82
+  end
+
   # Sahifada ko'rsatiladigan asosiy (kesilgan) rasm — yuqoridagi
   # kichraytirilgan faylning o'zidan kesiladi, asl faylni qayta ochmaydi.
   version :display do
