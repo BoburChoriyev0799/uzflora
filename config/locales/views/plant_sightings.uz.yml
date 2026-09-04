@@ -68,6 +68,7 @@ uz:
       rejected: "Rad etildi"
     pending:
       title: "Tekshirilishi kerak bo'lgan kuzatuvlar"
+      crowd_note: "Turini bilgan bo'lsangiz taklif qiling. Uchta foydalanuvchi bir xil turni ko'rsatsa, kuzatuv avtomatik tasdiqlanadi."
       empty: "Hozircha tekshirilishi kerak bo'lgan kuzatuvlar yo'q."
       author: "Muallif:"
       identified_by: "Turini aniqladi:"

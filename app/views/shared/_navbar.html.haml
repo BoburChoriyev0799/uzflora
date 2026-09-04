@@ -470,7 +470,11 @@
           %li
             - add_photo_label = safe_join([content_tag(:span, nav_add_photo_icon, class: 'nav-add-photo-icon'), I18n.t('shared.nav_add_photo.button')])
             =nav_link_to add_photo_label, new_plant_sighting_path, class: 'nav-add-photo-btn'
-        -if current_user.try(:expert?)
+        -# Jamoaviy aniqlash (tur taklif qilish) shu sahifada ishlaydi va
+        -# tizimga kirgan HAR qanday foydalanuvchiga ochiq (faqat
+        -# tasdiqlash/rad etish ekspertga xos) — shuning uchun havola ham
+        -# faqat ekspertga emas, kirgan har kimga ko'rinadi.
+        -if current_user
           %li
             - pending_count = pending_plant_sightings_count
             - moderate_label = I18n.t('moderate_plants', scope: navbar_scope)

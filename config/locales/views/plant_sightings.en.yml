@@ -68,6 +68,7 @@ en:
       rejected: "Rejected"
     pending:
       title: "Observations awaiting review"
+      crowd_note: "If you know the species, suggest it. Once three users agree on the same species, the observation is confirmed automatically."
       empty: "There are no observations awaiting review right now."
       author: "Author:"
       identified_by: "Identified by:"

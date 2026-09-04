@@ -1,17 +1,25 @@
 class PlantSightingsController < ApplicationController
   before_action :authenticate_user!, except: [:show]
-  before_action :require_expert!, only: [:pending, :approve, :reject, :assign_plant]
+  before_action :require_expert!, only: [:approve, :reject, :assign_plant]
 
   layout 'plant_map', only: [:edit_map, :show]
 
-  # Moderatsiya navbati — faqat ekspertlarga ko'rinadi. BUG TUZATILDI:
-  # avval bu yerda `.known` scope'i bor edi, ya'ni faqat tur (plant_id)
-  # tanlangan kuzatuvlar ko'rinardi — lekin plant_id ixtiyoriy
-  # (`belongs_to :plant, optional: true`, `can_publish?` plant_id'ni
-  # talab qilmaydi), shuning uchun turi aniqlanmagan (unknown) holda
-  # nashr qilingan kuzatuvlar moderatsiya navbatidan butunlay tushib
-  # qolardi. Endi published+pending BARCHASI (known ham, unknown ham)
-  # ko'rsatiladi.
+  # Moderatsiya navbati — TIZIMGA KIRGAN har qanday foydalanuvchiga ochiq
+  # (avval `require_expert!` bilan faqat ekspertlarga ochiq edi — lekin
+  # jamoaviy aniqlash (`_identifications.html.haml`dagi "tur taklif
+  # qilish" vidjeti, pastda `render 'identifications'`) aynan shu
+  # sahifada ishlaydi, oddiy foydalanuvchi tur taklif qila olishi kerak).
+  # Tasdiqlash/rad etish/turni majburan biriktirish esa ALOHIDA
+  # action'lar (`approve`/`reject`/`assign_plant`) va ular hamon faqat
+  # ekspertga ochiq — yuqoridagi `before_action`ga qarang.
+  #
+  # BUG TUZATILDI: avval bu yerda `.known` scope'i bor edi, ya'ni faqat
+  # tur (plant_id) tanlangan kuzatuvlar ko'rinardi — lekin plant_id
+  # ixtiyoriy (`belongs_to :plant, optional: true`, `can_publish?`
+  # plant_id'ni talab qilmaydi), shuning uchun turi aniqlanmagan
+  # (unknown) holda nashr qilingan kuzatuvlar moderatsiya navbatidan
+  # butunlay tushib qolardi. Endi published+pending BARCHASI (known ham,
+  # unknown ham) ko'rsatiladi.
   def pending
     @plant_sightings = PlantSighting.published.pending
                                      .includes(:plant, :user, :identified_by, identifications: [:user, :plant])
