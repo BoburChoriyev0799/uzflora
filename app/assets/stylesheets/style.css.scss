@@ -2521,14 +2521,15 @@ a.delete-comment-lnk:hover {
   align-self: flex-start;
 }
 // Jamoaviy aniqlash orqali "ilmiy tadqiqotlar uchun" deb belgilangan
-// kuzatuvlar uchun — plant_sightings/show.html.haml'даgi
-// `.research-grade-badge` bilan bir xil rang/uslub (ko'k, Qizil kitob
-// nishonidan farqlanadi), profil kartochkasiga moslashtirilgan o'lchamda.
+// kuzatuvlar uchun — `.research-grade-badge` (identifications.css.scss)
+// bilan bir xil rang (Celery #B4C424 fon + to'q #22261F matn — "TASDIQLANGAN"
+// va Qizil kitob belgilaridan ATAYLAB farqli), profil kartochkasiga
+// moslashtirilgan o'lchamda.
 .plant-sighting-header .research-grade-badge {
   align-self: flex-start;
   display: inline-block;
-  background: #0b5394;
-  color: #fff;
+  background: #B4C424;
+  color: #22261F;
   font-size: 10px;
   padding: 2px 7px;
   border-radius: 8px;

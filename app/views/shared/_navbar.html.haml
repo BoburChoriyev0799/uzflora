@@ -532,6 +532,10 @@
               - I18n.available_locales.each do |loc|
                 - next if loc == I18n.locale
                 %li
-                  =link_to switch_locale_path(locale: loc) do
+                  -# `data: {turbolinks: false}` — Turbolinks keshidan eski
+                  -# tildagi sahifa ko'rsatilib qolmasligi uchun TO'LIQ
+                  -# qayta yuklashga majbur qiladi (footer'даgi bilan bir
+                  -# xil sabab — izohga qarang).
+                  =link_to switch_locale_path(locale: loc), data: {turbolinks: false} do
                     %span.navbar-locale-flag= locale_flag(loc)
                     %span.navbar-locale-code= loc.to_s.upcase

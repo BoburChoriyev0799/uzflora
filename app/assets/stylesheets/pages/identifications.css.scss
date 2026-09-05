@@ -18,10 +18,14 @@
 // (masalan pending.html.haml'даgi kichraytirilgan shrift/bo'shliqlar)
 // o'sha sahifaning o'z %style blokida QOLADI — ular bazaviy qoidalarni
 // FAQAT toraytiradi, qayta belgilamaydi.
+// Celery (#B4C424) fon + to'q (#22261F) matn — kontrast nisbati ~8.2:1
+// (WCAG AAA'dan ham yuqori). "TASDIQLANGAN" (yashil #3f7a1f/#e3f3d8) va
+// "Qizil kitob" (qizil #c0392b) belgilari bilan ATAYLAB farqli rang —
+// ularga tegilmagan.
 .research-grade-badge {
   display: inline-block;
-  background: #0b5394;
-  color: #fff;
+  background: #B4C424;
+  color: #22261F;
   font-size: 12px;
   padding: 3px 9px;
   border-radius: 10px;
