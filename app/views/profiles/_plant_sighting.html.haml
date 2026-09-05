@@ -15,7 +15,7 @@
       - if plant_sighting.timestamp.present?
         %p.profile-sighting-date= date_format(plant_sighting.timestamp)
       - if plant_sighting.address_valid?
-        %p.profile-sighting-place= plant_sighting.address_string
+        %p.profile-sighting-place= plant_sighting_location(plant_sighting)
     .profile-sighting-actions{class: ('single-action' unless can_manage)}
       = render 'plant_sightings/comment_modal_trigger', plant_sighting: plant_sighting
       - if can_manage

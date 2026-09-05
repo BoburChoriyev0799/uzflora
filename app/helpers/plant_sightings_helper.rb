@@ -1,4 +1,41 @@
 module PlantSightingsHelper
+  # Bo'shliq/registr/apostrof farqlariga qaramay bir xil kalitga tushishi
+  # uchun: kichik harf, chetdagi bo'shliqlar kesiladi, ichkaridagi
+  # bo'shliqlar va apostrofning turli ko'rinishlari (', ', ‘, ʻ, ʼ)
+  # butunlay olib tashlanadi. Masalan "Farg'ona", "farg'ona ", "Farg’ona"
+  # — hammasi "fargona" kalitiga tushadi.
+  def normalize_location_key(value)
+    value.to_s.strip.downcase.gsub(/['’‘ʻʼ`]/, '').gsub(/\s+/, '')
+  end
+
+  # Markaziy helper — JOY NOMI chiqadigan HAMMA joyda shu ishlatiladi
+  # (kuzatuv sahifasi, kartochkalar, profil, tasdiqlash paneli, xarita
+  # izohlari). `config/locales/views/locations.*.yml` lug'atidan joriy
+  # tildagi nomni qaytaradi (masalan bazada "toshkent" yoki "Toshkent"
+  # deb yozilgan bo'lsa ham — ruschada "Ташкент", inglizchada "Tashkent").
+  # Lug'atda topilmasa — saqlangan matnning O'ZI qaytadi, lekin birinchi
+  # harfi albatta BOSH HARF bo'ladi (`capitalize_first`) — bazadagi
+  # "toshkent" kabi kichik harfli yozuvlar ham to'g'ri ko'rinsin.
+  def location_name(raw)
+    return raw.to_s if raw.blank?
+
+    key = normalize_location_key(raw)
+    translated = I18n.t(key, scope: 'locations', default: nil)
+    return translated if translated.present?
+
+    capitalize_first(raw)
+  end
+
+  # Kuzatuvning "joylashuv" matni — koordinata (manzil yo'q holatda
+  # `PlantSighting#address_string`ning o'zi qaytaradigan "lat; lng")
+  # TARJIMA/BOSH HARFGA URINILMAYDI (bu raqam, joy nomi emas), faqat
+  # haqiqiy manzil matni bo'lsa `location_name` orqali o'tadi.
+  def plant_sighting_location(sighting)
+    return sighting.address_string if sighting.address.blank?
+
+    location_name(sighting.address)
+  end
+
   def plant_sighting_status_badge(sighting)
     content_tag(:span, I18n.t(sighting.status, scope: 'plant_sightings.status'),
                 class: "sighting-status-badge status-#{sighting.status}")

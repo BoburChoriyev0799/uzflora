@@ -114,7 +114,7 @@
           %p
             %span.lbl= I18n.t('.place', scope: show_scope)
             %a.link.sighting-map-toggle{href: '#', data: {lat: @plant_sighting.latitude, lng: @plant_sighting.longitude}}
-              = @plant_sighting.address_string
+              = plant_sighting_location(@plant_sighting)
           #sighting_map_canvas{style: 'display:none; width:100%; height:300px; margin-top:10px;'}
 
         = render 'identifications', plant_sighting: @plant_sighting

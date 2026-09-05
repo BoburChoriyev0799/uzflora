@@ -1,0 +1,24 @@
+# Kuzatuv joyi (plant_sightings.address) lug'ati — PlantSightingsHelper#
+# location_name shu yerdan izlaydi. Kalit — NORMALLASHTIRILGAN lotincha
+# nom (kichik harf, bo'shliqsiz, apostrofsiz — ko'rish:
+# PlantSightingsHelper#normalize_location_key). Bazadagi/CSV'dagi xom
+# matnga TEGILMAYDI — faqat KO'RSATISHDA shu lug'at orqali almashtiriladi.
+uz:
+  locations:
+    toshkent: "Toshkent"
+    toshkentviloyati: "Toshkent viloyati"
+    andijon: "Andijon"
+    buxoro: "Buxoro"
+    fargona: "Farg'ona"
+    jizzax: "Jizzax"
+    namangan: "Namangan"
+    navoiy: "Navoiy"
+    qashqadaryo: "Qashqadaryo"
+    qoraqalpogiston: "Qoraqalpog'iston"
+    samarqand: "Samarqand"
+    sirdaryo: "Sirdaryo"
+    surxondaryo: "Surxondaryo"
+    xorazm: "Xorazm"
+    # Amaldagi bazadan (dev) topilgan qiymat — Surxondaryo viloyatidagi
+    # tuman.
+    bandixontumani: "Bandixon tumani"

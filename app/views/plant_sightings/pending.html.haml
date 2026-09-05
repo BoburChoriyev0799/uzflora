@@ -358,7 +358,7 @@
               - if sighting.address_valid?
                 %p.moderation-meta
                   %span.lbl= I18n.t('.place', scope: pending_scope)
-                  = sighting.address_string
+                  = plant_sighting_location(sighting)
                   = link_to I18n.t('.on_map', scope: pending_scope), "https://www.openstreetmap.org/?mlat=#{sighting.latitude}&mlon=#{sighting.longitude}#map=15/#{sighting.latitude}/#{sighting.longitude}", target: '_blank', rel: 'noopener', class: 'link'
 
               - if sighting.note.present?

@@ -15,4 +15,4 @@
         %p
           %span.lbl= I18n.t('.place', scope: 'plant_sightings.show')
       .col.col-md-8.aleft
-        %p= sighting.address_string
+        %p= plant_sighting_location(sighting)

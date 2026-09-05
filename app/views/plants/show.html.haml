@@ -273,15 +273,15 @@
               - @group_siblings.each do |sibling|
                 %p= link_to sibling.display_name_uz, plant_path(sibling)
 
-        - life_form_text = @plant.life_form_localized(I18n.locale)
+        - life_form_text = capitalize_first(@plant.life_form_localized(I18n.locale))
         - if life_form_text.present?
           .plant-info-block
             .plant-info-block-head= I18n.t('.life_form', scope: plant_scope)
             .plant-info-block-body
               %p= life_form_text
 
-        - habitat_env_text = @plant.habitat_env_localized(I18n.locale)
-        - habitat_place_text = @plant.habitat_place_localized(I18n.locale)
+        - habitat_env_text = capitalize_first(@plant.habitat_env_localized(I18n.locale))
+        - habitat_place_text = capitalize_first(@plant.habitat_place_localized(I18n.locale))
         - if habitat_env_text.present? || habitat_place_text.present?
           .plant-info-block
             .plant-info-block-head= I18n.t('.habitat', scope: plant_scope)
@@ -295,16 +295,16 @@
                   %span.plant-lbl= I18n.t('.habitat_place', scope: plant_scope)
                   = habitat_place_text
 
-        - usage_text = @plant.usage_localized(I18n.locale)
+        - usage_text = capitalize_first(@plant.usage_localized(I18n.locale))
         - if usage_text.present?
           .plant-info-block
             .plant-info-block-head= I18n.t('.usage', scope: plant_scope)
             .plant-info-block-body
               %p= usage_text
 
-        - range_world_text = @plant.range_world_localized(I18n.locale)
-        - range_central_asia_text = @plant.range_central_asia_localized(I18n.locale)
-        - range_uzbekistan_text = @plant.range_uzbekistan_localized(I18n.locale)
+        - range_world_text = capitalize_first(@plant.range_world_localized(I18n.locale))
+        - range_central_asia_text = capitalize_first(@plant.range_central_asia_localized(I18n.locale))
+        - range_uzbekistan_text = capitalize_first(@plant.range_uzbekistan_localized(I18n.locale))
         - if range_world_text.present? || range_central_asia_text.present? || range_uzbekistan_text.present?
           .plant-info-block
             .plant-info-block-head= I18n.t('.range', scope: plant_scope)
@@ -353,7 +353,7 @@
                   - if sighting.timestamp.present?
                     %p.plant-photo-date= date_format(sighting.timestamp)
                   - if sighting.address_valid?
-                    %p.plant-photo-place= sighting.address_string
+                    %p.plant-photo-place= plant_sighting_location(sighting)
                   %p.plant-photo-author
                     = I18n.t('.photo_by', scope: plant_scope)
                     = link_to sighting.user.full_name, profile_path(sighting.user)

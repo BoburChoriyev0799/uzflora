@@ -11,11 +11,11 @@
     - if plant.species_ru.present?
       %p
         %span.lbl= I18n.t('russian_name', scope: 'plant_sightings.show')
-        = plant.species_ru
+        = capitalize_first(plant.species_ru)
     - if plant.species_uz.present?
       %p
         %span.lbl= I18n.t('uzbek_name', scope: 'plant_sightings.show')
-        = plant.species_uz
+        = capitalize_first(plant.species_uz)
 - else
   .plant-full-names.mtop10
     %p.unknown-plant-label= I18n.t('unknown_plant', scope: 'plant_sightings.show')

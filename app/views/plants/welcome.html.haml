@@ -256,7 +256,7 @@
         -# ko'rinardi — shuning uchun bu yerda oldindan chetlab o'tiladi.
         - recent_sightings_with_photo = @recent_sightings.select { |s| s[:photo].present? && s.photo_status_ready? }
         - if recent_sightings_with_photo.present?
-          .welcome-gallery-row{data: {sightings: recent_sightings_with_photo.map { |s| { photo: s.photo.display.url, name: (s.plant.present? ? s.plant.display_name(I18n.locale) : nil) } }.to_json}}
+          .welcome-gallery-row{data: {sightings: recent_sightings_with_photo.map { |s| { photo: s.photo.display.url, name: (s.plant.present? ? capitalize_first(s.plant.display_name(I18n.locale)) : nil) } }.to_json}}
             - 5.times do |i|
               .welcome-gallery-cell{id: "welcome-cell-#{i}"}
                 %img.welcome-gallery-img
@@ -280,6 +280,6 @@
 
     .row
       %h4.welcome-map-title.acenter= I18n.t('.map_title', scope: w)
-      #welcome_map_canvas{data: {points: @map_sightings.map { |s| { lat: s.latitude, lng: s.longitude, name: s.plant.present? ? s.plant.display_name(I18n.locale) : nil } }.to_json}}
+      #welcome_map_canvas{data: {points: @map_sightings.map { |s| { lat: s.latitude, lng: s.longitude, name: s.plant.present? ? capitalize_first(s.plant.display_name(I18n.locale)) : nil } }.to_json}}
 
     = render 'shared/live_stats'
