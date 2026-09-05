@@ -62,6 +62,28 @@
       return;
     }
 
+    // Jamoaviy aniqlash — "Tur taklif qilish" vidjeti (bir sahifada bir
+    // nechta vidjet bo'lishi mumkin — kuzatuv sahifasida bitta, moderatsiya
+    // navbatida har kartada bittadan). plant_sighting_identifications.js
+    // "Taklif qilish" tugmasi bosilganda shu hidden maydondagi qiymatni
+    // yuboradi.
+    //
+    // MUHIM: bu tekshiruv pastdagi `.moderation-card`dan OLDIN turishi
+    // SHART. pending.html.haml'da vidjet `.moderation-card` ICHIDA
+    // render qilinadi (ekspertning "Biriktirish" formasi bilan bir xil
+    // kartada) — shuning uchun vidjet ichidagi autokomplitning
+    // `.closest('.moderation-card')`i ham HAQIQIY, TOPILADIGAN natija
+    // beradi. Avval o'sha tekshiruv turgani uchun tanlangan tur HAR
+    // DOIM (kuzatuv sahifasida ham, moderatsiyada ham) ekspertning
+    // "Biriktirish" maydoniga yozilib, "Taklif qilish" tugmasi hech
+    // qachon yoqilmas edi (bug: tugma bosilganda hech narsa bo'lmasdi).
+    var $widget = $wrap.closest('.identifications-widget');
+    if ($widget.length) {
+      $widget.find('.identification-plant-id').val(id);
+      $widget.find('.identification-propose-btn').prop('disabled', false);
+      return;
+    }
+
     // Ekspert moderatsiya navbati (pending.html.haml): bir sahifada bir
     // nechta karta bo'lgani uchun ID emas, shu kartaga xos class'lar
     // orqali ishlaymiz — moderate_plant_sightings.js "Biriktirish"
@@ -71,18 +93,6 @@
       $card.find('.moderation-plant-id').val(id);
       $card.find('.moderation-assign-plant').prop('disabled', false);
       $card.find('.moderation-assign-feedback').text('');
-      return;
-    }
-
-    // Jamoaviy aniqlash — "Tur taklif qilish" vidjeti (bir sahifada bir
-    // nechta vidjet bo'lishi mumkin — kuzatuv sahifasida bitta, moderatsiya
-    // navbatida har kartada bittadan). plant_sighting_identifications.js
-    // "Taklif qilish" tugmasi bosilganda shu hidden maydondagi qiymatni
-    // yuboradi.
-    var $widget = $wrap.closest('.identifications-widget');
-    if ($widget.length) {
-      $widget.find('.identification-plant-id').val(id);
-      $widget.find('.identification-propose-btn').prop('disabled', false);
       return;
     }
 

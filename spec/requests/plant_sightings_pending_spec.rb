@@ -52,7 +52,7 @@ describe 'Plant sightings moderation queue (/plant_sightings/pending)', type: :r
   end
 
   describe 'a regular user can propose a species from the queue (crowd identification)' do
-    it 'saves the proposal via IdentificationsController#create' do
+    it 'saves the proposal via IdentificationsController#create and returns fresh widget html with the updated count' do
       sign_in regular_user
       other_plant = Plant.create!(species_sci: 'Testia gamma L.')
 
@@ -61,7 +61,59 @@ describe 'Plant sightings moderation queue (/plant_sightings/pending)', type: :r
       }.to change { pending_sighting.identifications.count }.by(1)
 
       expect(response).to have_http_status(:ok)
-      expect(JSON.parse(response.body)['success']).to be true
+      body = JSON.parse(response.body)
+      expect(body['success']).to be true
+      # Yangi HTML — kelishuv chizig'ining 1/3 to'lganini ko'rsatadi
+      # (progress-segment.filled bitta bo'lishi kerak).
+      expect(body['html'].scan('identification-progress-segment filled').size).to eq(1)
+      expect(body['html']).to include(regular_user.full_name)
+    end
+
+    it 'shows a clear error when no plant was selected' do
+      sign_in regular_user
+      expect {
+        post plant_sighting_identifications_path(pending_sighting), params: {}, as: :json
+      }.not_to change { pending_sighting.identifications.count }
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      body = JSON.parse(response.body)
+      expect(body['success']).to be false
+      expect(body['error']).to eq(I18n.t('plant_not_found', scope: 'identifications'))
+    end
+
+    it 'updates the same identification instead of creating a duplicate when a user proposes twice' do
+      sign_in regular_user
+      plant_a = Plant.create!(species_sci: 'Testia alpha L.')
+      plant_b = Plant.create!(species_sci: 'Testia beta L.')
+
+      post plant_sighting_identifications_path(pending_sighting), params: { plant_id: plant_a.id }, as: :json
+      expect {
+        post plant_sighting_identifications_path(pending_sighting), params: { plant_id: plant_b.id }, as: :json
+      }.not_to change { pending_sighting.identifications.count }
+
+      expect(pending_sighting.identifications.sole.plant_id).to eq(plant_b.id)
+    end
+
+    it 'auto-approves and marks research_grade once three different users agree on the same species' do
+      other_plant = Plant.create!(species_sci: 'Testia gamma L.')
+      [regular_user, FactoryBot.create(:user), FactoryBot.create(:user)].each do |user|
+        sign_in user
+        post plant_sighting_identifications_path(pending_sighting), params: { plant_id: other_plant.id }, as: :json
+        sign_out user
+      end
+
+      pending_sighting.reload
+      expect(pending_sighting.status).to eq('approved')
+      expect(pending_sighting.research_grade).to be true
+      expect(pending_sighting.plant_id).to eq(other_plant.id)
+    end
+  end
+
+  describe 'a guest cannot propose' do
+    it 'shows a sign-in prompt instead of the propose widget on the sighting show page' do
+      get plant_sighting_path(pending_sighting)
+      expect(response.body).to include('identification-guest-note')
+      expect(response.body).not_to include('identification-propose-form')
     end
   end
 
