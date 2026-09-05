@@ -56,7 +56,7 @@ en:
       photos_title: "User photos"
       photos_empty: "No photos have been added for this plant yet."
       photo_by: "By:"
-      photo_submitted_as: "submitted as %{name}"
+      photo_submitted_as_html: "submitted as %{name}"
     welcome:
       title: "uzflora.uz — the flora of Uzbekistan platform"
       subtitle: >-

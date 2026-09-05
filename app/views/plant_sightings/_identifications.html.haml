@@ -29,7 +29,7 @@
             = link_to identification.user.full_name, profile_path(identification.user)
             - if identification.expert_vote?
               .identification-expert-tag= render 'shared/expert_icon', size: 16
-          %p.identification-plant= identification.plant.display_name(I18n.locale)
+          %p.identification-plant= plant_display_name_html(identification.plant, I18n.locale)
         - if identification.owner?(current_user)
           %a.identification-withdraw-lnk{href: '#', data: {id: identification.id}}= I18n.t('withdraw', scope: id_scope)
         - elsif current_user.try(:expert?)

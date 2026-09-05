@@ -2,4 +2,4 @@
   %ol
     - @plants.each do |plant|
       %li
-        = link_to "#{plant.display_name(I18n.locale)} | #{plant.display_sci_name}", "#", data: {id: plant.id}
+        = link_to safe_join([plant_display_name_html(plant, I18n.locale), ' | ', plant_sci_name_html(plant)]), "#", data: {id: plant.id}

@@ -15,7 +15,7 @@
   .sighting-comment-modal-info
     %p.sighting-comment-modal-plant
       - if plant_sighting.plant.present?
-        = link_to plant_sighting.plant.display_name(I18n.locale), plant_path(plant_sighting.plant)
+        = link_to plant_display_name_html(plant_sighting.plant, I18n.locale), plant_path(plant_sighting.plant)
       - else
         = I18n.t('.unknown_plant', scope: show_scope)
     - if plant_sighting.timestamp.present?

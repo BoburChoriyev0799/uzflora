@@ -5,7 +5,7 @@
   .profile-sighting-body
     .plant-sighting-header
       .plant-name
-        = plant_sighting.plant.present? ? plant_sighting.plant.display_sci_name : I18n.t('profile.photo.unknown_plant')
+        = plant_sighting.plant.present? ? plant_sci_name_html(plant_sighting.plant) : I18n.t('profile.photo.unknown_plant')
       .profile-sighting-badges
         - if can_manage
           = plant_sighting_status_badge(plant_sighting)
