@@ -36,6 +36,13 @@ class PlantSighting < ApplicationRecord
   # o'zi band qilgan metod nomi bo'lgani uchun bu ALOHIDA ustun).
   before_save :capture_photo_cache_name, if: -> { photo.present? && photo.cache_name.present? }
 
+  # Manzil matnini YANGI saqlashlar uchun tozalaydi: chetki bo'shliqlarni
+  # kesadi, ichki ketma-ket bo'shliqlarni bittaga siqadi, bo'sh qolsa nil
+  # qiladi. Matn MAZMUNI hech qachon o'zgarmaydi — faqat bo'shliq. Mavjud
+  # yozuvlarga tegilmaydi (ular saqlanmaguncha bu callback ishlamaydi;
+  # ommaviy tozalash uchun `rake plant_sightings:normalize_addresses`).
+  before_save :normalize_address
+
   # Rasm haqiqatan ham o'zgargandagina (birinchi yuklash yoki kelajakda
   # qayta yuklash) — job navbatga qo'yiladi va holat "pending"ga qaytariladi.
   after_commit :enqueue_photo_processing,
@@ -303,6 +310,12 @@ class PlantSighting < ApplicationRecord
 
   def capture_photo_cache_name
     self.photo_cache_name = photo.cache_name
+  end
+
+  def normalize_address
+    return if address.nil?
+
+    self.address = address.squish.presence
   end
 
   def enqueue_photo_processing
