@@ -1,11 +1,24 @@
 module PlantSightingsHelper
-  # Bo'shliq/registr/apostrof farqlariga qaramay bir xil kalitga tushishi
-  # uchun: kichik harf, chetdagi bo'shliqlar kesiladi, ichkaridagi
-  # bo'shliqlar va apostrofning turli ko'rinishlari (', ', ‘, ʻ, ʼ)
-  # butunlay olib tashlanadi. Masalan "Farg'ona", "farg'ona ", "Farg’ona"
-  # — hammasi "fargona" kalitiga tushadi.
+  # Xom manzil matnidan lug'at kalitini hosil qiladi. Registr/bo'shliq/
+  # apostrof/tinish belgisi farqlariga qaramay bir xil kalitga tushishi
+  # uchun ketma-ket:
+  #   1. Unicode NFKC normalizatsiya (turli ko'rinishdagi bir xil belgilar
+  #      bitta shaklga keladi);
+  #   2. kichik harfga o'tkazish — Ruby `String#downcase` kirill uchun ham
+  #      to'g'ri ishlaydi;
+  #   3. apostrofning BARCHA ko'rinishlarini olib tashlash: ʻ ʼ ‘ ’ ' ` ´;
+  #   4. harf va raqamdan boshqa hamma narsani (bo'shliq, tire, nuqta,
+  #      vergul, qavs...) olib tashlash.
+  # Masalan "Toshkent", "Toshkent ", "toshkent", " TOSHKENT " — hammasi
+  # "toshkent" kalitiga; "Farg'ona", "Fargʻona", "Farg‘ona" — "fargona"ga.
+  LOCATION_APOSTROPHES = /[ʻʼ‘’'`´]/.freeze
+
   def normalize_location_key(value)
-    value.to_s.strip.downcase.gsub(/['’‘ʻʼ`]/, '').gsub(/\s+/, '')
+    value.to_s
+         .unicode_normalize(:nfkc)
+         .downcase
+         .gsub(LOCATION_APOSTROPHES, '')
+         .gsub(/[[:^alnum:]]/, '')
   end
 
   # Markaziy helper — JOY NOMI chiqadigan HAMMA joyda shu ishlatiladi
@@ -13,18 +26,25 @@ module PlantSightingsHelper
   # izohlari). `config/locales/views/locations.*.yml` lug'atidan joriy
   # tildagi nomni qaytaradi (masalan bazada "toshkent" yoki "Toshkent"
   # deb yozilgan bo'lsa ham — ruschada "Ташкент", inglizchada "Tashkent").
-  # Lug'atda topilmasa — saqlangan matnning O'ZI qaytadi, lekin birinchi
-  # harfi albatta BOSH HARF bo'ladi (`capitalize_first`) — bazadagi
-  # "toshkent" kabi kichik harfli yozuvlar ham to'g'ri ko'rinsin.
-  def location_name(raw)
-    return raw.to_s if raw.blank?
+  #
+  # MAJBURIY QOIDALAR:
+  #  - lug'atda topilmasa — xom matnning O'ZI qaytadi, faqat birinchi harfi
+  #    bosh harfga aylanadi (`capitalize_first`), chetki bo'shliqlar kesiladi;
+  #  - HECH QACHON "translation missing", bo'sh joy yoki kalit nomi
+  #    ("locations.toshkent") ko'rinmaydi — shuning uchun `I18n.t` ga
+  #    har doim `default:` beriladi;
+  #  - xom matn bo'sh bo'lsa "" qaytadi (chaqiruvchi joy blokini
+  #    umuman ko'rsatmasin).
+  def translate_location(raw)
+    return '' if raw.blank?
 
     key = normalize_location_key(raw)
-    translated = I18n.t(key, scope: 'locations', default: nil)
-    return translated if translated.present?
-
-    capitalize_first(raw)
+    I18n.t("locations.#{key}", default: capitalize_first(raw.to_s.strip))
   end
+
+  # Eski nom — chaqiruvchi kodda hali ishlatiladi, `translate_location`
+  # bilan bir xil.
+  alias_method :location_name, :translate_location
 
   # Kuzatuvning "joylashuv" matni — koordinata (manzil yo'q holatda
   # `PlantSighting#address_string`ning o'zi qaytaradigan "lat; lng")

@@ -1,24 +1,70 @@
 # Kuzatuv joyi (plant_sightings.address) lug'ati — PlantSightingsHelper#
-# location_name shu yerdan izlaydi. Kalit — NORMALLASHTIRILGAN lotincha
-# nom (kichik harf, bo'shliqsiz, apostrofsiz — ko'rish:
+# translate_location shu yerdan izlaydi. Kalit — NORMALLASHTIRILGAN nom
+# (NFKC, kichik harf, apostrofsiz, faqat harf va raqam — ko'rish:
 # PlantSightingsHelper#normalize_location_key). Bazadagi/CSV'dagi xom
 # matnga TEGILMAYDI — faqat KO'RSATISHDA shu lug'at orqali almashtiriladi.
+# Apostrof kerak bo'lsa oddiy ' (U+0027) — sayt bo'ylab bir xil bo'lsin.
 uz:
   locations:
+    # Toshkent — shahar, shahar rasmiy nomi va viloyat
     toshkent: "Toshkent"
+    toshkentshahri: "Toshkent shahri"
     toshkentviloyati: "Toshkent viloyati"
+
+    # Viloyatlar
+    andijonviloyati: "Andijon viloyati"
+    buxoroviloyati: "Buxoro viloyati"
+    fargonaviloyati: "Farg'ona viloyati"
+    jizzaxviloyati: "Jizzax viloyati"
+    xorazmviloyati: "Xorazm viloyati"
+    namanganviloyati: "Namangan viloyati"
+    navoiyviloyati: "Navoiy viloyati"
+    qashqadaryoviloyati: "Qashqadaryo viloyati"
+    samarqandviloyati: "Samarqand viloyati"
+    sirdaryoviloyati: "Sirdaryo viloyati"
+    surxondaryoviloyati: "Surxondaryo viloyati"
+    qoraqalpogistonrespublikasi: "Qoraqalpog'iston Respublikasi"
+    qoraqalpogiston: "Qoraqalpog'iston"
+
+    # Viloyat nomlari (qisqa) — ba'zan "viloyati" so'zisiz yoziladi
+    qashqadaryo: "Qashqadaryo"
+    sirdaryo: "Sirdaryo"
+    surxondaryo: "Surxondaryo"
+    xorazm: "Xorazm"
+
+    # Shaharlar
     andijon: "Andijon"
     buxoro: "Buxoro"
     fargona: "Farg'ona"
     jizzax: "Jizzax"
     namangan: "Namangan"
     navoiy: "Navoiy"
-    qashqadaryo: "Qashqadaryo"
-    qoraqalpogiston: "Qoraqalpog'iston"
+    nukus: "Nukus"
+    qarshi: "Qarshi"
     samarqand: "Samarqand"
-    sirdaryo: "Sirdaryo"
-    surxondaryo: "Surxondaryo"
-    xorazm: "Xorazm"
-    # Amaldagi bazadan (dev) topilgan qiymat — Surxondaryo viloyatidagi
-    # tuman.
+    guliston: "Guliston"
+    termiz: "Termiz"
+    urganch: "Urganch"
+    xiva: "Xiva"
+    shahrisabz: "Shahrisabz"
+    chirchiq: "Chirchiq"
+    angren: "Angren"
+    olmaliq: "Olmaliq"
+    bekobod: "Bekobod"
+
+    # Qo'riqxona, rezervat, milliy bog'lar
+    quyiamudaryodavlatbiosferarezervati: "Quyi Amudaryo davlat biosfera rezervati"
+    chotqoldavlatbiosferarezervati: "Chotqol davlat biosfera rezervati"
+    zomindavlatqoriqxonasi: "Zomin davlat qo'riqxonasi"
+    zominmilliybogi: "Zomin milliy bog'i"
+    hisordavlatqoriqxonasi: "Hisor davlat qo'riqxonasi"
+    nurotadavlatqoriqxonasi: "Nurota davlat qo'riqxonasi"
+    kitobdavlatgeologikqoriqxonasi: "Kitob davlat geologik qo'riqxonasi"
+    surxondavlatqoriqxonasi: "Surxon davlat qo'riqxonasi"
+    qizilqumdavlatqoriqxonasi: "Qizilqum davlat qo'riqxonasi"
+    zarafshonmilliytabiatbogi: "Zarafshon milliy tabiat bog'i"
+    ugamchotqolmilliytabiatbogi: "Ug'am-Chotqol milliy tabiat bog'i"
+
+    # Tumanlar (amaldagi bazadan topilgan / kutilayotgan qiymatlar)
     bandixontumani: "Bandixon tumani"
+    bostonliqtumani: "Bo'stonliq tumani"
