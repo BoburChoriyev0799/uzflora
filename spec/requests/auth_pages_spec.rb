@@ -110,6 +110,26 @@ describe 'Auth pages (new design)', type: :request do
     end
   end
 
+  # Telefonда karta ekranga sig'sin — auth.css.scss'да qat'iy katta
+  # piksel kengliklari (width: Npx) bo'lmasligi kerak (faqat max-width /
+  # min-width / kichik ikonka o'lchamlari).
+  describe 'auth.css.scss has no oversized fixed pixel widths' do
+    let(:css) { File.read(Rails.root.join('app/assets/stylesheets/pages/auth.css.scss')) }
+
+    it 'declares only max-width / min-width / tiny widths in px' do
+      offenders = css.each_line.map(&:strip).select do |line|
+        m = line.match(/\A(?<prop>[a-z-]*width):\s*(?<val>\d+)px/)
+        m && m[:prop] == 'width' && m[:val].to_i > 40
+      end
+      expect(offenders).to be_empty, "oversized fixed width(s): #{offenders.inspect}"
+    end
+
+    it 'sizes .auth-card by max-width, not a fixed width' do
+      expect(css).to match(/\.auth-page \.auth-card \{[^}]*width:\s*100%/m)
+      expect(css).to match(/\.auth-page \.auth-card \{[^}]*max-width:\s*850px/m)
+    end
+  end
+
   # XAVFSIZLIK: kirish/ro'yxat sahifasidan boshqa hech narsa o'zgarmasin.
   describe 'no regression on other pages' do
     let(:user) { FactoryBot.create(:user) }
