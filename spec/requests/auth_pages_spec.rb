@@ -3,6 +3,64 @@ require 'spec_helper'
 # Kirish / ro'yxatdan o'tish sahifalarining yangi dizayni. Autentifikatsiya
 # MANTIG'I o'zgarmadi — faqat ko'rinish.
 describe 'Auth pages (new design)', type: :request do
+  # 4-band: kirish OQIMIDAGI HAR BIR sahifa xatosiz (200) render bo'lishi
+  # kerak. Bu testlar bo'lmagani uchun OTP sahifasidagi 500 push bo'lib
+  # ketgan edi (resource — Devise bo'lmagan Users::OtpSessionsController'да
+  # mavjud emas).
+  describe 'every page in the auth flow renders (200, no error)' do
+    it 'GET /user/sign_in' do
+      get new_user_session_path
+      expect(response).to have_http_status(:ok)
+    end
+
+    it 'GET /user/sign_up' do
+      get new_user_registration_path
+      expect(response).to have_http_status(:ok)
+    end
+
+    it 'GET /user/password/new' do
+      get new_user_password_path
+      expect(response).to have_http_status(:ok)
+    end
+
+    it 'GET /user/password/edit with a real reset token' do
+      user = FactoryBot.create(:user)
+      raw, enc = Devise.token_generator.generate(User, :reset_password_token)
+      user.update_columns(reset_password_token: enc, reset_password_sent_at: Time.current)
+      get edit_user_password_path(reset_password_token: raw)
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include('reset_password_token')
+    end
+
+    it 'GET /user/otp for a 2FA-pending user' do
+      user = FactoryBot.create(:user)
+      user.update!(otp_required_for_login: true, otp_secret: User.generate_otp_secret)
+      post user_session_path, params: { user: { email: user.email, password: '12345678' } }
+      expect(response).to redirect_to(new_user_otp_path)
+      follow_redirect!
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include('auth-card')
+    end
+
+    it 'GET /user/otp shows the error state (unprocessable) on a wrong code' do
+      user = FactoryBot.create(:user)
+      user.update!(otp_required_for_login: true, otp_secret: User.generate_otp_secret)
+      post user_session_path, params: { user: { email: user.email, password: '12345678' } }
+      follow_redirect!
+      post user_otp_path, params: { code: '000000' }
+      expect(response).to have_http_status(:unprocessable_content)
+      expect(response.body).to include('auth-alert--error')
+    end
+
+    it 'GET /two_factor_auth (2FA settings, admin) still renders' do
+      admin = FactoryBot.create(:user)
+      admin.update_column(:is_admin, true)
+      sign_in admin
+      get two_factor_auth_path
+      expect(response).to have_http_status(:ok)
+    end
+  end
+
   describe 'sign in page' do
     it 'opens as a real Rails form with a CSRF token (form_for, not a hand-written <form>)' do
       original = ActionController::Base.allow_forgery_protection

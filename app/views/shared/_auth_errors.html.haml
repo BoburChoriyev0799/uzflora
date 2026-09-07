@@ -1,8 +1,14 @@
--# Xato / xabar bloki — Devise formalarida (kirish/ro'yxat). Shablonda
--# joy yo'q edi. `show` — faqat AKTIV formada ko'rsatiladi.
+-# Xato / xabar bloki — Devise formalarida (kirish/ro'yxat/parol) va
+-# 2FA (OTP) sahifasida. `show` — faqat AKTIV formada ko'rsatiladi.
+-#
+-# DIQQAT: `resource` — Devise kontrollerlarining yordamchisi. OTP
+-# sahifasi (Users::OtpSessionsController < ApplicationController) Devise
+-# kontrolleri EMAS, u yerda `resource` UMUMAN mavjud emas — shuning uchun
+-# `defined?` bilan tekshiriladi (aks holda NameError -> 500).
 - if local_assigns[:show]
   - messages = []
-  - messages.concat(resource.errors.full_messages) if resource.respond_to?(:errors) && resource.errors.present?
+  - error_object = (defined?(resource) && resource.respond_to?(:errors)) ? resource : nil
+  - messages.concat(error_object.errors.full_messages) if error_object && error_object.errors.present?
   - alert_msg = flash[:alert].presence
   - notice_msg = flash[:notice].presence
   - if messages.any? || alert_msg
