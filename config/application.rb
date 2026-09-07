@@ -62,8 +62,8 @@ module Uzflora
 
     # "Loyihani qo'llab-quvvatlash" sahifasidagi to'lov rekvizitlari —
     # alohida faylda (config/donation.yml), chunki bu tez-tez yangilanadi
-    # va settings.yml'dagi infratuzilma sozlamalaridan (google_maps,
-    # recaptcha, ...) mustaqil. Rails.configuration.donation.card_number
+    # va settings.yml'dagi infratuzilma sozlamalaridan (recaptcha, ...)
+    # mustaqil. Rails.configuration.donation.card_number
     # kabi chaqiriladi.
     config.donation = deep_ordered_options.call(config_for(:donation))
   end

@@ -1,45 +1,8 @@
-// Xarita/Sputnik qatlamlari uchun umumiy funksiyalar — plant_map.js'даgi
-// bir xil naqsh (bu fayl alohida asset bundle'да yuklangani uchun
-// takrorlangan, umumiy modul ajratish shart emas).
-function uzfloraMapLocale() {
-    var match = document.cookie.match(/(?:^|; )locale=([^;]+)/);
-    return match ? decodeURIComponent(match[1]) : 'uz';
-}
+//= require uzflora_map_config
 
-function uzfloraLayerLabels() {
-    var labels = {
-        uz: { map: 'Xarita', satellite: 'Sputnik' },
-        ru: { map: 'Карта', satellite: 'Спутник' },
-        en: { map: 'Map', satellite: 'Satellite' }
-    };
-    return labels[uzfloraMapLocale()] || labels.uz;
-}
-
-function uzfloraBaseLayers() {
-    var labels = uzfloraLayerLabels();
-    var layers = {};
-    layers[labels.map] = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    });
-
-    // Sof sputnik rasmda davlat/viloyat/tuman chegaralari va nomlari
-    // ko'rinmaydi — shuning uchun Esri'ning bepul (kalit shart emas)
-    // "Reference" qatlami sputnik tasviri ustiga qo'shiladi (L.layerGroup
-    // orqali ikkalasi BITTA "Sputnik" band sifatida birga yoqiladi/
-    // o'chiriladi).
-    var satelliteImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-        maxZoom: 19,
-        attribution: 'Tiles &copy; Esri &mdash; Esri, Maxar, Earthstar Geographics'
-    });
-    var referenceOverlay = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
-        maxZoom: 19,
-        attribution: 'Chegaralar/nomlar &copy; Esri'
-    });
-    layers[labels.satellite] = L.layerGroup([satelliteImagery, referenceOverlay]);
-
-    return layers;
-}
+// Mehmon (bosh) sahifasidagi xarita — qatlamlar YAGONA konfiguratsiyadan
+// (uzflora_map_config.js). Bu fayl application.js'ning `require_tree ./pages`
+// orqali yuklanadi.
 
 $(function () {
     var $canvas = $('#welcome_map_canvas');
@@ -49,12 +12,10 @@ $(function () {
 
     var points = $canvas.data('points') || [];
 
-    // O'zbekiston markazi (Toshkent yaqinida)
-    var uzbekistanCenter = [41.27, 69.23];
-    var map = L.map($canvas.attr('id')).setView(uzbekistanCenter, 6);
+    var map = L.map($canvas.attr('id')).setView(UzfloraMap.DEFAULT_CENTER, UzfloraMap.DEFAULT_ZOOM);
 
-    var baseLayers = uzfloraBaseLayers();
-    baseLayers[uzfloraLayerLabels().map].addTo(map);
+    var baseLayers = UzfloraMap.baseLayers(L);
+    baseLayers[UzfloraMap.defaultLayerLabel()].addTo(map);
     L.control.layers(baseLayers).addTo(map);
 
     // Mehmon rejimi: marker faqat nom ko'rsatadi, hech qayerga havola qilmaydi.

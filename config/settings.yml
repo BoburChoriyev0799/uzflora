@@ -8,8 +8,11 @@ defaults: &defaults
   # ishlayveradi, sayt uzilmaydi (qiymatlar o'zi o'zgarmaydi).
   google_analytics:
     account_id:  <%= ENV['UZFLORA_GOOGLE_ANALYTICS_ID'] || ENV['BIRDS_GOOGLE_ANALYTICS_ID'] %>
-  google_maps:
-    api_key: <%= ENV['UZFLORA_GOOGLE_MAPS_API_KEY'] || ENV['BIRDS_GOOGLE_MAPS_API_KEY'] %>
+  # `google_maps` bloki olib tashlandi (4-ish): saytdagi barcha xaritalar
+  # Leaflet + bepul tile manbalari (OSM / OpenTopoMap / Esri) bilan ishlaydi,
+  # Google Maps API kaliti kodda hech qayerda o'qilmasdi. Render panelidan
+  # UZFLORA_GOOGLE_MAPS_API_KEY / BIRDS_GOOGLE_MAPS_API_KEY env
+  # o'zgaruvchilarini o'chirish mumkin.
   recaptcha:
     public_key: <%= ENV['UZFLORA_RECAPTCHA_KEY'] || ENV['BIRDS_RECAPTCHA_KEY'] %>
     private_key: <%= ENV['UZFLORA_RECAPTCHA_SECRET'] || ENV['BIRDS_RECAPTCHA_SECRET'] %>
