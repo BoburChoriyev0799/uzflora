@@ -1,16 +1,5 @@
 %style
   :plain
-    .plant-show-placeholder {
-      width: 100%;
-      aspect-ratio: 4 / 3;
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 96px;
-      background: linear-gradient(135deg, #eaf6ec 0%, #d3ecd8 100%);
-      margin-bottom: 16px;
-    }
     .plant-info-block {
       border-radius: 6px;
       margin-bottom: 16px;
@@ -42,19 +31,6 @@
       padding: 3px 10px;
       border-radius: 10px;
       margin-bottom: 12px;
-    }
-    /* Jamoaviy aniqlash orqali "ilmiy tadqiqotlar uchun" belgilangan
-       kuzatuvlar — Qizil kitob nishoni bilan bir xil o'lchamda, lekin
-       Celery (#B4C424 fon + #22261F matn) rangda (Qizil kitob va
-       "TASDIQLANGAN" belgilaridan ATAYLAB farqli, aralashib qolmasin). */
-    .plant-photo-research-grade {
-      display: inline-block;
-      background: #B4C424;
-      color: #22261F;
-      font-size: 10px;
-      padding: 2px 7px;
-      border-radius: 8px;
-      margin-bottom: 4px;
     }
     /* 💬 tugmasi — bosilganda izoh tor kartochka ICHIDA emas, umumiy
        MODAL oynada ochiladi (plant_sightings/_comment_modal_trigger.html.haml
@@ -112,31 +88,52 @@
       white-space: nowrap;
       padding-right: 8px;
     }
-    /* Foydalanuvchi rasmlari galereyasi — bosh sahifadagi rasm
-       kartochkalari (welcome-gallery) bilan bir xil vizual uslub
-       (yumaloq burchak, soya). UCH USTUNLI grid ish stoli/planshetda
-       (avval ikki ustun edi, Bobur uch ustun qulayroq deb hisobladi).
-       480px dan tor ekranlarda (mobil) IKKI ustunga tushadi — bitta
-       ustunga EMAS: bitta ustunda rasm butun ekran enini egallab, juda
-       katta bo'lib ko'rinardi (avvalgi holat). Ikki ustunda ham kartochka
-       ~150-170px, uch ustunli ish stoli bilan deyarli bir xil o'lchamda
-       — shu sabab pastda alohida "mobil uchun kichikroq matn" qoidasi
-       shart emas, bitta o'lcham ikkalasiga ham mos keladi. */
+    /* 3-ish — SAHIFA TUZILISHI:
+         >= 1200px : chap ma'lumot (max 900px, hozirgidek) + o'ng
+                     galereya (qolgan joyni to'liq egallaydi, min 400px)
+         < 1200px  : ustma-ust — avval ma'lumot, keyin galereya to'liq
+                     kenglikda. */
+    .plant-show-layout {
+      display: flex;
+      gap: 32px;
+      align-items: flex-start;
+    }
+    .plant-show-info {
+      flex: 1 1 auto;
+      max-width: 900px;
+      min-width: 0;
+    }
+    .plant-show-gallery-col {
+      flex: 1 1 400px;
+      min-width: 400px;
+    }
+    @media (max-width: 1199px) {
+      .plant-show-layout { flex-direction: column; }
+      .plant-show-info,
+      .plant-show-gallery-col {
+        flex: none;
+        max-width: none;
+        min-width: 0;
+        width: 100%;
+      }
+    }
     .plant-photos-title {
       color: #2f4a1c !important;
       margin-bottom: 12px;
     }
+    /* Kartochka gridi — auto-fill: ustunga (kamida 200px) sig'gani qadar.
+       Rasm endi hech qachon ~90px bo'lmaydi. Telefonda 2 ustun. */
     .plant-photos-gallery {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 8px;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 14px;
     }
-    @media (max-width: 480px) {
-      .plant-photos-gallery {
-        grid-template-columns: 1fr 1fr;
-      }
+    @media (max-width: 767px) {
+      .plant-photos-gallery { grid-template-columns: 1fr 1fr; gap: 10px; }
     }
     .plant-photo-card {
+      display: flex;
+      flex-direction: column;
       border-radius: 8px;
       overflow: hidden;
       background: #fff;
@@ -148,51 +145,91 @@
       object-fit: cover;
       display: block;
     }
-    .plant-photo-meta {
-      padding: 4px 6px;
-    }
-    .plant-photo-meta p {
-      margin-bottom: 2px;
+    /* D) "Ilmiy tadqiqotlar uchun" — rasmning YUQORI CHAP burchagida
+       kichik yarim shaffof chip. O'simlikning o'zini to'smaydi (kichik,
+       burchakda), matn qisqartirilgan (research_grade_badge_short,
+       uch tilda), sig'masa ellipsis. */
+    .plant-photo-rg-chip {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      z-index: 2;
+      max-width: calc(100% - 12px);
+      padding: 2px 7px;
+      border-radius: 6px;
+      background: rgba(180, 196, 36, .88);
+      color: #22261f;
       font-size: 10px;
-      line-height: 1.3;
-      color: #666;
-    }
-    /* Sana va muallif odatda qisqa — bitta qatorda, toshib ketsa "..."
-       bilan kesiladi. Joy/koordinata (address_string — manzil topilmasa
-       "41.311081; 69.279737" kabi UZUN raqamlar qatoriga tushib qoladi,
-       Plant#address_string'ga qarang) esa BITTA qatorga sig'maydi —
-       shuning uchun alohida, 2 QATORGACHA bo'linishga ruxsat beriladi
-       (-webkit-line-clamp — CSS-line-clamp'ning keng qo'llab-quvvatlanadigan
-       varianti), undan uzun bo'lsa "..." bilan kesiladi. Ikkalasi ham
-       kartochkadan HECH QACHON toshib chiqmaydi. */
-    .plant-photo-date,
-    .plant-photo-author {
+      font-weight: 700;
+      line-height: 1.4;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
+    /* E) Avatar — bu sahifada 36px (umumiy partial standart 44px beradi),
+       pastki o'ngда; yuqori chapdagi chip bilan to'qnashmaydi. */
+    .plant-photo-card .sighting-user-avatar {
+      width: 36px;
+      height: 36px;
+      right: 8px;
+      bottom: 8px;
+    }
+    /* C) Matn RASM USTIGA EMAS, PASTIGA — tartib: sana, joy, muallif,
+       izohlar soni. Shrift 12px, qatorlar orasida nafas. */
+    .plant-photo-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      flex: 1 1 auto;
+      padding: 8px 10px 10px;
+    }
+    .plant-photo-meta p {
+      margin: 0;
+      font-size: 12px;
+      line-height: 1.35;
+      color: #555;
+    }
+    .plant-photo-date {
+      font-weight: 600;
+      color: #333;
+    }
+    /* Joy/koordinata — 2 qatorgacha, undan uzun bo'lsa "...". */
     .plant-photo-place {
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
+    /* Muallif ismi — bir qatorda, kesilsa "..."; kartochka kamida 200px
+       bo'lgani uchun kamida ~15 belgi ko'rinadi. */
+    .plant-photo-author {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
     .plant-photo-author a {
       color: #1e5620;
     }
-    /* Guruh a'zosidan (POWO orqali shu turga birlashtirilgan boshqa
-       yozuvdan) kelgan rasm ostidagi izoh — qaysi nom ostida kiritilgani.
-       Boshqa meta qatorlar bilan bir xil kichik, xira uslub. */
+    /* Guruh a'zosidan (POWO birlashtiruvi) kelgan rasm ostidagi izoh. */
     .plant-photo-submitted-as {
       font-style: italic;
       color: #888;
+      font-size: 11px !important;
     }
-    .plant-photos-empty {
-      color: #888;
-      font-style: italic;
+    /* F) Rasm yo'q — bo'sh kulrang joy EMAS: aniq xabar + "Rasm qo'shish". */
+    .plant-photos-none {
+      padding: 28px 20px;
+      text-align: center;
+      background: #f1f7ea;
+      border: 1px dashed #b9d69e;
+      border-radius: 8px;
+    }
+    .plant-photos-none p {
+      color: #55605a;
+      margin-bottom: 14px;
     }
     .plant-photos-pagination {
-      margin-top: 10px;
+      margin-top: 12px;
       text-align: center;
     }
     .plant-external-links {
@@ -233,138 +270,140 @@
 = render 'plant_sightings/comment_modal'
 
 .bg-btm-container
-  .container.uz-container-narrow.content
+  .container.uz-container.content
     - plant_scope = 'plants.show'
-    .row.mtop20.mbtm20.content-container
+    .row.mtop20.mbtm20
       = link_to I18n.t('.back_to_list', scope: plant_scope), plants_path, class: 'btn btn-default mbtm20'
 
-      .col.col-md-8.col-sm-12
-        - if @primary_sibling.present?
-          .plant-merged-notice= plant_merged_notice(@plant, @primary_sibling, plant_scope)
+      .plant-show-layout
+        .plant-show-info
+          - if @primary_sibling.present?
+            .plant-merged-notice= plant_merged_notice(@plant, @primary_sibling, plant_scope)
 
-        - if @plant.red_book?
-          .plant-red-book-badge= I18n.t('.red_book_badge', scope: plant_scope)
+          - if @plant.red_book?
+            .plant-red-book-badge= I18n.t('.red_book_badge', scope: plant_scope)
 
-        %h3= plant_display_name_html(@plant, I18n.locale)
-        - plant_name_rows(@plant, I18n.locale).each do |label_key, value|
-          %p
-            %span.plant-lbl= I18n.t(".#{label_key}", scope: plant_scope)
-            = value
-          - if label_key == :name_lat && @plant.alt_name.present?
+          %h3= plant_display_name_html(@plant, I18n.locale)
+          - plant_name_rows(@plant, I18n.locale).each do |label_key, value|
             %p
-              %span.plant-lbl= I18n.t(".#{@plant.alt_name_label_key}", scope: plant_scope)
-              = sci_name_html(@plant.alt_name)
+              %span.plant-lbl= I18n.t(".#{label_key}", scope: plant_scope)
+              = value
+            - if label_key == :name_lat && @plant.alt_name.present?
+              %p
+                %span.plant-lbl= I18n.t(".#{@plant.alt_name_label_key}", scope: plant_scope)
+                = sci_name_html(@plant.alt_name)
 
-        - taxonomy_rows = plant_taxonomy_rows(@plant)
-        - if taxonomy_rows.any?
-          .plant-info-block
-            .plant-info-block-head= I18n.t('.taxonomy', scope: plant_scope)
-            .plant-info-block-body
-              %table.plant-taxonomy-table
-                - taxonomy_rows.each do |label_key, lat|
-                  %tr
-                    %td.plant-lbl= I18n.t(".taxon_#{label_key}", scope: plant_scope)
-                    %td= lat
+          - taxonomy_rows = plant_taxonomy_rows(@plant)
+          - if taxonomy_rows.any?
+            .plant-info-block
+              .plant-info-block-head= I18n.t('.taxonomy', scope: plant_scope)
+              .plant-info-block-body
+                %table.plant-taxonomy-table
+                  - taxonomy_rows.each do |label_key, lat|
+                    %tr
+                      %td.plant-lbl= I18n.t(".taxon_#{label_key}", scope: plant_scope)
+                      %td= lat
 
-        - if @group_siblings.present?
-          .plant-info-block
-            .plant-info-block-head= I18n.t('.other_names_title', scope: plant_scope)
-            .plant-info-block-body
-              - @group_siblings.each do |sibling|
-                %p= link_to (sibling.species_uz.presence ? capitalize_first(sibling.species_uz) : plant_sci_name_html(sibling)), plant_path(sibling)
+          - if @group_siblings.present?
+            .plant-info-block
+              .plant-info-block-head= I18n.t('.other_names_title', scope: plant_scope)
+              .plant-info-block-body
+                - @group_siblings.each do |sibling|
+                  %p= link_to (sibling.species_uz.presence ? capitalize_first(sibling.species_uz) : plant_sci_name_html(sibling)), plant_path(sibling)
 
-        - life_form_text = capitalize_first(@plant.life_form_localized(I18n.locale))
-        - if life_form_text.present?
-          .plant-info-block
-            .plant-info-block-head= I18n.t('.life_form', scope: plant_scope)
-            .plant-info-block-body
-              %p= life_form_text
+          - life_form_text = capitalize_first(@plant.life_form_localized(I18n.locale))
+          - if life_form_text.present?
+            .plant-info-block
+              .plant-info-block-head= I18n.t('.life_form', scope: plant_scope)
+              .plant-info-block-body
+                %p= life_form_text
 
-        - habitat_env_text = capitalize_first(@plant.habitat_env_localized(I18n.locale))
-        - habitat_place_text = capitalize_first(@plant.habitat_place_localized(I18n.locale))
-        - if habitat_env_text.present? || habitat_place_text.present?
-          .plant-info-block
-            .plant-info-block-head= I18n.t('.habitat', scope: plant_scope)
-            .plant-info-block-body
-              - if habitat_env_text.present?
-                %p
-                  %span.plant-lbl= I18n.t('.habitat_env', scope: plant_scope)
-                  = habitat_env_text
-              - if habitat_place_text.present?
-                %p
-                  %span.plant-lbl= I18n.t('.habitat_place', scope: plant_scope)
-                  = habitat_place_text
+          - habitat_env_text = capitalize_first(@plant.habitat_env_localized(I18n.locale))
+          - habitat_place_text = capitalize_first(@plant.habitat_place_localized(I18n.locale))
+          - if habitat_env_text.present? || habitat_place_text.present?
+            .plant-info-block
+              .plant-info-block-head= I18n.t('.habitat', scope: plant_scope)
+              .plant-info-block-body
+                - if habitat_env_text.present?
+                  %p
+                    %span.plant-lbl= I18n.t('.habitat_env', scope: plant_scope)
+                    = habitat_env_text
+                - if habitat_place_text.present?
+                  %p
+                    %span.plant-lbl= I18n.t('.habitat_place', scope: plant_scope)
+                    = habitat_place_text
 
-        - usage_text = capitalize_first(@plant.usage_localized(I18n.locale))
-        - if usage_text.present?
-          .plant-info-block
-            .plant-info-block-head= I18n.t('.usage', scope: plant_scope)
-            .plant-info-block-body
-              %p= usage_text
+          - usage_text = capitalize_first(@plant.usage_localized(I18n.locale))
+          - if usage_text.present?
+            .plant-info-block
+              .plant-info-block-head= I18n.t('.usage', scope: plant_scope)
+              .plant-info-block-body
+                %p= usage_text
 
-        - range_world_text = capitalize_first(@plant.range_world_localized(I18n.locale))
-        - range_central_asia_text = capitalize_first(@plant.range_central_asia_localized(I18n.locale))
-        - range_uzbekistan_text = capitalize_first(@plant.range_uzbekistan_localized(I18n.locale))
-        - if range_world_text.present? || range_central_asia_text.present? || range_uzbekistan_text.present?
-          .plant-info-block
-            .plant-info-block-head= I18n.t('.range', scope: plant_scope)
-            .plant-info-block-body
-              - if range_world_text.present?
-                %p
-                  %span.plant-lbl= I18n.t('.range_world', scope: plant_scope)
-                  = range_world_text
-              - if range_central_asia_text.present?
-                %p
-                  %span.plant-lbl= I18n.t('.range_central_asia', scope: plant_scope)
-                  = range_central_asia_text
-              - if range_uzbekistan_text.present?
-                %p
-                  %span.plant-lbl= I18n.t('.range_uzbekistan', scope: plant_scope)
-                  = range_uzbekistan_text
+          - range_world_text = capitalize_first(@plant.range_world_localized(I18n.locale))
+          - range_central_asia_text = capitalize_first(@plant.range_central_asia_localized(I18n.locale))
+          - range_uzbekistan_text = capitalize_first(@plant.range_uzbekistan_localized(I18n.locale))
+          - if range_world_text.present? || range_central_asia_text.present? || range_uzbekistan_text.present?
+            .plant-info-block
+              .plant-info-block-head= I18n.t('.range', scope: plant_scope)
+              .plant-info-block-body
+                - if range_world_text.present?
+                  %p
+                    %span.plant-lbl= I18n.t('.range_world', scope: plant_scope)
+                    = range_world_text
+                - if range_central_asia_text.present?
+                  %p
+                    %span.plant-lbl= I18n.t('.range_central_asia', scope: plant_scope)
+                    = range_central_asia_text
+                - if range_uzbekistan_text.present?
+                  %p
+                    %span.plant-lbl= I18n.t('.range_uzbekistan', scope: plant_scope)
+                    = range_uzbekistan_text
 
-        - if @plant.protected_areas.present?
-          .plant-info-block
-            .plant-info-block-head= I18n.t('.protected_areas', scope: plant_scope)
-            .plant-info-block-body
-              %p= @plant.protected_areas
+          - if @plant.protected_areas.present?
+            .plant-info-block
+              .plant-info-block-head= I18n.t('.protected_areas', scope: plant_scope)
+              .plant-info-block-body
+                %p= @plant.protected_areas
 
-        - external_links = plant_external_links(@plant)
-        - if external_links.any?
-          .plant-info-block
-            .plant-info-block-head= I18n.t('.external_sources', scope: plant_scope)
-            .plant-info-block-body
-              .plant-external-links
-                - external_links.each do |key, label, logo_path, url|
-                  = link_to url, target: '_blank', rel: 'noopener noreferrer', class: "plant-external-link-btn plant-external-link-#{key}" do
-                    %span.plant-external-link-logo
-                      = image_tag logo_path, alt: label
+          - external_links = plant_external_links(@plant)
+          - if external_links.any?
+            .plant-info-block
+              .plant-info-block-head= I18n.t('.external_sources', scope: plant_scope)
+              .plant-info-block-body
+                .plant-external-links
+                  - external_links.each do |key, label, logo_path, url|
+                    = link_to url, target: '_blank', rel: 'noopener noreferrer', class: "plant-external-link-btn plant-external-link-#{key}" do
+                      %span.plant-external-link-logo
+                        = image_tag logo_path, alt: label
 
-      .col-sm-12.col.col-md-4.fright.m-no-float
-        - if @sightings.total_count.positive?
-          %h4.plant-photos-title= I18n.t('.photos_title', scope: plant_scope)
-          .plant-photos-gallery
-            - @sightings.each do |sighting|
-              .plant-photo-card
-                .sighting-photo-wrap
-                  = link_to plant_sighting_path(sighting) do
-                    = plant_sighting_photo_tag(sighting, :small, class: 'plant-photo-img')
-                  = render 'plant_sightings/card_user_avatar', sighting: sighting
-                .plant-photo-meta
-                  - if sighting.research_grade?
-                    .plant-photo-research-grade= I18n.t('research_grade_badge', scope: 'identifications')
-                  - if sighting.timestamp.present?
-                    %p.plant-photo-date= date_format(sighting.timestamp)
-                  - if sighting.address_valid?
-                    %p.plant-photo-place= plant_sighting_display_location(sighting, current_user)
-                  %p.plant-photo-author
-                    = I18n.t('.photo_by', scope: plant_scope)
-                    = link_to sighting.user.full_name, profile_path(sighting.user)
-                  - if sighting.plant_id != @plant.id
-                    %p.plant-photo-submitted-as= t('photo_submitted_as_html', scope: plant_scope, name: sci_name_html(sighting.plant.species_sci))
-                  = render 'plant_sightings/comment_modal_trigger', plant_sighting: sighting
-          - if @sightings.total_pages > 1
-            .plant-photos-pagination
-              = paginate @sightings, param_name: :sightings_page
-        - else
-          .plant-show-placeholder 🌿
-          %p.plant-photos-empty.acenter= I18n.t('.photos_empty', scope: plant_scope)
+        .plant-show-gallery-col
+          - if @sightings.total_count.positive?
+            %h4.plant-photos-title= I18n.t('.photos_title', scope: plant_scope)
+            .plant-photos-gallery
+              - @sightings.each do |sighting|
+                .plant-photo-card
+                  .sighting-photo-wrap
+                    = link_to plant_sighting_path(sighting) do
+                      = plant_sighting_photo_tag(sighting, :small, class: 'plant-photo-img')
+                    - if sighting.research_grade?
+                      %span.plant-photo-rg-chip{title: I18n.t('research_grade_badge', scope: 'identifications')}= I18n.t('research_grade_badge_short', scope: 'identifications')
+                    = render 'plant_sightings/card_user_avatar', sighting: sighting
+                  .plant-photo-meta
+                    - if sighting.timestamp.present?
+                      %p.plant-photo-date= date_format(sighting.timestamp)
+                    - if sighting.address_valid?
+                      %p.plant-photo-place= plant_sighting_display_location(sighting, current_user)
+                    %p.plant-photo-author
+                      = I18n.t('.photo_by', scope: plant_scope)
+                      = link_to sighting.user.full_name, profile_path(sighting.user)
+                    - if sighting.plant_id != @plant.id
+                      %p.plant-photo-submitted-as= t('photo_submitted_as_html', scope: plant_scope, name: sci_name_html(sighting.plant.species_sci))
+                    = render 'plant_sightings/comment_modal_trigger', plant_sighting: sighting
+            - if @sightings.total_pages > 1
+              .plant-photos-pagination
+                = paginate @sightings, param_name: :sightings_page
+          - else
+            .plant-photos-none
+              %p= I18n.t('.photos_empty', scope: plant_scope)
+              = link_to I18n.t('nav_add_photo.button', scope: 'shared'), new_plant_sighting_path, class: 'btn btn-success'

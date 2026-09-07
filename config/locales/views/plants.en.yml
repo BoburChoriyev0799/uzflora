@@ -54,7 +54,7 @@ en:
       protected_areas: Presence in protected areas
       external_sources: "External sources"
       photos_title: "User photos"
-      photos_empty: "No photos have been added for this plant yet."
+      photos_empty: "No photos have been uploaded for this species yet."
       photo_by: "By:"
       photo_submitted_as_html: "submitted as %{name}"
     welcome:

@@ -54,7 +54,7 @@ ru:
       protected_areas: Наличие на охраняемых территориях
       external_sources: "Внешние источники"
       photos_title: "Фотографии пользователей"
-      photos_empty: "Для этого растения пока не добавлено фотографий."
+      photos_empty: "Для этого вида пока нет загруженных фотографий."
       photo_by: "Автор:"
       photo_submitted_as_html: "указан как %{name}"
     welcome:

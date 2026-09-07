@@ -1,6 +1,7 @@
 uz:
   identifications:
     research_grade_badge: "Ilmiy tadqiqotlar uchun"
+    research_grade_badge_short: "Ilmiy daraja"
     expert_confirmed: "Ekspert tasdiqlagan"
     confirmed_full: "Tasdiqlangan (3/3)"
     need_more:

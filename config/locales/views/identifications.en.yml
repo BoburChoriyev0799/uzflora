@@ -1,6 +1,7 @@
 en:
   identifications:
     research_grade_badge: "Research grade"
+    research_grade_badge_short: "Research grade"
     expert_confirmed: "Confirmed by an expert"
     confirmed_full: "Confirmed (3/3)"
     need_more:

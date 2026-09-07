@@ -1,6 +1,7 @@
 ru:
   identifications:
     research_grade_badge: "Для научных исследований"
+    research_grade_badge_short: "Науч. уровень"
     expert_confirmed: "Подтверждено экспертом"
     confirmed_full: "Подтверждено (3/3)"
     need_more:
