@@ -47,22 +47,28 @@
       display: flex;
       width: 100%;
     }
-    /* KOMPYUTER (>=768px, 3-ish): float/flex grid o'rniga CSS Grid —
-       ustunlar SONI ekran kengligiga qarab 2..6 ga o'zgaradi (kartochka
-       enini cho'zish EMAS). Har bosqichda kartochka mutanosib (1fr),
-       rasm nisbati .plant-card-photo'даgi `aspect-ratio: 4/3` bilan
-       saqlanadi.
-         768-992  : 2 ustun      1400-1800 : 5 ustun
-         992-1200 : 3 ustun      >1800     : 6 ustun
-         1200-1400: 4 ustun
+    /* KOMPYUTER (>=768px): float/flex grid o'rniga CSS Grid — ustunlar
+       SONI ekran kengligiga qarab o'zgaradi (kartochka enini cho'zish
+       EMAS). Har bosqichda kartochka mutanosib (1fr), rasm nisbati
+       .plant-card-photo'даgi `aspect-ratio: 4/3` bilan saqlanadi.
+
+       2-ish: oxirgi qatordagi BO'SH KATAK sababi — matematika (24 yozuv
+       5 ga butun bo'linmaydi). Yechim: ustunlar soni HAR DOIM per_page
+       (24) ga butun bo'linadi — 3, 4, 6 (5 ustunli variant ATAYLAB yo'q).
+         768-1200  : 3 ustun
+         1200-1600 : 4 ustun
+         > 1600px  : 6 ustun
+
        DIQQAT: Bootstrap `.row`ning clearfix'i (::before/::after) CSS
-       Grid ichida "arvoh" (bo'sh) katak yaratadi — shu sabab o'chiriladi.
+       Grid ichida "arvoh" (bo'sh) katak yaratadi — shu sabab o'chiriladi
+       (bu ALOHIDA, ikkinchi ehtimoliy sabab edi — grafik tekshiruvda
+       asosiy sabab matematika bo'lib chiqdi, lekin bu himoya ham qoladi).
        .plants-grid-col'ning flex/float width qoidalari (col-sm-6/
        col-md-3'dan) grid item uchun keraksiz — bekor qilinadi. */
     @media (min-width: 768px) {
       .plants-grid-row {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         gap: 20px;
         margin-left: 0;
         margin-right: 0;
@@ -83,10 +89,8 @@
         margin-bottom: 0;
       }
     }
-    @media (min-width: 992px)  { .plants-grid-row { grid-template-columns: repeat(3, 1fr); } }
     @media (min-width: 1200px) { .plants-grid-row { grid-template-columns: repeat(4, 1fr); } }
-    @media (min-width: 1400px) { .plants-grid-row { grid-template-columns: repeat(5, 1fr); } }
-    @media (min-width: 1800px) { .plants-grid-row { grid-template-columns: repeat(6, 1fr); } }
+    @media (min-width: 1600px) { .plants-grid-row { grid-template-columns: repeat(6, 1fr); } }
     .plant-card {
       display: flex;
       flex-direction: column;
