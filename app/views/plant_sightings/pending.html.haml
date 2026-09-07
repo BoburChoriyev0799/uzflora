@@ -9,8 +9,7 @@
        teng balandlikka cho'zadi). */
     .moderation-list {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 20px;
+      /* Ustunlar soni / gap pastda, min-width media so'rovlarida. */
       /* overflow-x kerak emasligini kafolatlaydi — grid ustunlari
          minmax(0, 1fr) bo'lgani uchun konteynerdan tashqariga
          "toshib" ketolmaydi, ichidagi kontent esa quyidagi
@@ -34,21 +33,24 @@
       content: none;
       display: none;
     }
-    @media (max-width: 1199px) {
-      .moderation-list {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
+    /* USTUNLAR SONI — sayt bo'ylab bitta grid tizimi (min-width bilan):
+         < 360px    : 1 ustun (telefon, tor)
+         360-992    : 2 ustun (telefon 2 ustun + planshet)
+         992-1200   : 3 ustun
+         1200-1500  : 4 ustun
+         1500-1800  : 5 ustun
+         > 1800px   : 6 ustun
+       Bazaviy (media so'rovsiz) qoida — eng tor holat: 1 ustun. */
+    .moderation-list {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 14px;
     }
-    @media (max-width: 899px) {
-      .moderation-list {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-    @media (max-width: 599px) {
-      .moderation-list {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
+    @media (min-width: 360px)  { .moderation-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (min-width: 768px)  { .moderation-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; } }
+    @media (min-width: 992px)  { .moderation-list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+    @media (min-width: 1200px) { .moderation-list { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+    @media (min-width: 1500px) { .moderation-list { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+    @media (min-width: 1800px) { .moderation-list { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
     .moderation-card {
       background: #fff;
       border: 1px solid #dfe9d0;
@@ -278,6 +280,32 @@
       margin: 8px auto 0;
       color: #555;
       font-size: 14px;
+    }
+    /* Takliflar ro'yxatidagi uzun ism — bir qatorda, ellipsis bilan,
+       kartochkadan toshib chiqmaydi. */
+    .moderation-card .plant-autocomplete-item {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    /* TELEFON (2 ustun, ~185px karta) — kartochka ichini moslashtiramiz.
+       Barchasi max-width:767px ichida: kompyuter versiyasi o'zgarmaydi. */
+    @media (max-width: 767px) {
+      .moderation-card-body { padding: 10px 11px; }
+      .moderation-meta { font-size: 12px; margin-bottom: 4px; }
+      .moderation-note { font-size: 12px; }
+      .moderation-plant-label { font-size: 12px; }
+      .moderation-plant-assign { margin-bottom: 8px; }
+      .moderation-card .plant-autocomplete-input.form-control { font-size: 12px; }
+      .moderation-card .plant-autocomplete-item { font-size: 12px; padding: 10px 12px; }
+      /* Matn maydoni va ikkala tugma 100% kenglikda, ustma-ust */
+      .moderation-plant-actions { flex-direction: column; align-items: stretch; }
+      .moderation-plant-actions .btn { width: 100%; }
+      .moderation-identify-row .btn { width: 100%; }
+      .moderation-actions { flex-direction: column; gap: 8px; }
+      .moderation-actions .btn { width: 100%; min-width: 0; }
+      /* Barmoq bilan bosish uchun kamida 40px; shrift 12px dan kichik emas */
+      .moderation-card .btn { min-height: 40px; font-size: 12px; }
     }
 .bg-btm-container
   .container.uz-container.content
