@@ -25,7 +25,9 @@ class ProfilesController < ApplicationController
     unless viewing_own_profile
       sightings = current_user.try(:expert?) ? sightings.where(status: %w[approved rejected]) : sightings.approved
     end
-    @sightings = sightings.order(created_at: :desc).page(params[:page_sightings]).per(18)
+    # per(24) — grid ustunlari (2/3/4/6, profile.css.scss) HAR BIRIGA
+    # butun bo'linadi, oxirgi qator chala qolmaydi (2-ish qoidasi).
+    @sightings = sightings.order(created_at: :desc).page(params[:page_sightings]).per(24)
     @drafts = PlantSighting.includes(:plant, plant_sighting_comments: :user).unpublished.by_user(@user.id).order(created_at: :desc)
     @comments = PlantSightingComment.where(user_id: @user.id).order(created_at: :desc).page(params[:page_comments]).per(15)
 

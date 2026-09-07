@@ -1,31 +1,34 @@
 - can_manage = @user.current?(current_user) || current_user.try(:expert?)
-.col-sm-6.col-md-2.map-img-block.img-container-blck.profile-bird-container.profile-sighting-card
-  .sighting-photo-wrap
-    =link_to plant_sighting_path(plant_sighting), class: 'profile-sighting-photo' do
-      = plant_sighting_photo_tag(plant_sighting, :small)
-    = render 'plant_sightings/card_user_avatar', sighting: plant_sighting
+.profile-sighting-card.profile-bird-container{id: "sighting-#{plant_sighting.id}"}
+  .profile-sighting-photo-frame
+    .sighting-photo-wrap
+      = link_to plant_sighting_path(plant_sighting), class: 'profile-sighting-photo' do
+        = plant_sighting_photo_tag(plant_sighting, :small)
+      = render 'plant_sightings/card_user_avatar', sighting: plant_sighting
   .profile-sighting-body
-    .plant-sighting-header
-      .plant-name
-        = plant_sighting.plant.present? ? plant_sci_name_html(plant_sighting.plant) : I18n.t('profile.photo.unknown_plant')
-      .profile-sighting-badges
-        - if can_manage
-          = plant_sighting_status_badge(plant_sighting)
-        - if plant_sighting.research_grade?
-          .research-grade-badge= I18n.t('research_grade_badge', scope: 'identifications')
+    .profile-sighting-name
+      = plant_sighting.plant.present? ? plant_sci_name_html(plant_sighting.plant) : I18n.t('profile.photo.unknown_plant')
+    -# D) Belgilar — ikkalasi ham kichik chip, bitta qatorda. Qator har
+    -# doim bir xil balandlikda (min-height) — belgisiz kartochka ham.
+    .profile-sighting-badges
+      - if can_manage
+        = plant_sighting_status_badge(plant_sighting)
+      - if plant_sighting.research_grade?
+        %span.profile-sighting-rg-chip{title: I18n.t('research_grade_badge', scope: 'identifications')}= I18n.t('research_grade_badge_short', scope: 'identifications')
     .profile-sighting-meta
       - if plant_sighting.timestamp.present?
         %p.profile-sighting-date= date_format(plant_sighting.timestamp)
-      - if plant_sighting.address_valid?
-        %p.profile-sighting-place= plant_sighting_display_location(plant_sighting, current_user)
+      - place = plant_sighting_display_location(plant_sighting, current_user)
+      - if place.present?
+        %p.profile-sighting-place= place
     .profile-sighting-actions{class: ('single-action' unless can_manage)}
       = render 'plant_sightings/comment_modal_trigger', plant_sighting: plant_sighting
       - if can_manage
-        %a.sighting-action-btn.edit_user_bird{href: edit_plant_plant_sighting_path(plant_sighting), data: {id: plant_sighting.id}, title: I18n.t('profile.photo.edit')}
+        %a.sighting-action-btn.edit_user_bird{href: edit_plant_plant_sighting_path(plant_sighting), data: {id: plant_sighting.id}, title: I18n.t('profile.photo.edit'), 'aria-label' => I18n.t('profile.photo.edit')}
           %svg.sighting-action-icon{xmlns: 'http://www.w3.org/2000/svg', viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width' => '2', 'stroke-linecap' => 'round', 'stroke-linejoin' => 'round'}
             %path{d: 'M12 20h9'}
             %path{d: 'M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z'}
-        %a.sighting-action-btn.sighting-delete-btn.delete_user_plant_sighting{href: '#', data: {id: plant_sighting.id}, title: I18n.t('profile.photo.delete')}
+        %a.sighting-action-btn.sighting-delete-btn.delete_user_plant_sighting{href: '#', data: {id: plant_sighting.id}, title: I18n.t('profile.photo.delete'), 'aria-label' => I18n.t('profile.photo.delete')}
           %svg.sighting-action-icon{xmlns: 'http://www.w3.org/2000/svg', viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width' => '2', 'stroke-linecap' => 'round', 'stroke-linejoin' => 'round'}
             %polyline{points: '3 6 5 6 21 6'}
             %path{d: 'M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2'}

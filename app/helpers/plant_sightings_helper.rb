@@ -68,7 +68,10 @@ module PlantSightingsHelper
     coords = SightingCoordinates.for(sighting, viewer)
     return '' unless coords
 
-    "#{coords[:lat]}; #{coords[:lon]}"
+    # Manzil matni yo'q — XOM koordinatani ko'rsatmaymiz: 3 xonagacha
+    # yaxlitlangan chiroyli format. Himoyalangan turda `coords` allaqachon
+    # 0.1 gradusga yaxlitlangan (SightingCoordinates).
+    "#{format('%.3f', coords[:lat])}, #{format('%.3f', coords[:lon])}"
   end
 
   # Tashqi OSM xaritasiga havola — koordinata ham KO'RUVCHIGA qarab
