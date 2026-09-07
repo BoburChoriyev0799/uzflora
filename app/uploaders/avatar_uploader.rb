@@ -3,6 +3,7 @@
 class AvatarUploader < BaseUploader
   process resize_to_limit: [MAX_SOURCE_DIMENSION, MAX_SOURCE_DIMENSION]
   process :resize_to_fill => [128, 128]
+  process :strip_metadata
 
   version :thumb do
     process resize_to_limit: [MAX_SOURCE_DIMENSION, MAX_SOURCE_DIMENSION]

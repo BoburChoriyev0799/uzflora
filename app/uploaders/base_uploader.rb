@@ -36,6 +36,28 @@ class BaseUploader < CarrierWave::Uploader::Base
     0..8.megabytes
   end
 
+  # EXIF/metama'lumotni (jumladan GPS koordinatasini) tozalaydi.
+  #
+  # XAVFSIZLIK: telefon rasmlarida ko'pincha aniq GPS koordinatasi EXIF'да
+  # qoladi — bu serverdagi koordinata yaxlitlashni (SightingCoordinates)
+  # butunlay bekor qiladi (himoyalangan Qizil kitob turining rasmini
+  # yuklab, EXIF'дан aniq joyni o'qib olish mumkin bo'lardi). Shu sabab
+  # HAR BIR versiyada, shu jumladan yuklab olinadigan "asl" (versiyasiz)
+  # faylда ham metama'lumot o'chiriladi.
+  #
+  # TARTIB MUHIM: `image_processing` har bir amaldan OLDIN `-auto-orient`
+  # qo'llaydi (EXIF'даgi burilish tegini rasm piksellariga "singdiradi"),
+  # SHUNDAN KEYIN bu `-strip` barcha metama'lumotni (endi keraksiz
+  # bo'lib qolgan orientatsiya tegini ham) o'chiradi — ya'ni tik (portret)
+  # rasmlar yon tomonga ag'darilib qolmaydi. `strip`ни `resize_to_limit`
+  # DAN KEYIN qo'yish kerak: aks holda katta (masalan 4000x3000) asl
+  # rasm avval to'liq holda qayta kodlanib, xotira xavfini oshiradi.
+  def strip_metadata
+    minimagick! do |builder|
+      builder.strip
+    end
+  end
+
   def store_dir
     "images/#{model.class.to_s.underscore}/#{mounted_as}/#{salted_reproducible_id}"
   end

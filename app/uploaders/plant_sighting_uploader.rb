@@ -12,6 +12,10 @@ class PlantSightingUploader < BaseUploader
   # lekin 1600px yetarlicha katta va tafsilotlarni ko'rsatadi).
   process resize_to_limit: [MAX_SOURCE_DIMENSION, MAX_SOURCE_DIMENSION]
   process :quality => 90
+  # EXIF/GPS tozalash — resize'dan KEYIN (xotira xavfsizligi), auto-orient
+  # image_processing tomonidan avtomatik qo'llangach. Versiyalar shu
+  # (tozalangan) fayldan davom etadi, shuning uchun ular ham toza.
+  process :strip_metadata
 
   # Izohlar MODALIDA (plant_sightings/_comment_modal_trigger.html.haml)
   # ko'rsatiladigan variant — standart (1600px) versiyaning o'zi emas,

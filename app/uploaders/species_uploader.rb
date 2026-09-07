@@ -4,6 +4,7 @@ class SpeciesUploader < BaseUploader
   process resize_to_limit: [MAX_SOURCE_DIMENSION, MAX_SOURCE_DIMENSION]
   process :resize_to_fill => [1024, 768]
   process :quality => 80
+  process :strip_metadata
 
   version :small do
     process resize_to_limit: [MAX_SOURCE_DIMENSION, MAX_SOURCE_DIMENSION]
