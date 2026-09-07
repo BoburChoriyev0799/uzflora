@@ -1,7 +1,9 @@
 - can_manage = @user.current?(current_user) || current_user.try(:expert?)
 .col-sm-6.col-md-2.map-img-block.img-container-blck.profile-bird-container.profile-sighting-card
-  =link_to plant_sighting_path(plant_sighting), class: 'profile-sighting-photo' do
-    = plant_sighting_photo_tag(plant_sighting, :small)
+  .sighting-photo-wrap
+    =link_to plant_sighting_path(plant_sighting), class: 'profile-sighting-photo' do
+      = plant_sighting_photo_tag(plant_sighting, :small)
+    = render 'plant_sightings/card_user_avatar', sighting: plant_sighting
   .profile-sighting-body
     .plant-sighting-header
       .plant-name

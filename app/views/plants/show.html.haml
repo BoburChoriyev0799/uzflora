@@ -345,8 +345,10 @@
           .plant-photos-gallery
             - @sightings.each do |sighting|
               .plant-photo-card
-                = link_to plant_sighting_path(sighting) do
-                  = plant_sighting_photo_tag(sighting, :small, class: 'plant-photo-img')
+                .sighting-photo-wrap
+                  = link_to plant_sighting_path(sighting) do
+                    = plant_sighting_photo_tag(sighting, :small, class: 'plant-photo-img')
+                  = render 'plant_sightings/card_user_avatar', sighting: sighting
                 .plant-photo-meta
                   - if sighting.research_grade?
                     .plant-photo-research-grade= I18n.t('research_grade_badge', scope: 'identifications')

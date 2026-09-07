@@ -1,0 +1,22 @@
+-# Kuzatuv kartochkasi rasmining pastki o'ng burchagidagi dumaloq avatar
+-# (iNaturalist uslubi) — rasmni KIM joylaganini bildiradi. Umumiy partial:
+-# profil sahifasi (_plant_sighting) va tur sahifasi (plants/show galereya)
+-# bir xil ko'rinsin. Avatar ALOHIDA <a> (profil havolasi) — chaqiruvchi
+-# uni kuzatuv havolasi (`<a>`) ICHIGA joylashtirmasligi kerak (ichma-ich
+-# `<a>` HTML'да yaroqsiz); shuning uchun `.sighting-photo-wrap`
+-# (position:relative) konteyner ichida rasm havolasi bilan YONMA-YON
+-# turadi.
+-#
+-# `user[:avatar]` (xom ustun) tekshiriladi, `user.avatar.present?` EMAS:
+-# ikkinchisi Fog (R2) bilan har chaqirilganда tarmoq so'rovi yuboradi
+-# (galereyada o'nlab kartochka — o'nlab keraksiz so'rov).
+- user = sighting.user
+- if user
+  - name = user.full_name
+  - if user[:avatar].present?
+    = link_to profile_path(user), class: 'sighting-user-avatar', title: name, 'aria-label' => name do
+      = image_tag user.avatar.url, alt: name, class: 'sighting-user-avatar-img'
+  - else
+    - initials = "#{user.first_name.to_s.first}#{user.last_name.to_s.first}".upcase
+    = link_to profile_path(user), class: 'sighting-user-avatar sighting-user-avatar--initials', title: name, 'aria-label' => name do
+      %span= initials
