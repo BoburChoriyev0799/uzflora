@@ -1,0 +1,77 @@
+-# Kirish + ro'yxatdan o'tish — bitta karta, ikkita panel. Dizayn asosi:
+-# @leonam-silva-de-souza (login/signup form template). `active` SERVERDA
+-# aniqlanadi: sessions/new -> false (kirish ochiq), registrations/new ->
+-# true (ro'yxat ochiq). Shu tufayli forma xato bilan qayta render
+-# bo'lganda TO'G'RI panel ochiq chiqadi.
+- active = local_assigns.fetch(:active, false)
+- reg_scope = 'devise.registrations.new'
+.auth-page
+  .auth-card{ class: ('is-register' if active) }
+    .auth-forms
+      .auth-forms-track
+
+        -# ---------- KIRISH ----------
+        .auth-form-box.auth-form-box--login
+          %h2.auth-form-title= t('auth.login')
+          = render 'shared/auth_errors', show: !active
+          = form_for :user, url: new_user_session_path, html: { id: 'auth-login-form', 'aria-label' => t('auth.login_form_label') } do |f|
+            .auth-field
+              %label.auth-visually-hidden{ for: 'auth-login-email' }= t('auth.email')
+              = f.email_field :email, id: 'auth-login-email', class: 'auth-input', placeholder: t('auth.email'), autocomplete: 'username', autofocus: !active, required: true
+              %span.auth-field-icon= auth_icon(:mail)
+            .auth-field
+              %label.auth-visually-hidden{ for: 'auth-login-password' }= t('auth.password')
+              = f.password_field :password, id: 'auth-login-password', class: 'auth-input', placeholder: t('auth.password'), autocomplete: 'current-password', required: true
+              %span.auth-field-icon= auth_icon(:lock)
+            = link_to t('auth.forgot_password'), new_user_password_path, class: 'auth-forgot'
+            = f.submit t('auth.login'), class: 'auth-submit'
+          .auth-divider= t('auth.or')
+          .auth-social
+            = button_to user_facebook_omniauth_authorize_path, method: :post, class: 'auth-social-btn' do
+              = auth_icon(:facebook)
+              %span= t('auth.facebook')
+
+        -# ---------- RO'YXATDAN O'TISH ----------
+        .auth-form-box.auth-form-box--register
+          %h2.auth-form-title= t('auth.register')
+          = render 'shared/auth_errors', show: active
+          = form_for :user, url: user_registration_path, html: { id: 'auth-register-form', 'aria-label' => t('auth.register_form_label') } do |f|
+            .auth-field
+              %label.auth-visually-hidden{ for: 'auth-register-first-name' }= t('auth.first_name')
+              = f.text_field :first_name, id: 'auth-register-first-name', class: 'auth-input', placeholder: t('auth.first_name'), autocomplete: 'given-name', autofocus: active, required: true
+              %span.auth-field-icon= auth_icon(:user)
+            .auth-field
+              %label.auth-visually-hidden{ for: 'auth-register-last-name' }= t('auth.last_name')
+              = f.text_field :last_name, id: 'auth-register-last-name', class: 'auth-input', placeholder: t('auth.last_name'), autocomplete: 'family-name', required: true
+              %span.auth-field-icon= auth_icon(:user)
+            .auth-field
+              %label.auth-visually-hidden{ for: 'auth-register-email' }= t('auth.email')
+              = f.email_field :email, id: 'auth-register-email', class: 'auth-input', placeholder: t('auth.email'), autocomplete: 'username', required: true
+              %span.auth-field-icon= auth_icon(:mail)
+            .auth-field
+              %label.auth-visually-hidden{ for: 'auth-register-password' }= t('auth.password')
+              = f.password_field :password, id: 'auth-register-password', class: 'auth-input', placeholder: t('auth.password'), autocomplete: 'new-password', required: true
+              %span.auth-field-icon= auth_icon(:lock)
+            %p.auth-hint= t('password_reminder', scope: reg_scope)
+            %label.auth-checkbox
+              = f.check_box :big_year
+              %span= t('auth.big_year')
+            = f.submit t('auth.register'), class: 'auth-submit'
+          .auth-divider= t('auth.or')
+          .auth-social
+            = button_to user_facebook_omniauth_authorize_path, method: :post, class: 'auth-social-btn' do
+              = auth_icon(:facebook)
+              %span= t('auth.facebook')
+
+    -# ---------- RANGLI PANEL ----------
+    .auth-visual
+      .auth-visual-panel.auth-visual-panel--to-register{ class: ('is-hidden' if active) }
+        %h1.auth-visual-title= t('auth.welcome_title')
+        %p.auth-visual-text= t('auth.no_account')
+        -# Haqiqiy havola (JS o'chirilgan bo'lsa ham ishlaydi). JS bo'lsa
+        -# auth_toggle.js klassni almashtirib slaydni ko'rsatadi.
+        = link_to t('auth.to_register'), new_user_registration_path, class: 'auth-visual-btn', data: { auth_toggle: 'register' }
+      .auth-visual-panel.auth-visual-panel--to-login{ class: ('is-hidden' unless active) }
+        %h1.auth-visual-title= t('auth.welcome_back_title')
+        %p.auth-visual-text= t('auth.have_account')
+        = link_to t('auth.to_login'), new_user_session_path, class: 'auth-visual-btn', data: { auth_toggle: 'login' }

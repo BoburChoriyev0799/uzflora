@@ -36,7 +36,7 @@
 
   = csrf_meta_tags
   = render 'shared/ga_code'
-%body
+%body{ class: content_for(:body_class).presence }
   #wrap
     = render 'shared/navbar'
     = render 'shared/flash'

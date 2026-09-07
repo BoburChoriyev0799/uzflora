@@ -1,0 +1,23 @@
+uz:
+  auth:
+    login: "Kirish"
+    register: "Ro'yxatdan o'tish"
+    email: "Email"
+    password: "Parol"
+    first_name: "Ism"
+    last_name: "Familiya"
+    forgot_password: "Parol esdan chiqdimi?"
+    remember_hint: "Parolingizni eslab qoling — saytga qayta kirishda kerak bo'ladi."
+    big_year: "Katta yil tanlovida qatnashmoqchiman"
+    or: "yoki"
+    facebook: "Facebook orqali kirish"
+    login_form_label: "Kirish formasi"
+    register_form_label: "Ro'yxatdan o'tish formasi"
+    # Rangli panel — kirish holatida (ro'yxatga taklif)
+    welcome_title: "Assalomu alaykum!"
+    no_account: "Akkauntingiz yo'qmi? Ro'yxatdan o'ting va O'zbekiston o'simliklarini birga o'rganamiz."
+    to_register: "Ro'yxatdan o'tish"
+    # Rangli panel — ro'yxat holatida (kirishga taklif)
+    welcome_back_title: "Qaytganingizdan xursandmiz!"
+    have_account: "Akkauntingiz bormi? Kiring va davom eting."
+    to_login: "Kirish"

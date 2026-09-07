@@ -1,0 +1,16 @@
+-# Xato / xabar bloki — Devise formalarida (kirish/ro'yxat). Shablonda
+-# joy yo'q edi. `show` — faqat AKTIV formada ko'rsatiladi.
+- if local_assigns[:show]
+  - messages = []
+  - messages.concat(resource.errors.full_messages) if resource.respond_to?(:errors) && resource.errors.present?
+  - alert_msg = flash[:alert].presence
+  - notice_msg = flash[:notice].presence
+  - if messages.any? || alert_msg
+    .auth-alert.auth-alert--error{ role: 'alert' }
+      - messages.each do |m|
+        %span= m
+      - if alert_msg
+        %span= alert_msg
+  - elsif notice_msg
+    .auth-alert.auth-alert--info{ role: 'status' }
+      %span= notice_msg

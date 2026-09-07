@@ -32,16 +32,18 @@ describe 'Desktop full-width layout (uz-container)', type: :request do
     expect(response.body).to include('uz-container')
   end
 
-  it 'renders the sign-in page with a narrow container' do
+  # Kirish/ro'yxat sahifalari yangi dizaynda (auth-card) — batafsil
+  # tekshiruv: spec/requests/auth_pages_spec.rb.
+  it 'renders the sign-in page (new auth design)' do
     get new_user_session_path
     expect(response).to have_http_status(:ok)
-    expect(response.body).to include('uz-container-narrow')
+    expect(response.body).to include('auth-card')
   end
 
-  it 'renders the sign-up page with a narrow container' do
+  it 'renders the sign-up page (new auth design)' do
     get new_user_registration_path
     expect(response).to have_http_status(:ok)
-    expect(response.body).to include('uz-container-narrow')
+    expect(response.body).to include('auth-card')
   end
 
   it 'renders the big year page' do
