@@ -17,6 +17,13 @@ uz:
       tab_following: Kuzataman
       tab_followers: Kuzatuvchilar
       empty_follows: Bu yerda hali hech kim yo'q.
+      map:
+        tab: Xarita
+        title: Kuzatuvlar xaritasi
+        empty: "Bu foydalanuvchida koordinatali kuzatuv yo'q"
+        view_sighting: "Ko'rish"
+        legend_approved: Tasdiqlangan
+        legend_pending: "Ko'rib chiqilmoqda"
     follow:
       follow: Kuzatish
       following: Kuzatilmoqda

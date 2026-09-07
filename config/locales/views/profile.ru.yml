@@ -17,6 +17,13 @@ ru:
       tab_following: Подписки
       tab_followers: Подписчики
       empty_follows: Здесь пока никого нет.
+      map:
+        tab: Карта
+        title: Карта наблюдений
+        empty: "У этого пользователя нет наблюдений с координатами"
+        view_sighting: "Открыть"
+        legend_approved: Подтверждено
+        legend_pending: "На проверке"
     follow:
       follow: Подписаться
       following: Вы подписаны

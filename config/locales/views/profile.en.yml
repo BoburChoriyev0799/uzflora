@@ -17,6 +17,13 @@ en:
       tab_following: Following
       tab_followers: Followers
       empty_follows: No one here yet.
+      map:
+        tab: Map
+        title: Observations map
+        empty: "This user has no observations with coordinates"
+        view_sighting: "Open"
+        legend_approved: Approved
+        legend_pending: "Under review"
     follow:
       follow: Follow
       following: Following

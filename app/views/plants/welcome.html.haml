@@ -280,6 +280,11 @@
 
     .row
       %h4.welcome-map-title.acenter= I18n.t('.map_title', scope: w)
-      #welcome_map_canvas{data: {points: @map_sightings.map { |s| { lat: s.latitude, lng: s.longitude, name: s.plant.present? ? capitalize_first(s.plant.display_name(I18n.locale)) : nil } }.to_json}}
+      -# XAVFSIZLIK: koordinata SightingCoordinates orqali o'tadi —
+      -# mehmon (current_user nil) Qizil kitob turlarining aniq joyini
+      -# ko'rmaydi (0.1 gradusga yaxlitlangan). Aniq qiymat data-points
+      -# JSON'ga umuman tushmaydi.
+      - welcome_points = @map_sightings.filter_map { |s| pt = SightingCoordinates.for(s, current_user); next unless pt; { lat: pt[:lat], lng: pt[:lon], name: (s.plant.present? ? capitalize_first(s.plant.display_name(I18n.locale)) : nil), obscured: pt[:obscured] } }
+      #welcome_map_canvas{data: {points: welcome_points.to_json, obscured_note: I18n.t('shared.obscured_coordinates')}}
 
     = render 'shared/live_stats'

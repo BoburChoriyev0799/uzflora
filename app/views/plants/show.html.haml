@@ -355,7 +355,7 @@
                   - if sighting.timestamp.present?
                     %p.plant-photo-date= date_format(sighting.timestamp)
                   - if sighting.address_valid?
-                    %p.plant-photo-place= plant_sighting_location(sighting)
+                    %p.plant-photo-place= plant_sighting_display_location(sighting, current_user)
                   %p.plant-photo-author
                     = I18n.t('.photo_by', scope: plant_scope)
                     = link_to sighting.user.full_name, profile_path(sighting.user)

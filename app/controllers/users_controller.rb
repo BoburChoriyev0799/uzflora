@@ -12,7 +12,7 @@ class UsersController < Devise::RegistrationsController
   # Devise::RegistrationsController`) himoyasiz qoladi. Yuqoridagi
   # change_password/unregister uchun `force: true` allaqachon shu sababdan
   # ishlatilgan — follow/unfollow uchun ham xuddi shu naqsh kerak.
-  before_action(only: [:follow, :unfollow]) { authenticate_user!(force: true) }
+  before_action(only: [:follow, :unfollow, :map]) { authenticate_user!(force: true) }
 
   #TODO!!!:: remove to separate controller!!
   def index
@@ -73,6 +73,28 @@ class UsersController < Devise::RegistrationsController
     render json: { success: true, following: false, followers_count: target.followers.count }
   end
 
+  # Profil xaritasi — FAQAT shu foydalanuvchining koordinatali kuzatuvlari.
+  # HTML: bo'sh sahifa + JS (pages/profile_map.js) format:json orqali
+  # markerlarni yuklaydi. JSON: faqat kerakli maydonlar (butun model emas).
+  #
+  # Ko'rinish:
+  #   - jamoat            -> faqat tasdiqlangan + nashr qilingan;
+  #   - profil egasi/ekspert -> kutilayotganlarini ham (alohida rangda).
+  # Rad etilganlar hech kimga (xaritada) ko'rinmaydi.
+  #
+  # XAVFSIZLIK: koordinata SightingCoordinates orqali o'tadi — Qizil
+  # kitob turlari uchun egasi/ekspertdan boshqaga 0.1 gradusga
+  # yaxlitlangan holda (aniq qiymat JSON'ga umuman tushmaydi).
+  def map
+    @user = User.find(params[:id])
+    @can_see_pending = @user.current?(current_user) || current_user.try(:expert?)
+
+    respond_to do |format|
+      format.html
+      format.json { render json: { sightings: map_marker_data(@user) } }
+    end
+  end
+
   def change_password
     @user = User.find(current_user.id)
     if @user.update(user_params)
@@ -85,6 +107,43 @@ class UsersController < Devise::RegistrationsController
   end
 
   private
+
+  # Xarita markerlari uchun JSON — faqat kerakli maydonlar.
+  def map_marker_data(user)
+    # Jamoat faqat tasdiqlangan+nashr qilinganlarni; egasi/ekspert
+    # kutilayotgan (moderatsiya navbatidagi, nashr qilingan) larni ham.
+    # Qoralamalar (unpublished) xaritaga umuman chiqmaydi.
+    statuses = @can_see_pending ? %w[approved pending] : %w[approved]
+    scope = PlantSighting.includes(:plant).by_user(user.id).published
+                         .where(status: statuses)
+                         .where.not(latitude: nil).where.not(longitude: nil)
+
+    scope.order(created_at: :desc).filter_map do |sighting|
+      coords = SightingCoordinates.for(sighting, current_user)
+      next unless coords
+
+      plant = sighting.plant
+      {
+        id: sighting.id,
+        lat: coords[:lat],
+        lon: coords[:lon],
+        obscured: coords[:obscured],
+        pending: sighting.pending?,
+        name: plant && helpers.capitalize_first(plant.display_name(I18n.locale)),
+        sci_name: plant&.display_sci_name,
+        thumb: marker_thumb_url(sighting),
+        date: sighting.timestamp && helpers.date_format(sighting.timestamp),
+        url: plant_sighting_path(sighting)
+      }
+    end
+  end
+
+  def marker_thumb_url(sighting)
+    return nil unless sighting[:photo].present? && sighting.photo_status_ready?
+
+    sighting.photo.thumb.url
+  end
+
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, :big_year])
   end

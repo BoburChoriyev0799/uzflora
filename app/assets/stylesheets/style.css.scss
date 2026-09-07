@@ -2767,6 +2767,15 @@ a.delete-comment-lnk:hover {
   }
 }
 
+/* 2-ish/XAVFSIZLIK: Qizil kitob turining aniq joylashuvi yashirilganda
+   ko'rsatiladigan izoh (kuzatuv sahifasi). */
+.sighting-obscured-note {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  color: #7a3b1e;
+}
+
 // MOBIL (767px va pastda) — plants/index'даgi (o'simliklar ro'yxati)
 // bilan bir xil naqsh: ixcham 3 ustunli grid. Hozirgacha bu diapazonda
 // aniq ustun soni belgilanmagan edi — kartochka kengligi FAQAT eski

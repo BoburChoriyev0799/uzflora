@@ -11,6 +11,11 @@ Uzflora::Application.routes.draw do
   devise_scope :user do
     get 'users', to: 'users#index'
     get 'users/experts', to: 'users#experts', as: :experts_users
+    # Profildagi "Xarita" yorlig'i — ALOHIDA sahifa (yashirin div ichida
+    # Leaflet noto'g'ri o'lchamda yuklanib kulrang bo'lib qolmasligi
+    # uchun). HTML sahifani va (format: json) marker ma'lumotlarini
+    # bitta action beradi.
+    get 'users/:id/map', to: 'users#map', as: :user_map
     post 'users/:id/toggle_expert', to: 'users#toggle_expert', as: :toggle_expert_user
     post 'users/:id/follow', to: 'users#follow', as: :follow_user
     delete 'users/:id/unfollow', to: 'users#unfollow', as: :unfollow_user

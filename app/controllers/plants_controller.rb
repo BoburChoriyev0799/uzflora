@@ -28,6 +28,7 @@ class PlantsController < ApplicationController
                                         .order(created_at: :desc)
                                         .limit(20)
       @map_sightings = PlantSighting.published.approved
+                                     .includes(:plant)
                                      .where.not(latitude: nil, longitude: nil)
       render 'welcome'
       return

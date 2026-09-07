@@ -56,6 +56,33 @@ module PlantSightingsHelper
     location_name(sighting.address)
   end
 
+  # `plant_sighting_location` bilan bir xil, LEKIN xom koordinata
+  # (manzil matni bo'lmagan holat) KO'RUVCHIGA qarab SightingCoordinates
+  # orqali o'tadi — Qizil kitob turlari uchun egasi/ekspertdan boshqaga
+  # 0.1 gradusga yaxlitlangan holda ko'rinadi. Manzil matni (shahar nomi)
+  # aniq nuqta emas, shuning uchun o'zgartirilmaydi. HAMMA kartochka/
+  # sahifa shu metodni ishlatadi (aniq koordinata sizib chiqmasin).
+  def plant_sighting_display_location(sighting, viewer)
+    return location_name(sighting.address) if sighting.address.present?
+
+    coords = SightingCoordinates.for(sighting, viewer)
+    return '' unless coords
+
+    "#{coords[:lat]}; #{coords[:lon]}"
+  end
+
+  # Tashqi OSM xaritasiga havola — koordinata ham KO'RUVCHIGA qarab
+  # (SightingCoordinates): Qizil kitob turida egasi/ekspertdan boshqaga
+  # yaxlitlangan nuqta va uzoqroq zoom (aniq joy sizib chiqmasin).
+  def plant_sighting_osm_url(sighting, viewer)
+    coords = SightingCoordinates.for(sighting, viewer)
+    return nil unless coords
+
+    zoom = coords[:obscured] ? 11 : 15
+    "https://www.openstreetmap.org/?mlat=#{coords[:lat]}&mlon=#{coords[:lon]}" \
+      "#map=#{zoom}/#{coords[:lat]}/#{coords[:lon]}"
+  end
+
   def plant_sighting_status_badge(sighting)
     content_tag(:span, I18n.t(sighting.status, scope: 'plant_sightings.status'),
                 class: "sighting-status-badge status-#{sighting.status}")

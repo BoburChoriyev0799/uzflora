@@ -188,6 +188,16 @@ class PlantSighting < ApplicationRecord
     user_id == user.try(:id)
   end
 
+  # Tur O'zbekiston Qizil kitobida (yoki taksonomik guruhida Qizil kitob
+  # a'zosi bor) bo'lsa — aniq joylashuv ommaga ko'rsatilmaydi
+  # (SightingCoordinates: egasi/ekspertdan boshqa hammaga 0.1 gradusga
+  # yaxlitlanadi). `group_red_book` ham hisobga olinadi — sinonim nom
+  # ostidagi kuzatuv ham himoyalansin (ro'yxat/filtr ham shu ustun
+  # bo'yicha ishlaydi). Tur aniqlanmagan (plant nil) — himoya yo'q.
+  def coordinates_protected?
+    plant.present? && (plant.red_book? || plant.group_red_book?)
+  end
+
   # Rad etilgan kuzatuvni faqat egasi va ekspert ko'ra oladi — boshqalarga
   # (profilda ham, to'g'ridan-to'g'ri havola orqali ham) ko'rinmaydi.
   def visible_to?(user)

@@ -22,6 +22,7 @@ en:
       new_year: 'Happy New Year! Your Uzflora.uz team'
       uzflora_birth_day: "July 14, 2026 - uzflora.uz's birthday!"
       slogan: 'Uzflora.uz — let’s explore the flora of Uzbekistan together!'
+    obscured_coordinates: "Protected species — exact location is hidden"
     live_stats:
       users_count: Users
       big_year_count: "Big Year participants"

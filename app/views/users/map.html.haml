@@ -1,0 +1,121 @@
+- content_for :head do
+  / Leaflet + MarkerCluster — faqat shu sahifada kerak (umumiy layout'ga
+  / qo'shilmaydi). Tile manbalari uzflora_map_config.js'дан (application.js
+  / orqali har sahifada mavjud).
+  %link{rel: "stylesheet", href: "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css", integrity: "sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=", crossorigin: ""}
+  %link{rel: "stylesheet", href: "https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"}
+  %link{rel: "stylesheet", href: "https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"}
+  %script{src: "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js", integrity: "sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=", crossorigin: ""}
+  %script{src: "https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"}
+
+%style
+  :plain
+    .profile-map-title {
+      font-weight: 700;
+      color: #2f4a1c;
+      margin-bottom: 14px;
+    }
+    #profile_map_canvas {
+      width: 100%;
+      height: 540px;
+      border-radius: 6px;
+      background: #eef4ea;
+    }
+    .profile-map-empty {
+      padding: 40px 20px;
+      text-align: center;
+      color: #55605a;
+      font-size: 16px;
+      background: #f1f7ea;
+      border: 1px dashed #b9d69e;
+      border-radius: 6px;
+    }
+    .profile-map-legend {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+      font-size: 13px;
+      color: #55605a;
+    }
+    .profile-map-legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .profile-map-legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+      border: 1px solid rgba(0,0,0,.25);
+    }
+    .profile-map-legend-dot--approved { background: #2a81cb; }
+    .profile-map-legend-dot--pending  { background: #cb8d2a; }
+    .profile-map-popup {
+      max-width: 220px;
+    }
+    .profile-map-popup img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 4px;
+      margin-bottom: 6px;
+      display: block;
+    }
+    .profile-map-popup .pm-name {
+      font-weight: 700;
+    }
+    .profile-map-popup .pm-sci {
+      font-style: italic;
+      color: #666;
+    }
+    .profile-map-popup .pm-obscured {
+      color: #7a3b1e;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+    .pm-pin span {
+      display: block;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      box-shadow: 0 1px 4px rgba(0,0,0,.4);
+      box-sizing: border-box;
+    }
+    .pm-pin--approved span { background: #2a81cb; }
+    .pm-pin--pending  span { background: #cb8d2a; }
+    @media (max-width: 767px) {
+      #profile_map_canvas {
+        height: 380px;
+      }
+    }
+
+.bg-btm-container
+  .container.uz-container.content
+    - profile_scope = 'profile.show'
+    .row.mtop20.mbtm40.content-container
+      %h4
+        = image_tag @user.avatar.thumb.url, class: 'img img-circle'
+        = @user.full_name
+
+      .profile-view-tabs
+        = link_to I18n.t('.tab_photo', scope: profile_scope), profile_path(@user), class: 'profile-view-tab'
+        = link_to I18n.t('map.tab', scope: profile_scope), user_map_path(@user), class: 'profile-view-tab active'
+
+      %h5.profile-map-title= I18n.t('map.title', scope: profile_scope)
+
+      #profile_map_canvas{ data: { url: user_map_path(@user, format: :json),
+                                   empty_text: I18n.t('map.empty', scope: profile_scope),
+                                   obscured_note: I18n.t('shared.obscured_coordinates'),
+                                   view_label: I18n.t('map.view_sighting', scope: profile_scope) } }
+
+      - if @can_see_pending
+        .profile-map-legend
+          %span.profile-map-legend-item
+            %span.profile-map-legend-dot.profile-map-legend-dot--approved
+            = I18n.t('map.legend_approved', scope: profile_scope)
+          %span.profile-map-legend-item
+            %span.profile-map-legend-dot.profile-map-legend-dot--pending
+            = I18n.t('map.legend_pending', scope: profile_scope)

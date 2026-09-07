@@ -130,6 +130,12 @@
           .col-md-3.col-sm-12.profile-follow-block
             = render 'follow_button', user: @user
 
+      / 2-ish: "Suratlar" (joriy) / "Xarita" — oddiy havolalar, xarita
+      / alohida sahifada (/users/:id/map).
+      .profile-view-tabs
+        %span.profile-view-tab.active= I18n.t('.tab_photo', scope: profile_scope)
+        = link_to I18n.t('.map.tab', scope: profile_scope), user_map_path(@user), class: 'profile-view-tab'
+
       .row.sub-nav-pils.mtop20.sm-display-none
         -if @user.current?(current_user)
           %a.active.profile-menu{"data-view" => "block1"}
