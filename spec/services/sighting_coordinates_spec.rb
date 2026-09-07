@@ -13,8 +13,8 @@ describe SightingCoordinates do
   let(:lat) { 41.31171 }
   let(:lon) { 69.27937 }
 
-  def sighting_for(plant)
-    s = PlantSighting.new(user: owner, plant: plant, status: 'approved', published: true,
+  def sighting_for(plant, status: 'approved')
+    s = PlantSighting.new(user: owner, plant: plant, status: status, published: true,
                           timestamp: Time.zone.now, latitude: lat, longitude: lon)
     s.save!(validate: false)
     s
@@ -62,6 +62,41 @@ describe SightingCoordinates do
                               red_book: false, group_red_book: true)
       result = SightingCoordinates.for(sighting_for(grouped), guest)
       expect(result[:obscured]).to be(true)
+    end
+  end
+
+  # FAIL-SAFE: turi aniqlanmagan (plant nil) kuzatuv.
+  context 'turi aniqlanmagan kuzatuv (plant nil)' do
+    it 'mehmon / boshqa foydalanuvchi uchun yaxlitlaydi' do
+      result = SightingCoordinates.for(sighting_for(nil), guest)
+      expect(result[:obscured]).to be(true)
+      expect(result[:lat]).to eq(41.3)
+      expect(result[:lon]).to eq(69.3)
+    end
+
+    it 'egasiga aniq koordinata beradi' do
+      result = SightingCoordinates.for(sighting_for(nil), owner)
+      expect(result[:obscured]).to be(false)
+      expect(result[:lat]).to eq(lat)
+    end
+
+    it 'ekspertga aniq koordinata beradi' do
+      result = SightingCoordinates.for(sighting_for(nil), expert)
+      expect(result[:obscured]).to be(false)
+      expect(result[:lat]).to eq(lat)
+    end
+  end
+
+  # FAIL-SAFE: tur biriktirilgan, lekin kuzatuv hali tasdiqlanmagan.
+  context 'tasdiqlanmagan (pending) kuzatuv, oddiy tur' do
+    it 'mehmon uchun yaxlitlaydi' do
+      result = SightingCoordinates.for(sighting_for(ordinary_plant, status: 'pending'), guest)
+      expect(result[:obscured]).to be(true)
+    end
+
+    it 'egasiga aniq beradi' do
+      result = SightingCoordinates.for(sighting_for(ordinary_plant, status: 'pending'), owner)
+      expect(result[:obscured]).to be(false)
     end
   end
 

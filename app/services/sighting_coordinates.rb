@@ -37,11 +37,13 @@ module SightingCoordinates
     end
   end
 
-  # To'rt holat:
-  #   - tur Qizil kitobda EMAS             -> false (aniq koordinata)
-  #   - Qizil kitob + ko'ruvchi = egasi    -> false (aniq)
-  #   - Qizil kitob + ko'ruvchi = ekspert  -> false (aniq)
-  #   - Qizil kitob + qolgan hamma (mehmon,
+  # `sighting.coordinates_protected?` FAIL-SAFE (tur nil / tasdiqlanmagan /
+  # Qizil kitob yoki uning guruhi — hammasi "himoyalangan"). Shundan keyin
+  # ko'ruvchi bo'yicha:
+  #   - himoyalanmagan                     -> false (aniq koordinata)
+  #   - himoyalangan + ko'ruvchi = egasi   -> false (aniq)
+  #   - himoyalangan + ko'ruvchi = ekspert -> false (aniq)
+  #   - himoyalangan + qolgan hamma (mehmon,
   #     boshqa foydalanuvchi)              -> true  (yaxlitlangan)
   def obscured_for?(sighting, viewer)
     return false unless sighting.coordinates_protected?

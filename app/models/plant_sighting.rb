@@ -188,14 +188,26 @@ class PlantSighting < ApplicationRecord
     user_id == user.try(:id)
   end
 
-  # Tur O'zbekiston Qizil kitobida (yoki taksonomik guruhida Qizil kitob
-  # a'zosi bor) bo'lsa — aniq joylashuv ommaga ko'rsatilmaydi
-  # (SightingCoordinates: egasi/ekspertdan boshqa hammaga 0.1 gradusga
-  # yaxlitlanadi). `group_red_book` ham hisobga olinadi — sinonim nom
-  # ostidagi kuzatuv ham himoyalansin (ro'yxat/filtr ham shu ustun
-  # bo'yicha ishlaydi). Tur aniqlanmagan (plant nil) — himoya yo'q.
+  # Aniq joylashuv ommaga ko'rsatilmasin (SightingCoordinates: egasi/
+  # ekspertdan boshqa hammaga 0.1 gradusga yaxlitlanadi)mi?
+  #
+  # FAIL-SAFE (xavfsiz tomonga og'ish) — quyidagi holatlarning BIRORTASIDA
+  # ham himoyalangan deb hisoblanadi:
+  #   1. Tur aniqlanmagan (plant nil) — aniqlanmagan yovvoyi lola ham
+  #      brakonyerdan himoyalansin. /plant_sightings/pending endi barcha
+  #      ro'yxatdan o'tgan foydalanuvchilarga ochiq, shuning uchun bu
+  #      MUHIM.
+  #   2. Kuzatuv hali tasdiqlanmagan (pending/rejected) — tur biriktirilgan
+  #      bo'lsa ham, moderatsiyadan o'tmaguncha aniq joy ochilmaydi.
+  #   3. Tur Qizil kitobda — SHU YOZUV yoki taksonomik GURUH darajasida
+  #      (`group_red_book`: dublikatlarni birlashtirganda aynan shu uchun
+  #      kiritilgan — guruhdagi biror a'zo Qizil kitobda bo'lsa butun
+  #      guruh himoyalanadi).
   def coordinates_protected?
-    plant.present? && (plant.red_book? || plant.group_red_book?)
+    return true if plant.blank?
+    return true unless approved?
+
+    plant.red_book? || plant.group_red_book?
   end
 
   # Rad etilgan kuzatuvni faqat egasi va ekspert ko'ra oladi — boshqalarga
