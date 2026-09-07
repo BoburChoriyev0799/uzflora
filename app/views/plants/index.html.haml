@@ -35,42 +35,58 @@
     .plant-card-photo-img.active {
       opacity: 1;
     }
-    /* Bootstrap 3 grid'i float asosida ishlaydi — kartochkalar bir
-       qatorda har xil balandlikda bo'lsa (masalan Qizil kitob belgisi
-       yoki ikki qatorli nom bor/yo'q), keyingi qator eng baland
-       kartochkaga "ilishib" qolib, tartibsiz bo'sh joy hosil bo'ladi.
-       Yechim: qatorni (.plants-grid-row) flexbox qilamiz — shunda har
-       bir "qator" (flex-wrap orqali hosil bo'lgan qatlam) o'z ichida
-       avtomatik teng balandlikka cho'ziladi (align-items:stretch,
-       standart qiymat), JS yoki qo'lda balandlik hisoblash shart emas.
-       Bu FAQAT shu grid qatoriga tegishli — boshqa .row'lar (filtr
-       formasi va h.k.) o'zgarmaydi. */
+    /* MOBIL (<768px) — Bootstrap float grid o'rniga flexbox: kartochkalar
+       bir qatorda avtomatik teng balandlikka cho'ziladi. Bu ikki qoida
+       768px'dan past ekran uchun O'ZGARMAYDI (telefon versiyasi —
+       pastdagi `@media (max-width: 767px)` bloki bilan birga). */
     .plants-grid-row {
       display: flex;
       flex-wrap: wrap;
     }
-    /* Flex konteynerda .col-sm-6/.col-md-3'ning o'z width qoidalari
-       (Bootstrap'ning min-width:768px/992px media so'rovlari ichida)
-       ishlayveradi — lekin flex item sifatida ular endi "auto"
-       (kontentga qarab torayishi) emas, aniq width'ga muhtoj, aks
-       holda mobilda (768px'dan pastda, col-sm-6 hali ishlamay turgan
-       oraliqda) kartochkalar to'liq kenglikka cho'zilmay, tor holda
-       yonma-yon qisilib qolar edi. Shu uchun Bootstrap'ning o'zi
-       ishlatadigan xuddi shu breakpointlarda width qayta beriladi. */
     .plants-grid-col {
       display: flex;
       width: 100%;
     }
+    /* KOMPYUTER (>=768px, 3-ish): float/flex grid o'rniga CSS Grid —
+       ustunlar SONI ekran kengligiga qarab 2..6 ga o'zgaradi (kartochka
+       enini cho'zish EMAS). Har bosqichda kartochka mutanosib (1fr),
+       rasm nisbati .plant-card-photo'даgi `aspect-ratio: 4/3` bilan
+       saqlanadi.
+         768-992  : 2 ustun      1400-1800 : 5 ustun
+         992-1200 : 3 ustun      >1800     : 6 ustun
+         1200-1400: 4 ustun
+       DIQQAT: Bootstrap `.row`ning clearfix'i (::before/::after) CSS
+       Grid ichida "arvoh" (bo'sh) katak yaratadi — shu sabab o'chiriladi.
+       .plants-grid-col'ning flex/float width qoidalari (col-sm-6/
+       col-md-3'dan) grid item uchun keraksiz — bekor qilinadi. */
     @media (min-width: 768px) {
+      .plants-grid-row {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        margin-left: 0;
+        margin-right: 0;
+      }
+      .plants-grid-row::before,
+      .plants-grid-row::after {
+        content: none;
+        display: none;
+      }
       .plants-grid-col {
-        width: 50%;
+        width: auto;
+        max-width: none;
+        padding-left: 0;
+        padding-right: 0;
+        float: none;
+      }
+      .plant-card {
+        margin-bottom: 0;
       }
     }
-    @media (min-width: 992px) {
-      .plants-grid-col {
-        width: 25%;
-      }
-    }
+    @media (min-width: 992px)  { .plants-grid-row { grid-template-columns: repeat(3, 1fr); } }
+    @media (min-width: 1200px) { .plants-grid-row { grid-template-columns: repeat(4, 1fr); } }
+    @media (min-width: 1400px) { .plants-grid-row { grid-template-columns: repeat(5, 1fr); } }
+    @media (min-width: 1800px) { .plants-grid-row { grid-template-columns: repeat(6, 1fr); } }
     .plant-card {
       display: flex;
       flex-direction: column;
@@ -380,7 +396,8 @@
     }
 
 .bg-btm-container
-  .container.content
+  / 3-ish: keng monitorda to'liq kenglik (.uz-container). Telefon o'zgarmaydi.
+  .container.uz-container.content
     - plants_scope = 'plants.index'
     .row.mtop20.mbtm20.content-container.plants-index-header-row
       .col.col-md-12.col-sm-12

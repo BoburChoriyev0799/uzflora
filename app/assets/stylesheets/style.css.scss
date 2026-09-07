@@ -278,6 +278,53 @@ a.lnk-success {
 .content-container, .container.content{
     min-height:420px;
 }
+
+/* ============================================================
+   3-ISH: KOMPYUTER VERSIYASIDA TO'LIQ EKRAN KENGLIGI
+   ------------------------------------------------------------
+   Bootstrap 3'ning `.container`i har qanday ekran kengligida ~1080px
+   bilan cheklanadi (yuqorida bootstrap.css: `@media (min-width:1080px)
+   .container{width:1080px}`) — keng monitorda (1920px+) ma'lumot
+   faqat o'rtada, ikki chekkada katta bo'sh joy qoladi.
+
+   `.uz-container`      — ro'yxat/grid sahifalari uchun: 1800px'gacha
+                          kengayadi (kartochka gridi ustunlar SONINI
+                          oshiradi, kartochkalarni cho'zmaydi — pastga
+                          qarang: plants/index.html.haml grid qoidalari).
+   `.uz-container-narrow` — matn ko'p sahifalar uchun: aksincha 900px'da
+                          ushlab turadi. 1800px kenglikdagi matn qatorini
+                          o'qib bo'lmaydi (tipografiya qoidasi,
+                          iNaturalist ham shunday qiladi).
+
+   MUTLAQ QOIDA: telefon versiyasi (<768px) HECH O'ZGARMAYDI — barcha
+   qoidalar `min-width: 768px` ichida. 768px'dan past ekranda element
+   baribir oddiy `.container` sifatida (margin:auto, to'liq kenglik)
+   ishlaydi; `.uz-container`/`.uz-container-narrow` u yerda hech narsa
+   qo'shmaydi.
+
+   Nega ikki klass (`.container.uz-container`) va alohida `.uz-container`
+   emas: (1) `.container.content` ga bog'langan mavjud qoidalar
+   (min-height, navbar flex va h.k.) buzilmasin; (2) compound selektor
+   specificity'si (0,0,2,0) bootstrap'ning `.container{width:...}`
+   qoidasidan (0,0,1,0) yuqori — asset tartibida bootstrap keyinroq
+   yuklansa ham ustun turadi, `!important` shart emas.
+   ============================================================ */
+@media (min-width: 768px) {
+  .container.uz-container {
+    width: 100%;
+    max-width: 1800px;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+  .container.uz-container-narrow {
+    width: 100%;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
 .row.top-row, .row.btm-row {
     padding-top:40px;
 
@@ -519,7 +566,9 @@ html {
 @media (min-width: 1251px) {
     .site-nav .container {
         width: 100%;
-        max-width: 1600px;
+        // 3-ish: navbar ham sahifa konteyneri (.uz-container) bilan bir
+        // xil to'liq kenglikda (1600px -> 1800px).
+        max-width: 1800px;
         padding-left: 30px;
         padding-right: 30px;
     }
