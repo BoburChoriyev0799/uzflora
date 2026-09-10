@@ -31,6 +31,7 @@ en:
       name_lat: "Latin name:"
       name_ru: "Russian name:"
       name_local: "Local name:"
+      name_kaa: "Karakalpak name:"
       synonym: "Synonym:"
       spelling_variant: "Spelling in database:"
       rejected_name: "Rejected name:"

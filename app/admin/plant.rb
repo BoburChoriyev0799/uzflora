@@ -3,7 +3,7 @@ ActiveAdmin.register Plant do
 
   permit_params :division_lat, :division_ru, :class_lat, :class_ru, :order_lat, :order_ru,
                 :family_lat, :family_ru, :family_takhtajan, :genus_lat, :genus_ru,
-                :species_sci, :species_ru, :species_uz, :plantarium_url,
+                :species_sci, :species_ru, :species_uz, :species_kaa, :species_kaa_source, :plantarium_url,
                 :life_form, :life_form_ru, :life_form_en,
                 :habitat_env, :habitat_env_ru, :habitat_env_en,
                 :habitat_place, :habitat_place_ru, :habitat_place_en,
@@ -16,9 +16,16 @@ ActiveAdmin.register Plant do
   filter :species_uz
   filter :species_sci
   filter :species_ru
+  filter :species_kaa
+  filter :species_kaa_source
   filter :genus_lat
   filter :family_lat
   filter :red_book
+
+  # "Qoraqalpoqcha nomi bo'sh" — qolgan turlarni qo'lda to'ldirish uchun
+  # tez ro'yxat (Plant.without_species_kaa scope'iga tayanadi).
+  scope :all, default: true
+  scope "Qoraqalpoqcha nomi bo'sh", :without_species_kaa
 
   index do
     selectable_column
@@ -41,6 +48,8 @@ ActiveAdmin.register Plant do
       row :species_uz
       row :species_sci
       row :species_ru
+      row :species_kaa
+      row :species_kaa_source
       row :red_book
       row :division_lat
       row :division_ru
@@ -87,6 +96,8 @@ ActiveAdmin.register Plant do
       f.input :species_sci
       f.input :species_ru
       f.input :species_uz
+      f.input :species_kaa, hint: "Qoraqalpoqcha nomi (kirill). Vergul bilan ajratilgan variantlar bo'lishi mumkin."
+      f.input :species_kaa_source, hint: 'Manba, masalan: Ережепов 1978 + Шербаев 1988'
       f.input :red_book
     end
     f.inputs 'Taksonomiya' do

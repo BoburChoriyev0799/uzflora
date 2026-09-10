@@ -75,6 +75,12 @@ describe Plant, type: :model do
       Plant.create!(species_sci: 'Xylonimus underscoreus', primary_record: true)
       expect(Plant.search('robust_m')).to be_empty
     end
+
+    it 'finds a plant by its Karakalpak (cyrillic) name' do
+      peganum = Plant.create!(species_sci: 'Peganum harmala L.', species_uz: 'isiriq',
+                              species_kaa: 'адыраспан', species_kaa_source: 'Ережепов 1978', primary_record: true)
+      expect(Plant.search('адыраспан')).to contain_exactly(peganum)
+    end
   end
 
   describe '.group_search' do

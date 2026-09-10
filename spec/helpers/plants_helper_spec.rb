@@ -71,4 +71,60 @@ describe PlantsHelper, type: :helper do
       expect(helper.plant_sci_name_html(plant)).to eq('<i>Acalypha australis</i> L.')
     end
   end
+
+  describe '#format_kaa_source' do
+    it 'turns "Ережепов 1978 + Шербаев 1988" into "Ережепов, 1978; Шербаев, 1988"' do
+      expect(helper.format_kaa_source('Ережепов 1978 + Шербаев 1988')).to eq('Ережепов, 1978; Шербаев, 1988')
+    end
+
+    it 'turns a single source "Ережепов 1978" into "Ережепов, 1978"' do
+      expect(helper.format_kaa_source('Ережепов 1978')).to eq('Ережепов, 1978')
+    end
+
+    it 'returns an empty string for a blank source (no parentheses)' do
+      expect(helper.format_kaa_source(nil)).to eq('')
+      expect(helper.format_kaa_source('')).to eq('')
+    end
+  end
+
+  describe '#plant_kaa_name_html' do
+    it 'renders the capitalized name with the source in small grey parentheses' do
+      plant = Plant.new(species_kaa: 'козыткен, шынышап', species_kaa_source: 'Ережепов 1978 + Шербаев 1988')
+      html = helper.plant_kaa_name_html(plant)
+      expect(html).to eq('Козыткен, шынышап <span class="plant-kaa-source">(Ережепов, 1978; Шербаев, 1988)</span>')
+      expect(html).to be_html_safe
+    end
+
+    it 'renders just the name when the source is blank (no empty parentheses)' do
+      plant = Plant.new(species_kaa: 'жезши', species_kaa_source: nil)
+      expect(helper.plant_kaa_name_html(plant)).to eq('Жезши')
+    end
+
+    it 'returns nil when species_kaa is blank' do
+      expect(helper.plant_kaa_name_html(Plant.new(species_kaa: nil))).to be_nil
+    end
+
+    it 'escapes raw HTML in the name (XSS safety)' do
+      plant = Plant.new(species_kaa: '<b>x</b>', species_kaa_source: 'Ережепов 1978')
+      expect(helper.plant_kaa_name_html(plant)).to include('&lt;b&gt;x&lt;/b&gt;')
+    end
+  end
+
+  describe '#plant_name_rows' do
+    it 'adds the Karakalpak name after the Russian name, in every locale' do
+      plant = Plant.new(species_sci: 'Peganum harmala L.', species_uz: 'isiriq', species_ru: 'гармала',
+                        species_kaa: 'адыраспан', species_kaa_source: 'Ережепов 1978')
+      %i[uz ru en].each do |locale|
+        keys = helper.plant_name_rows(plant, locale).map(&:first)
+        expect(keys).to include(:name_kaa)
+        expect(keys.index(:name_kaa)).to be > keys.index(:name_ru)
+      end
+    end
+
+    it 'omits the Karakalpak row entirely when species_kaa is blank' do
+      plant = Plant.new(species_sci: 'Peganum harmala L.', species_ru: 'гармала', species_kaa: nil)
+      keys = helper.plant_name_rows(plant, :uz).map(&:first)
+      expect(keys).not_to include(:name_kaa)
+    end
+  end
 end

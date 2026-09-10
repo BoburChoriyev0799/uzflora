@@ -27,6 +27,11 @@ class Plant < ApplicationRecord
   # Oila bo'yicha filtr:  Plant.by_family("Asteraceae")
   scope :by_family, ->(fam) { where(family_lat: fam) }
 
+  # Qoraqalpoqcha nomi hali kiritilmagan yozuvlar — ActiveAdmin'dagi
+  # "Qoraqalpoqcha nomi bo'sh" filtri (keyinchalik qo'lda to'ldirish
+  # uchun) shundan foydalanadi.
+  scope :without_species_kaa, -> { where("species_kaa IS NULL OR species_kaa = ''") }
+
   # Qidiruv qamrab oladigan ustunlar — BITTA "birlashtirilgan matn"ga
   # COALESCE bilan qo'shiladi (NULL'lar bo'sh satrga aylanadi, aks holda
   # Postgres'da NULL || '...' = NULL bo'lib, butun qatorni "topilmadi"
@@ -34,10 +39,12 @@ class Plant < ApplicationRecord
   # ko'rsatiladigan to'liq ilmiy nom (`display_sci_name`) = accepted_name +
   # accepted_authors, lekin ular BAZADA ikkita alohida ustunda — shu
   # ustun bo'lmasa foydalanuvchi ekrandagi nomni ("Colchicum robustum
-  # (Bunge) Stef.") nusxalab qidirsa 0 natija chiqardi.
+  # (Bunge) Stef.") nusxalab qidirsa 0 natija chiqardi. `species_kaa`
+  # (qoraqalpoqcha nom, kirill) — foydalanuvchi "козыткен" deb qidirsa
+  # ham tur topilsin (til almashtirgichga qo'shilmagan qo'shimcha nom).
   SEARCH_COLUMNS = %w[
     species_sci accepted_name accepted_authors species_uz species_ru
-    genus_lat accepted_genus
+    species_kaa genus_lat accepted_genus
   ].freeze
   SEARCH_TEXT_SQL = SEARCH_COLUMNS.map { |c| "COALESCE(#{c}, '')" }.join(" || ' ' || ").freeze
 
@@ -74,7 +81,7 @@ class Plant < ApplicationRecord
       Arel.sql(
         sanitize_sql_array(
           ['CASE WHEN LOWER(species_sci) LIKE :p OR LOWER(species_ru) LIKE :p OR ' \
-           'LOWER(species_uz) LIKE :p OR LOWER(genus_lat) LIKE :p OR ' \
+           'LOWER(species_uz) LIKE :p OR LOWER(species_kaa) LIKE :p OR LOWER(genus_lat) LIKE :p OR ' \
            'LOWER(accepted_name) LIKE :p OR LOWER(accepted_genus) LIKE :p THEN 0 ELSE 1 END',
            p: prefix]
         )
@@ -256,7 +263,7 @@ class Plant < ApplicationRecord
   # Ransack 4+ xavfsizlik uchun ochiq ustunlarni talab qiladi — admin
   # paneldagi filter/qidiruv shu ro'yxatga tayanadi.
   def self.ransackable_attributes(_auth_object = nil)
-    %w[id species_sci species_ru species_uz genus_lat family_lat red_book created_at]
+    %w[id species_sci species_ru species_uz species_kaa species_kaa_source genus_lat family_lat red_book created_at]
   end
 
   def self.ransackable_associations(_auth_object = nil)

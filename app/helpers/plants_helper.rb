@@ -181,14 +181,21 @@ module PlantsHelper
   # Til bo'yicha tartib va yorliqlar farq qiladi (uz/ru/en), lekin har
   # birida bo'sh qiymatli qator chiqarib tashlanadi. species_en ustuni
   # bazada yo'q — "Common name:" shu sabab hozircha doim yashiringan.
+  #
+  # QORAQALPOQCHA nomi (`species_kaa`) — ruscha nomdan KEYIN, uch tilda
+  # ham qo'shimcha qator sifatida (til almashtirgichga QO'SHILMAYDI —
+  # sayt tillari o'zbek/rus/ingliz bo'lib qoladi). species_kaa bo'sh
+  # bo'lsa qator umuman chiqmaydi (pastdagi `select` tashlaydi).
   def plant_name_rows(plant, locale)
     sci_name = plant_sci_name_html(plant)
     name_uz = capitalize_first(plant.species_uz)
     name_ru = capitalize_first(plant.species_ru)
+    name_kaa = plant_kaa_name_html(plant)
     rows = case locale.to_sym
            when :ru
              [
                [:name_ru, name_ru],
+               [:name_kaa, name_kaa],
                [:name_lat, sci_name],
                [:name_local, name_uz]
              ]
@@ -196,16 +203,46 @@ module PlantsHelper
              [
                [:name_lat, sci_name],
                [:name_ru, name_ru],
+               [:name_kaa, name_kaa],
                [:name_local, name_uz]
              ]
            else
              [
                [:name_uz, name_uz],
                [:name_lat, sci_name],
-               [:name_ru, name_ru]
+               [:name_ru, name_ru],
+               [:name_kaa, name_kaa]
              ]
            end
     rows.select { |_, value| value.present? }
+  end
+
+  # Qoraqalpoqcha nom + manba, plants/show'даgi "uch nom" bloki uchun.
+  # `species_kaa` bo'sh bo'lsa nil (qator umuman chiqmaydi). Nom — birinchi
+  # harfi bosh harf (mavjud `capitalize_first`), qolgani AYNAN bazadagidek
+  # (kirill, vergul bilan ajratilgan variantlar). Manba (`species_kaa_source`)
+  # nom bilan BIR QATORDA, qavs ichida, kichikroq kulrang shriftda (kursiv
+  # EMAS — ilmiy nomdan farqlansin). Manba bo'sh bo'lsa qavs UMUMAN chiqmaydi.
+  def plant_kaa_name_html(plant)
+    return nil if plant.blank? || plant.species_kaa.blank?
+
+    name = capitalize_first(plant.species_kaa)
+    source = format_kaa_source(plant.species_kaa_source)
+    return name if source.blank?
+
+    # `safe_join` har bir bo'lakni alohida escape qiladi (nom — xom kirill
+    # matn, XSS'dan himoya), `content_tag` natijasi allaqachon html_safe.
+    safe_join([ name, ' ', content_tag(:span, "(#{source})", class: 'plant-kaa-source') ])
+  end
+
+  # "Ережепов 1978 + Шербаев 1988" -> "Ережепов, 1978; Шербаев, 1988"
+  # FAQAT ko'rsatish darajasida — bazadagi `species_kaa_source` CSV'dagidek
+  # o'zgarishsiz qoladi. Manba matni TARJIMA QILINMAYDI (bibliografik
+  # havola — uch tilda ham kirill alifbosida asl holida).
+  def format_kaa_source(raw)
+    return '' if raw.blank?
+
+    raw.to_s.split(' + ').map { |part| part.strip.sub(/\s+(\d{3,4})\z/, ', \1') }.join('; ')
   end
 
   # plants#index kartochkasi uchun ko'rsatish ma'lumotini tayyorlaydi
