@@ -74,6 +74,22 @@ module PlantSightingsHelper
     "#{format('%.3f', coords[:lat])}, #{format('%.3f', coords[:lon])}"
   end
 
+  # Formadagi viloyat tanlash ro'yxati (joriy til): [[ko'rinadigan nom,
+  # kalit], ...]. Kalit BAZAGA yoziladi, ko'rinadigan nom faqat ekranда.
+  def region_select_options
+    RegionLookup.keys.map { |k| [ RegionLookup.display_name(k), k ] }
+  end
+
+  # Kuzatuv sahifasi uchun to'liq joylashuv: "Viloyat — aniq joy"
+  # (joriy til). Faqat bittasi bo'lsa — o'sha; ikkalasi bo'sh bo'lsa ""
+  # (chaqiruvchi qatorni umuman ko'rsatmasin).
+  def sighting_location_full(sighting)
+    [
+      (sighting.region_name if sighting.region.present?),
+      (location_name(sighting.address) if sighting.address.present?)
+    ].compact.join(' — ')
+  end
+
   # Tashqi OSM xaritasiga havola — koordinata ham KO'RUVCHIGA qarab
   # (SightingCoordinates): Qizil kitob turida egasi/ekspertdan boshqaga
   # yaxlitlangan nuqta va uzoqroq zoom (aniq joy sizib chiqmasin).

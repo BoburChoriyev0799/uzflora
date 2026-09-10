@@ -22,6 +22,10 @@
             %span
               = I18n.t('.place_name', scope: edit_scope)
               = form.text_field :address, class: 'form-control w50 mleft10 m-w73'
+          .row.form-container.mtop20
+            %span
+              = I18n.t('.region', scope: edit_scope)
+              = form.select :region, region_select_options, { include_blank: I18n.t('.region_blank', scope: edit_scope) }, class: 'form-control w50 mleft10 m-w73'
             = form.submit I18n.t('.continue', scope: edit_scope), class: 'fright btn btn-info sm-display-none'
           = form.submit I18n.t('.continue', scope: edit_scope), class: 'mtop3 m-h35 mbtm20 sm-width-max btn btn-info display-sm-only w'
 

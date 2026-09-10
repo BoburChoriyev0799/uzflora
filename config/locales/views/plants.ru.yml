@@ -4,6 +4,7 @@ ru:
       title: Растения
       search_placeholder: "Поиск по названию..."
       all_families: Все семейства
+      all_regions: Все области
       red_book_only: Только из Красной книги
       search: Найти
       clear: Очистить

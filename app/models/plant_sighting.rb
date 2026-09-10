@@ -111,50 +111,32 @@ class PlantSighting < ApplicationRecord
   scope :unknown, -> { where(plant_id: nil) }
   scope :by_user, ->(user_id) { where(user_id: user_id) }
 
-  # O'zbekiston viloyatlari uchun TAXMINIY (bounding box) chegaralar —
-  # rasmiy administrativ chegara ma'lumotlari (aniq poligon) bazada yo'q,
-  # shuning uchun har bir viloyatga to'rtburchak lat/lng diapazon
-  # biriktirilgan. Bu chegara yaqinidagi nuqtalarda xato bo'lishi mumkin
-  # (masalan Navoiy o'ziga xos noodatiy shaklga ega, Buxoro/Samarqand/
-  # Jizzaxni bir necha tomondan o'rab turadi) — shu sababli Navoiy oxirida,
-  # "qolgan" hudud sifatida tekshiriladi, kichikroq/aniqroq viloyatlar esa
-  # birinchi navbatda (xususan Toshkent shahri — Toshkent viloyati ICHIDA
-  # joylashgan, shuning uchun undan OLDIN tekshirilishi shart).
-  REGIONS = [
-    { name: "Qoraqalpog'iston Respublikasi", lat: 40.0..45.6, lng: 55.9..63.0 },
-    { name: 'Xorazm viloyati', lat: 41.0..42.3, lng: 60.0..61.4 },
-    { name: 'Buxoro viloyati', lat: 39.3..40.8, lng: 63.5..65.2 },
-    { name: 'Qashqadaryo viloyati', lat: 37.7..39.6, lng: 65.0..67.2 },
-    { name: 'Surxondaryo viloyati', lat: 37.0..38.6, lng: 66.0..68.2 },
-    { name: 'Samarqand viloyati', lat: 39.2..40.5, lng: 65.5..67.6 },
-    { name: 'Jizzax viloyati', lat: 39.5..41.2, lng: 66.6..68.9 },
-    { name: 'Sirdaryo viloyati', lat: 39.9..41.0, lng: 68.0..69.2 },
-    { name: 'Toshkent shahri', lat: 41.15..41.45, lng: 69.05..69.45 },
-    { name: 'Toshkent viloyati', lat: 40.7..41.8, lng: 68.6..70.6 },
-    { name: "Farg'ona viloyati", lat: 39.9..40.6, lng: 70.4..71.9 },
-    { name: 'Andijon viloyati', lat: 40.3..41.1, lng: 71.9..73.2 },
-    { name: 'Namangan viloyati', lat: 40.6..41.4, lng: 70.6..71.9 },
-    { name: 'Navoiy viloyati', lat: 39.5..43.0, lng: 61.4..66.0 }
-  ].freeze
+  # --- Viloyat (region) ---
+  #
+  # `region` — strukturaviy VILOYAT KALITI (`RegionLookup::keys` dan biri,
+  # masalan "samarqand", "toshkent_shahri"), ko'rinadigan nom EMAS —
+  # ko'rinadigan nom tilga qarab o'zgaradi, kalit esa barqaror va mavjud
+  # `config/locales/views/locations.*.yml` lug'ati orqali tarjima qilinadi.
+  # `region_source` — qiymatning kelib chiqishi ("user"/"auto"/"admin").
+  #
+  # AVVAL bu yerda bbox (to'rtburchak lat/lng) asosidagi HISOBLANADIGAN
+  # `#region` metodi + `ransacker :region` bor edi (faqat adminda). Endi
+  # aniq poligonlar (Natural Earth, `RegionLookup`) asosida BAZADA
+  # saqlanadi — koordinatasiz kuzatuvlarga ham (qo'lda/admin) qo'yish
+  # mumkin va filtr korrelyatsiyalangan ichki so'rovsiz ishlaydi.
+  REGION_SOURCES = %w[user auto admin].freeze
 
-  # Ransack 4+ orqali admin panelda "Viloyat" filtri sifatida ishlatiladi
-  # (q[region_eq]=...). SQL CASE — qadriyatlar shu faylda REGIONS
-  # konstantasidan qattiq kodlangan (foydalanuvchi kiritmasi emas),
-  # shuning uchun SQL in'ektsiya xavfi yo'q.
-  ransacker :region, type: :string do
-    region_case_sql = REGIONS.map { |r|
-      quoted_name = "'#{r[:name].gsub("'", "''")}'"
-      "WHEN latitude BETWEEN #{r[:lat].begin} AND #{r[:lat].end} " \
-        "AND longitude BETWEEN #{r[:lng].begin} AND #{r[:lng].end} " \
-        "THEN #{quoted_name}"
-    }.join(' ')
-    Arel.sql("CASE #{region_case_sql} ELSE NULL END")
-  end
+  validates :region, inclusion: { in: ->(_) { RegionLookup.keys } }, allow_blank: true
+  validates :region_source, inclusion: { in: REGION_SOURCES }, allow_blank: true
+  before_validation :blankify_region
 
-  def region
-    return nil unless latitude.present? && longitude.present?
+  # "shu viloyatda qayd etilgan turlar" filtri (PlantsController#index) shu
+  # scope orqali — indekslangan `region` ustuni, ichki so'rovsiz.
+  scope :in_region, ->(key) { where(region: key) }
 
-    REGIONS.find { |r| r[:lat].cover?(latitude) && r[:lng].cover?(longitude) }&.fetch(:name)
+  # Ko'rsatiladigan viloyat nomi (joriy til). Bo'sh bo'lsa "".
+  def region_name(locale = I18n.locale)
+    RegionLookup.display_name(region, locale: locale)
   end
 
   def unknown?
@@ -321,7 +303,7 @@ class PlantSighting < ApplicationRecord
   # Ransack 4+ xavfsizlik uchun ochiq ustunlarni talab qiladi — admin
   # paneldagi filter/qidiruv shu ro'yxatga tayanadi.
   def self.ransackable_attributes(_auth_object = nil)
-    %w[id status published timestamp created_at region research_grade]
+    %w[id status published timestamp created_at region region_source research_grade]
   end
 
   def self.ransackable_associations(_auth_object = nil)
@@ -332,6 +314,14 @@ class PlantSighting < ApplicationRecord
 
   def capture_photo_cache_name
     self.photo_cache_name = photo.cache_name
+  end
+
+  # Forma bo'sh tanlovda "" yuboradi — bazada nil bo'lsin (inclusion
+  # validatsiyasi `allow_blank` bilan ikkalasini ham o'tkazadi, lekin
+  # nil toza).
+  def blankify_region
+    self.region = nil if region.blank?
+    self.region_source = nil if region_source.blank?
   end
 
   def normalize_address

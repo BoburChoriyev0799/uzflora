@@ -155,8 +155,10 @@ class PlantSightingsController < ApplicationController
 
   def update
     @plant_sighting = PlantSighting.find(params[:id])
+    @plant_sighting.assign_attributes(plant_sighting_params)
+    apply_user_region_source(@plant_sighting)
 
-    if @plant_sighting.update(plant_sighting_params)
+    if @plant_sighting.save
       propose_owner_identification!(@plant_sighting)
       redirect_to action: next_edit_action(@plant_sighting), id: @plant_sighting.id
     else
@@ -240,9 +242,20 @@ class PlantSightingsController < ApplicationController
       :latitude,
       :longitude,
       :address,
+      :region,
       :note,
       :plant_id
     )
+  end
+
+  # Foydalanuvchi formada viloyat tanlaganda `region_source = "user"`
+  # (bo'sh qoldirsa — nil). `region_source` foydalanuvchi kiritmasidan
+  # KELMAYDI (aks holda "auto"/"admin" deb yuborishi mumkin edi) —
+  # faqat `region` maydoni yuborilganda shu yerda o'rnatiladi.
+  def apply_user_region_source(sighting)
+    return unless params.dig(:plant_sighting).try(:key?, 'region')
+
+    sighting.region_source = sighting.region.present? ? 'user' : nil
   end
 
   # Egasi wizard orqali (edit_plant bosqichida) tur tanlaganda — bu

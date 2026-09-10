@@ -2643,6 +2643,14 @@ a.delete-comment-lnk:hover {
   color: #7a3b1e;
 }
 
+// 2-ish: viloyat koordinatadan avtomatik aniqlangani ("*", title bilan).
+.sighting-region-auto {
+  color: #888;
+  cursor: help;
+  font-size: 12px;
+  margin-left: 2px;
+}
+
 
 // Foydalanuvchilarni kuzatish (follow) — profil sahifasi. "Kuzatish"
 // tugmasi va "Kuzataman"/"Kuzatuvchilar" ro'yxati. Saytning mavjud

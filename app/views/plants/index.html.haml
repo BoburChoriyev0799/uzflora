@@ -432,12 +432,15 @@
                 %ul.plant-autocomplete-list
             .form-group.mright10
               = select_tag :family, options_for_select(@families, params[:family]), include_blank: I18n.t('.all_families', scope: plants_scope), class: 'form-control'
+            - if @sighting_regions.present?
+              .form-group.mright10
+                = select_tag :region, options_for_select(@sighting_regions.map { |k| [RegionLookup.display_name(k), k] }.sort, params[:region]), include_blank: I18n.t('.all_regions', scope: plants_scope), class: 'form-control'
             .form-group.mright10
               %label
                 = check_box_tag :red_book, '1', params[:red_book].present?
                 = I18n.t('.red_book_only', scope: plants_scope)
             = submit_tag I18n.t('.search', scope: plants_scope), class: 'btn plants-search-btn'
-            - if params[:q].present? || params[:family].present? || params[:red_book].present?
+            - if params[:q].present? || params[:family].present? || params[:region].present? || params[:red_book].present?
               = link_to I18n.t('.clear', scope: plants_scope), plants_path, class: 'btn btn-default'
 
         %p.mbtm20

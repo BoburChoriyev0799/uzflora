@@ -117,6 +117,34 @@ class Plant < ApplicationRecord
     )
   end
 
+  # "Shu VILOYATDA qayd etilgan turlar" — kamida bitta TASDIQLANGAN
+  # (approved + published) kuzatuvi shu viloyatда bo'lgan turlar, GURUH
+  # darajasida (`group_search` bilan bir xil naqsh: kuzatuv non-primary
+  # a'zoga bog'langan bo'lsa ham primary vakili ro'yxatда chiqadi).
+  #
+  # UNUMDORLIK: `plant_sightings.region` INDEKSLANGAN. Avval 2 ta ARZON
+  # so'rov — indeksdan `plant_id` lar, so'ng ularning `accepted_name` lari —
+  # bajariladi, keyin asosiy so'rovga oddiy `id IN (...) OR accepted_name
+  # IN (...)` qo'shiladi. KORRELYATSIYALANGAN ICHKI SO'ROV YO'Q, ORDER BY
+  # ichida hech narsa yo'q (2026-08 dagi 1441ms -> 164ms regressiyasi
+  # takrorlanmasin).
+  def self.in_region(region_key)
+    return all if region_key.blank?
+
+    plant_ids = PlantSighting.approved.published
+                             .where(region: region_key).where.not(plant_id: nil)
+                             .distinct.pluck(:plant_id)
+    return none if plant_ids.empty?
+
+    accepted = where(id: plant_ids).where.not(accepted_name: nil).distinct.pluck(:accepted_name)
+    return where(id: plant_ids) if accepted.empty?
+
+    # Bitta WHERE band (id IN ... OR accepted_name IN ...) — `where(primary_
+    # record: true)` bilan toza AND birlashadi (`.or` scope merge muammosi
+    # yo'q).
+    where('plants.id IN (:ids) OR plants.accepted_name IN (:names)', ids: plant_ids, names: accepted)
+  end
+
   # `group_has_photo` ustunini (ro'yxatda "rasmli o'simliklar oldinda"
   # tartibi shundan foydalanadi — ko'rish: `PlantsController#index`) shu
   # BIR yozuv va uning BUTUN accepted_name guruhi uchun QAYTA hisoblab,

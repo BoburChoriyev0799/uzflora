@@ -4,6 +4,7 @@ en:
       title: Plants
       search_placeholder: "Search by name..."
       all_families: All families
+      all_regions: All regions
       red_book_only: Red Book species only
       search: Search
       clear: Clear

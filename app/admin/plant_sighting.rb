@@ -1,7 +1,7 @@
 ActiveAdmin.register PlantSighting do
   menu priority: 4, label: "Kuzatuvlar"
 
-  permit_params :plant_id, :status, :published, :moderation_note
+  permit_params :plant_id, :status, :published, :moderation_note, :region, :region_source
 
   filter :status, as: :select, collection: PlantSighting.statuses.keys
   filter :published
@@ -12,8 +12,10 @@ ActiveAdmin.register PlantSighting do
          collection: -> { Plant.distinct.pluck(:family_lat).compact.sort },
          label: 'Oila'
   filter :region, as: :select,
-         collection: -> { PlantSighting::REGIONS.map { |r| r[:name] } },
+         collection: -> { RegionLookup.keys.map { |k| [RegionLookup.display_name(k), k] } },
          label: 'Viloyat'
+  filter :region_source, as: :select,
+         collection: PlantSighting::REGION_SOURCES, label: 'Viloyat manbasi'
   filter :created_at
 
   action_item :export_xlsx, only: :index do
@@ -59,6 +61,7 @@ ActiveAdmin.register PlantSighting do
       status_tag(ps.status)
     end
     column :published
+    column('Viloyat') { |ps| ps.region_name if ps.region.present? }
     column :timestamp
     column :created_at
     actions
@@ -79,6 +82,8 @@ ActiveAdmin.register PlantSighting do
       row :latitude
       row :longitude
       row :address
+      row('Viloyat') { |ps| ps.region.present? ? "#{ps.region_name} (#{ps.region})" : nil }
+      row :region_source
       row :note
       row :moderation_note
       row :reviewed_at
@@ -111,6 +116,12 @@ ActiveAdmin.register PlantSighting do
       f.input :status, as: :select, collection: PlantSighting.statuses.keys
       f.input :published
       f.input :moderation_note
+      f.input :region, as: :select, label: 'Viloyat',
+              collection: RegionLookup.keys.map { |k| [RegionLookup.display_name(k), k] },
+              include_blank: true
+      f.input :region_source, as: :select, label: 'Viloyat manbasi',
+              collection: PlantSighting::REGION_SOURCES, include_blank: true,
+              hint: "Qo'lda tanlanganda 'admin' qo'ying"
     end
     f.actions
   end

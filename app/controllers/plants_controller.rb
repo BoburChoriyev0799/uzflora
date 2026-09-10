@@ -63,6 +63,12 @@ class PlantsController < ApplicationController
                     .order(:species_sci)
     @plants = @plants.merge(Plant.group_search(params[:q])) if params[:q].present?
     @plants = @plants.by_family(params[:family]) if params[:family].present?
+    # Viloyat filtri: "shu viloyatда kamida bitta tasdiqlangan kuzatuvi
+    # bo'lgan turlar" (GURUH darajasida). `Plant.in_region` indekslangan
+    # `plant_sightings.region` bo'yicha 2 ta arzon so'rov qiladi, keyin
+    # oddiy `id IN / accepted_name IN` — korrelyatsiyalangan ichki
+    # so'rovsiz (ko'rish: model izohi).
+    @plants = @plants.merge(Plant.in_region(params[:region])) if params[:region].present?
     # Qizil kitob filtri GURUH darajasida: `group_red_book` (`plants:
     # mark_primary` tomonidan oldindan hisoblab qo'yilgan — shu yozuvning
     # o'zi YOKI accepted_name guruhidagi BIROR a'zosi Qizil kitobda
@@ -72,6 +78,9 @@ class PlantsController < ApplicationController
     @plants = @plants.page(params[:page]).per(PLANTS_PER_PAGE)
 
     @families = Plant.where.not(family_lat: nil).distinct.order(:family_lat).pluck(:family_lat)
+    # Faqat kuzatuvi bor viloyatlar filtrда ko'rsatiladi (bo'sh natijaga
+    # olib boradigan tanlovlar kamroq).
+    @sighting_regions = PlantSighting.approved.published.where.not(region: nil).distinct.pluck(:region)
 
     # Joriy sahifadagi (primary) kartochkalar orqasidagi TO'LIQ guruhni
     # (accepted_name bo'yicha bir xil BARCHA yozuvlar, primary_record
