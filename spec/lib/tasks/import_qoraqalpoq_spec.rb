@@ -14,17 +14,23 @@ describe 'plants:import_qoraqalpoq rake task', type: :task do
   let(:task) { Rake::Task['plants:import_qoraqalpoq'] }
   after { task.reenable }
 
-  let(:csv_path)      { Rails.root.join('tmp', "qq_test_#{SecureRandom.hex(4)}.csv") }
-  let(:resolved_path) { Rails.root.join('tmp', "qq_resolved_#{SecureRandom.hex(4)}.csv") }
-  let(:report_path)   { Rails.root.join('tmp', "qq_report_#{SecureRandom.hex(4)}.csv") }
+  let(:csv_path)       { Rails.root.join('tmp', "qq_test_#{SecureRandom.hex(4)}.csv") }
+  let(:resolved_path)  { Rails.root.join('tmp', "qq_resolved_#{SecureRandom.hex(4)}.csv") }
+  let(:report_path)    { Rails.root.join('tmp', "qq_report_#{SecureRandom.hex(4)}.csv") }
+  let(:spelling_path)  { Rails.root.join('tmp', "qq_spelling_#{SecureRandom.hex(4)}.csv") }
+  let(:cultivated_path) { Rails.root.join('tmp', "qq_cultivated_#{SecureRandom.hex(4)}.csv") }
 
   before do
     stub_const('QoraqalpoqImport::CSV_PATH', csv_path)
     stub_const('QoraqalpoqImport::RESOLVED_CSV_PATH', resolved_path)
     stub_const('QoraqalpoqImport::REPORT_PATH', report_path)
+    # Sukut bo'yicha imlo/madaniy fayllarni ham izolyatsiya qilamiz
+    # (aks holda test haqiqiy db/qoraqalpoq_*.csv fayllarini o'qir edi).
+    stub_const('QoraqalpoqImport::SPELLING_CSV_PATH', spelling_path)
+    stub_const('QoraqalpoqImport::CULTIVATED_CSV_PATH', cultivated_path)
   end
   after do
-    [ csv_path, resolved_path, report_path ].each { |p| File.delete(p) if File.exist?(p) }
+    [ csv_path, resolved_path, report_path, spelling_path, cultivated_path ].each { |p| File.delete(p) if File.exist?(p) }
   end
 
   def write_csv(rows)
@@ -134,16 +140,77 @@ describe 'plants:import_qoraqalpoq rake task', type: :task do
     expect(report_rows.first['qaysi_bosqich']).to start_with('4-')
   end
 
-  # --- Noaniq moslik: ikkita turga mos kelsa — YOZILMAYDI -----------
-  it 'does not write when one latin name matches two different accepted-name groups (NOANIQ)' do
-    p1 = Plant.create!(species_sci: 'Carex nigra (L.) Reichard', accepted_name: 'Carex nigra', primary_record: true)
-    p2 = Plant.create!(species_sci: 'Carex nigra Bernh.', accepted_name: 'Carex melanostachya', primary_record: true)
-    write_csv([ [ 'Carex nigra', 'қоңыр от', 'Ережепов 1978' ] ])
-    run_task(APPLY: true)
+  # --- NOANIQ qoidasi: infratur epiteti mos -> o'sha takson -----------
+  context 'when one latin name matches several groups (NOANIQ tie-break rule)' do
+    # Ikkala yozuv ham "Capparis spinosa" ga kanonik kalit bilan mos keladi
+    # (canonical_key faqat turkum+epitet oladi) — 4-bosqich sinonim
+    # ("Capparis herbacea" -> "Capparis spinosa") ikkalasini ham qaytaradi.
+    let!(:species_rec) do
+      Plant.create!(species_sci: 'Capparis spinosa L.', accepted_name: 'Capparis spinosa', primary_record: true)
+    end
+    let!(:variety_rec) do
+      Plant.create!(species_sci: 'Capparis spinosa var. herbacea (Willd.) Fici', accepted_name: 'Capparis spinosa var. herbacea', primary_record: true)
+    end
 
-    expect(p1.reload.species_kaa).to be_nil
-    expect(p2.reload.species_kaa).to be_nil
-    expect(report_rows.first['holat']).to eq('NOANIQ')
+    it 'picks the infraspecific taxon whose epithet matches the old species epithet' do
+      write_csv([ [ 'Capparis herbacea Willd.', 'геуил', 'Шербаев 1988' ] ])
+      write_resolved([ [ 'Capparis herbacea Willd.', 'геуил', 'Шербаев 1988', 'Capparis spinosa', '4-bosqich' ] ])
+      run_task(APPLY: true)
+      expect(variety_rec.reload.species_kaa).to eq('геуил')
+      expect(species_rec.reload.species_kaa).to be_nil
+      expect(report_rows.first['qaysi_bosqich']).to include('noaniq-hal(Capparis spinosa var. herbacea)')
+    end
+
+    it 'falls back to the species-rank group when no infraspecific epithet matches' do
+      write_csv([ [ 'Capparis ovata Desf.', 'геул', 'Ережепов 1978' ] ])
+      write_resolved([ [ 'Capparis ovata Desf.', 'геул', 'Ережепов 1978', 'Capparis spinosa', '4-bosqich' ] ])
+      run_task(APPLY: true)
+      expect(species_rec.reload.species_kaa).to eq('геул')
+      expect(variety_rec.reload.species_kaa).to be_nil
+      expect(report_rows.first['qaysi_bosqich']).to include('noaniq-hal(Capparis spinosa)')
+    end
+
+    it 'still reports NOANIQ when the rule cannot single out one group' do
+      # Ikkita TUR darajasidagi guruh — qoida hal qila olmaydi.
+      p1 = Plant.create!(species_sci: 'Carex nigra (L.) Reichard', accepted_name: 'Carex nigra', primary_record: true)
+      p2 = Plant.create!(species_sci: 'Carex nigra Bernh.', accepted_name: 'Carex melanostachya', primary_record: true)
+      write_csv([ [ 'Carex nigra', 'қоңыр от', 'Ережепов 1978' ] ])
+      run_task(APPLY: true)
+
+      expect(p1.reload.species_kaa).to be_nil
+      expect(p2.reload.species_kaa).to be_nil
+      expect(report_rows.first['holat']).to eq('NOANIQ')
+    end
+  end
+
+  # --- Imlo tuzatishlari (asl manba fayli o'zgarmaydi) --------------
+  it 'applies a spelling correction before matching, and notes it in the audit' do
+    plant = Plant.create!(species_sci: 'Potamogeton filiformis Pers.', accepted_name: 'Potamogeton filiformis', primary_record: true)
+    write_csv([ [ 'Potamogeton filaformis Pers.', 'шаланг', 'Ережепов 1978' ] ])
+    CSV.open(spelling_path, 'w') do |csv|
+      csv << %w[fayldagi_nom tuzatilgan_nom izoh]
+      csv << [ 'Potamogeton filaformis Pers.', 'Potamogeton filiformis Pers.', 'terish xatosi' ]
+    end
+
+    run_task(APPLY: true)
+    expect(plant.reload.species_kaa).to eq('шаланг')
+    expect(report_rows.first['izoh']).to include('imlo:')
+  end
+
+  # --- Madaniy (ekma) turlar — alohida holat -----------------------
+  it 'classifies a cultivated species as MADANIY_TUR and never writes it, even on a fuzzy match' do
+    wild = Plant.create!(species_sci: 'Daucus carota L.', accepted_name: 'Daucus carota', primary_record: true)
+    write_csv([ [ 'Triticum aestivum L.', 'бийдай', 'Шербаев 1988' ],
+                [ 'Daucus sativus (Hoffm.) Rochl.', 'гешир', 'Шербаев 1988' ] ])
+    CSV.open(cultivated_path, 'w') do |csv|
+      csv << %w[lotincha_nom qoraqalpoqcha_nom manba]
+      csv << [ 'Triticum aestivum L.', 'бийдай', 'Шербаев 1988' ]
+      csv << [ 'Daucus sativus (Hoffm.) Rochl.', 'гешир', 'Шербаев 1988' ]
+    end
+
+    run_task(APPLY: true)
+    expect(wild.reload.species_kaa).to be_nil
+    expect(report_rows.map { |r| r['holat'] }).to all(eq('MADANIY_TUR'))
   end
 
   # --- Ziddiyat: mavjud qiymat ustiga yozilmaydi -------------------

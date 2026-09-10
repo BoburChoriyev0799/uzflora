@@ -41,9 +41,19 @@
 #   - Turkum bo'yicha YAKKA moslik yo'q — kanonik kalit turkum+epitet
 #     ikkalasini oladi, kalit 2 so'zdan kam bo'lsa moslashtirilmaydi.
 #   - Bitta lotincha nom bir NECHTA guruhga (turli accepted_name) mos
-#     kelsa — TAXMIN QILINMAYDI, "NOANIQ" deb belgilanadi.
+#     kelsa — avval NOANIQ qoidasi qo'llanadi (epiteti mos infratur
+#     takson bo'lsa -> o'sha; aks holda -> TUR darajasidagi yozuv);
+#     qoida ham AYNAN BITTA guruh bermasa — "NOANIQ" deb belgilanadi
+#     (QoraqalpoqImport.disambiguate_groups).
 #   - Mavjud species_kaa bo'sh bo'lmasa va yangi qiymat undan farq qilsa —
 #     ustiga YOZILMAYDI, "ZIDDIYAT" deb belgilanadi.
+#
+# ASL MANBA FAYLI (db/qoraqalpoq_nomlari.csv) HECH QACHON O'ZGARTIRILMAYDI.
+#   - 1978-88 kitoblaridagi terish xatolari: db/qoraqalpoq_imlo_tuzatishlari.csv
+#     (fayldagi_nom, tuzatilgan_nom, izoh) — moslashtirishdan OLDIN qo'llanadi,
+#     audit'da ko'rinadi.
+#   - Madaniy (ekma) turlar: db/qoraqalpoq_madaniy_turlar.csv — bazada
+#     yovvoyi flora bo'lgani uchun YO'Q, audit'da MADANIY_TUR (TOPILMADI emas).
 #
 # GURUHGA QO'LLASH: qoraqalpoqcha nom accepted_name guruhining BARCHA
 # a'zolariga yoziladi (faqat primary'ga emas) — kelajakda primary o'zgarsa
@@ -67,6 +77,14 @@ require Rails.root.join('lib', 'powo', 'matcher')
 
 module QoraqalpoqImport
   CSV_PATH = Rails.root.join('db', 'qoraqalpoq_nomlari.csv')
+  # ASL manba hujjati (db/qoraqalpoq_nomlari.csv) HECH QACHON o'zgartirilmaydi.
+  # 1978-88 kitoblaridagi terish xatolari ALOHIDA faylda — ko'rinib turadi,
+  # tekshirilishi mumkin. Moslashtirishdan OLDIN shu jadvaldan o'tkaziladi.
+  SPELLING_CSV_PATH = Rails.root.join('db', 'qoraqalpoq_imlo_tuzatishlari.csv')
+  # Madaniy (ekma) turlar — bazada yovvoyi flora bo'lgani uchun YO'Q va
+  # bo'lishi ham shart emas. Alohida ro'yxat: kelajakda introdutsentlar
+  # qo'shilsa nomlar tayyor turadi. Audit'da MADANIY_TUR (TOPILMADI emas).
+  CULTIVATED_CSV_PATH = Rails.root.join('db', 'qoraqalpoq_madaniy_turlar.csv')
   RESOLVED_CSV_PATH = Rails.root.join('db', 'qoraqalpoq_nomlari_hal_qilingan.csv')
   RESOLVED_HEADERS = %w[lotincha_nom qoraqalpoqcha_nom manba hal_qilingan_nom qaysi_bosqich].freeze
   REPORT_PATH = Rails.root.join('tmp', 'qoraqalpoq_import_hisobot.csv')
@@ -78,6 +96,12 @@ module QoraqalpoqImport
   NOANIQ = 'NOANIQ'
   ZIDDIYAT = 'ZIDDIYAT'
   ALLAQACHON = 'ALLAQACHON_BOR'
+  MADANIY = 'MADANIY_TUR'
+
+  # subsp./var./f. kabi infraspetsifik rang belgilari (PlantsHelper dagi
+  # bilan bir xil ro'yxat).
+  RANK_MARKER_RE = /\A(subsp|ssp|var|subvar|f|forma)\.?\z/i.freeze
+  HYBRID_RE = /\A[x×]\z/i.freeze
 
   Match = Struct.new(:plants, :stage, keyword_init: true)
 
@@ -137,6 +161,58 @@ module QoraqalpoqImport
     parts = raw.to_s.split(' + ').map { |part| part.strip.sub(/\s+(\d{3,4})\z/, ', \1') }
     "(#{parts.join('; ')})"
   end
+
+  # --- NOANIQ (bir nechta guruh) qoidasi ------------------------------
+  #
+  # Eski nomdagi TUR EPITETI (yoki infratur epiteti) nomzod guruhlardan
+  # birining infraspetsifik epiteti bilan mos kelsa — o'sha guruh. Aks
+  # holda — TUR darajasidagi (rang belgisisiz accepted_name) guruh. Ikkala
+  # qoida ham AYNAN BITTA guruh bermasa — avvalgidek NOANIQ.
+  #
+  # Epitetlar `Powo::Matcher.canonicalize_word` orqali solishtiriladi —
+  # jins tugashi (herbacea/herbaceus), ikkilangan harf (litoralis/
+  # littoralis) farqi hisobga olinmaydi.
+
+  # Nomdan barcha epitetlarni (tur + infratur) ajratib, kanonik shaklga
+  # keltiradi.
+  def epithets_of(name)
+    toks = name.to_s.tr('()', ' ').split(/\s+/)
+    return [] if toks.size < 2
+
+    out = []
+    sp_idx = toks[1].to_s.match?(HYBRID_RE) ? 2 : 1
+    out << toks[sp_idx] if toks[sp_idx].to_s.match?(/\A[a-z-]+\z/i)
+    toks.each_with_index { |t, i| out << toks[i + 1] if t.match?(RANK_MARKER_RE) && toks[i + 1] }
+    out.filter_map { |e| Powo::Matcher.canonicalize_word(e.downcase.delete('-')).presence }.uniq
+  end
+
+  # accepted_name (guruh kaliti) -> [rank(:species/:infraspecific), kanonik infratur epiteti]
+  def parse_group_rank(group_key)
+    return [ :species, nil ] if group_key.to_s.start_with?('id:')
+
+    toks = group_key.to_s.split(/\s+/)
+    marker_idx = toks.rindex { |t| t.match?(RANK_MARKER_RE) }
+    if marker_idx && toks[marker_idx + 1]
+      [ :infraspecific, Powo::Matcher.canonicalize_word(toks[marker_idx + 1].downcase) ]
+    else
+      [ :species, nil ]
+    end
+  end
+
+  # `groups` — { guruh_kaliti => [members] }. Qaytadi: tanlangan
+  # [kalit, members] jufti yoki nil (hal qilib bo'lmadi -> NOANIQ).
+  def disambiguate_groups(groups, latin)
+    csv_eps = epithets_of(latin)
+    parsed = groups.map { |key, members| { key: key, members: members, rank: parse_group_rank(key) } }
+
+    infra = parsed.select { |g| g[:rank][0] == :infraspecific && csv_eps.include?(g[:rank][1]) }
+    return [ infra.first[:key], infra.first[:members] ] if infra.size == 1
+
+    species = parsed.select { |g| g[:rank][0] == :species }
+    return [ species.first[:key], species.first[:members] ] if species.size == 1
+
+    nil
+  end
 end
 
 namespace :plants do
@@ -154,13 +230,35 @@ namespace :plants do
     puts(apply ? "APPLY=true — o'zgarishlar HAQIQATAN bazaga yoziladi." : "DRY RUN — hech narsa o'zgartirilmaydi (yozish uchun APPLY=true).")
     puts '=' * 64
 
+    # --- Imlo tuzatishlari (asl manba fayli o'zgarmaydi) ---------------
+    spelling_by_latin = {}
+    if File.exist?(m::SPELLING_CSV_PATH)
+      CSV.foreach(m::SPELLING_CSV_PATH, headers: true) do |row|
+        spelling_by_latin[row['fayldagi_nom'].to_s.strip] = row['tuzatilgan_nom'].to_s.strip.presence
+      end
+      puts "Imlo tuzatishlari: #{m::SPELLING_CSV_PATH.basename} (#{spelling_by_latin.size} ta)."
+    end
+
+    # --- Madaniy (ekma) turlar ro'yxati -------------------------------
+    cultivated_keys = {} # canon_key => lotincha_nom
+    if File.exist?(m::CULTIVATED_CSV_PATH)
+      CSV.foreach(m::CULTIVATED_CSV_PATH, headers: true) do |row|
+        name = row['lotincha_nom'].to_s.strip
+        (k = m.canon_key(name)) && (cultivated_keys[k] = name)
+      end
+      puts "Madaniy turlar ro'yxati: #{m::CULTIVATED_CSV_PATH.basename} (#{cultivated_keys.size} ta)."
+    end
+
     # --- CSV o'qish -----------------------------------------------------
     csv_rows = CSV.read(m::CSV_PATH, headers: true).map do |row|
-      { latin: row['lotincha_nom'].to_s.strip,
+      latin = row['lotincha_nom'].to_s.strip
+      { latin: latin,
+        match_latin: spelling_by_latin[latin] || latin, # moslashtirish shu nom bo'yicha
         kaa: row['qoraqalpoqcha_nom'].to_s.strip,
         source: row['manba'].to_s.strip }
     end.reject { |r| r[:latin].blank? }
-    puts "CSV o'qildi: #{csv_rows.size} qator."
+    corrected = csv_rows.count { |r| r[:match_latin] != r[:latin] }
+    puts "CSV o'qildi: #{csv_rows.size} qator#{corrected.positive? ? " (#{corrected} tasida imlo tuzatildi)" : ''}."
 
     # --- Oldindan hal qilingan (commit qilingan) sinonim natijasi -----
     resolved_by_latin = {}
@@ -193,9 +291,9 @@ namespace :plants do
     end
     puts "Indekslar: species_sci #{sci_index.size} kalit, accepted_name #{accepted_index.size}, sinonim (wcvp_matched_name) #{synonym_index.size}."
 
-    # --- 1-3 bosqich moslashtirish --------------------------------
+    # --- 1-3 bosqich moslashtirish (imlo tuzatilgan nom bo'yicha) ------
     results = csv_rows.map do |row|
-      { row: row, match: m.find_match(row[:latin], sci_index, accepted_index, synonym_index), resolved_name: nil }
+      { row: row, match: m.find_match(row[:match_latin], sci_index, accepted_index, synonym_index), resolved_name: nil }
     end
 
     # --- 4-bosqich (a): commit qilingan hal_qilingan_nom orqali -------
@@ -213,20 +311,20 @@ namespace :plants do
     end
 
     # --- 4-bosqich (b): POWO=true — WCVP faylidan jonli hisoblash -----
-    live_resolved = {} # latin => zamonaviy accepted nom (yoki nil)
+    live_resolved = {} # asl_latin => zamonaviy accepted nom (yoki nil)
     if use_powo
       still_unresolved = results.select { |r| r[:match].nil? }
       if still_unresolved.any?
         puts "\n4-bosqich (jonli): #{still_unresolved.size} ta topilmagan nom uchun WCVP sinonim zanjiri yechilmoqda (sekin, ~300MB)..."
         begin
-          aliases = Powo::Matcher.resolve_wcvp_name_aliases(still_unresolved.map { |r| r[:row][:latin] }, log: ->(x) { puts "  #{x}" })
+          aliases = Powo::Matcher.resolve_wcvp_name_aliases(still_unresolved.map { |r| r[:row][:match_latin] }, log: ->(x) { puts "  #{x}" })
         rescue RuntimeError => e
           puts "  OGOHLANTIRISH: 4-bosqich bajarilmadi — #{e.message}"
           aliases = {}
         end
 
         still_unresolved.each do |r|
-          info = aliases[r[:row][:latin]]
+          info = aliases[r[:row][:match_latin]]
           accepted_name = (info && info[:status] == :resolved && info[:final] && info[:final][:taxon_name]).presence
           live_resolved[r[:row][:latin]] = accepted_name
           next if accepted_name.blank?
@@ -250,11 +348,28 @@ namespace :plants do
     results.each do |res|
       row = res[:row]
       match = res[:match]
+      spelling_note = row[:match_latin] != row[:latin] ? "imlo: -> #{row[:match_latin]}" : nil
+
+      # Madaniy (ekma) tur — bazada yovvoyi flora bo'lgani uchun YO'Q.
+      # Moslikdan OLDIN tekshiriladi: agar fuzzy moslik boshqa (yovvoyi)
+      # taksonga tushib qolsa ham, ekma turning nomi o'sha yovvoyi turga
+      # yozilmasin. Kelajakda introdutsent qo'shilsa — shu qatorni
+      # db/qoraqalpoq_madaniy_turlar.csv dan olib tashlanadi.
+      if cultivated_keys.key?(m.canon_key(row[:match_latin]))
+        counts[m::MADANIY] += 1
+        report << [ row[:latin], m::MADANIY, nil, nil, nil,
+                    [ 'madaniy tur — bazada yovvoyi flora', spelling_note ].compact.join(' | ') ]
+        next
+      end
 
       unless match
         counts[m::TOPILMADI] += 1
         not_found_names << row[:latin]
-        report << [ row[:latin], m::TOPILMADI, nil, nil, nil, '' ]
+        # WCVP nomni zamonaviy nomga yechgan, lekin bazada o'sha tur YO'Q —
+        # audit'da ko'rsatiladi (kelajakda o'sha tur qo'shilsa bog'lanadi).
+        wcvp_hint = (live_resolved[row[:latin]] || resolved_by_latin[row[:latin]]).presence
+        note = [ spelling_note, wcvp_hint && "WCVP: -> #{wcvp_hint} (bazada yo'q)" ].compact.join(' | ')
+        report << [ row[:latin], m::TOPILMADI, nil, nil, nil, note ]
         next
       end
 
@@ -263,22 +378,29 @@ namespace :plants do
                     .uniq(&:id)
                     .group_by { |p| m.group_key_for(p) }
 
+      stage = match.stage
       if groups.size > 1
-        counts[m::NOANIQ] += 1
-        opts = groups.keys.first(4).join(' | ')
-        ids = groups.values.flatten.map(&:id).sort.join(';')
-        report << [ row[:latin], m::NOANIQ, ids, opts, match.stage, "#{groups.size} ta turli guruhga mos keldi — taxmin qilinmadi" ]
-        next
+        chosen = m.disambiguate_groups(groups, row[:match_latin])
+        unless chosen
+          counts[m::NOANIQ] += 1
+          opts = groups.keys.first(4).join(' | ')
+          ids = groups.values.flatten.map(&:id).sort.join(';')
+          report << [ row[:latin], m::NOANIQ, ids, opts, stage, "#{groups.size} ta turli guruhga mos keldi — taxmin qilinmadi" ]
+          next
+        end
+        key, members = chosen
+        stage = "#{stage}+noaniq-hal(#{key})"
+      else
+        members = groups.values.first
       end
 
-      members = groups.values.first
       ids = members.map(&:id).sort
       existing = members.filter_map { |mm| mm.species_kaa.presence }.uniq
       found_name = m.display_name_for(members.min_by(&:id))
 
       if existing.any? && existing != [ row[:kaa] ]
         counts[m::ZIDDIYAT] += 1
-        report << [ row[:latin], m::ZIDDIYAT, ids.join(';'), found_name, match.stage, "bazada: #{existing.join(' / ')} | CSV: #{row[:kaa]}" ]
+        report << [ row[:latin], m::ZIDDIYAT, ids.join(';'), found_name, stage, "bazada: #{existing.join(' / ')} | CSV: #{row[:kaa]}" ]
         next
       end
 
@@ -286,15 +408,15 @@ namespace :plants do
 
       if pending.empty?
         counts[m::ALLAQACHON] += 1
-        report << [ row[:latin], m::ALLAQACHON, ids.join(';'), found_name, match.stage, '' ]
+        report << [ row[:latin], m::ALLAQACHON, ids.join(';'), found_name, stage, '' ]
         next
       end
 
       pending.each { |mm| to_write[mm.id] = { species_kaa: row[:kaa], species_kaa_source: row[:source] } }
       counts[m::QOSHILDI] += 1
       note = members.size > 1 ? "guruhning #{pending.size}/#{members.size} a'zosiga" : ''
-      note = [ note, "manba: #{m.format_source(row[:source])}" ].reject(&:blank?).join(' | ')
-      report << [ row[:latin], m::QOSHILDI, ids.join(';'), found_name, match.stage, note ]
+      note = [ note, spelling_note, "manba: #{m.format_source(row[:source])}" ].compact.reject(&:blank?).join(' | ')
+      report << [ row[:latin], m::QOSHILDI, ids.join(';'), found_name, stage, note ]
     end
 
     # --- Audit fayl --------------------------------------------------
@@ -315,7 +437,7 @@ namespace :plants do
         # FAQAT haqiqiy qayta nomlashda yoziladi — WCVP inputning o'zini
         # (faqat muallif tashlab) qaytargan bo'lsa, bu sinonim yechish
         # emas, shovqin (masalan "Alcea rosea L." -> "Alcea rosea").
-        resolved_name = nil if resolved_name && m.canon_key(resolved_name) == m.canon_key(latin)
+        resolved_name = nil if resolved_name && m.canon_key(resolved_name) == m.canon_key(res[:row][:match_latin])
         [ latin, res[:row][:kaa], res[:row][:source], resolved_name, stage_num && "#{stage_num}-bosqich" ]
       end
       CSV.open(m::RESOLVED_CSV_PATH, 'w', encoding: 'UTF-8') do |csv|
@@ -346,15 +468,17 @@ namespace :plants do
     # --- Yakuniy hisobot ----------------------------------------
     stage3 = report.count { |r| r[1] == m::QOSHILDI && r[4].to_s.start_with?('3-') }
     stage4 = report.count { |r| r[1] == m::QOSHILDI && r[4].to_s.start_with?('4-') }
+    noaniq_hal = report.count { |r| r[1] == m::QOSHILDI && r[4].to_s.include?('+noaniq-hal') }
 
     puts "\n#{'=' * 64}"
     puts "Audit fayl: #{m::REPORT_PATH}"
     puts "\nHar bir holat bo'yicha:"
-    [ m::QOSHILDI, m::ALLAQACHON, m::TOPILMADI, m::NOANIQ, m::ZIDDIYAT ].each do |status|
+    [ m::QOSHILDI, m::ALLAQACHON, m::TOPILMADI, m::MADANIY, m::NOANIQ, m::ZIDDIYAT ].each do |status|
       puts "  #{status}: #{counts[status]}"
     end
     puts "\n3-bosqich (bazadagi sinonim, wcvp_matched_name) qutqargani: #{stage3} ta"
     puts "4-bosqich (sinonim -> zamonaviy nom) qutqargani: #{stage4} ta"
+    puts "NOANIQ qoidasi bilan hal qilingani: #{noaniq_hal} ta"
     puts "\nYoziladigan yozuvlar (guruh a'zolari bilan): #{to_write.size}"
 
     if not_found_names.any?
