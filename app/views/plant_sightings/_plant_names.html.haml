@@ -4,7 +4,7 @@
       %p
         %span.lbl= I18n.t('latin_name', scope: 'plant_sightings.show')
         = plant_sci_name_html(plant)
-      - if plant.alt_name.present?
+      - if plant.alt_name.present? && plant.alt_name_label_key
         %p
           %span.lbl= I18n.t(plant.alt_name_label_key, scope: 'plant_sightings.show')
           = sci_name_html(plant.alt_name)

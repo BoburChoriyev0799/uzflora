@@ -198,7 +198,7 @@ class Plant < ApplicationRecord
     species_sci
   end
 
-  # alt_name uchun yorliq: wcvp_status TO'RT xil botanik holatni bildiradi,
+  # alt_name uchun yorliq: wcvp_status UCH aniq botanik holatni bildiradi,
   # bularni aralashtirib bo'lmaydi —
   #   "Synonym"                     — nom to'g'ri e'lon qilingan, lekin
   #                                    boshqa (qabul qilingan) turga
@@ -211,20 +211,17 @@ class Plant < ApplicationRecord
   #                                    emas e'lon qilingan) — na sinonim, na
   #                                    imlo farqi, alohida holat →
   #                                    :rejected_name ("Rad etilgan nom")
-  #   boshqa hammasi (shu jumladan BO'SH) — zaxira: qo'lda tuzatilgan
-  #                                    (manual_override) yozuvda WCVP
-  #                                    holati umuman bo'lmasligi mumkin —
-  #                                    unda yuqoridagi uch aniq ma'nodan
-  #                                    birini "taxmin qilib" ko'rsatish
-  #                                    yolg'on bo'lardi, shuning uchun
-  #                                    neytral :database_name ("Bazadagi
-  #                                    nom")
+  #
+  # Boshqa hammasi (shu jumladan BO'SH — masalan wcvp_status "Accepted",
+  # ya'ni species_sci shunchaki boshqacha yozilgan) — `nil`. Bu holatda
+  # ommaviy sahifada eski nom qatori UMUMAN KO'RSATILMAYDI (avval neytral
+  # "Bazadagi nom:" yorlig'i bilan chiqardi — foydasi kam, chiqarib
+  # tashlandi). species_sci ustunining o'zi va qidiruv o'zgarmaydi.
   def alt_name_label_key
     case wcvp_status
     when 'Synonym' then :synonym
     when 'Orthographic' then :spelling_variant
     when 'Illegitimate', 'Invalid' then :rejected_name
-    else :database_name
     end
   end
 

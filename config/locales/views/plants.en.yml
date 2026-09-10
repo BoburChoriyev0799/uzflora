@@ -35,7 +35,6 @@ en:
       synonym: "Synonym:"
       spelling_variant: "Spelling in database:"
       rejected_name: "Rejected name:"
-      database_name: "Name in database:"
       taxonomy: Taxonomy
       taxon_division: "Division:"
       taxon_class_name: "Class:"

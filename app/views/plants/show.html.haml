@@ -298,7 +298,7 @@
             %p
               %span.plant-lbl= I18n.t(".#{label_key}", scope: plant_scope)
               = value
-            - if label_key == :name_lat && @plant.alt_name.present?
+            - if label_key == :name_lat && @plant.alt_name.present? && @plant.alt_name_label_key
               %p
                 %span.plant-lbl= I18n.t(".#{@plant.alt_name_label_key}", scope: plant_scope)
                 = sci_name_html(@plant.alt_name)
