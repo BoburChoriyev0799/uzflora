@@ -1,4 +1,15 @@
 $(function() {
+    // Xarita sahifasidan "#blockN" anchor bilan kelinsa — o'sha yorliqni
+    // ochamiz (aks holda profil o'zining standart yorlig'ida ochiladi).
+    var hash = window.location.hash;
+    if (/^#block[1-7]$/.test(hash) && $('.blocks-content div' + hash).length) {
+        $(".mobile-blocks-nav a").removeClass("active");
+        $(".sub-nav-pils a").removeClass("active");
+        $(".blocks-content .profile-block-container").removeClass("active-block");
+        $("a[data-view='" + hash.slice(1) + "']").addClass("active");
+        $(".blocks-content div" + hash).addClass("active-block");
+    }
+
     $('.profile-menu, .profile-container .mobile-blocks-nav a').on('click', function(event) {
         event.preventDefault();
 

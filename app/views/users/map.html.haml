@@ -100,9 +100,51 @@
         = image_tag @user.avatar.thumb.url, class: 'img img-circle'
         = @user.full_name
 
-      .profile-view-tabs
-        = link_to I18n.t('.tab_photo', scope: profile_scope), profile_path(@user), class: 'profile-view-tab'
-        = link_to I18n.t('map.tab', scope: profile_scope), user_map_path(@user), class: 'profile-view-tab active'
+      -# 1a-ish: xarita sahifasida ham profil sahifasidagi AYNI yorliqlar
+      -# qatori. Yorliqlar profilga havola (#blockN anchor — profile.js
+      -# location.hash ni o'qib o'sha blokni ochadi), "Xarita" faol.
+      -# `.profile-menu` klassi ATAYLAB ishlatilmaydi: profile.js unga
+      -# preventDefault qo'yadi (haqiqiy havola kerak).
+      - owner = @user.current?(current_user)
+      .row.sub-nav-pils.mtop20.sm-display-none
+        - if owner
+          = link_to profile_path(@user, anchor: 'block1'), class: 'profile-menu-link' do
+            .menu-title
+              %span= I18n.t('.tab_profile', scope: profile_scope)
+        = link_to profile_path(@user, anchor: 'block2'), class: 'profile-menu-link' do
+          .menu-title
+            %span #{I18n.t('.tab_species', scope: profile_scope)} [#{@tab_counts[:species]}]
+        = link_to profile_path(@user, anchor: 'block3'), class: 'profile-menu-link' do
+          .menu-title
+            %span
+              = I18n.t('.tab_photo', scope: profile_scope)
+              %span.profile-birds-count [#{@tab_counts[:photos]}]
+        %a.profile-menu-map.active
+          .menu-title
+            %span= I18n.t('map.tab', scope: profile_scope)
+        - if owner
+          = link_to profile_path(@user, anchor: 'block4'), class: 'profile-menu-link' do
+            .menu-title
+              %span
+                = I18n.t('.tab_drafts', scope: profile_scope)
+                %span.profile-drafts-count [#{@tab_counts[:drafts]}]
+        = link_to profile_path(@user, anchor: 'block5'), class: 'profile-menu-link' do
+          .menu-title
+            %span
+              = I18n.t('.tab_comments', scope: profile_scope)
+              %span.profile-comments-count [#{@tab_counts[:comments]}]
+        = link_to profile_path(@user, anchor: 'block6'), class: 'profile-menu-link' do
+          .menu-title
+            %span #{I18n.t('.tab_following', scope: profile_scope)} [#{@tab_counts[:following]}]
+        = link_to profile_path(@user, anchor: 'block7'), class: 'profile-menu-link' do
+          .menu-title
+            %span
+              = I18n.t('.tab_followers', scope: profile_scope)
+              %span.profile-followers-count [#{@tab_counts[:followers]}]
+
+      -# Mobilda (.sub-nav-pils yashirin) — profilga qaytish havolasi.
+      -# To'liq mobil navigatsiya 1b-ishда.
+      = link_to I18n.t('.tab_photo', scope: profile_scope), profile_path(@user), class: 'profile-mobile-map-link display-sm-only'
 
       %h5.profile-map-title= I18n.t('map.title', scope: profile_scope)
 

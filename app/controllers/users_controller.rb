@@ -88,6 +88,10 @@ class UsersController < Devise::RegistrationsController
   def map
     @user = User.find(params[:id])
     @can_see_pending = @user.current?(current_user) || current_user.try(:expert?)
+    # Xarita sahifasidagi yorliqlar qatori profil sahifasidagi bilan bir
+    # xil bo'lishi uchun — o'sha sonlar (arzon COUNT so'rovlari).
+    # `format.html` bo'lganda kerak; JSON javobda hisoblanmaydi.
+    @tab_counts = profile_tab_counts(@user) if request.format.html?
 
     respond_to do |format|
       format.html
@@ -107,6 +111,26 @@ class UsersController < Devise::RegistrationsController
   end
 
   private
+
+  # Profil yorliqlari qatoridagi sonlar. `ProfilesController#show` dagi
+  # ko'rinish qoidasini takrorlaydi: jamoat faqat tasdiqlanganlarni,
+  # ekspert boshqa profилда rad etilganlarni ham, egasi hammasini
+  # (status belgisi bilan) ko'radi.
+  def profile_tab_counts(user)
+    own = user.current?(current_user)
+    sightings = PlantSighting.published.by_user(user.id)
+    unless own
+      sightings = current_user.try(:expert?) ? sightings.where(status: %w[approved rejected]) : sightings.approved
+    end
+    {
+      species: PlantSighting.where(published: true, user_id: user.id).where.not(plant_id: nil).distinct.count(:plant_id),
+      photos: sightings.count,
+      drafts: own ? PlantSighting.unpublished.by_user(user.id).count : 0,
+      comments: PlantSightingComment.where(user_id: user.id).count,
+      following: user.following.count,
+      followers: user.followers.count
+    }
+  end
 
   # Xarita markerlari uchun JSON — faqat kerakli maydonlar.
   def map_marker_data(user)

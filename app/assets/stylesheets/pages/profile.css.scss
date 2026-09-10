@@ -194,34 +194,15 @@
   // `edit_user_bird`) JS bilan moslik uchun saqlangan.
 }
 
-// 2-ish: profildagi "Suratlar" / "Xarita" yorliqlari — oddiy havolalar
-// (yashirin div ichida Leaflet buzilmasligi uchun xarita ALOHIDA
-// sahifada). Profil sahifasida ham (profiles/show), xarita sahifasida
-// ham (users/map) ishlatiladi — shu sabab `.profile-container` blokidan
-// TASHQARIDA, global.
-.profile-view-tabs {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 16px;
-  flex-wrap: wrap;
-}
-.profile-view-tab {
-  display: inline-block;
-  padding: 8px 18px;
-  border-radius: 999px;
-  border: 1.5px solid #b9d69e;
-  color: #2f4a1c;
-  font-weight: 700;
-  text-decoration: none;
-}
-.profile-view-tab:hover,
-.profile-view-tab:focus {
-  text-decoration: none;
-  background: #f1f7ea;
-  color: #2f4a1c;
-}
-.profile-view-tab.active {
-  background: #046A38;
-  border-color: #046A38;
-  color: #fff;
+// 1a-ish: xarita sahifasi (users/map) endi profil sahifasidagi AYNI
+// `.sub-nav-pils` yorliqlar qatorini ishlatadi (havola ko'rinishida,
+// "Xarita" faol). Eski `.profile-view-tabs` / `.profile-view-tab`
+// (ikki yorliqli oddiy pill) olib tashlandi — boshqa hech qayerda
+// ishlatilmaydi.
+//
+// Xarita sahifasidagi "Xarita" yorlig'i — `.profile-menu-map` klassi
+// bilan haqiqiy havola emas, joriy sahifa ko'rsatkichi (`<a>` href-siz);
+// `.sub-nav-pils a` bazaviy uslubi + `a.active` unga ham qo'llanadi.
+.sub-nav-pils a.profile-menu-map.active {
+  cursor: default;
 }
