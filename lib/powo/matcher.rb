@@ -98,6 +98,11 @@ module Powo
     # va infraspecifik epitet — bularning HAMMASI botanik nomenklaturada
     # doim kichik harfli yoziladi). Birinchi BOSH HARFLI yoki "(" bilan
     # boshlangan so'zdan — MUALLIF qismi boshlanadi.
+    #
+    # DIQQAT: "Genus epithet L. var. oxianum ..." kabi nomda 3-so'z ("L.")
+    # bosh harfli bo'lgani uchun tahlil O'SHA YERDA to'xtaydi va
+    # "var. oxianum" MUALLIF qismiga tushib, keyingi bosqichlarda
+    # e'tibordan chetda qoladi (`canonical_key` izohiga qarang — texnik qarz).
     def split_scientific_name(cleaned_sci)
       tokens = cleaned_sci.split(' ')
       return [ cleaned_sci, '' ] if tokens.size <= 1
@@ -199,13 +204,25 @@ module Powo
       w.sub(CANON_SUFFIX_RE, '')                                   # i) oxirgi qo'shimcha (bir marta)
     end
 
+    # TEXNIK QARZ (2026-09, qoraqalpoqcha nomlar importi): bu funksiya
+    # FAQAT dastlabki 2 so'zni (turkum + tur epiteti) oladi,
+    # `split_scientific_name` esa birinchi bosh harfli so'zda (muallif
+    # qisqartmasi) to'xtaydi — DEMAK INFRASPETSIFIK epitet
+    # ("subsp./var./f. X") IKKALASIDA HAM YO'QOLADI. Odatda zararsiz
+    # (avtonim/kenja tur baribir o'z turi guruhiga tushadi), lekin
+    # infraspetsifik takson zamonaviy tasnifda MUSTAQIL TURGA ko'tarilgan
+    # bo'lsa (masalan "Zygophyllum fabago var. oxianum" -> tur "Z. oxianum")
+    # noto'g'ri turga bog'lanishi yoki topilmasligi mumkin. Qoraqalpoqcha
+    # importda bunday holatlar db/qoraqalpoq_imlo_tuzatishlari.csv orqali
+    # qo'lda yo'naltirilgan. Kelajakda: infraspetsifik epitetni ham
+    # hisobga oladigan kalit varianti ko'rib chiqilsin.
     def canonical_key(raw_name)
       base = fix_cyrillic_homoglyphs(raw_name.to_s)
       base = base.unicode_normalize(:nfkd).gsub(/[̀-ͯ]/, '') # diakritika olib tashlash
       base = base.downcase
       base = base.gsub('×', ' ').gsub(/\bx\b/, ' ')                # duragay belgisi olib tashlanadi
       base = base.gsub(/[^a-z ]/, '')                              # faqat a-z va bo'shliq qoladi
-      words = base.split(/\s+/).reject(&:empty?).first(2)          # turkum + tur epiteti
+      words = base.split(/\s+/).reject(&:empty?).first(2)          # turkum + tur epiteti (infratur YO'QOLADI — yuqoridagi izoh)
       words.map { |w| canonicalize_word(w) }.join(' ')
     end
 
