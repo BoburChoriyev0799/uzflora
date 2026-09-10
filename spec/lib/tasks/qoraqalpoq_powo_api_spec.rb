@@ -19,9 +19,12 @@ describe 'plants:qoraqalpoq_powo_api rake task', type: :task do
   after { task.reenable }
 
   let(:out_path) { Rails.root.join('tmp', "qq_bazada_yoq_#{SecureRandom.hex(4)}.csv") }
+  let(:spelling_path) { Rails.root.join('tmp', "qq_sp_#{SecureRandom.hex(4)}.csv") }
 
   before do
     stub_const('QoraqalpoqPowoApi::BAZADA_YOQ_PATH', out_path)
+    # Haqiqiy db/qoraqalpoq_imlo_tuzatishlari.csv leak qilmasin.
+    stub_const('QoraqalpoqImport::SPELLING_CSV_PATH', spelling_path)
     # Nom ro'yxatini to'g'ridan-to'g'ri beramiz (audit fayliga tayanmasdan).
     CSV.open(out_path, 'w') do |csv|
       csv << QoraqalpoqPowoApi::BAZADA_YOQ_HEADERS
@@ -32,7 +35,7 @@ describe 'plants:qoraqalpoq_powo_api rake task', type: :task do
     allow(ENV).to receive(:[]).and_call_original
     allow(ENV).to receive(:[]).with('DELAY').and_return('0')
   end
-  after { File.delete(out_path) if File.exist?(out_path) }
+  after { [ out_path, spelling_path ].each { |p| File.delete(p) if File.exist?(p) } }
 
   def run_task
     original = $stdout
@@ -104,5 +107,29 @@ describe 'plants:qoraqalpoq_powo_api rake task', type: :task do
     expect(resolved['qaysi_bosqich']).to eq('4-bosqich (POWO API)')
   ensure
     File.delete(resolved_path) if resolved_path && File.exist?(resolved_path)
+  end
+
+  it 'queries POWO with the corrected spelling but keeps eski_nom as the original' do
+    CSV.open(spelling_path, 'w') do |csv|
+      csv << %w[fayldagi_nom tuzatilgan_nom izoh]
+      csv << [ 'Tamarix smirnensis Bunge', 'Tamarix smyrnensis Bunge', 'terish xatosi' ]
+    end
+    CSV.open(out_path, 'w') do |csv|
+      csv << QoraqalpoqPowoApi::BAZADA_YOQ_HEADERS
+      csv << [ 'Tamarix smirnensis Bunge', nil, nil, 'tekshirilmagan' ]
+    end
+    queried = nil
+    allow(QoraqalpoqPowoApi).to receive(:http_get_json) do |url|
+      queried = URI.decode_www_form(URI(url).query).to_h['q']
+      [ :ok, { 'results' => [ { 'name' => 'Tamarix smyrnensis', 'accepted' => true,
+                                'fqId' => 'urn:lsid:ipni.org:names:9-9' } ] } ]
+    end
+
+    run_task
+
+    expect(queried).to eq('Tamarix smyrnensis')
+    row = result_for('Tamarix smirnensis Bunge')
+    expect(row['eski_nom']).to eq('Tamarix smirnensis Bunge')
+    expect(row['powo_qabul_qilgan_nom']).to eq('Tamarix smyrnensis')
   end
 end

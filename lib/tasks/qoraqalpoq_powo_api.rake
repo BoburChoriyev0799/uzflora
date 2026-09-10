@@ -163,7 +163,18 @@ namespace :plants do
               "#{q::BAZADA_YOQ_PATH.basename} ni qo'lda tuzing."
       end
     names = names.uniq
-    puts "Tekshiriladi: #{names.size} ta nom. So'rovlar orasida #{delay}s kutish."
+
+    # Imlo/nom tuzatishlari — POWO'ga TUZATILGAN nom yuboriladi (natijada
+    # eski_nom asl holida qoladi). db/qoraqalpoq_imlo_tuzatishlari.csv.
+    spelling = {}
+    if File.exist?(QoraqalpoqImport::SPELLING_CSV_PATH)
+      CSV.foreach(QoraqalpoqImport::SPELLING_CSV_PATH, headers: true) do |r|
+        spelling[r['fayldagi_nom'].to_s.strip] = r['tuzatilgan_nom'].to_s.strip.presence
+      end
+    end
+
+    puts "Tekshiriladi: #{names.size} ta nom (#{names.count { |n| spelling[n] }} tasida imlo tuzatilgan). " \
+         "So'rovlar orasida #{delay}s kutish."
     puts '=' * 64
 
     # Bazadagi nomlarni kanonik kalit bo'yicha indekslash (yechilgan nom
@@ -180,8 +191,9 @@ namespace :plants do
     in_db = []
     consecutive_errors = 0
     names.each_with_index do |latin, i|
-      print "  [#{i + 1}/#{names.size}] #{latin} ... "
-      out = q.resolve(latin, delay: delay)
+      query_latin = spelling[latin] || latin
+      print "  [#{i + 1}/#{names.size}] #{latin}#{query_latin != latin ? " (-> #{query_latin})" : ''} ... "
+      out = q.resolve(query_latin, delay: delay)
 
       if out[:error]
         consecutive_errors += 1
