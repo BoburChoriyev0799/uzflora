@@ -96,6 +96,18 @@ describe 'plants uz-names tools', type: :task do
       expect(primary.reload.species_uz).to be_nil
     end
 
+    it 'FILE=... bilan boshqa fayldan o`qiydi' do
+      other = Rails.root.join('tmp', "uz_file_#{SecureRandom.hex(4)}.csv")
+      CSV.open(other, 'w') do |csv|
+        csv << UzNamesTool::EXPORT_HEADERS
+        csv << [ primary.id, primary.species_sci, nil, '', '', '', '', 0, 'fayldan lola' ]
+      end
+      run(import_task, APPLY: true, FILE: other.to_s)
+      expect(primary.reload.species_uz).to eq('fayldan lola')
+    ensure
+      File.delete(other) if other && File.exist?(other)
+    end
+
     it 'idempotent — ikkinchi APPLY o`zgartirmaydi' do
       write_csv([ [ primary.id, primary.species_sci, nil, '', '', '', '', 0, 'oq lola' ] ])
       run(import_task, APPLY: true)

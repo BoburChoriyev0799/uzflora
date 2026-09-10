@@ -1,0 +1,57 @@
+<div class="uz-names-import">
+  <h2>O'zbekcha nomlarni yuklash — ko'rib chiqish</h2>
+  <h3>Ko'rib chiqish (hali HECH NARSA yozilmadi)</h3>
+
+  <table class="index_table" style="max-width:640px; margin-bottom:16px;">
+    <tbody>
+      <tr><th>Qo'shiladi (tur)</th><td><strong><%= @plan.added %></strong></td></tr>
+      <tr><th>Allaqachon bor</th><td><%= @plan.already %></td></tr>
+      <tr><th>Ziddiyat (ustiga yozilmaydi)</th><td><%= @plan.conflicts.size %></td></tr>
+      <tr><th>id topilmadi</th><td><%= @plan.not_found_ids.size %></td></tr>
+      <tr><th>Bo'sh qator (o'tkaziladi)</th><td><%= @plan.skipped_blank %></td></tr>
+      <tr><th>Yoziladigan yozuvlar (guruh a'zolari bilan)</th><td><strong><%= @plan.write_count %></strong></td></tr>
+    </tbody>
+  </table>
+
+  <% if @plan.sample.any? %>
+    <h4>Namuna — birinchi <%= @plan.sample.size %> qator</h4>
+    <table class="index_table">
+      <thead><tr><th>id</th><th>species_uz</th><th>holat</th><th>izoh</th></tr></thead>
+      <tbody>
+        <% @plan.sample.each do |r| %>
+          <tr>
+            <td><%= r.id %></td>
+            <td><%= r.name %></td>
+            <td><%= r.status %></td>
+            <td><%= r.note %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+
+  <% if @plan.conflicts.any? %>
+    <h4 style="color:#a32626;">Ziddiyatlar — bazadagi qiymat ustiga YOZILMAYDI</h4>
+    <table class="index_table">
+      <thead><tr><th>id</th><th>species_sci</th><th>bazada</th><th>CSV</th></tr></thead>
+      <tbody>
+        <% @plan.conflicts.first(50).each do |c| %>
+          <tr><td><%= c[:id] %></td><td><%= c[:species_sci] %></td><td><%= c[:existing] %></td><td><%= c[:csv] %></td></tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+
+  <div style="margin-top:20px;">
+    <% if @plan.any_changes? %>
+      <%= form_tag admin_ozbekcha_nomlar_import_apply_path, method: :post do %>
+        <%= hidden_field_tag :csv_b64, @csv_b64 %>
+        <%= submit_tag "Tasdiqlash va yozish (#{@plan.write_count} yozuv)", class: 'button',
+              data: { confirm: "#{@plan.write_count} ta yozuv o'zgartiriladi. Davom etilsinmi?" } %>
+      <% end %>
+    <% else %>
+      <p>Yoziladigan yangi narsa yo'q.</p>
+    <% end %>
+    <%= link_to 'Bekor qilish', admin_ozbekcha_nomlar_import_path, class: 'button' %>
+  </div>
+</div>

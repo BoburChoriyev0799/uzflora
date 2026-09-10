@@ -1,0 +1,21 @@
+<div class="uz-names-import">
+  <p>
+    CSV faylni tanlang. Ustunlar: <code>id, lotincha_nom, qabul_qilingan_nom, oila,
+    ruscha_nom, qoraqalpoqcha_nom, qizil_kitob, kuzatuvlar_soni, species_uz</code>
+    (moslashtirish faqat <code>id</code> va <code>species_uz</code> bo'yicha).
+  </p>
+  <p>
+    Yuklangach <strong>avval ko'rib chiqiladi</strong> — nechta nom qo'shiladi, nechta
+    ziddiyat, nechta bo'sh qator. Faqat <strong>Tasdiqlash</strong> bosilganda yoziladi.
+  </p>
+
+  <%= form_tag admin_ozbekcha_nomlar_import_preview_path, multipart: true, method: :post do %>
+    <input type="file" name="file" accept=".csv,text/csv" required>
+    <%= submit_tag "Ko'rib chiqish", class: 'button' %>
+  <% end %>
+
+  <p style="margin-top:16px; color:#777;">
+    "O'zbekcha nomlar CSV" (bo'sh nomli turlar ro'yxati) —
+    <%= link_to "O'simliklar sahifasidagi tugma", admin_plants_path %>.
+  </p>
+</div>
