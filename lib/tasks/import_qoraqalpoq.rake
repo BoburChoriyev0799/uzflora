@@ -78,8 +78,10 @@ require Rails.root.join('lib', 'powo', 'matcher')
 module QoraqalpoqImport
   CSV_PATH = Rails.root.join('db', 'qoraqalpoq_nomlari.csv')
   # ASL manba hujjati (db/qoraqalpoq_nomlari.csv) HECH QACHON o'zgartirilmaydi.
-  # 1978-88 kitoblaridagi terish xatolari ALOHIDA faylda — ko'rinib turadi,
-  # tekshirilishi mumkin. Moslashtirishdan OLDIN shu jadvaldan o'tkaziladi.
+  # 1978-88 kitoblaridagi NOM tuzatishlari ALOHIDA faylda — terish xatolari
+  # (filaformis -> filiformis), turkum imlosi (Sorgum -> Sorghum), va
+  # noto'g'ri qo'llanilgan nomlar (Setaria glauca auct. -> S. pumila).
+  # Ko'rinib turadi, tekshirilishi mumkin. Moslashtirishdan OLDIN qo'llanadi.
   SPELLING_CSV_PATH = Rails.root.join('db', 'qoraqalpoq_imlo_tuzatishlari.csv')
   # Madaniy (ekma) turlar — bazada yovvoyi flora bo'lgani uchun YO'Q va
   # bo'lishi ham shart emas. Alohida ro'yxat: kelajakda introdutsentlar
@@ -431,12 +433,20 @@ namespace :plants do
       resolved_out = results.map do |res|
         latin = res[:row][:latin]
         stage_num = res[:match] ? res[:match].stage.to_s[/\A\d/] : nil
-        # 4-bosqich zamonaviy nomi: shu yugurishda topilgani, aks holda
-        # avvalgi committed fayldan (o'zgarmagan bo'lsa saqlanadi).
-        resolved_name = (res[:resolved_name] || live_resolved[latin] || resolved_by_latin[latin]).presence
-        # FAQAT haqiqiy qayta nomlashda yoziladi — WCVP inputning o'zini
-        # (faqat muallif tashlab) qaytargan bo'lsa, bu sinonim yechish
-        # emas, shovqin (masalan "Alcea rosea L." -> "Alcea rosea").
+        # `hal_qilingan_nom` FAQAT 4-bosqich (sinonim -> zamonaviy nom)
+        # uchun ma'noli. 1-3 bosqichda topilgan bo'lsa — bo'sh (eskirgan
+        # qiymat ham tozalanadi). Topilmagan bo'lsa — shu yugurishning
+        # (yoki avvalgi committed faylning) sinonim taxminidan.
+        resolved_name =
+          if stage_num == '4'
+            (res[:resolved_name] || live_resolved[latin] || resolved_by_latin[latin]).presence
+          elsif res[:match]
+            nil
+          else
+            (live_resolved[latin] || resolved_by_latin[latin]).presence
+          end
+        # WCVP inputning o'zini (faqat muallif tashlab) qaytargan bo'lsa —
+        # bu sinonim yechish emas, shovqin ("Alcea rosea L." -> "Alcea rosea").
         resolved_name = nil if resolved_name && m.canon_key(resolved_name) == m.canon_key(res[:row][:match_latin])
         [ latin, res[:row][:kaa], res[:row][:source], resolved_name, stage_num && "#{stage_num}-bosqich" ]
       end

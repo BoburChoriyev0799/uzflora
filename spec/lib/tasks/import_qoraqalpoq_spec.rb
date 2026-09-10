@@ -7,7 +7,10 @@ require 'csv'
 describe 'plants:import_qoraqalpoq rake task', type: :task do
   before(:all) do
     Rake.application = Rake::Application.new
-    Rake.application.rake_require('tasks/import_qoraqalpoq', [ Rails.root.join('lib').to_s ])
+    # 3-argument `rake_require`: bo'sh "loaded" ro'yxati — global `$"` ga
+    # tegmaydi, shuning uchun boshqa rake-spec fayl ($" ni ifloslantirib)
+    # bu task'ni yangi Rake::Application ga yuklashni to'sib qo'ymaydi.
+    Rake.application.rake_require('tasks/import_qoraqalpoq', [ Rails.root.join('lib').to_s ], [])
     Rake::Task.define_task(:environment)
   end
 
