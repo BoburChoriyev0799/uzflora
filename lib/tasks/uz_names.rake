@@ -22,7 +22,9 @@ require 'csv'
 
 module UzNamesTool
   EXPORT_PATH = Rails.root.join('tmp', 'ozbekcha_nomlar_toldirish.csv')
-  EXPORT_HEADERS = UzNamesExport::HEADERS
+  # Ustunlar/tartib: app/services/uz_names_export.rb (`UzNamesExport::HEADERS`).
+  # Bu yerда qayta e'lon qilinmaydi — `app/` konstantalari `.rake` fayl
+  # yuklanganда (rails -T paytida) hali autoload qilinmagan bo'ladi.
 end
 
 namespace :plants do

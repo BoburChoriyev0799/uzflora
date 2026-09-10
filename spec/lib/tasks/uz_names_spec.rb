@@ -38,7 +38,7 @@ describe 'plants uz-names tools', type: :task do
 
   def write_csv(rows)
     CSV.open(csv_path, 'w') do |csv|
-      csv << UzNamesTool::EXPORT_HEADERS
+      csv << UzNamesExport::HEADERS
       rows.each { |r| csv << r }
     end
   end
@@ -99,7 +99,7 @@ describe 'plants uz-names tools', type: :task do
     it 'FILE=... bilan boshqa fayldan o`qiydi' do
       other = Rails.root.join('tmp', "uz_file_#{SecureRandom.hex(4)}.csv")
       CSV.open(other, 'w') do |csv|
-        csv << UzNamesTool::EXPORT_HEADERS
+        csv << UzNamesExport::HEADERS
         csv << [ primary.id, primary.species_sci, nil, '', '', '', '', 0, 'fayldan lola' ]
       end
       run(import_task, APPLY: true, FILE: other.to_s)
