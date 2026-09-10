@@ -31,6 +31,10 @@ class Plant < ApplicationRecord
   # "Qoraqalpoqcha nomi bo'sh" filtri (keyinchalik qo'lda to'ldirish
   # uchun) shundan foydalanadi.
   scope :without_species_kaa, -> { where("species_kaa IS NULL OR species_kaa = ''") }
+  # O'zbekcha nomi hali kiritilmagan turlar — ActiveAdmin'dagi "O'zbekcha
+  # nomi bo'sh" scope va uning CSV eksporti (`UzNamesExport`) shundan
+  # foydalanadi.
+  scope :without_species_uz, -> { where("species_uz IS NULL OR species_uz = ''") }
 
   # Qidiruv qamrab oladigan ustunlar — BITTA "birlashtirilgan matn"ga
   # COALESCE bilan qo'shiladi (NULL'lar bo'sh satrga aylanadi, aks holda

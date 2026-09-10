@@ -22,10 +22,29 @@ ActiveAdmin.register Plant do
   filter :family_lat
   filter :red_book
 
-  # "Qoraqalpoqcha nomi bo'sh" — qolgan turlarni qo'lda to'ldirish uchun
-  # tez ro'yxat (Plant.without_species_kaa scope'iga tayanadi).
+  # Qo'lda to'ldirish uchun tez ro'yxatlar (mos scope'lar Plant modelda).
   scope :all, default: true
   scope "Qoraqalpoqcha nomi bo'sh", :without_species_kaa
+  scope "O'zbekcha nomi bo'sh", :without_species_uz
+
+  # "O'zbekcha nomlar CSV" — brauzerdan yuklab, Excel'da to'ldirib,
+  # `plants:import_uz_names` bilan qaytariladi. Ustunlar/tartib
+  # `UzNamesExport` da (rake `plants:export_missing_uz_names` bilan bir xil):
+  # kuzatuvi bor turlar tepada, keyin Qizil kitob, keyin oila+lotincha.
+  action_item :export_uz_names, only: :index do
+    link_to "O'zbekcha nomlar CSV", export_uz_names_admin_plants_path, class: 'button'
+  end
+
+  collection_action :export_uz_names, method: :get do
+    # collection_action bloki avtomatik ravishda AdminAuthorization'дан
+    # o'tmaydi (faqat `authenticate_user!`) — admin'ligini shu yerda
+    # aniq tekshiramiz.
+    next head(:forbidden) unless current_user&.admin?
+
+    send_data UzNamesExport.to_csv,
+              filename: "ozbekcha_nomlar_toldirish_#{Date.current}.csv",
+              type: 'text/csv; charset=utf-8', disposition: 'attachment'
+  end
 
   index do
     selectable_column

@@ -23,17 +23,11 @@ require 'csv'
 
 module UzNamesTool
   EXPORT_PATH = Rails.root.join('tmp', 'ozbekcha_nomlar_toldirish.csv')
-  EXPORT_HEADERS = %w[
-    id lotincha_nom qabul_qilingan_nom oila ruscha_nom qoraqalpoqcha_nom
-    qizil_kitob kuzatuvlar_soni species_uz
-  ].freeze
+  # Ustunlar va tartib `UzNamesExport` da (ActiveAdmin CSV tugmasi bilan
+  # BITTA manba). Import esa faqat `id` va `species_uz` ustunlarini o'qiydi.
+  EXPORT_HEADERS = UzNamesExport::HEADERS
 
   module_function
-
-  def sightings_count_by_plant
-    @sightings_count_by_plant ||=
-      PlantSighting.approved.published.where.not(plant_id: nil).group(:plant_id).count
-  end
 
   # Guruh a'zolari (accepted_name bo'yicha) — id'lar.
   def group_ids(plant, by_accepted_name)
@@ -42,40 +36,13 @@ module UzNamesTool
 end
 
 namespace :plants do
-  desc "O'zbekcha nomi BO'SH turlarni CSV'ga chiqarish (tmp/ozbekcha_nomlar_toldirish.csv)"
+  desc "O'zbekcha nomi BO'SH turlarni CSV'ga chiqarish (tmp/ozbekcha_nomlar_toldirish.csv). Odatiy yo'l — ActiveAdmin 'O'zbekcha nomlar CSV' tugmasi."
   task export_missing_uz_names: :environment do
     m = UzNamesTool
-    counts = m.sightings_count_by_plant
-
-    rows = Plant.where("species_uz IS NULL OR species_uz = ''").to_a.map do |p|
-      {
-        plant: p,
-        n: counts[p.id].to_i,
-        family: p.display_family_lat.to_s
-      }
-    end
-
-    # TARTIB: (1) kuzatuvi bor turlar (kuzatuvlar_soni kamayish),
-    #         (2) Qizil kitob turlari, (3) qolganlari (oila, keyin lotincha).
-    rows.sort_by! do |r|
-      [
-        r[:n].positive? ? 0 : 1,
-        -r[:n],
-        r[:plant].red_book? ? 0 : 1,
-        r[:family].downcase,
-        r[:plant].display_sci_name.to_s.downcase
-      ]
-    end
+    rows = UzNamesExport.rows
 
     FileUtils.mkdir_p(File.dirname(m::EXPORT_PATH))
-    CSV.open(m::EXPORT_PATH, 'w', encoding: 'UTF-8') do |csv|
-      csv << m::EXPORT_HEADERS
-      rows.each do |r|
-        p = r[:plant]
-        csv << [ p.id, p.species_sci, p.accepted_name, r[:family], p.species_ru,
-                 p.species_kaa, (p.red_book? ? 'ha' : ''), r[:n], nil ]
-      end
-    end
+    File.write(m::EXPORT_PATH, UzNamesExport.to_csv)
 
     with_sightings = rows.count { |r| r[:n].positive? }
     red_book = rows.count { |r| r[:plant].red_book? }
