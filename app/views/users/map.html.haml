@@ -105,8 +105,9 @@
       -# location.hash ni o'qib o'sha blokni ochadi), "Xarita" faol.
       -# `.profile-menu` klassi ATAYLAB ishlatilmaydi: profile.js unga
       -# preventDefault qo'yadi (haqiqiy havola kerak).
+      -# 1b-ish: mobilda ham ko'rinadi (gorizontal scroll), `.sm-display-none` yo'q.
       - owner = @user.current?(current_user)
-      .row.sub-nav-pils.mtop20.sm-display-none
+      .row.sub-nav-pils.mtop20
         - if owner
           = link_to profile_path(@user, anchor: 'block1'), class: 'profile-menu-link' do
             .menu-title
@@ -141,10 +142,6 @@
             %span
               = I18n.t('.tab_followers', scope: profile_scope)
               %span.profile-followers-count [#{@tab_counts[:followers]}]
-
-      -# Mobilda (.sub-nav-pils yashirin) — profilga qaytish havolasi.
-      -# To'liq mobil navigatsiya 1b-ishда.
-      = link_to I18n.t('.tab_photo', scope: profile_scope), profile_path(@user), class: 'profile-mobile-map-link display-sm-only'
 
       %h5.profile-map-title= I18n.t('map.title', scope: profile_scope)
 

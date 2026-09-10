@@ -206,3 +206,55 @@
 .sub-nav-pils a.profile-menu-map.active {
   cursor: default;
 }
+
+// 1b-ish: TELEFON navigatsiyasi.
+// Avval `.sub-nav-pils` mobilda (`sm-display-none`) yashirin edi va yagona
+// yo'l `.mobile-blocks-nav` akkordeoni orqali (blok sarlavhalari uzun
+// kontent orasida ko'milib qolardi). Endi yorliqlar qatori mobilda ham
+// KO'RINADI — gorizontal scroll qilinadigan tor pill qator, akkordeon esa
+// yashiriladi (bitta navigatsiya modeli). Profil + xarita sahifasida ham.
+//   - 360px da ham barcha yorliqlarga scroll bilan yetish mumkin
+//   - bosish maydoni (.menu-title balandligi) >= 42px
+//   - desktopdan farqli: kichikroq shrift, pastki o'q rasmi yo'q
+@media (max-width: 767px) {
+  .profile-container .mobile-blocks-nav { display: none !important; }
+
+  .sub-nav-pils {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;            // Firefox
+    margin: 10px 0 6px;
+    padding-bottom: 2px;
+    &::-webkit-scrollbar { display: none; }   // WebKit/Blink
+  }
+  // `.profile-container` prefiksi profil sahifasidagi kuchliroq qoidani
+  // (profile.css.scss'даgi 19px) yengish uchun; prefiksсiз — xarita sahifasi.
+  .sub-nav-pils a,
+  .profile-container .sub-nav-pils a {
+    flex: 0 0 auto;
+    font-size: 14px;
+    padding-bottom: 0;
+    margin-right: 0;
+    background-image: none !important;   // desktopdagi pastki o'q PNG'si
+    white-space: nowrap;
+  }
+  .sub-nav-pils a .menu-title,
+  .profile-container .sub-nav-pils a .menu-title {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    padding: 0 12px;
+    min-height: 42px;
+  }
+  .sub-nav-pils a .menu-title span {
+    padding: 0 !important;             // global `a span { padding:10px 20px }`
+    display: inline;
+  }
+  .sub-nav-pils a.active .menu-title,
+  .profile-container .sub-nav-pils a.active .menu-title {
+    background: #f7f7ed;
+    border-radius: 8px;
+  }
+}

@@ -174,14 +174,6 @@
     .profile-sighting-card .sighting-comment-count {
       font-size: 11px;
     }
-    /* H) Mobilda tab qatori (.sub-nav-pils) yashirin — "Xarita"ga
-       o'tish uchun alohida havola (faqat <768px). */
-    .profile-mobile-map-link {
-      display: inline-block;
-      margin: 4px 0 10px;
-      font-weight: 700;
-      color: #800020 !important;
-    }
     /* I) TELEFON — 2 ustun (grid style.css.scss'da), tugmalar bosiladigan
        o'lchamda (36px saqlanadi), matn o'rniga faqat ikonka. */
     @media (max-width: 767px) {
@@ -224,13 +216,11 @@
           .col-md-3.col-sm-12.profile-follow-block
             = render 'follow_button', user: @user
 
-      / 4-ish (H): alohida "Suratlar / Xarita" qatori olib tashlandi —
-      / "Xarita" endi mavjud yorliqlar qatorida (pastda). Mobilda tab
-      / qatori (.sub-nav-pils) yashirin, shuning uchun "Xarita"ga o'tish
-      / uchun alohida (faqat <768px) havola.
-      = link_to I18n.t('.map.tab', scope: profile_scope), user_map_path(@user), class: 'profile-mobile-map-link display-sm-only'
-
-      .row.sub-nav-pils.mtop20.sm-display-none
+      / 1b-ish: yorliqlar qatori endi MOBILDA HAM ko'rinadi (gorizontal
+      / scroll). Avval `.sm-display-none` bilan yashirin edi va mobil
+      / navigatsiya faqat `.mobile-blocks-nav` akkordeoni orqali edi —
+      / u endi mobilda yashiriladi (CSS), bitta navigatsiya modeli qoladi.
+      .row.sub-nav-pils.mtop20
         -if @user.current?(current_user)
           %a.active.profile-menu{"data-view" => "block1"}
             .menu-title
