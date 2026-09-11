@@ -55,6 +55,39 @@
       color: #888;
       margin: 4px 10px 0 0;
     }
+    /* 2-ish: "Yuklab olish" tugmasi — mavjud .sighting-comment-toggle
+       bilan BIR XIL rang/uslub (ajralib turmasin), ikkinchisidan farqli
+       o'laroq matn yonida atributsiya (muallif) matni bor. */
+    .sighting-download-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .sighting-download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 40px;
+      padding: 4px 2px;
+      color: #4a6b3a;
+      font-weight: 600;
+      text-decoration: none !important;
+    }
+    .sighting-download-btn:hover,
+    .sighting-download-btn:focus {
+      color: #046A38;
+    }
+    .sighting-download-btn svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+    .sighting-download-attribution {
+      font-size: 12px;
+      color: #888;
+    }
     /* JAMOAVIY ANIQLASH ("Tur taklif qilish" vidjeti) — bazaviy uslub
        (.identifications-widget, .identification-*, .research-grade-badge)
        endi shu yerda EMAS, app/assets/stylesheets/pages/identifications.css.scss'da
@@ -75,6 +108,19 @@
             = plant_sighting_photo_tag(@plant_sighting, :original, class: 'img-responsive plant-sighting-photo-img')
 
         = render 'plant_sightings/comment_toggle', plant_sighting: @plant_sighting
+
+        -# 2-ish: rasmni ILMIY NOM bilan yuklab olish — har kim (login
+        -# shart emas, rasmlar ommaviy). Faqat rasm TAYYOR bo'lsa ko'rinadi
+        -# (hali fon jarayonida bo'lsa yoki umuman yo'q bo'lsa — yo'q).
+        - if @plant_sighting[:photo].present? && @plant_sighting.photo_status_ready?
+          .sighting-download-row
+            %a.sighting-download-btn{href: download_plant_sighting_path(@plant_sighting), title: I18n.t('.download', scope: show_scope)}
+              %svg{xmlns: 'http://www.w3.org/2000/svg', viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width' => '2', 'stroke-linecap' => 'round', 'stroke-linejoin' => 'round'}
+                %path{d: 'M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4'}
+                %polyline{points: '7 10 12 15 17 10'}
+                %line{x1: '12', y1: '15', x2: '12', y2: '3'}
+              %span= I18n.t('.download', scope: show_scope)
+            %span.sighting-download-attribution= I18n.t('.attribution', scope: show_scope, name: @plant_sighting.user.full_name)
 
         %h3.mtop20
           - if @plant_sighting.plant.present?

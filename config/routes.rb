@@ -97,6 +97,9 @@ Uzflora::Application.routes.draw do
       post 'reject' => 'plant_sightings#reject'
       post 'assign_plant' => 'plant_sightings#assign_plant'
       post 'identify' => 'plant_sightings#identify'
+      # 2-ish: rasmni ILMIY NOM bilan yuklab olish — R2 presigned URL'ga
+      # yo'naltiradi (ko'ring PlantSightingsController#download).
+      get 'download' => 'plant_sightings#download'
     end
     # Jamoaviy aniqlash (community identification) — `identify` (yuqorida,
     # PlantNet AI-aniqlash)dan ATAYLAB ALOHIDA nom/controller: ikkalasi

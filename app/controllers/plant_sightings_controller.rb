@@ -1,5 +1,8 @@
 class PlantSightingsController < ApplicationController
-  before_action :authenticate_user!, except: [:show]
+  # 2-ish: rasmni yuklab olish HAM login talab qilmaydi (rasmlar ommaviy,
+  # `show` bilan bir xil qoida) — pastdagi `download` action'ning o'zida
+  # `visible_to?` orqali rad etilgan kuzatuvlar hamon himoyalangan.
+  before_action :authenticate_user!, except: [:show, :download]
   before_action :require_expert!, only: [:approve, :reject, :assign_plant]
   # 1-ish: tahrirlash bosqichlari (yangi to'liq tahrirlash HAM, eski
   # bosqichma-bosqich oqim HAM) — FAQAT kuzatuv egasi yoki ekspert/admin.
@@ -81,6 +84,27 @@ class PlantSightingsController < ApplicationController
   def show
     @plant_sighting = PlantSighting.find(params[:id])
     redirect_to plants_path unless @plant_sighting.visible_to?(current_user)
+  end
+
+  # 2-ish: rasmni ILMIY NOM bilan (Genus_species_YYYY-MM-DD_uzflora-<id>)
+  # yuklab olish. Login SHART EMAS (rasmlar ommaviy) — lekin rad etilgan
+  # kuzatuv `show`dagi bilan AYNI qoida bo'yicha hamon himoyalangan
+  # (`visible_to?` — faqat egasi/ekspert ko'radi). R2 (S3-mos) presigned
+  # URL'ga 302 bilan yo'naltiriladi — server rasm trafigini o'zidan
+  # o'tkazmaydi (ko'ring SightingDownloadUrl).
+  def download
+    sighting = PlantSighting.find(params[:id])
+    unless sighting.visible_to?(current_user)
+      redirect_to plants_path
+      return
+    end
+
+    url = SightingDownloadUrl.for(sighting)
+    if url.nil?
+      redirect_to plant_sighting_path(sighting), alert: I18n.t('plant_sightings.show.download_not_ready')
+    else
+      redirect_to url, allow_other_host: true
+    end
   end
 
   def new

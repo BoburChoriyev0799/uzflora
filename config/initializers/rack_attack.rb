@@ -70,6 +70,13 @@ class Rack::Attack
     req.ip if req.path == '/donations' && req.post?
   end
 
+  # 2-ish: rasmni yuklab olish login talab qilmaydi (ommaviy) — shuning
+  # uchun skript orqali R2'ga ko'p sonli presigned-URL so'rovi
+  # yuborib bo'lmasligi (suiiste'mol) uchun IP bo'yicha cheklanadi.
+  throttle('plant_sighting_downloads/ip', limit: 30, period: 60) do |req|
+    req.ip if req.get? && req.path.match?(%r{\A/plant_sightings/\d+/download\z})
+  end
+
   self.throttled_responder = lambda do |request|
     retry_after = (request.env['rack.attack.match_data'] || {})[:period]
     [
