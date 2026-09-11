@@ -89,6 +89,12 @@
             %span.lbl= I18n.t('.rejection_reason', scope: show_scope)
             = @plant_sighting.moderation_note
 
+        -# 1-ish: rasm almashtirilgan bo'lsa — ilmiy audit izi (egasi/ekspertga).
+        - if @plant_sighting.photo_replaced_at.present? && (@plant_sighting.owner?(current_user) || current_user.try(:expert?))
+          %p.mtop10
+            %span.lbl= I18n.t('.photo_replaced_at', scope: 'plant_sightings.edit')
+            = datetime_format(@plant_sighting.photo_replaced_at)
+
         = render 'plant_names', plant: @plant_sighting.plant
 
         - if @plant_sighting.note.present?

@@ -1,0 +1,112 @@
+%style
+  :plain
+    .full-edit-section {
+      margin-bottom: 28px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #eee;
+    }
+    .full-edit-section:last-of-type {
+      border-bottom: none;
+    }
+    .full-edit-label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #333;
+    }
+    .full-edit-hint {
+      color: #888;
+      font-size: 13px;
+      margin-top: 4px;
+    }
+    .full-edit-photo-warning {
+      background: #fdf3e7;
+      border: 1px solid #e8c99a;
+      color: #7a4f14;
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-size: 13px;
+      margin-top: 8px;
+    }
+    #set-plant-photo-preview {
+      max-width: 100%;
+      max-height: 320px;
+      display: block;
+      margin-top: 10px;
+      border-radius: 6px;
+    }
+    .full-edit-selected-plant {
+      font-weight: 600;
+      color: #046A38;
+      display: block;
+      margin-bottom: 10px;
+    }
+    @media (max-width: 480px) {
+      #map_canvas { height: 260px !important; }
+    }
+
+.bg-btm-container
+  .container.content
+    - edit_scope = 'plant_sightings.edit'
+    .row.mtop20
+      %h3.acenter= I18n.t('.full_edit_title', scope: edit_scope)
+
+    .row.mtop40.add-photo-container
+      .col-md-9.col-sm-12
+        = form_for @plant_sighting, url: plant_sighting_path(@plant_sighting), method: :patch, html: { id: 'full-edit-form', data: { has_identifications: @plant_sighting.identifications.exists?, confirm_photo_replace: I18n.t('.confirm_photo_replace', scope: edit_scope) } } do |form|
+          = hidden_field_tag :full_edit, '1'
+
+          .full-edit-section
+            %span.full-edit-label= I18n.t('.current_photo', scope: edit_scope)
+            = image_tag @plant_sighting.photo_url, id: 'set-plant-photo-preview' if @plant_sighting.photo.present?
+            %p.full-edit-label.mtop20= I18n.t('.replace_photo', scope: edit_scope)
+            %input.form-control.w65.m-w85{disabled: "", id: "set-plant-photo-path", type: "text"}
+            = form.label :photo, I18n.t('.browse', scope: edit_scope), id: 'set-plant-photo', class: 'mleft20 btn btn-success'
+            .hidden{style: 'display:none'}
+              = form.file_field :photo
+              = form.hidden_field :photo_cache
+            %p.full-edit-hint= I18n.t('.replace_photo_hint', scope: edit_scope)
+            - if @plant_sighting.identifications.exists?
+              .full-edit-photo-warning#full-edit-photo-warning= I18n.t('.replace_photo_warning', scope: edit_scope)
+
+          .full-edit-section
+            %span.full-edit-label= I18n.t('.set_date', scope: edit_scope)
+            #plant-sighting-datetime-group.input-group.date.w80.sm-width-max
+              = form.text_field :timestamp, 'value' => date_format(@timestamp), 'data-date-format' => 'DD/MM/YYYY', 'class' => 'form-control photo-date-input', placeholder: 'DD/MM/YYYY'
+              %span.input-group-addon
+                %span.glyphicon.glyphicon-calendar
+
+          .full-edit-section
+            %span.full-edit-label= I18n.t('.set_coordinates', scope: edit_scope)
+            %span.m-d-block
+              = I18n.t('.latitude', scope: edit_scope)
+              = form.text_field :latitude, class: 'form-control w20 mleft10', readonly: true
+            %span.m-d-block.m-mleft0.m-mtop10.mleft20
+              = I18n.t('.longitude', scope: edit_scope)
+              = form.text_field :longitude, class: 'form-control w20 mleft10', readonly: true
+            .row.map-container.mtop10
+              #map_canvas{style: "width:100%; height:350px", data: { lat: @plant_sighting.latitude, lng: @plant_sighting.longitude }}
+            .row.mtop10
+              %span
+                = I18n.t('.place_name', scope: edit_scope)
+                = form.text_field :address, class: 'form-control w50 mleft10 m-w73'
+            .row.mtop10
+              %span
+                = I18n.t('.region', scope: edit_scope)
+                = form.select :region, region_select_options, { include_blank: I18n.t('.region_blank', scope: edit_scope) }, class: 'form-control w50 mleft10 m-w73'
+
+          .full-edit-section.add-plant-container
+            %span.full-edit-label= I18n.t('.plant_label', scope: edit_scope)
+            %span.full-edit-selected-plant.selected-plant= @plant_sighting.plant.present? ? plant_sci_name_html(@plant_sighting.plant) : I18n.t('.unknown_plant', scope: edit_scope)
+            = form.hidden_field :plant_id
+            = form_tag plant_sightings_search_path, method: :post, remote: true do
+              .plant-autocomplete.w80.sm-width-max{ data: { url: plant_sightings_autocomplete_path, not_found: I18n.t('.not_found', scope: edit_scope) } }
+                = text_field_tag :text, nil, class: 'form-control plant-autocomplete-input', autocomplete: 'off', placeholder: I18n.t('.plant_name_placeholder', scope: edit_scope)
+                %ul.plant-autocomplete-list
+              = submit_tag I18n.t('.find', scope: edit_scope), class: 'btn btn-success fright sm-center sm-mtop10 w15 m-mtop20 sm-width-max'
+            .row.search-results.mtop20.m-mbtm20.pleft20
+
+          = form.submit I18n.t('.save', scope: edit_scope), class: 'fright btn btn-info sm-display-none'
+          = form.submit I18n.t('.save', scope: edit_scope), class: 'mtop3 m-h35 mbtm20 sm-width-max btn btn-info display-sm-only w'
+
+      .col-md-3.sm-display-none

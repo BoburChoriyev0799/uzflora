@@ -1,8 +1,15 @@
 class PlantSightingsController < ApplicationController
   before_action :authenticate_user!, except: [:show]
   before_action :require_expert!, only: [:approve, :reject, :assign_plant]
+  # 1-ish: tahrirlash bosqichlari (yangi to'liq tahrirlash HAM, eski
+  # bosqichma-bosqich oqim HAM) — FAQAT kuzatuv egasi yoki ekspert/admin.
+  # AVVAL bu action'larda umuman ruxsat tekshiruvi YO'Q edi (har qanday
+  # tizimga kirgan foydalanuvchi ID'ni bilsa yetardi) — mavjud `owner?`/
+  # `expert?` naqshi (destroy/show'да ishlatiladigan) shu yerga ham
+  # kengaytirildi, hech narsa TORAYTIRILMADI.
+  before_action :require_manage_access!, only: [:edit, :update, :edit_date, :edit_map, :edit_plant, :publish]
 
-  layout 'plant_map', only: [:edit_map, :show]
+  layout 'plant_map', only: [:edit_map, :edit, :show]
 
   # Moderatsiya navbati — TIZIMGA KIRGAN har qanday foydalanuvchiga ochiq
   # (avval `require_expert!` bilan faqat ekspertlarga ochiq edi — lekin
@@ -98,18 +105,25 @@ class PlantSightingsController < ApplicationController
   end
 
   def edit_date
-    @plant_sighting = PlantSighting.find(params[:id])
     @timestamp = @plant_sighting.timestamp ||
                  current_user.plant_sightings.where.not(timestamp: nil).order(created_at: :desc).limit(1).pluck(:timestamp).first ||
                  Time.zone.now
   end
 
   def edit_map
-    @plant_sighting = PlantSighting.find(params[:id])
   end
 
   def edit_plant
-    @plant_sighting = PlantSighting.find(params[:id])
+  end
+
+  # 1-ish: kuzatuvni TO'LIQ tahrirlash — rasm, sana, koordinata, viloyat,
+  # aniq joy, tur — BITTA sahifada, joriy qiymatlar bilan to'ldirilgan.
+  # Bosqichma-bosqich (create) oqimidagi AYNI vidjetlar qayta ishlatiladi
+  # (rasm oldindan ko'rish + siqish, xarita, viloyat tanlash, o'simlik
+  # autocomplete) — foydalanuvchi bir xil interfeysni ko'radi, faqat
+  # bitta sahifada, oldindan to'ldirilgan holda.
+  def edit
+    @timestamp = @plant_sighting.timestamp || Time.zone.now
   end
 
   # AJAX ("O'simlik" bosqichi — edit_plant.html.haml, 2b-bosqichda ekspert
@@ -153,21 +167,19 @@ class PlantSightingsController < ApplicationController
     image_io&.close! if image_io.respond_to?(:close!)
   end
 
+  # Bosqichma-bosqich (create) oqimi VA to'liq tahrirlash (1-ish) SHU
+  # BIR action orqali saqlanadi — `full_edit` yashirin maydoni (faqat
+  # `edit.html.haml` formasida) ikkalasini ajratadi. Wizard mantig'i
+  # (`update_wizard_step!`) BUTUNLAY o'zgarishsiz qoldi.
   def update
-    @plant_sighting = PlantSighting.find(params[:id])
-    @plant_sighting.assign_attributes(plant_sighting_params)
-    apply_user_region_source(@plant_sighting)
-
-    if @plant_sighting.save
-      propose_owner_identification!(@plant_sighting)
-      redirect_to action: next_edit_action(@plant_sighting), id: @plant_sighting.id
+    if params[:full_edit].present?
+      update_full_edit!
     else
-      redirect_to action: :edit_date, id: @plant_sighting.id, alert: @plant_sighting.errors.full_messages.to_sentence
+      update_wizard_step!
     end
   end
 
   def publish
-    @plant_sighting = PlantSighting.find(params[:id])
     @plant_sighting.update(plant_sighting_params)
     propose_owner_identification!(@plant_sighting)
     redirect_to plant_sighting_path(@plant_sighting)
@@ -212,6 +224,14 @@ class PlantSightingsController < ApplicationController
 
   def require_expert!
     redirect_to root_path unless current_user.try(:expert?)
+  end
+
+  # Kuzatuvni tahrirlash — FAQAT egasi yoki ekspert/admin (`User#expert?`
+  # admin'ni ham qamraydi). Boshqa hamma — 403. `@plant_sighting` shu
+  # yerda yuklanadi, action'larning o'zi qayta `find` qilmaydi.
+  def require_manage_access!
+    @plant_sighting = PlantSighting.find(params[:id])
+    head :forbidden unless @plant_sighting.owner?(current_user) || current_user.try(:expert?)
   end
 
   # `identify` action uchun — R2'dagi (Cloudflare, `PlantSightingUploader`
@@ -275,6 +295,75 @@ class PlantSightingsController < ApplicationController
       :edit_map
     else
       :edit_plant
+    end
+  end
+
+  # Bosqichma-bosqich (create) oqimi — O'ZGARISHSIZ, faqat nomlandi
+  # (`update` endi ikkalasini ham marshrutlaydi, ko'rish yuqorida).
+  def update_wizard_step!
+    @plant_sighting.assign_attributes(plant_sighting_params)
+    apply_user_region_source(@plant_sighting)
+
+    if @plant_sighting.save
+      propose_owner_identification!(@plant_sighting)
+      redirect_to action: next_edit_action(@plant_sighting), id: @plant_sighting.id
+    else
+      redirect_to action: :edit_date, id: @plant_sighting.id, alert: @plant_sighting.errors.full_messages.to_sentence
+    end
+  end
+
+  # 1-ish: to'liq tahrirlashni saqlash. Wizard'dan farqi:
+  #   - keyingi bosqichga EMAS, tur sahifasiga qaytadi
+  #   - rasm HAQIQATAN almashtirilgan bo'lsa — moderatsiya holati qayta
+  #     tiklanadi (PlantSighting#reset_after_photo_replacement!)
+  #   - viloyat manbasi maxsus qoida bilan (pastga qarang)
+  def update_full_edit!
+    sighting = @plant_sighting
+    previous_region = sighting.region
+    previous_region_source = sighting.region_source
+    previous_lat = sighting.latitude
+    previous_lng = sighting.longitude
+
+    sighting.assign_attributes(plant_sighting_params)
+    apply_region_source_for_full_edit!(sighting, previous_region, previous_region_source, previous_lat, previous_lng)
+
+    if sighting.save
+      # FAQAT tur HAQIQATAN o'zgargan bo'lsa — bu wizard'даgi "birinchi
+      # taklif" bilan bir xil ma'noda, EGASI YANGI tur tanlagani. Har
+      # tahrirlashда (masalan faqat manzil o'zgarsa ham) qayta chaqirilsa,
+      # `recompute_identifications!` allaqachon tasdiqlangan/baholangan
+      # kuzatuvni SABABSIZ pending'ga qaytarib yuborardi.
+      propose_owner_identification!(sighting) if sighting.saved_change_to_plant_id?
+      # Rasm almashtirilgan bo'lsa — ENG OXIRIDA, tur ham birga
+      # o'zgargan taqdirda ham "pending/reset" holati yakuniy bo'lib qolsin
+      # (eski ovozlar eski RASMga tegishli edi, yangi tur tanlangan
+      # bo'lsa ham ular hisobga olinmasin).
+      sighting.reset_after_photo_replacement! if sighting.saved_change_to_photo?
+      redirect_to plant_sighting_path(sighting), notice: I18n.t('plant_sightings.edit.saved')
+    else
+      redirect_to edit_plant_sighting_path(sighting), alert: sighting.errors.full_messages.to_sentence
+    end
+  end
+
+  # Viloyat manbasi (1e):
+  #   - foydalanuvchi ro'yxatdan BOSHQA qiymat tanlagan (yoki tozalagan)
+  #     bo'lsa -> "user" (yoki bo'sh bo'lsa nil)
+  #   - viloyat O'ZGARMAGAN, lekin koordinata ko'chirilgan VA avvalgi
+  #     manba "auto" edi -> YANGI koordinatadan QAYTA hisoblanadi, manba
+  #     "auto" bo'lib qoladi
+  #   - aks holda (viloyat o'zgarmagan, koordinata o'zgarmagan, YOKI
+  #     manba "user"/"admin" edi) — TEGILMAYDI. Foydalanuvchi/admin
+  #     qo'lda tanlagan qiymat koordinata biroz siljigani uchun
+  #     "auto"ga almashtirilib yubORilmaydi.
+  def apply_region_source_for_full_edit!(sighting, previous_region, previous_region_source, previous_lat, previous_lng)
+    coords_changed = sighting.latitude.to_f != previous_lat.to_f || sighting.longitude.to_f != previous_lng.to_f
+
+    if sighting.region != previous_region
+      sighting.region_source = sighting.region.present? ? 'user' : nil
+    elsif coords_changed && previous_region_source == 'auto'
+      recomputed = RegionLookup.region_for(sighting.latitude, sighting.longitude)
+      sighting.region = recomputed
+      sighting.region_source = recomputed.present? ? 'auto' : nil
     end
   end
 end

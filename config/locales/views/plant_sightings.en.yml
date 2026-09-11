@@ -4,6 +4,15 @@ en:
     photo_failed: "There was a problem processing this photo."
     edit:
       title: "Add a photo"
+      full_edit_title: "Edit observation"
+      save: "Save"
+      saved: "Changes saved."
+      current_photo: "Current photo:"
+      replace_photo: "Replace photo (optional):"
+      replace_photo_hint: "Leave it untouched and the existing photo stays as is."
+      replace_photo_warning: "⚠️ Replacing the photo will cancel prior identifications and send the observation back for review."
+      confirm_photo_replace: "Replace the photo? Prior identifications (if any) will be cancelled and the observation will go back for review. Continue?"
+      photo_replaced_at: "Photo replaced:"
       steps:
         photo: Photo
         date: Date

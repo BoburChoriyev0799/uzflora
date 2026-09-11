@@ -30,7 +30,22 @@ $(document).ready(function () {
         return;
     }
 
-    plantMap.init(map_element, UzfloraMap.DEFAULT_CENTER, UzfloraMap.DEFAULT_ZOOM);
+    // 1-ish: kuzatuvni to'liq tahrirlashda xarita MAVJUD nuqta bilan
+    // ochiladi (yangi kuzatuv yaratishda `data-lat`/`data-lng` bo'lmaydi
+    // — avvalgidek bo'sh xarita, birinchi bosishda nuqta qo'yiladi).
+    var initialLat = parseFloat(map_element.data('lat'));
+    var initialLng = parseFloat(map_element.data('lng'));
+    var hasInitial = !isNaN(initialLat) && !isNaN(initialLng);
+
+    plantMap.init(
+        map_element,
+        hasInitial ? [initialLat, initialLng] : UzfloraMap.DEFAULT_CENTER,
+        hasInitial ? 13 : UzfloraMap.DEFAULT_ZOOM
+    );
+
+    if (hasInitial) {
+        plantMap.placeMarker([initialLat, initialLng]);
+    }
 
     plantMap.map.on('click', function (event) {
         plantMap.placeMarker(event.latlng);

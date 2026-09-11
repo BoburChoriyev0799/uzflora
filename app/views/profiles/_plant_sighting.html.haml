@@ -24,7 +24,11 @@
     .profile-sighting-actions{class: ('single-action' unless can_manage)}
       = render 'plant_sightings/comment_modal_trigger', plant_sighting: plant_sighting
       - if can_manage
-        %a.sighting-action-btn.edit_user_bird{href: edit_plant_plant_sighting_path(plant_sighting), data: {id: plant_sighting.id}, title: I18n.t('profile.photo.edit'), 'aria-label' => I18n.t('profile.photo.edit')}
+        -# 1-ish: nashr qilingan kuzatuv uchun TO'LIQ tahrirlash sahifasi
+        -# (rasm/sana/joy/tur — bittada). Hali nashr qilinmagan qoralama
+        -# uchun eski bosqichma-bosqich oqim (wizard) saqlanib qoladi.
+        - edit_target = plant_sighting.published? ? edit_plant_sighting_path(plant_sighting) : edit_plant_plant_sighting_path(plant_sighting)
+        %a.sighting-action-btn.edit_user_bird{href: edit_target, data: {id: plant_sighting.id}, title: I18n.t('profile.photo.edit'), 'aria-label' => I18n.t('profile.photo.edit')}
           %svg.sighting-action-icon{xmlns: 'http://www.w3.org/2000/svg', viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', 'stroke-width' => '2', 'stroke-linecap' => 'round', 'stroke-linejoin' => 'round'}
             %path{d: 'M12 20h9'}
             %path{d: 'M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z'}

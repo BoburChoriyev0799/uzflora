@@ -4,6 +4,15 @@ uz:
     photo_failed: "Rasmni qayta ishlashda xatolik yuz berdi."
     edit:
       title: "Rasm qo'shish"
+      full_edit_title: "Kuzatuvni tahrirlash"
+      save: "Saqlash"
+      saved: "O'zgarishlar saqlandi."
+      current_photo: "Joriy rasm:"
+      replace_photo: "Rasmni almashtirish (ixtiyoriy):"
+      replace_photo_hint: "Tegmasangiz, eski rasm o'zgarishsiz qoladi."
+      replace_photo_warning: "⚠️ Rasmni almashtirsangiz, oldingi aniqlashlar bekor bo'ladi va kuzatuv qayta tekshiruvga qaytadi."
+      confirm_photo_replace: "Rasmni almashtirmoqchimisiz? Oldingi aniqlashlar (agar bo'lsa) bekor bo'ladi va kuzatuv qayta tekshiruvga qaytadi. Davom etilsinmi?"
+      photo_replaced_at: "Rasm almashtirilgan:"
       steps:
         photo: Rasm
         date: Sana

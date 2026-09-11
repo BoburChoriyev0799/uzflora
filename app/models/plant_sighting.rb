@@ -104,6 +104,11 @@ class PlantSighting < ApplicationRecord
   validates_presence_of :user_id
   validates :note, length: { maximum: 100 }
   validates :moderation_note, length: { maximum: 100 }
+  # 1-ish (to'liq tahrirlash): sana kelajakda bo'lmasin. Yaratishда JS
+  # (`bootstrap-datetimepicker` `maxDate: moment()`) buni oldini oladi,
+  # lekin bu SERVER tomonidagi haqiqiy tekshiruv — to'g'ridan-to'g'ri
+  # so'rov yuborilsa ham himoyalangan.
+  validate :timestamp_not_in_future
 
   scope :published, -> { where(published: true) }
   scope :unpublished, -> { where(published: false) }
@@ -214,6 +219,30 @@ class PlantSighting < ApplicationRecord
     update!(status: :rejected, expert: expert, reviewed_at: Time.zone.now, moderation_note: note)
   end
 
+  # 1-ish (to'liq tahrirlash) — ILMIY YAXLITLIK: egasi rasmni almashtirsa,
+  # eski aniqlashlar/tasdiqlar ENDI BOSHQA rasmga tegishli bo'lib qoladi
+  # (uchta odam A rasmga "Tulipa korolkowii" desa-yu, egasi B rasmni
+  # qo'ysa — o'sha uchta tasdiq yolg'onga aylanadi). Shuning uchun:
+  #   - status "pending"ga qaytadi (qayta moderatsiya navbatiga)
+  #   - research_grade bekor qilinadi (research_graded_at ham — mavjud
+  #     `demote_team_identification_if_needed!` bilan bir xil naqsh)
+  #   - agreement_count nolga tushadi
+  # `identifications` yozuvlari O'CHIRILMAYDI — audit izi sifatida qoladi,
+  # lekin `recompute_identifications!` ularni ENDI hisobga OLMAYDI (chaqiruvchi
+  # buni keyin chaqirmaydi — eski ovozlar yangi rasmga "ko'chib o'tmasin").
+  #
+  # Faqat HAQIQATAN nimadir yo'qotiladigan holatda ishlaydi (aniqlash
+  # yozuvi bor YOKI allaqachon tasdiqlangan/baholangan bo'lsa) — yangi,
+  # hali hech kim ko'rmagan kuzatuvda bu chaqiruv shunchaki jim o'tadi.
+  def reset_after_photo_replacement!
+    had_something_to_lose = identifications.exists? || approved? || research_grade? || agreement_count.to_i.positive?
+
+    update_columns(photo_replaced_at: Time.zone.now)
+    return unless had_something_to_lose
+
+    update_columns(status: 'pending', research_grade: false, research_graded_at: nil, agreement_count: 0)
+  end
+
   # Jamoaviy aniqlash uchun kerak bo'ladigan jami "kelishuv" soni (3 ta
   # yakka g'olib tur -> avtomatik tasdiqlanadi).
   MIN_TEAM_AGREEMENT = 3
@@ -322,6 +351,10 @@ class PlantSighting < ApplicationRecord
   def blankify_region
     self.region = nil if region.blank?
     self.region_source = nil if region_source.blank?
+  end
+
+  def timestamp_not_in_future
+    errors.add(:timestamp, :future_date_not_allowed) if timestamp.present? && timestamp > Time.zone.now
   end
 
   def normalize_address

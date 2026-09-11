@@ -75,3 +75,7 @@ uz:
             reset_password_token:
               invalid: "eskirgan yoki allaqachon ishlatilgan. Iltimos, parolni qayta tiklashni so'rang."
               blank: "topilmadi. Parolni tiklash email'idagi havoladan foydalaning."
+        plant_sighting:
+          attributes:
+            timestamp:
+              future_date_not_allowed: "kelajakda bo'lishi mumkin emas"

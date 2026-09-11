@@ -19,3 +19,7 @@ en:
             reset_password_token:
               invalid: "has expired or was already used. Please request a new password reset."
               blank: "was not found. Use the link from your password reset email."
+        plant_sighting:
+          attributes:
+            timestamp:
+              future_date_not_allowed: "cannot be in the future"
